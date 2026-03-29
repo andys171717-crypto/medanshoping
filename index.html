@@ -185,8 +185,9 @@
 <div id="registerForm" class="form-container" style="display:none;">
     <h2>Registrasi Medanshoping</h2>
     <input type="text" id="regUsername" placeholder="Username" /><br>
-    <input type="password" id="regPassword" placeholder="Password" /><br>
+    <input type="password" id="regPassword" placeholder="Password (min 5 karakter)" /><br>
     <input type="password" id="regConfirmPassword" placeholder="Konfirmasi Password" /><br>
+    <input type="text" id="securityQuestion" placeholder="Pertanyaan Keamanan: Nama ibu kandung?" /><br>
     <button onclick="register()">Daftar</button><br><br>
     <a href="javascript:void(0);" onclick="showLogin()">Login</a>
 </div>
@@ -269,12 +270,19 @@
         const username = document.getElementById("regUsername").value.trim();
         const password = document.getElementById("regPassword").value.trim();
         const confirmPassword = document.getElementById("regConfirmPassword").value.trim();
+        const securityQuestion = document.getElementById("securityQuestion").value.trim();
+
+        if (password.length < 5) {
+            alert("Password harus minimal 5 karakter!");
+            return;
+        }
 
         if (password !== confirmPassword) {
             alert("Password dan konfirmasi password tidak cocok!");
         } else {
             localStorage.setItem("username", username);
             localStorage.setItem("password", password);
+            localStorage.setItem("securityQuestion", securityQuestion);
             alert("Pendaftaran berhasil! Silakan login.");
             document.getElementById("registerForm").style.display = "none";
             document.getElementById("loginForm").style.display = "block";
