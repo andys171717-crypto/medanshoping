@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Medanshoping</title>
 
 <style>
@@ -65,7 +66,6 @@ width:100%;
 height:150px;
 object-fit:cover;
 border-radius:10px;
-cursor:pointer;
 }
 
 .price{
@@ -96,34 +96,6 @@ transition:0.3s;
 overflow:auto;
 }
 
-/* popup detail */
-
-#detailBox{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.5);
-display:none;
-justify-content:center;
-align-items:center;
-}
-
-.detailContent{
-background:white;
-padding:20px;
-border-radius:10px;
-width:80%;
-max-width:300px;
-text-align:center;
-}
-
-.detailContent img{
-width:100%;
-border-radius:10px;
-}
-
 </style>
 </head>
 
@@ -152,28 +124,6 @@ border-radius:10px;
 
 </div>
 
-
-<div id="detailBox">
-
-<div class="detailContent">
-
-<img id="detailImg">
-
-<h3 id="detailNama"></h3>
-
-<p class="price" id="detailHarga"></p>
-
-<button onclick="beli(detailIndex)">Beli</button>
-
-<br><br>
-
-<button onclick="tutupDetail()">Tutup</button>
-
-</div>
-
-</div>
-
-
 <script>
 
 let produk=[
@@ -181,32 +131,30 @@ let produk=[
 {
 nama:"Baju Fashion",
 harga:120000,
-gambar:"images/baju.jpg"
+gambar:"https://upload.wikimedia.org/wikipedia/commons/8/8e/T-shirt-white.jpg"
 },
 
 {
 nama:"Tas Wanita",
 harga:150000,
-gambar:"images/tas.jpg"
+gambar:"https://upload.wikimedia.org/wikipedia/commons/2/24/Handbag.jpg"
 },
 
 {
 nama:"Sepatu Trend",
 harga:200000,
-gambar:"images/sepatu.jpg"
+gambar:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Running_shoes.jpg"
 },
 
 {
 nama:"Jaket Pria",
 harga:250000,
-gambar:"images/jaket.jpg"
+gambar:"https://upload.wikimedia.org/wikipedia/commons/2/2c/Leather_jacket.jpg"
 }
 
 ]
 
 let keranjang=[]
-
-let detailIndex=0
 
 function tampilProduk(data){
 
@@ -218,7 +166,7 @@ html+=`
 
 <div class="card">
 
-<img src="${p.gambar}" onclick="bukaDetail(${i})">
+<img src="${p.gambar}">
 
 <h3>${p.nama}</h3>
 
@@ -242,7 +190,7 @@ keranjang.push(produk[i])
 
 updateCart()
 
-alert("Produk masuk keranjang")
+alert(produk[i].nama+" ditambahkan ke keranjang")
 
 }
 
@@ -279,26 +227,6 @@ function cariProduk(text){
 let hasil=produk.filter(p=>p.nama.toLowerCase().includes(text.toLowerCase()))
 
 tampilProduk(hasil)
-
-}
-
-function bukaDetail(i){
-
-detailIndex=i
-
-document.getElementById("detailImg").src=produk[i].gambar
-
-document.getElementById("detailNama").innerText=produk[i].nama
-
-document.getElementById("detailHarga").innerText="Rp"+produk[i].harga.toLocaleString()
-
-document.getElementById("detailBox").style.display="flex"
-
-}
-
-function tutupDetail(){
-
-document.getElementById("detailBox").style.display="none"
 
 }
 
