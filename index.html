@@ -1,505 +1,411 @@
 <!DOCTYPE html>
 <html lang="id">
-
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Medanshoping</title>
-
-<style>
-
-body{
-font-family:Arial;
-margin:0;
-background:#f2f2f2;
-}
-
-header{
-background:#ff6600;
-color:white;
-padding:15px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-font-size:20px;
-font-weight:bold;
-}
-
-.menu{
-display:flex;
-gap:10px;
-}
-
-.btn{
-background:white;
-color:#ff6600;
-padding:6px 12px;
-border-radius:6px;
-cursor:pointer;
-}
-
-.banner{
-background:#ffd000;
-padding:10px;
-text-align:center;
-font-weight:bold;
-}
-
-.search{
-padding:15px;
-}
-
-.search input{
-width:100%;
-padding:10px;
-border-radius:6px;
-border:1px solid #ccc;
-}
-
-.kategori{
-display:flex;
-gap:10px;
-padding:10px;
-}
-
-.kategori button{
-border:1px solid #ddd;
-background:white;
-padding:6px 10px;
-border-radius:20px;
-cursor:pointer;
-}
-
-.products{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:15px;
-padding:15px;
-}
-
-.card{
-background:white;
-border-radius:10px;
-padding:10px;
-text-align:center;
-box-shadow:0 2px 6px rgba(0,0,0,0.2);
-position:relative;
-}
-
-.card img{
-width:100%;
-height:150px;
-object-fit:cover;
-border-radius:8px;
-cursor:pointer;
-}
-
-.wishlist{
-position:absolute;
-top:10px;
-right:10px;
-font-size:20px;
-cursor:pointer;
-}
-
-.rating{
-color:orange;
-}
-
-.price{
-color:green;
-font-weight:bold;
-}
-
-button{
-background:#ff6600;
-color:white;
-border:none;
-padding:6px 12px;
-border-radius:6px;
-cursor:pointer;
-}
-
-.qty{
-display:flex;
-justify-content:center;
-gap:6px;
-align-items:center;
-margin-top:8px;
-}
-
-.qty input{
-width:45px;
-text-align:center;
-}
-
-#cartBox{
-position:fixed;
-top:0;
-right:-100%;
-width:300px;
-height:100%;
-background:white;
-box-shadow:-3px 0 10px rgba(0,0,0,0.3);
-padding:15px;
-transition:0.3s;
-overflow:auto;
-}
-
-#detail{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:white;
-display:none;
-padding:20px;
-overflow:auto;
-}
-
-#detail img{
-width:100%;
-border-radius:10px;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<header>
-
-🛒 Medanshoping
-
-<div class="menu">
-
-<div class="btn">❤️</div>
-
-<div class="btn" onclick="bukaCart()">
-Keranjang (<span id="totalCart">0</span>)
-</div>
-
-</div>
-
-</header>
-
-<div class="banner">
-🔥 Promo Medanshoping Diskon Sampai 70%
-</div>
-
-<div class="search">
-<input type="text" placeholder="Cari produk..." onkeyup="cariProduk(this.value)">
-</div>
-
-<div class="kategori">
-
-<button onclick="filterKategori('all')">Semua</button>
-<button onclick="filterKategori('fashion')">Fashion</button>
-<button onclick="filterKategori('tas')">Tas</button>
-<button onclick="filterKategori('sepatu')">Sepatu</button>
-
-</div>
-
-<div class="products" id="productList"></div>
-
-<div id="cartBox">
-
-<h2>Keranjang</h2>
-
-<div id="cartItems"></div>
-
-<h3>Total: Rp<span id="totalHarga">0</span></h3>
-
-<br>
-
-<button onclick="checkout()">Checkout</button>
-
-<br><br>
-
-<button onclick="tutupCart()">Tutup</button>
-
-</div>
-
-<div id="detail"></div>
-
-<script>
-
-let produk=[
-
-{
-nama:"Baju Fashion",
-kategori:"fashion",
-harga:120000,
-rating:4.5,
-gambar:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500",
-deskripsi:"Baju fashion modern nyaman dipakai."
-},
-
-{
-nama:"Tas Wanita",
-kategori:"tas",
-harga:150000,
-rating:4.6,
-gambar:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500",
-deskripsi:"Tas wanita elegan."
-},
-
-{
-nama:"Sepatu Trend",
-kategori:"sepatu",
-harga:200000,
-rating:4.7,
-gambar:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500",
-deskripsi:"Sepatu trend terbaru."
-},
-
-{
-nama:"Jaket Pria",
-kategori:"fashion",
-harga:250000,
-rating:4.8,
-gambar:"https://images.unsplash.com/photo-1520975661595-6453be3f7070?w=500",
-deskripsi:"Jaket pria stylish."
-}
-
-]
-
-let keranjang = JSON.parse(localStorage.getItem("keranjang")) || []
-
-keranjang = keranjang.map(p=>{
-if(!p.qty){p.qty=1}
-return p
-})
-
-function tampilProduk(data){
-
-let html=""
-
-data.forEach((p,i)=>{
-
-html+=`
-
-<div class="card">
-
-<div class="wishlist">❤️</div>
-
-<img src="${p.gambar}" onclick="detail(${i})">
-
-<h3>${p.nama}</h3>
-
-<div class="rating">⭐ ${p.rating}</div>
-
-<p class="price">Rp${p.harga.toLocaleString()}</p>
-
-<div class="qty">
-
-<button onclick="kurangProduk(${i})">-</button>
-
-<input type="number" id="qty${i}" value="1" min="1" max="99">
-
-<button onclick="tambahProduk(${i})">+</button>
-
-</div>
-
-<br>
-
-<button onclick="beliProduk(${i})">Tambah Keranjang</button>
-
-</div>
-
-`
-
-})
-
-document.getElementById("productList").innerHTML=html
-
-}
-
-function tambahProduk(i){
-
-let input=document.getElementById("qty"+i)
-
-let val=parseInt(input.value)||1
-
-if(val<99){
-input.value=val+1
-}
-
-}
-
-function kurangProduk(i){
-
-let input=document.getElementById("qty"+i)
-
-let val=parseInt(input.value)||1
-
-if(val>1){
-input.value=val-1
-}
-
-}
-
-function beliProduk(i){
-
-let qty=parseInt(document.getElementById("qty"+i).value)||1
-
-let item=keranjang.find(p=>p.nama===produk[i].nama)
-
-if(item){
-item.qty+=qty
-}else{
-keranjang.push({...produk[i],qty:qty})
-}
-
-updateCart()
-
-document.getElementById("qty"+i).value=1
-
-}
-
-function tambahQty(i){
-
-keranjang[i].qty++
-
-updateCart()
-
-}
-
-function kurangQty(i){
-
-keranjang[i].qty--
-
-if(keranjang[i].qty<=0){
-keranjang.splice(i,1)
-}
-
-updateCart()
-
-}
-
-function updateCart(){
-
-let html=""
-let total=0
-let jumlah=0
-
-keranjang.forEach((p,i)=>{
-
-let subtotal=p.qty*p.harga
-
-jumlah+=p.qty
-total+=subtotal
-
-html+=`
-
-<div style="border-bottom:1px solid #ddd;padding:10px">
-
-<b>${p.nama}</b><br>
-
-Rp${p.harga.toLocaleString()}
-
-<div class="qty">
-
-<button onclick="kurangQty(${i})">-</button>
-
-${p.qty}
-
-<button onclick="tambahQty(${i})">+</button>
-
-</div>
-
-</div>
-
-`
-
-})
-
-document.getElementById("cartItems").innerHTML=html
-document.getElementById("totalHarga").innerText=total.toLocaleString()
-document.getElementById("totalCart").innerText=jumlah
-
-localStorage.setItem("keranjang",JSON.stringify(keranjang))
-
-}
-
-function bukaCart(){
-document.getElementById("cartBox").style.right="0"
-}
-
-function tutupCart(){
-document.getElementById("cartBox").style.right="-100%"
-}
-
-function cariProduk(text){
-
-let hasil=produk.filter(p=>p.nama.toLowerCase().includes(text.toLowerCase()))
-
-tampilProduk(hasil)
-
-}
-
-function filterKategori(k){
-
-if(k==="all"){
-tampilProduk(produk)
-}else{
-let hasil=produk.filter(p=>p.kategori===k)
-tampilProduk(hasil)
-}
-
-}
-
-function detail(i){
-
-let p=produk[i]
-
-document.getElementById("detail").style.display="block"
-
-document.getElementById("detail").innerHTML=`
-
-<button onclick="tutupDetail()">⬅ Kembali</button>
-
-<h2>${p.nama}</h2>
-
-<img src="${p.gambar}">
-
-<p>⭐ ${p.rating}</p>
-
-<p>${p.deskripsi}</p>
-
-<h3>Rp${p.harga.toLocaleString()}</h3>
-
-<button onclick="beliProduk(${i})">Tambah Keranjang</button>
-
-`
-
-}
-
-function tutupDetail(){
-document.getElementById("detail").style.display="none"
-}
-
-function checkout(){
-
-let pesan="Halo Medanshoping,%0A%0ASaya ingin membeli:%0A"
-
-keranjang.forEach((p)=>{
-
-pesan+=p.nama+" x"+p.qty+" - Rp"+(p.qty*p.harga)+"%0A"
-
-})
-
-window.open("https://wa.me/6281220549530?text="+pesan)
-
-}
-
-tampilProduk(produk)
-updateCart()
-
-</script>
-
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medanshoping</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        background: #f2f2f2;
+      }
+
+      header {
+        background: #ff6600;
+        color: white;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .menu {
+        display: flex;
+        gap: 10px;
+      }
+
+      .btn {
+        background: white;
+        color: #ff6600;
+        padding: 6px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      .banner {
+        background: #ffd000;
+        padding: 10px;
+        text-align: center;
+        font-weight: bold;
+      }
+
+      .search {
+        padding: 15px;
+      }
+
+      .search input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+      }
+
+      .kategori {
+        display: flex;
+        gap: 10px;
+        padding: 10px;
+      }
+
+      .kategori button {
+        border: 1px solid #ddd;
+        background: white;
+        padding: 6px 10px;
+        border-radius: 20px;
+        cursor: pointer;
+      }
+
+      .products {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        padding: 15px;
+      }
+
+      .card {
+        background: white;
+        border-radius: 10px;
+        padding: 10px;
+        text-align: center;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        position: relative;
+      }
+
+      .card img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 8px;
+        cursor: pointer;
+      }
+
+      .wishlist {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 20px;
+        cursor: pointer;
+      }
+
+      .rating {
+        color: orange;
+      }
+
+      .price {
+        color: green;
+        font-weight: bold;
+      }
+
+      button {
+        background: #ff6600;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+
+      .qty {
+        display: flex;
+        justify-content: center;
+        gap: 6px;
+        align-items: center;
+        margin-top: 8px;
+      }
+
+      .qty input {
+        width: 45px;
+        text-align: center;
+      }
+
+      /* Footer Navigation */
+      .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #ff6600;
+        padding: 10px 0;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
+
+      .footer div {
+        color: white;
+        cursor: pointer;
+        font-size: 16px;
+      }
+
+      /* Cart Box */
+      #cartBox {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 300px;
+        height: 100%;
+        background: white;
+        box-shadow: -3px 0 10px rgba(0, 0, 0, 0.3);
+        padding: 15px;
+        transition: 0.3s;
+        overflow: auto;
+      }
+
+      #detail {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: white;
+        display: none;
+        padding: 20px;
+        overflow: auto;
+      }
+
+      #detail img {
+        width: 100%;
+        border-radius: 10px;
+      }
+
+      /* Login Section */
+      #loginForm {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background-color: #f9f9f9;
+      }
+
+      #loginForm input {
+        padding: 10px;
+        margin: 10px;
+        width: 200px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      #loginForm button {
+        background-color: #ff6600;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Login Form -->
+    <div id="loginForm">
+      <h2>Login Medanshoping</h2>
+      <input type="text" id="username" placeholder="Username" />
+      <input type="password" id="password" placeholder="Password" />
+      <button onclick="login()">Login</button>
+    </div>
+
+    <header style="display: none;" id="header">
+      🛒 Medanshoping
+      <div class="menu">
+        <div class="btn">❤️</div>
+        <div class="btn" onclick="bukaCart()">Keranjang (<span id="totalCart">0</span>)</div>
+      </div>
+    </header>
+
+    <div class="banner" style="display: none;" id="banner">
+      🔥 Promo Medanshoping Diskon Sampai 70% 🔥
+    </div>
+
+    <div class="search" style="display: none;" id="search">
+      <input type="text" placeholder="Cari produk..." onkeyup="cariProduk(this.value)">
+    </div>
+
+    <div class="kategori" style="display: none;" id="kategori">
+      <button onclick="filterKategori('all')">Semua</button>
+      <button onclick="filterKategori('fashion')">Fashion</button>
+      <button onclick="filterKategori('tas')">Tas</button>
+      <button onclick="filterKategori('sepatu')">Sepatu</button>
+    </div>
+
+    <div class="products" id="productList" style="display: none;"></div>
+
+    <div id="cartBox">
+      <h2>Keranjang</h2>
+      <div id="cartItems"></div>
+      <h3>Total: Rp<span id="totalHarga">0</span></h3>
+      <br>
+      <button onclick="checkout()">Checkout</button>
+      <br><br>
+      <button onclick="tutupCart()">Tutup</button>
+    </div>
+
+    <div id="detail"></div>
+
+    <script>
+      let produk = [
+        { nama: "Baju Fashion", kategori: "fashion", harga: 120000, rating: 4.5, gambar: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500", deskripsi: "Baju fashion modern nyaman dipakai." },
+        { nama: "Tas Wanita", kategori: "tas", harga: 150000, rating: 4.6, gambar: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500", deskripsi: "Tas wanita elegan." },
+        { nama: "Sepatu Trend", kategori: "sepatu", harga: 200000, rating: 4.7, gambar: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500", deskripsi: "Sepatu trend terbaru." },
+        { nama: "Jaket Pria", kategori: "fashion", harga: 250000, rating: 4.8, gambar: "https://images.unsplash.com/photo-1520975661595-6453be3f7070?w=500", deskripsi: "Jaket pria stylish." }
+      ];
+
+      let keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+
+      keranjang = keranjang.map(p => { if (!p.qty) { p.qty = 1 } return p });
+
+      function login() {
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        if (username === "user" && password === "password") {
+          localStorage.setItem("isLoggedIn", true);
+          tampilProduk(produk);
+          document.getElementById("loginForm").style.display = "none";
+          document.getElementById("header").style.display = "flex";
+          document.getElementById("banner").style.display = "block";
+          document.getElementById("search").style.display = "block";
+          document.getElementById("kategori").style.display = "block";
+        } else {
+          alert("Username atau password salah!");
+        }
+      }
+
+      function tampilProduk(data) {
+        let html = "";
+        data.forEach((p, i) => {
+          html += `
+            <div class="card">
+              <div class="wishlist">❤️</div>
+              <img src="${p.gambar}" onclick="detail(${i})">
+              <h3>${p.nama}</h3>
+              <div class="rating">⭐ ${p.rating}</div>
+              <p class="price">Rp${p.harga.toLocaleString()}</p>
+              <div class="qty">
+                <button onclick="kurangProduk(${i})">-</button>
+                <input type="number" id="qty${i}" value="1" min="1" max="99">
+                <button onclick="tambahProduk(${i})">+</button>
+              </div><br>
+              <button onclick="beliProduk(${i})">Tambah Keranjang</button>
+            </div>
+          `;
+        });
+        document.getElementById("productList").innerHTML = html;
+      }
+
+      function tambahProduk(i) {
+        let input = document.getElementById("qty" + i);
+        let val = parseInt(input.value) || 1;
+        if (val < 99) {
+          input.value = val + 1;
+        }
+      }
+
+      function kurangProduk(i) {
+        let input = document.getElementById("qty" + i);
+        let val = parseInt(input.value) || 1;
+        if (val > 1) {
+          input.value = val - 1;
+        }
+      }
+
+      function beliProduk(i) {
+        let qty = parseInt(document.getElementById("qty" + i).value) || 1;
+        let item = keranjang.find(p => p.nama === produk[i].nama);
+        if (item) {
+          item.qty += qty;
+        } else {
+          keranjang.push({ ...produk[i], qty: qty });
+        }
+        updateCart();
+        document.getElementById("qty" + i).value = 1;
+      }
+
+      function updateCart() {
+        let html = "";
+        let total = 0;
+        let jumlah = 0;
+        keranjang.forEach((p, i) => {
+          let subtotal = p.qty * p.harga;
+          jumlah += p.qty;
+          total += subtotal;
+          html += `
+            <div style="border-bottom:1px solid #ddd;padding:10px">
+              <b>${p.nama}</b><br>
+              Rp${p.harga.toLocaleString()}
+              <div class="qty">
+                <button onclick="kurangQty(${i})">-</button> ${p.qty} 
+                <button onclick="tambahQty(${i})">+</button>
+              </div>
+            </div>
+          `;
+        });
+        document.getElementById("cartItems").innerHTML = html;
+        document.getElementById("totalHarga").innerText = total.toLocaleString();
+        document.getElementById("totalCart").innerText = jumlah;
+        localStorage.setItem("keranjang", JSON.stringify(keranjang));
+      }
+
+      function bukaCart() {
+        document.getElementById("cartBox").style.right = "0";
+      }
+
+      function tutupCart() {
+        document.getElementById("cartBox").style.right = "-100%";
+      }
+
+      function cariProduk(text) {
+        let hasil = produk.filter(p => p.nama.toLowerCase().includes(text.toLowerCase()));
+        tampilProduk(hasil);
+      }
+
+      function filterKategori(k) {
+        if (k === "all") {
+          tampilProduk(produk);
+        } else {
+          let hasil = produk.filter(p => p.kategori === k);
+          tampilProduk(hasil);
+        }
+      }
+
+      function detail(i) {
+        let p = produk[i];
+        document.getElementById("detail").style.display = "block";
+        document.getElementById("detail").innerHTML = `
+          <button onclick="tutupDetail()">⬅ Kembali</button>
+          <h2>${p.nama}</h2>
+          <img src="${p.gambar}">
+          <p>⭐ ${p.rating}</p>
+          <p>${p.deskripsi}</p>
+          <h3>Rp${p.harga.toLocaleString()}</h3>
+          <button onclick="beliProduk(${i})">Tambah Keranjang</button>
+        `;
+      }
+
+      function tutupDetail() {
+        document.getElementById("detail").style.display = "none";
+      }
+
+      function checkout() {
+        let pesan = "Halo Medanshoping,%0A%0ASaya ingin membeli:%0A";
+        keranjang.forEach((p) => {
+          pesan += p.nama + " x" + p.qty + " - Rp" + (p.qty * p.harga) + "%0A";
+        });
+        window.open("https://wa.me/6281220549530?text=" + pesan);
+      }
+    </script>
+  </body>
 </html>
