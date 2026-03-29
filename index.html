@@ -139,6 +139,21 @@
             width: 100%;
             border-radius: 10px;
         }
+        .form-container {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
     </style>
 </head>
 <body>
@@ -156,13 +171,24 @@
     🔥 Promo Medanshoping Diskon Sampai 70%!
 </div>
 
-<div id="loginForm" style="display:none; padding: 20px; text-align: center;">
+<!-- Form Login -->
+<div id="loginForm" class="form-container" style="display:none;">
     <h2>Login Medanshoping</h2>
-    <input type="text" id="username" placeholder="Username" /><br><br>
-    <input type="password" id="password" placeholder="Password" /><br><br>
+    <input type="text" id="username" placeholder="Username" /><br>
+    <input type="password" id="password" placeholder="Password" /><br>
     <button onclick="login()">Login</button><br><br>
     <a href="javascript:void(0);" onclick="showRegister()">Daftar</a> | 
     <a href="javascript:void(0);" onclick="forgotPassword()">Lupa Password</a>
+</div>
+
+<!-- Form Daftar -->
+<div id="registerForm" class="form-container" style="display:none;">
+    <h2>Registrasi Medanshoping</h2>
+    <input type="text" id="regUsername" placeholder="Username" /><br>
+    <input type="password" id="regPassword" placeholder="Password" /><br>
+    <input type="password" id="regConfirmPassword" placeholder="Konfirmasi Password" /><br>
+    <button onclick="register()">Daftar</button><br><br>
+    <a href="javascript:void(0);" onclick="showLogin()">Login</a>
 </div>
 
 <div class="search">
@@ -203,6 +229,7 @@
 
     keranjang = keranjang.map(p => { if (!p.qty) { p.qty = 1 } return p });
 
+    // Login Page
     function loginPage() {
         document.getElementById("loginForm").style.display = "block";
     }
@@ -224,11 +251,34 @@
     }
 
     function showRegister() {
-        alert("Form Registrasi");
+        document.getElementById("loginForm").style.display = "none";
+        document.getElementById("registerForm").style.display = "block";
+    }
+
+    function showLogin() {
+        document.getElementById("registerForm").style.display = "none";
+        document.getElementById("loginForm").style.display = "block";
     }
 
     function forgotPassword() {
         alert("Form Lupa Password");
+    }
+
+    // Registrasi
+    function register() {
+        const username = document.getElementById("regUsername").value.trim();
+        const password = document.getElementById("regPassword").value.trim();
+        const confirmPassword = document.getElementById("regConfirmPassword").value.trim();
+
+        if (password !== confirmPassword) {
+            alert("Password dan konfirmasi password tidak cocok!");
+        } else {
+            localStorage.setItem("username", username);
+            localStorage.setItem("password", password);
+            alert("Pendaftaran berhasil! Silakan login.");
+            document.getElementById("registerForm").style.display = "none";
+            document.getElementById("loginForm").style.display = "block";
+        }
     }
 
     function tampilProduk(data) {
