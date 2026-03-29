@@ -49,60 +49,12 @@
             background-color: #e55b00;
         }
 
-        /* Banner Styles */
-        .banner {
-            background-color: #ffd000;
-            padding: 15px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 20px;
-            margin-top: 60px;
-        }
-
-        /* Search Bar Styles */
-        .search input {
-            width: 80%;
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #ddd;
-            background-color: #ff6600;
-            color: white;
-            font-size: 16px;
-            margin: 10px 0;
-        }
-
-        /* Category Button Styles */
-        .kategori {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px; /* Create space for header */
-            background-color: #ff6600;
-            position: fixed;
-            top: 140px; /* Ensure it is fixed just below the banner */
-            width: 100%;
-            padding: 10px 0;
-            z-index: 9;
-        }
-
-        .kategori button {
-            background-color: #ff6600;
-            color: white;
-            border: 1px solid #ddd;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-        }
-
-        .kategori button:hover {
-            background-color: #ff9900;
-        }
-
         /* Product Grid Styles */
         .products {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
-            margin-top: 200px; /* Adjusted for fixed header and category */
+            margin-top: 90px; /* Adjusted for fixed header */
             padding: 0 15px;
         }
 
@@ -112,7 +64,6 @@
             border-radius: 10px;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
-            position: relative;
         }
 
         .card img {
@@ -120,14 +71,6 @@
             height: 200px;
             object-fit: cover;
             border-radius: 8px;
-        }
-
-        .wishlist {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 20px;
-            cursor: pointer;
         }
 
         .rating {
@@ -161,37 +104,6 @@
             cursor: pointer;
             border: none;
         }
-
-        /* Ensuring fixed header and elements */
-        .products, .kategori, .search, .banner {
-            margin-top: 180px;
-        }
-
-        /* Cart and Login */
-        #cartBox {
-            position: fixed;
-            top: 0;
-            right: -100%;
-            width: 300px;
-            height: 100%;
-            background-color: white;
-            box-shadow: -3px 0 10px rgba(0, 0, 0, 0.3);
-            padding: 15px;
-            transition: 0.3s;
-        }
-
-        .cart-header {
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        #cartItems {
-            margin-bottom: 20px;
-        }
-
-        #totalCart {
-            font-weight: bold;
-        }
     </style>
 </head>
 <body>
@@ -200,25 +112,10 @@
     <div class="logo">Medanshoping</div>
     <div class="menu">
         <div class="btn">❤️</div>
-        <div class="btn" onclick="bukaCart()">Keranjang (0)</div>
-        <div class="btn" onclick="window.location.href='login.html'">Login</div>
+        <div class="btn">Keranjang (0)</div>
+        <div class="btn">Login</div>
     </div>
 </header>
-
-<div class="banner">
-    🔥 Promo Medanshoping Diskon Sampai 70%!
-</div>
-
-<div class="search">
-    <input type="text" placeholder="Cari produk..." id="search" onkeyup="cariProduk()">
-</div>
-
-<div class="kategori">
-    <button onclick="filterKategori('all')">Semua</button>
-    <button onclick="filterKategori('fashion')">Fashion</button>
-    <button onclick="filterKategori('tas')">Tas</button>
-    <button onclick="filterKategori('sepatu')">Sepatu</button>
-</div>
 
 <div class="products" id="productList">
     <!-- Example Product Card -->
@@ -228,32 +125,23 @@
         <div class="rating">⭐ 4.5</div>
         <div class="price">Rp 120.000</div>
         <div class="qty">
-            <button onclick="kurangProduk(0)">-</button>
-            <input type="number" id="qty0" value="1">
-            <button onclick="tambahProduk(0)">+</button>
+            <button>-</button>
+            <input type="number" value="1">
+            <button>+</button>
         </div>
-        <button class="btn" onclick="beliProduk(0)">Tambah Keranjang</button>
+        <button class="btn">Tambah Keranjang</button>
     </div>
 
     <!-- More product cards here -->
 </div>
 
-<div id="cartBox">
-    <div class="cart-header">Keranjang</div>
-    <div id="cartItems"></div>
-    <div id="totalCart">Total: Rp0</div>
-    <button class="btn" onclick="tutupCart()">Tutup</button>
-</div>
-
 <script>
     let produk = [
-        {nama: "Baju Fashion", kategori: "fashion", harga: 120000, rating: 4.5, gambar: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500"},
-        {nama: "Tas Wanita", kategori: "tas", harga: 150000, rating: 4.6, gambar: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500"},
-        {nama: "Sepatu Trend", kategori: "sepatu", harga: 200000, rating: 4.7, gambar: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500"},
-        {nama: "Jaket Pria", kategori: "fashion", harga: 250000, rating: 4.8, gambar: "https://images.unsplash.com/photo-1520975661595-6453be3f7070?w=500"}
+        {nama: "Baju Fashion", harga: 120000, rating: 4.5, gambar: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500"},
+        {nama: "Tas Wanita", harga: 150000, rating: 4.6, gambar: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500"},
+        {nama: "Sepatu Trend", harga: 200000, rating: 4.7, gambar: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500"},
+        {nama: "Jaket Pria", harga: 250000, rating: 4.8, gambar: "https://images.unsplash.com/photo-1520975661595-6453be3f7070?w=500"}
     ];
-    
-    let keranjang = [];
     
     function tampilProduk(data) {
         let html = "";
@@ -275,52 +163,12 @@
         });
         document.getElementById('productList').innerHTML = html;
     }
-    
-    function filterKategori(kategori) {
-        if (kategori === 'all') {
-            tampilProduk(produk);
-        } else {
-            let filteredProduk = produk.filter(p => p.kategori === kategori);
-            tampilProduk(filteredProduk);
-        }
-    }
-    
+
     function beliProduk(index) {
         let qty = parseInt(document.getElementById(`qty${index}`).value);
-        let item = keranjang.find(p => p.nama === produk[index].nama);
-        if (item) {
-            item.qty += qty;
-        } else {
-            keranjang.push({...produk[index], qty: qty});
-        }
-        updateCart();
+        alert(`Produk ${produk[index].nama} dengan jumlah ${qty} berhasil ditambahkan ke keranjang.`);
     }
 
-    function updateCart() {
-        let html = "";
-        let total = 0;
-        let jumlah = 0;
-        keranjang.forEach((item) => {
-            let subtotal = item.qty * item.harga;
-            total += subtotal;
-            jumlah += item.qty;
-            html += `
-                <div>${item.nama} x ${item.qty} - Rp ${subtotal.toLocaleString()}</div>
-            `;
-        });
-        document.getElementById('cartItems').innerHTML = html;
-        document.getElementById('totalCart').innerHTML = `Total: Rp ${total.toLocaleString()}`;
-        document.querySelector('.btn').innerText = `Tambah Keranjang (${jumlah})`;
-    }
-
-    function bukaCart() {
-        document.getElementById('cartBox').style.right = "0";
-    }
-
-    function tutupCart() {
-        document.getElementById('cartBox').style.right = "-100%";
-    }
-    
     tampilProduk(produk);  // Initial product display
 </script>
 
