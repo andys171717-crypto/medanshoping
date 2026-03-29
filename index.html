@@ -5,121 +5,124 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medanshoping</title>
     <style>
-        /* CSS untuk Body */
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
-            background-color: #f9f9f9;
-            padding-top: 120px; /* Memberikan ruang di bagian atas untuk elemen sticky */
+            font-family: Arial, sans-serif;
+            background: #f9f9f9;
+            box-sizing: border-box;
         }
 
-        /* CSS untuk Header */
+        /* Header Styles */
         header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
             background-color: #ff6600;
             color: white;
             padding: 15px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 20px;
-            font-weight: bold;
-            z-index: 100; /* Agar header berada di atas konten */
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 10;
         }
 
-        /* CSS untuk Banner */
+        header .logo {
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+        header .menu {
+            display: flex;
+            gap: 10px;
+        }
+
+        header .btn {
+            background-color: #ff6600;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid #ff6600;
+        }
+
+        header .btn:hover {
+            background-color: #e55b00;
+        }
+
+        /* Banner Styles */
         .banner {
-            position: fixed;
-            top: 50px;
-            left: 0;
-            width: 100%;
             background-color: #ffd000;
-            color: #333; /* Mengubah warna teks menjadi lebih gelap */
             padding: 15px;
             text-align: center;
             font-weight: bold;
             font-size: 20px;
-            z-index: 90; /* Agar banner tetap di atas konten */
+            margin-top: 60px;
         }
 
-        /* CSS untuk Elemen Pencarian yang tetap di atas */
-        .search {
-            position: sticky;
-            top: 120px; /* Menjaga elemen pencarian tetap di atas saat scroll */
-            z-index: 10;
-            padding: 10px 0;
-            background-color: #fff;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
+        /* Search Bar Styles */
         .search input {
             width: 80%;
             padding: 10px;
             border-radius: 6px;
             border: 1px solid #ddd;
-            background-color: #ff6600; /* Menjaga latar belakang tetap oranye */
+            background-color: #ff6600;
             color: white;
             font-size: 16px;
+            margin: 10px 0;
         }
 
-        /* CSS untuk Elemen Kategori yang sticky */
+        /* Category Button Styles */
         .kategori {
-            position: sticky;
-            top: 180px; /* Menjaga elemen kategori tetap di atas saat scroll */
-            background-color: #fff;
-            z-index: 10;
-            padding: 10px 0;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 15px;
+            gap: 10px;
+            margin-top: 20px; /* Create space for header */
+            background-color: #ff6600;
+            position: fixed;
+            top: 140px; /* Ensure it is fixed just below the banner */
+            width: 100%;
+            padding: 10px 0;
+            z-index: 9;
         }
 
         .kategori button {
             background-color: #ff6600;
             color: white;
-            padding: 10px 20px;
-            border-radius: 6px;
+            border: 1px solid #ddd;
+            padding: 8px 15px;
+            border-radius: 20px;
             cursor: pointer;
-            border: none;
         }
 
         .kategori button:hover {
             background-color: #ff9900;
         }
 
-        /* CSS untuk Produk */
+        /* Product Grid Styles */
         .products {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            padding: 20px;
+            gap: 15px;
+            margin-top: 200px; /* Adjusted for fixed header and category */
+            padding: 0 15px;
         }
 
         .card {
             background-color: white;
-            border-radius: 8px;
             padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
 
         .card img {
             width: 100%;
-            height: 150px;
+            height: 200px;
             object-fit: cover;
             border-radius: 8px;
-            cursor: pointer;
         }
 
-        .card .wishlist {
+        .wishlist {
             position: absolute;
             top: 10px;
             right: 10px;
@@ -136,15 +139,6 @@
             font-weight: bold;
         }
 
-        button {
-            background-color: #ff6600;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
         .qty {
             display: flex;
             justify-content: center;
@@ -158,63 +152,67 @@
             text-align: center;
         }
 
-        /* Adjust the cart for better UX */
+        /* Product Button */
+        .btn {
+            background-color: #ff6600;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            border: none;
+        }
+
+        /* Ensuring fixed header and elements */
+        .products, .kategori, .search, .banner {
+            margin-top: 180px;
+        }
+
+        /* Cart and Login */
         #cartBox {
             position: fixed;
             top: 0;
             right: -100%;
             width: 300px;
             height: 100%;
-            background: white;
+            background-color: white;
             box-shadow: -3px 0 10px rgba(0, 0, 0, 0.3);
             padding: 15px;
             transition: 0.3s;
-            overflow: auto;
         }
 
-        /* Details of products */
-        #detail {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: white;
-            display: none;
-            padding: 20px;
-            overflow: auto;
+        .cart-header {
+            font-weight: bold;
+            margin-bottom: 20px;
         }
 
-        #detail img {
-            width: 100%;
-            border-radius: 10px;
+        #cartItems {
+            margin-bottom: 20px;
         }
 
+        #totalCart {
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
-<!-- Header -->
 <header>
-    <span>🛒 Medanshoping</span>
-    <div>
-        <button class="btn">❤️</button>
-        <button class="btn">Keranjang <span id="totalCart">0</span></button>
-        <button class="btn" id="loginBtn">Login</button>
+    <div class="logo">Medanshoping</div>
+    <div class="menu">
+        <div class="btn">❤️</div>
+        <div class="btn" onclick="bukaCart()">Keranjang (0)</div>
+        <div class="btn" onclick="window.location.href='login.html'">Login</div>
     </div>
 </header>
 
-<!-- Banner -->
 <div class="banner">
     🔥 Promo Medanshoping Diskon Sampai 70%!
 </div>
 
-<!-- Pencarian Produk -->
 <div class="search">
-    <input type="text" id="searchInput" placeholder="Cari produk..." onkeyup="cariProduk(this.value)">
+    <input type="text" placeholder="Cari produk..." id="search" onkeyup="cariProduk()">
 </div>
 
-<!-- Kategori -->
 <div class="kategori">
     <button onclick="filterKategori('all')">Semua</button>
     <button onclick="filterKategori('fashion')">Fashion</button>
@@ -222,140 +220,108 @@
     <button onclick="filterKategori('sepatu')">Sepatu</button>
 </div>
 
-<!-- Produk -->
 <div class="products" id="productList">
-    <!-- Produk akan di-load di sini -->
+    <!-- Example Product Card -->
+    <div class="card">
+        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500" alt="Baju Fashion">
+        <h3>Baju Fashion</h3>
+        <div class="rating">⭐ 4.5</div>
+        <div class="price">Rp 120.000</div>
+        <div class="qty">
+            <button onclick="kurangProduk(0)">-</button>
+            <input type="number" id="qty0" value="1">
+            <button onclick="tambahProduk(0)">+</button>
+        </div>
+        <button class="btn" onclick="beliProduk(0)">Tambah Keranjang</button>
+    </div>
+
+    <!-- More product cards here -->
+</div>
+
+<div id="cartBox">
+    <div class="cart-header">Keranjang</div>
+    <div id="cartItems"></div>
+    <div id="totalCart">Total: Rp0</div>
+    <button class="btn" onclick="tutupCart()">Tutup</button>
 </div>
 
 <script>
     let produk = [
-        { nama: "Baju Fashion", kategori: "fashion", harga: 120000, rating: 4.5, gambar: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500", deskripsi: "Baju fashion modern nyaman dipakai." },
-        { nama: "Tas Wanita", kategori: "tas", harga: 150000, rating: 4.6, gambar: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500", deskripsi: "Tas wanita elegan." },
-        { nama: "Sepatu Trend", kategori: "sepatu", harga: 200000, rating: 4.7, gambar: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500", deskripsi: "Sepatu trend terbaru." },
-        { nama: "Jaket Pria", kategori: "fashion", harga: 250000, rating: 4.8, gambar: "https://images.unsplash.com/photo-1520975661595-6453be3f7070?w=500", deskripsi: "Jaket pria stylish." }
+        {nama: "Baju Fashion", kategori: "fashion", harga: 120000, rating: 4.5, gambar: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500"},
+        {nama: "Tas Wanita", kategori: "tas", harga: 150000, rating: 4.6, gambar: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500"},
+        {nama: "Sepatu Trend", kategori: "sepatu", harga: 200000, rating: 4.7, gambar: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500"},
+        {nama: "Jaket Pria", kategori: "fashion", harga: 250000, rating: 4.8, gambar: "https://images.unsplash.com/photo-1520975661595-6453be3f7070?w=500"}
     ];
-
+    
     let keranjang = [];
-
-    // Menampilkan produk ke dalam halaman
+    
     function tampilProduk(data) {
         let html = "";
-        data.forEach((p, i) => {
+        data.forEach((produk, index) => {
             html += `
                 <div class="card">
-                    <div class="wishlist">❤️</div>
-                    <img src="${p.gambar}" onclick="detail(${i})">
-                    <h3>${p.nama}</h3>
-                    <div class="rating">⭐ ${p.rating}</div>
-                    <p class="price">Rp ${p.harga.toLocaleString()}</p>
+                    <img src="${produk.gambar}" alt="${produk.nama}">
+                    <h3>${produk.nama}</h3>
+                    <div class="rating">⭐ ${produk.rating}</div>
+                    <div class="price">Rp ${produk.harga.toLocaleString()}</div>
                     <div class="qty">
-                        <button onclick="kurangProduk(${i})">-</button>
-                        <input type="number" id="qty${i}" value="1" min="1" max="99">
-                        <button onclick="tambahProduk(${i})">+</button>
+                        <button onclick="kurangProduk(${index})">-</button>
+                        <input type="number" id="qty${index}" value="1" min="1">
+                        <button onclick="tambahProduk(${index})">+</button>
                     </div>
-                    <button onclick="beliProduk(${i})">Tambah Keranjang</button>
+                    <button class="btn" onclick="beliProduk(${index})">Tambah Keranjang</button>
                 </div>
             `;
         });
-        document.getElementById("productList").innerHTML = html;
+        document.getElementById('productList').innerHTML = html;
     }
-
-    // Filter produk berdasarkan kategori
-    function filterKategori(k) {
-        if (k === "all") {
+    
+    function filterKategori(kategori) {
+        if (kategori === 'all') {
             tampilProduk(produk);
         } else {
-            let hasil = produk.filter(p => p.kategori === k);
-            tampilProduk(hasil);
+            let filteredProduk = produk.filter(p => p.kategori === kategori);
+            tampilProduk(filteredProduk);
         }
     }
-
-    // Fungsi untuk mencari produk
-    function cariProduk(text) {
-        let hasil = produk.filter(p => p.nama.toLowerCase().includes(text.toLowerCase()));
-        tampilProduk(hasil);
-    }
-
-    // Fungsi untuk menambah produk ke keranjang
-    function beliProduk(i) {
-        let qty = parseInt(document.getElementById("qty" + i).value) || 1;
-        let item = keranjang.find(p => p.nama === produk[i].nama);
+    
+    function beliProduk(index) {
+        let qty = parseInt(document.getElementById(`qty${index}`).value);
+        let item = keranjang.find(p => p.nama === produk[index].nama);
         if (item) {
             item.qty += qty;
         } else {
-            keranjang.push({ ...produk[i], qty: qty });
+            keranjang.push({...produk[index], qty: qty});
         }
         updateCart();
     }
 
-    // Update tampilan keranjang
     function updateCart() {
         let html = "";
         let total = 0;
         let jumlah = 0;
-
-        keranjang.forEach((p, i) => {
-            let subtotal = p.qty * p.harga;
-            jumlah += p.qty;
+        keranjang.forEach((item) => {
+            let subtotal = item.qty * item.harga;
             total += subtotal;
+            jumlah += item.qty;
             html += `
-                <div style="border-bottom:1px solid #ddd;padding:10px">
-                    <b>${p.nama}</b><br> Rp ${p.harga.toLocaleString()}
-                    <div class="qty">
-                        <button onclick="kurangQty(${i})">-</button>
-                        ${p.qty}
-                        <button onclick="tambahQty(${i})">+</button>
-                    </div>
-                </div>
+                <div>${item.nama} x ${item.qty} - Rp ${subtotal.toLocaleString()}</div>
             `;
         });
-
-        document.getElementById("totalHarga").innerText = total.toLocaleString();
-        document.getElementById("totalCart").innerText = jumlah;
-
-        localStorage.setItem("keranjang", JSON.stringify(keranjang));
+        document.getElementById('cartItems').innerHTML = html;
+        document.getElementById('totalCart').innerHTML = `Total: Rp ${total.toLocaleString()}`;
+        document.querySelector('.btn').innerText = `Tambah Keranjang (${jumlah})`;
     }
 
-    // Fungsi tambah keranjang
-    function tambahProduk(i) {
-        let input = document.getElementById("qty" + i);
-        let val = parseInt(input.value) || 1;
-        if (val < 99) {
-            input.value = val + 1;
-        }
+    function bukaCart() {
+        document.getElementById('cartBox').style.right = "0";
     }
 
-    // Fungsi kurang keranjang
-    function kurangProduk(i) {
-        let input = document.getElementById("qty" + i);
-        let val = parseInt(input.value) || 1;
-        if (val > 1) {
-            input.value = val - 1;
-        }
+    function tutupCart() {
+        document.getElementById('cartBox').style.right = "-100%";
     }
-
-    // Menampilkan detail produk
-    function detail(i) {
-        let p = produk[i];
-        document.getElementById("detail").style.display = "block";
-        document.getElementById("detail").innerHTML = `
-            <button onclick="tutupDetail()">⬅ Kembali</button>
-            <h2>${p.nama}</h2>
-            <img src="${p.gambar}">
-            <p>⭐ ${p.rating}</p>
-            <p>${p.deskripsi}</p>
-            <h3>Rp ${p.harga.toLocaleString()}</h3>
-            <button onclick="beliProduk(${i})">Tambah Keranjang</button>
-        `;
-    }
-
-    // Menutup detail produk
-    function tutupDetail() {
-        document.getElementById("detail").style.display = "none";
-    }
-
-    // Menampilkan produk awal
-    tampilProduk(produk);
+    
+    tampilProduk(produk);  // Initial product display
 </script>
 
 </body>
