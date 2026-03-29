@@ -50,7 +50,44 @@
             z-index: 99;
         }
 
-        /* Products Section */
+        .search {
+            padding: 15px;
+            background-color: #ff6600;
+        }
+
+        .search input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            color: #333;
+        }
+
+        .kategori {
+            display: flex;
+            gap: 10px;
+            padding: 15px;
+            background-color: #ff6600;
+            position: sticky;
+            top: 135px;
+            z-index: 98;
+        }
+
+        .kategori button {
+            border: 1px solid #ddd;
+            background: #ff6600;
+            padding: 6px 10px;
+            border-radius: 20px;
+            cursor: pointer;
+            color: white;
+        }
+
+        .kategori button:hover {
+            background-color: #ff9900;
+        }
+
+        /* Produk Section */
         .products {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -112,44 +149,85 @@
 
     <header>
         <span>🛒 Medanshoping</span>
+        <div class="menu">
+            <div class="btn">❤️</div>
+            <div class="btn">Keranjang (0)</div>
+            <div class="btn">Login</div>
+        </div>
     </header>
 
     <div class="banner">
         🔥 Promo Medanshoping Diskon Sampai 70%!
     </div>
 
+    <div class="search">
+        <input type="text" placeholder="Cari produk...">
+    </div>
+
+    <div class="kategori">
+        <button>Semua</button>
+        <button>Fashion</button>
+        <button>Tas</button>
+        <button>Sepatu</button>
+    </div>
+
     <div class="products" id="productList">
-        <!-- Produk akan ditampilkan di sini -->
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500" alt="Baju Fashion">
+            <h3>Baju Fashion</h3>
+            <div class="rating">⭐ 4.5</div>
+            <p class="price">Rp120.000</p>
+            <div class="qty">
+                <button>-</button>
+                <input type="number" value="1" min="1" max="99">
+                <button>+</button>
+            </div>
+            <button>Tambah Keranjang</button>
+        </div>
+
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500" alt="Tas Wanita">
+            <h3>Tas Wanita</h3>
+            <div class="rating">⭐ 4.6</div>
+            <p class="price">Rp150.000</p>
+            <div class="qty">
+                <button>-</button>
+                <input type="number" value="1" min="1" max="99">
+                <button>+</button>
+            </div>
+            <button>Tambah Keranjang</button>
+        </div>
+
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500" alt="Sepatu Trend">
+            <h3>Sepatu Trend</h3>
+            <div class="rating">⭐ 4.7</div>
+            <p class="price">Rp200.000</p>
+            <div class="qty">
+                <button>-</button>
+                <input type="number" value="1" min="1" max="99">
+                <button>+</button>
+            </div>
+            <button>Tambah Keranjang</button>
+        </div>
+
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1520975661595-6453be3f7070?w=500" alt="Jaket Pria">
+            <h3>Jaket Pria</h3>
+            <div class="rating">⭐ 4.8</div>
+            <p class="price">Rp250.000</p>
+            <div class="qty">
+                <button>-</button>
+                <input type="number" value="1" min="1" max="99">
+                <button>+</button>
+            </div>
+            <button>Tambah Keranjang</button>
+        </div>
     </div>
 
     <script>
-        // Data produk
-        let produk = [
-            { nama: "Baju Fashion", harga: 120000, rating: 4.5, gambar: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500" },
-            { nama: "Tas Wanita", harga: 150000, rating: 4.6, gambar: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500" },
-            { nama: "Sepatu Trend", harga: 200000, rating: 4.7, gambar: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500" },
-            { nama: "Jaket Pria", harga: 250000, rating: 4.8, gambar: "https://images.unsplash.com/photo-1520975661595-6453be3f7070?w=500" }
-        ];
-
-        // Menampilkan produk
-        function tampilProduk() {
-            let html = "";
-            produk.forEach((p) => {
-                html += `
-                    <div class="card">
-                        <img src="${p.gambar}" alt="${p.nama}">
-                        <h3>${p.nama}</h3>
-                        <div class="rating">⭐ ${p.rating}</div>
-                        <p class="price">Rp${p.harga.toLocaleString()}</p>
-                        <button>Tambah Keranjang</button>
-                    </div>
-                `;
-            });
-            document.getElementById("productList").innerHTML = html;
-        }
-
-        // Memanggil fungsi untuk menampilkan produk
-        tampilProduk();
+        // Example script for functionality (cart, search, etc.)
+        console.log("Product page loaded");
     </script>
 
 </body>
