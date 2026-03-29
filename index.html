@@ -57,7 +57,6 @@ border:1px solid #ccc;
 
 .kategori{
 display:flex;
-overflow:auto;
 gap:10px;
 padding:10px;
 }
@@ -111,9 +110,8 @@ button{
 background:#ff6600;
 color:white;
 border:none;
-padding:8px 14px;
+padding:6px 12px;
 border-radius:6px;
-margin-top:8px;
 cursor:pointer;
 }
 
@@ -132,6 +130,13 @@ box-shadow:-3px 0 8px rgba(0,0,0,0.3);
 padding:15px;
 transition:0.3s;
 overflow:auto;
+}
+
+.qty{
+display:flex;
+gap:6px;
+align-items:center;
+margin-top:5px;
 }
 
 #detail{
@@ -157,13 +162,16 @@ border-radius:10px;
 <body>
 
 <header>
+
 🛒 Medanshoping
 
 <div class="menu">
 
 <div class="btn" onclick="bukaWishlist()">❤️</div>
 
-<div class="btn" onclick="bukaCart()">Keranjang (<span id="totalCart">0</span>)</div>
+<div class="btn" onclick="bukaCart()">
+Keranjang (<span id="totalCart">0</span>)
+</div>
 
 </div>
 
@@ -195,6 +203,8 @@ border-radius:10px;
 <div id="cartItems"></div>
 
 <h3>Total: Rp<span id="totalHarga">0</span></h3>
+
+<br>
 
 <button onclick="checkout()">Checkout</button>
 
@@ -248,8 +258,7 @@ deskripsi:"Jaket pria stylish."
 
 ]
 
-let keranjang=JSON.parse(localStorage.getItem("keranjang"))||[]
-let wishlist=JSON.parse(localStorage.getItem("wishlist"))||[]
+let keranjang = JSON.parse(localStorage.getItem("keranjang")) || []
 
 function tampilProduk(data){
 
@@ -261,7 +270,7 @@ html+=`
 
 <div class="card">
 
-<div class="wishlist" onclick="tambahWishlist(${i})">❤️</div>
+<div class="wishlist">❤️</div>
 
 <img src="${p.gambar}" onclick="detail(${i})">
 
@@ -285,41 +294,84 @@ document.getElementById("productList").innerHTML=html
 
 function beli(i){
 
-keranjang.push(produk[i])
+let item = keranjang.find(p => p.nama === produk[i].nama)
 
-updateCart()
+if(item){
 
-alert("Produk ditambahkan")
+item.qty++
+
+}else{
+
+keranjang.push({...produk[i],qty:1})
 
 }
 
-function tambahWishlist(i){
+updateCart()
 
-wishlist.push(produk[i])
+}
 
-localStorage.setItem("wishlist",JSON.stringify(wishlist))
+function tambahQty(i){
 
-alert("Ditambahkan ke wishlist")
+keranjang[i].qty++
+
+updateCart()
+
+}
+
+function kurangQty(i){
+
+keranjang[i].qty--
+
+if(keranjang[i].qty<=0){
+
+keranjang.splice(i,1)
+
+}
+
+updateCart()
 
 }
 
 function updateCart(){
 
-document.getElementById("totalCart").innerText=keranjang.length
-
 let html=""
 let total=0
+let jumlah=0
 
-keranjang.forEach((p)=>{
+keranjang.forEach((p,i)=>{
 
-total+=p.harga
+let subtotal=p.harga*p.qty
 
-html+=`<p>${p.nama} - Rp${p.harga.toLocaleString()}</p>`
+jumlah+=p.qty
+total+=subtotal
+
+html+=`
+
+<div style="border-bottom:1px solid #ddd;padding:8px">
+
+<b>${p.nama}</b><br>
+
+Rp${p.harga.toLocaleString()}
+
+<div class="qty">
+
+<button onclick="kurangQty(${i})">-</button>
+
+${p.qty}
+
+<button onclick="tambahQty(${i})">+</button>
+
+</div>
+
+</div>
+
+`
 
 })
 
 document.getElementById("cartItems").innerHTML=html
 document.getElementById("totalHarga").innerText=total.toLocaleString()
+document.getElementById("totalCart").innerText=jumlah
 
 localStorage.setItem("keranjang",JSON.stringify(keranjang))
 
@@ -344,15 +396,10 @@ tampilProduk(hasil)
 function filterKategori(k){
 
 if(k==="all"){
-
 tampilProduk(produk)
-
 }else{
-
 let hasil=produk.filter(p=>p.kategori===k)
-
 tampilProduk(hasil)
-
 }
 
 }
@@ -393,7 +440,7 @@ let pesan="Halo Medanshoping,%0A%0ASaya ingin membeli:%0A"
 
 keranjang.forEach((p)=>{
 
-pesan+=p.nama+" - Rp"+p.harga+"%0A"
+pesan+=p.nama+" x"+p.qty+" - Rp"+(p.harga*p.qty)+"%0A"
 
 })
 
