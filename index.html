@@ -20,8 +20,8 @@ padding:15px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-font-size:20px;
 font-weight:bold;
+font-size:20px;
 }
 
 .menu{
@@ -62,8 +62,8 @@ padding:10px;
 }
 
 .kategori button{
-background:white;
 border:1px solid #ddd;
+background:white;
 padding:6px 10px;
 border-radius:20px;
 cursor:pointer;
@@ -101,6 +101,10 @@ font-size:20px;
 cursor:pointer;
 }
 
+.rating{
+color:orange;
+}
+
 .price{
 color:green;
 font-weight:bold;
@@ -115,8 +119,12 @@ border-radius:6px;
 cursor:pointer;
 }
 
-.rating{
-color:orange;
+.qty{
+display:flex;
+justify-content:center;
+gap:8px;
+margin-top:6px;
+align-items:center;
 }
 
 #cartBox{
@@ -126,17 +134,10 @@ right:-100%;
 width:300px;
 height:100%;
 background:white;
-box-shadow:-3px 0 8px rgba(0,0,0,0.3);
+box-shadow:-3px 0 10px rgba(0,0,0,0.3);
 padding:15px;
 transition:0.3s;
 overflow:auto;
-}
-
-.qty{
-display:flex;
-gap:6px;
-align-items:center;
-margin-top:5px;
 }
 
 #detail{
@@ -259,11 +260,9 @@ deskripsi:"Jaket pria stylish."
 ]
 
 let keranjang = JSON.parse(localStorage.getItem("keranjang")) || []
+keranjang = keranjang.map(p=>{ if(!p.qty){p.qty=1} return p })
 
-keranjang = keranjang.map(p=>{
-if(!p.qty){p.qty=1}
-return p
-})
+let qtyProduk={}
 
 function tampilProduk(data){
 
@@ -285,7 +284,21 @@ html+=`
 
 <p class="price">Rp${p.harga.toLocaleString()}</p>
 
-<button onclick="beli(${i})">Beli</button>
+<div class="qty">
+
+<button onclick="kurangProduk(${i})">-</button>
+
+<span id="qty${i}">1</span>
+
+<button onclick="tambahProduk(${i})">+</button>
+
+</div>
+
+<br>
+
+<button onclick="beliProduk(${i})">
+Tambah Keranjang
+</button>
 
 </div>
 
@@ -297,17 +310,41 @@ document.getElementById("productList").innerHTML=html
 
 }
 
-function beli(i){
+function tambahProduk(i){
+
+if(!qtyProduk[i]){qtyProduk[i]=1}
+
+qtyProduk[i]++
+
+document.getElementById("qty"+i).innerText=qtyProduk[i]
+
+}
+
+function kurangProduk(i){
+
+if(!qtyProduk[i]){qtyProduk[i]=1}
+
+if(qtyProduk[i]>1){
+qtyProduk[i]--
+}
+
+document.getElementById("qty"+i).innerText=qtyProduk[i]
+
+}
+
+function beliProduk(i){
+
+let qty = qtyProduk[i] || 1
 
 let item = keranjang.find(p=>p.nama===produk[i].nama)
 
 if(item){
 
-item.qty++
+item.qty += qty
 
 }else{
 
-keranjang.push({...produk[i],qty:1})
+keranjang.push({...produk[i],qty:qty})
 
 }
 
@@ -328,9 +365,7 @@ function kurangQty(i){
 keranjang[i].qty--
 
 if(keranjang[i].qty<=0){
-
 keranjang.splice(i,1)
-
 }
 
 updateCart()
@@ -345,12 +380,9 @@ let jumlah=0
 
 keranjang.forEach((p,i)=>{
 
-let qty=p.qty||1
-let harga=p.harga||0
+let subtotal=p.qty*p.harga
 
-let subtotal=qty*harga
-
-jumlah+=qty
+jumlah+=p.qty
 total+=subtotal
 
 html+=`
@@ -359,13 +391,13 @@ html+=`
 
 <b>${p.nama}</b><br>
 
-Rp${harga.toLocaleString()}
+Rp${p.harga.toLocaleString()}
 
 <div class="qty">
 
 <button onclick="kurangQty(${i})">-</button>
 
-${qty}
+${p.qty}
 
 <button onclick="tambahQty(${i})">+</button>
 
@@ -432,7 +464,7 @@ document.getElementById("detail").innerHTML=`
 
 <h3>Rp${p.harga.toLocaleString()}</h3>
 
-<button onclick="beli(${i})">Tambah Keranjang</button>
+<button onclick="beliProduk(${i})">Tambah Keranjang</button>
 
 `
 
