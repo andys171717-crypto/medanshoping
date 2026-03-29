@@ -122,9 +122,14 @@ cursor:pointer;
 .qty{
 display:flex;
 justify-content:center;
-gap:8px;
-margin-top:6px;
+gap:6px;
 align-items:center;
+margin-top:8px;
+}
+
+.qty input{
+width:40px;
+text-align:center;
 }
 
 #cartBox{
@@ -260,9 +265,8 @@ deskripsi:"Jaket pria stylish."
 ]
 
 let keranjang = JSON.parse(localStorage.getItem("keranjang")) || []
-keranjang = keranjang.map(p=>{ if(!p.qty){p.qty=1} return p })
 
-let qtyProduk={}
+keranjang = keranjang.map(p=>{ if(!p.qty){p.qty=1} return p })
 
 function tampilProduk(data){
 
@@ -288,7 +292,7 @@ html+=`
 
 <button onclick="kurangProduk(${i})">-</button>
 
-<span id="qty${i}">1</span>
+<input type="number" id="qty${i}" value="1" min="1">
 
 <button onclick="tambahProduk(${i})">+</button>
 
@@ -296,9 +300,7 @@ html+=`
 
 <br>
 
-<button onclick="beliProduk(${i})">
-Tambah Keranjang
-</button>
+<button onclick="beliProduk(${i})">Tambah Keranjang</button>
 
 </div>
 
@@ -312,40 +314,32 @@ document.getElementById("productList").innerHTML=html
 
 function tambahProduk(i){
 
-if(!qtyProduk[i]){qtyProduk[i]=1}
+let input=document.getElementById("qty"+i)
 
-qtyProduk[i]++
-
-document.getElementById("qty"+i).innerText=qtyProduk[i]
+input.value=parseInt(input.value)+1
 
 }
 
 function kurangProduk(i){
 
-if(!qtyProduk[i]){qtyProduk[i]=1}
+let input=document.getElementById("qty"+i)
 
-if(qtyProduk[i]>1){
-qtyProduk[i]--
+if(input.value>1){
+input.value=parseInt(input.value)-1
 }
-
-document.getElementById("qty"+i).innerText=qtyProduk[i]
 
 }
 
 function beliProduk(i){
 
-let qty = qtyProduk[i] || 1
+let qty=parseInt(document.getElementById("qty"+i).value)||1
 
-let item = keranjang.find(p=>p.nama===produk[i].nama)
+let item=keranjang.find(p=>p.nama===produk[i].nama)
 
 if(item){
-
-item.qty += qty
-
+item.qty+=qty
 }else{
-
 keranjang.push({...produk[i],qty:qty})
-
 }
 
 updateCart()
