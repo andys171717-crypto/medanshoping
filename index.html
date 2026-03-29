@@ -164,6 +164,9 @@
         #userInfo {
             font-weight: bold;
             color: white;
+            background-color: #ff6600;
+            padding: 6px 12px;
+            border-radius: 6px;
         }
     </style>
 </head>
@@ -244,7 +247,19 @@
 
     keranjang = keranjang.map(p => { if (!p.qty) { p.qty = 1 } return p });
 
-    // Login Page
+    // Periksa status login saat memuat halaman
+    if (isLoggedIn) {
+        document.getElementById("loginBtn").style.display = "none";
+        document.getElementById("logoutBtn").style.display = "block";
+        document.getElementById("userInfo").style.display = "block";
+        document.getElementById("userInfo").innerText = `Hello, ${storedUsername}`;
+    } else {
+        document.getElementById("loginBtn").style.display = "block";
+        document.getElementById("logoutBtn").style.display = "none";
+        document.getElementById("userInfo").style.display = "none";
+    }
+
+    // Login
     function loginPage() {
         document.getElementById("loginForm").style.display = "block";
     }
@@ -458,3 +473,4 @@
 
 </body>
 </html>
+``
