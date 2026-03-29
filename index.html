@@ -16,7 +16,7 @@
         header {
             background-color: #ff6600;
             color: white;
-            padding: 15px;
+            padding: 15px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -26,26 +26,84 @@
             z-index: 10;
         }
 
-        header .logo {
+        /* Logo Styling */
+        .logo {
             font-weight: bold;
             font-size: 24px;
+            color: white;
+            text-transform: uppercase;
+            cursor: pointer;
         }
 
-        header .menu {
+        /* Menu Styling */
+        .menu {
             display: flex;
-            gap: 10px;
+            gap: 15px;
         }
 
-        header .btn {
+        .menu .btn {
             background-color: #ff6600;
             color: white;
-            padding: 6px 12px;
-            border-radius: 6px;
+            padding: 8px 16px;
+            border-radius: 5px;
             cursor: pointer;
             border: 1px solid #ff6600;
+            font-size: 16px;
+            transition: background-color 0.3s;
         }
 
-        header .btn:hover {
+        .menu .btn:hover {
+            background-color: #e55b00;
+        }
+
+        .menu .btn:active {
+            background-color: #cc5200;
+        }
+
+        .menu .btn.active {
+            background-color: #e55b00;
+        }
+
+        .menu .btn-secondary {
+            background-color: transparent;
+            border: 1px solid white;
+            padding: 8px 16px;
+            color: white;
+        }
+
+        .menu .btn-secondary:hover {
+            background-color: white;
+            color: #ff6600;
+        }
+
+        /* Dropdown style */
+        .menu .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #ff6600;
+            min-width: 160px;
+            z-index: 1;
+            padding: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown-content a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 8px;
+        }
+
+        .dropdown-content a:hover {
             background-color: #e55b00;
         }
 
@@ -54,7 +112,7 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
-            margin-top: 90px; /* Adjusted for fixed header */
+            margin-top: 90px;
             padding: 0 15px;
         }
 
@@ -109,15 +167,29 @@
 <body>
 
 <header>
+    <!-- Logo -->
     <div class="logo">Medanshoping</div>
+
+    <!-- Menu -->
     <div class="menu">
-        <div class="btn">Dashboard</div>
+        <div class="btn active">Dashboard</div>
         <div class="btn">❤️</div>
         <div class="btn">Keranjang (0)</div>
         <div class="btn">Login</div>
+
+        <!-- Dropdown for more options (e.g., settings, profile) -->
+        <div class="dropdown">
+            <button class="btn btn-secondary">Menu</button>
+            <div class="dropdown-content">
+                <a href="#">Profile</a>
+                <a href="#">Order History</a>
+                <a href="#">Logout</a>
+            </div>
+        </div>
     </div>
 </header>
 
+<!-- Product Grid -->
 <div class="products" id="productList">
     <!-- Example Product Card -->
     <div class="card">
@@ -143,7 +215,7 @@
         {nama: "Sepatu Trend", harga: 200000, rating: 4.7, gambar: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500"},
         {nama: "Jaket Pria", harga: 250000, rating: 4.8, gambar: "https://images.unsplash.com/photo-1520975661595-6453be3f7070?w=500"}
     ];
-    
+
     function tampilProduk(data) {
         let html = "";
         data.forEach((produk, index) => {
