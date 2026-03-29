@@ -3,9 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Medanshoping</title>
 
 <style>
+
 body{
 font-family:Arial;
 margin:0;
@@ -16,14 +18,24 @@ header{
 background:#ff6600;
 color:white;
 padding:15px;
-text-align:center;
-font-size:22px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-size:20px;
 font-weight:bold;
 }
 
+.cart{
+cursor:pointer;
+background:white;
+color:#ff6600;
+padding:5px 10px;
+border-radius:5px;
+}
+
 .search{
-text-align:center;
 padding:15px;
+text-align:center;
 }
 
 .search input{
@@ -65,7 +77,22 @@ border:none;
 padding:8px 12px;
 border-radius:5px;
 margin-top:5px;
+cursor:pointer;
 }
+
+#cartBox{
+position:fixed;
+top:0;
+right:-100%;
+width:300px;
+height:100%;
+background:white;
+box-shadow:-2px 0 5px rgba(0,0,0,0.3);
+padding:15px;
+transition:0.3s;
+overflow:auto;
+}
+
 </style>
 </head>
 
@@ -73,43 +100,147 @@ margin-top:5px;
 
 <header>
 🛒 Medanshoping
+<div class="cart" onclick="bukaCart()">Keranjang (<span id="totalCart">0</span>)</div>
 </header>
 
 <div class="search">
-<input type="text" placeholder="Cari produk...">
+<input type="text" placeholder="Cari produk..." onkeyup="cariProduk(this.value)">
 </div>
 
-<div class="products">
+<div class="products" id="productList"></div>
+
+
+<div id="cartBox">
+
+<h2>Keranjang</h2>
+
+<div id="cartItems"></div>
+
+<br>
+
+<button onclick="tutupCart()">Tutup</button>
+
+</div>
+
+
+<script>
+
+let produk=[
+
+{
+nama:"Baju Fashion",
+harga:120000,
+gambar:"https://picsum.photos/200?1"
+},
+
+{
+nama:"Tas Wanita",
+harga:150000,
+gambar:"https://picsum.photos/200?2"
+},
+
+{
+nama:"Sepatu Trend",
+harga:200000,
+gambar:"https://picsum.photos/200?3"
+},
+
+{
+nama:"Jaket Pria",
+harga:250000,
+gambar:"https://picsum.photos/200?4"
+}
+
+]
+
+
+let keranjang=[]
+
+
+function tampilProduk(data){
+
+let html=""
+
+data.forEach((p,i)=>{
+
+html+=`
 
 <div class="card">
-<img src="https://picsum.photos/200?1">
-<h3>Baju Fashion</h3>
-<p class="price">Rp120.000</p>
-<button>Beli</button>
-</div>
 
-<div class="card">
-<img src="https://picsum.photos/200?2">
-<h3>Tas Wanita</h3>
-<p class="price">Rp150.000</p>
-<button>Beli</button>
-</div>
+<img src="${p.gambar}">
 
-<div class="card">
-<img src="https://picsum.photos/200?3">
-<h3>Sepatu Trend</h3>
-<p class="price">Rp200.000</p>
-<button>Beli</button>
-</div>
+<h3>${p.nama}</h3>
 
-<div class="card">
-<img src="https://picsum.photos/200?4">
-<h3>Jaket Pria</h3>
-<p class="price">Rp250.000</p>
-<button>Beli</button>
-</div>
+<p class="price">Rp${p.harga}</p>
+
+<button onclick="beli(${i})">Beli</button>
 
 </div>
+
+`
+
+})
+
+document.getElementById("productList").innerHTML=html
+
+}
+
+
+function beli(i){
+
+keranjang.push(produk[i])
+
+updateCart()
+
+alert("Produk masuk keranjang")
+
+}
+
+
+function updateCart(){
+
+document.getElementById("totalCart").innerText=keranjang.length
+
+let html=""
+
+keranjang.forEach((p)=>{
+
+html+=`<p>${p.nama} - Rp${p.harga}</p>`
+
+})
+
+document.getElementById("cartItems").innerHTML=html
+
+}
+
+
+function bukaCart(){
+
+document.getElementById("cartBox").style.right="0"
+
+}
+
+
+function tutupCart(){
+
+document.getElementById("cartBox").style.right="-100%"
+
+}
+
+
+function cariProduk(text){
+
+let hasil=produk.filter(p=>p.nama.toLowerCase().includes(text.toLowerCase()))
+
+tampilProduk(hasil)
+
+}
+
+
+tampilProduk(produk)
+
+</script>
+
 
 </body>
 </html>
