@@ -9,7 +9,6 @@
             font-family: Arial;
             margin: 0;
             background: #f2f2f2;
-            padding-top: 80px; /* Menyesuaikan untuk header dan banner yang fixed */
         }
 
         header {
@@ -21,10 +20,10 @@
             align-items: center;
             font-size: 20px;
             font-weight: bold;
-            position: fixed; /* Menambahkan fixed position */
-            top: 0; /* Menjaga header tetap di atas */
-            width: 100%; /* Agar lebar header mengisi layar */
-            z-index: 1000; /* Menjaga header berada di atas konten lainnya */
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
         }
 
         .menu {
@@ -46,14 +45,15 @@
             text-align: center;
             font-weight: bold;
             font-size: 20px;
-            position: fixed; /* Menambahkan fixed position untuk banner */
-            top: 50px; /* Menjaga jarak banner dari header */
-            width: 100%; /* Agar lebar banner mengisi layar */
-            z-index: 999; /* Banner di bawah header */
+            position: fixed;
+            top: 50px;
+            width: 100%;
+            z-index: 999;
         }
 
         .search {
             padding: 15px;
+            margin-top: 100px;
         }
 
         .search input {
@@ -69,6 +69,7 @@
             display: flex;
             gap: 10px;
             padding: 10px;
+            margin-top: 10px;
         }
 
         .kategori button {
@@ -89,6 +90,7 @@
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
             padding: 15px;
+            margin-top: 120px;
         }
 
         .card {
@@ -204,6 +206,7 @@
     </style>
 </head>
 <body>
+
 <header>
     <span>🛒 Medanshoping</span>
     <div class="menu">
