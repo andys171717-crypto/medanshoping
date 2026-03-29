@@ -6,7 +6,7 @@
     <title>Medanshoping</title>
     <style>
         body {
-            font-family: Arial;
+            font-family: Arial, sans-serif;
             margin: 0;
             background: #f2f2f2;
         }
@@ -22,8 +22,9 @@
             font-weight: bold;
             position: fixed;
             top: 0;
+            left: 0;
             width: 100%;
-            z-index: 1000;
+            z-index: 10;
         }
 
         .menu {
@@ -45,41 +46,31 @@
             text-align: center;
             font-weight: bold;
             font-size: 20px;
-            position: fixed;
-            top: 50px;
-            width: 100%;
-            z-index: 999;
+            margin-top: 60px; /* Space for fixed header */
         }
 
-        /* Fixed position for search and category */
+        /* Sticky category and search bar */
         .search, .kategori {
-            position: fixed;
-            left: 10px;
-            right: 10px;
-            z-index: 999;
-        }
-
-        .search {
-            top: 120px;
-        }
-
-        .kategori {
-            top: 180px;
+            background: white;
+            z-index: 9;
+            position: sticky;
+            top: 75px;
+            width: 100%;
+            padding: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .search input {
             width: 100%;
             padding: 10px;
             border-radius: 6px;
-            border: 1px solid #ddd;
-            background-color: #ff6600;
-            color: white;
+            border: 1px solid #ccc;
         }
 
         .kategori {
             display: flex;
             gap: 10px;
-            padding: 10px;
+            justify-content: center;
         }
 
         .kategori button {
@@ -100,7 +91,7 @@
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
             padding: 15px;
-            margin-top: 250px; /* Adding space so content isn't hidden */
+            margin-top: 10px;
         }
 
         .card {
@@ -232,27 +223,6 @@
     🔥 Promo Medanshoping Diskon Sampai 70%!
 </div>
 
-<!-- Form Login -->
-<div id="loginForm" class="form-container" style="display:none;">
-    <h2>Login Medanshoping</h2>
-    <input type="text" id="username" placeholder="Username" /><br>
-    <input type="password" id="password" placeholder="Password" /><br>
-    <button onclick="login()">Login</button><br><br>
-    <a href="javascript:void(0);" onclick="showRegister()">Daftar</a> |
-    <a href="javascript:void(0);" onclick="forgotPassword()">Lupa Password</a>
-</div>
-
-<!-- Form Daftar -->
-<div id="registerForm" class="form-container" style="display:none;">
-    <h2>Registrasi Medanshoping</h2>
-    <input type="text" id="regUsername" placeholder="Username" /><br>
-    <input type="password" id="regPassword" placeholder="Password (min 5 karakter)" /><br>
-    <input type="password" id="regConfirmPassword" placeholder="Konfirmasi Password" /><br>
-    <input type="text" id="securityQuestion" placeholder="Pertanyaan Keamanan: Nama ibu kandung?" /><br>
-    <button onclick="register()">Daftar</button><br><br>
-    <a href="javascript:void(0);" onclick="showLogin()">Login</a>
-</div>
-
 <div class="search">
     <input type="text" placeholder="Cari produk..." onkeyup="cariProduk(this.value)">
 </div>
@@ -304,7 +274,7 @@
         document.getElementById("userInfo").style.display = "none";
     }
 
-    // Login
+    // Fungsi login
     function loginPage() {
         document.getElementById("loginForm").style.display = "block";
     }
@@ -337,44 +307,7 @@
         alert("Logout Berhasil!");
     }
 
-    function showRegister() {
-        document.getElementById("loginForm").style.display = "none";
-        document.getElementById("registerForm").style.display = "block";
-    }
-
-    function showLogin() {
-        document.getElementById("registerForm").style.display = "none";
-        document.getElementById("loginForm").style.display = "block";
-    }
-
-    function forgotPassword() {
-        alert("Form Lupa Password");
-    }
-
-    // Registrasi
-    function register() {
-        const username = document.getElementById("regUsername").value.trim();
-        const password = document.getElementById("regPassword").value.trim();
-        const confirmPassword = document.getElementById("regConfirmPassword").value.trim();
-        const securityQuestion = document.getElementById("securityQuestion").value.trim();
-
-        if (password.length < 5) {
-            alert("Password harus minimal 5 karakter!");
-            return;
-        }
-
-        if (password !== confirmPassword) {
-            alert("Password dan konfirmasi password tidak cocok!");
-        } else {
-            localStorage.setItem("username", username);
-            localStorage.setItem("password", password);
-            localStorage.setItem("securityQuestion", securityQuestion);
-            alert("Pendaftaran berhasil! Silakan login.");
-            document.getElementById("registerForm").style.display = "none";
-            document.getElementById("loginForm").style.display = "block";
-        }
-    }
-
+    // Fungsi tampilkan produk
     function tampilProduk(data) {
         let html = "";
         data.forEach((p, i) => {
@@ -513,6 +446,7 @@
     }
 
     tampilProduk(produk);
+    updateCart();
 </script>
 
 </body>
