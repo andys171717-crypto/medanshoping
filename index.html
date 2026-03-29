@@ -3,13 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Medanshoping</title>
 
 <style>
+
 body{
 font-family:Arial;
 margin:0;
-background:#f2f2f2;
+background:#f5f5f5;
 }
 
 header{
@@ -29,6 +31,13 @@ color:#ff6600;
 padding:6px 12px;
 border-radius:6px;
 cursor:pointer;
+}
+
+.banner{
+background:#ffcc00;
+text-align:center;
+padding:10px;
+font-weight:bold;
 }
 
 .search{
@@ -62,6 +71,7 @@ width:100%;
 height:150px;
 object-fit:cover;
 border-radius:8px;
+cursor:pointer;
 }
 
 .price{
@@ -91,6 +101,28 @@ padding:15px;
 transition:0.3s;
 overflow:auto;
 }
+
+#detail{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:white;
+display:none;
+padding:20px;
+overflow:auto;
+}
+
+#detail img{
+width:100%;
+border-radius:10px;
+}
+
+.rating{
+color:orange;
+}
+
 </style>
 </head>
 
@@ -101,6 +133,10 @@ overflow:auto;
 <div class="cart" onclick="bukaCart()">Keranjang (<span id="totalCart">0</span>)</div>
 </header>
 
+<div class="banner">
+🔥 Promo Medanshoping Diskon Sampai 70%
+</div>
+
 <div class="search">
 <input type="text" placeholder="Cari produk..." onkeyup="cariProduk(this.value)">
 </div>
@@ -108,11 +144,22 @@ overflow:auto;
 <div class="products" id="productList"></div>
 
 <div id="cartBox">
+
 <h2>Keranjang</h2>
+
 <div id="cartItems"></div>
-<br>
+
+<h3>Total: Rp<span id="totalHarga">0</span></h3>
+
+<button onclick="checkout()">Checkout</button>
+
+<br><br>
+
 <button onclick="tutupCart()">Tutup</button>
+
 </div>
+
+<div id="detail"></div>
 
 <script>
 
@@ -121,25 +168,33 @@ let produk=[
 {
 nama:"Baju Fashion",
 harga:120000,
-gambar:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500"
+rating:4.5,
+gambar:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500",
+deskripsi:"Baju fashion modern nyaman dipakai."
 },
 
 {
 nama:"Tas Wanita",
 harga:150000,
-gambar:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500"
+rating:4.6,
+gambar:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500",
+deskripsi:"Tas wanita elegan cocok untuk semua acara."
 },
 
 {
 nama:"Sepatu Trend",
 harga:200000,
-gambar:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500"
+rating:4.7,
+gambar:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500",
+deskripsi:"Sepatu trend terbaru kualitas premium."
 },
 
 {
 nama:"Jaket Pria",
 harga:250000,
-gambar:"https://images.unsplash.com/photo-1520975661595-6453be3f7070?w=500"
+rating:4.8,
+gambar:"https://images.unsplash.com/photo-1520975661595-6453be3f7070?w=500",
+deskripsi:"Jaket pria stylish dan hangat."
 }
 
 ]
@@ -156,9 +211,11 @@ html+=`
 
 <div class="card">
 
-<img src="${p.gambar}">
+<img src="${p.gambar}" onclick="detail(${i})">
 
 <h3>${p.nama}</h3>
+
+<div class="rating">⭐ ${p.rating}</div>
 
 <p class="price">Rp${p.harga.toLocaleString()}</p>
 
@@ -174,13 +231,43 @@ document.getElementById("productList").innerHTML=html
 
 }
 
+function detail(i){
+
+let p=produk[i]
+
+document.getElementById("detail").style.display="block"
+
+document.getElementById("detail").innerHTML=`
+
+<button onclick="tutupDetail()">⬅ Kembali</button>
+
+<h2>${p.nama}</h2>
+
+<img src="${p.gambar}">
+
+<p class="rating">⭐ ${p.rating}</p>
+
+<p>${p.deskripsi}</p>
+
+<h3>Rp${p.harga.toLocaleString()}</h3>
+
+<button onclick="beli(${i})">Tambah Keranjang</button>
+
+`
+
+}
+
+function tutupDetail(){
+document.getElementById("detail").style.display="none"
+}
+
 function beli(i){
 
 keranjang.push(produk[i])
 
 updateCart()
 
-alert(produk[i].nama+" ditambahkan ke keranjang")
+alert("Produk ditambahkan ke keranjang")
 
 }
 
@@ -189,14 +276,18 @@ function updateCart(){
 document.getElementById("totalCart").innerText=keranjang.length
 
 let html=""
+let total=0
 
 keranjang.forEach((p)=>{
+
+total+=p.harga
 
 html+=`<p>${p.nama} - Rp${p.harga.toLocaleString()}</p>`
 
 })
 
 document.getElementById("cartItems").innerHTML=html
+document.getElementById("totalHarga").innerText=total.toLocaleString()
 
 }
 
@@ -213,6 +304,20 @@ function cariProduk(text){
 let hasil=produk.filter(p=>p.nama.toLowerCase().includes(text.toLowerCase()))
 
 tampilProduk(hasil)
+
+}
+
+function checkout(){
+
+let pesan="Halo Medanshoping,%0A%0ASaya ingin membeli:%0A"
+
+keranjang.forEach((p)=>{
+
+pesan+=p.nama+" - Rp"+p.harga+"%0A"
+
+})
+
+window.open("https://wa.me/?text="+pesan)
 
 }
 
