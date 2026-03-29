@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Medanshoping</title>
 
 <style>
@@ -20,8 +22,8 @@ padding:15px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-font-weight:bold;
 font-size:20px;
+font-weight:bold;
 }
 
 .menu{
@@ -128,7 +130,7 @@ margin-top:8px;
 }
 
 .qty input{
-width:40px;
+width:45px;
 text-align:center;
 }
 
@@ -163,6 +165,7 @@ border-radius:10px;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -266,7 +269,10 @@ deskripsi:"Jaket pria stylish."
 
 let keranjang = JSON.parse(localStorage.getItem("keranjang")) || []
 
-keranjang = keranjang.map(p=>{ if(!p.qty){p.qty=1} return p })
+keranjang = keranjang.map(p=>{
+if(!p.qty){p.qty=1}
+return p
+})
 
 function tampilProduk(data){
 
@@ -292,7 +298,7 @@ html+=`
 
 <button onclick="kurangProduk(${i})">-</button>
 
-<input type="number" id="qty${i}" value="1" min="1">
+<input type="number" id="qty${i}" value="1" min="1" max="99">
 
 <button onclick="tambahProduk(${i})">+</button>
 
@@ -316,7 +322,11 @@ function tambahProduk(i){
 
 let input=document.getElementById("qty"+i)
 
-input.value=parseInt(input.value)+1
+let val=parseInt(input.value)||1
+
+if(val<99){
+input.value=val+1
+}
 
 }
 
@@ -324,8 +334,10 @@ function kurangProduk(i){
 
 let input=document.getElementById("qty"+i)
 
-if(input.value>1){
-input.value=parseInt(input.value)-1
+let val=parseInt(input.value)||1
+
+if(val>1){
+input.value=val-1
 }
 
 }
@@ -343,6 +355,8 @@ keranjang.push({...produk[i],qty:qty})
 }
 
 updateCart()
+
+document.getElementById("qty"+i).value=1
 
 }
 
