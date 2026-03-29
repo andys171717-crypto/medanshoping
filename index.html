@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Medanshoping</title>
 
 <style>
@@ -66,12 +65,12 @@ width:100%;
 height:150px;
 object-fit:cover;
 border-radius:10px;
+cursor:pointer;
 }
 
 .price{
 color:green;
 font-weight:bold;
-font-size:16px;
 }
 
 button{
@@ -95,6 +94,34 @@ box-shadow:-3px 0 8px rgba(0,0,0,0.3);
 padding:15px;
 transition:0.3s;
 overflow:auto;
+}
+
+/* popup detail */
+
+#detailBox{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+display:none;
+justify-content:center;
+align-items:center;
+}
+
+.detailContent{
+background:white;
+padding:20px;
+border-radius:10px;
+width:80%;
+max-width:300px;
+text-align:center;
+}
+
+.detailContent img{
+width:100%;
+border-radius:10px;
 }
 
 </style>
@@ -124,6 +151,28 @@ overflow:auto;
 <button onclick="tutupCart()">Tutup</button>
 
 </div>
+
+
+<div id="detailBox">
+
+<div class="detailContent">
+
+<img id="detailImg">
+
+<h3 id="detailNama"></h3>
+
+<p class="price" id="detailHarga"></p>
+
+<button onclick="beli(detailIndex)">Beli</button>
+
+<br><br>
+
+<button onclick="tutupDetail()">Tutup</button>
+
+</div>
+
+</div>
+
 
 <script>
 
@@ -157,6 +206,8 @@ gambar:"images/jaket.jpg"
 
 let keranjang=[]
 
+let detailIndex=0
+
 function tampilProduk(data){
 
 let html=""
@@ -167,7 +218,7 @@ html+=`
 
 <div class="card">
 
-<img src="${p.gambar}">
+<img src="${p.gambar}" onclick="bukaDetail(${i})">
 
 <h3>${p.nama}</h3>
 
@@ -191,7 +242,7 @@ keranjang.push(produk[i])
 
 updateCart()
 
-alert(produk[i].nama+" ditambahkan ke keranjang")
+alert("Produk masuk keranjang")
 
 }
 
@@ -228,6 +279,26 @@ function cariProduk(text){
 let hasil=produk.filter(p=>p.nama.toLowerCase().includes(text.toLowerCase()))
 
 tampilProduk(hasil)
+
+}
+
+function bukaDetail(i){
+
+detailIndex=i
+
+document.getElementById("detailImg").src=produk[i].gambar
+
+document.getElementById("detailNama").innerText=produk[i].nama
+
+document.getElementById("detailHarga").innerText="Rp"+produk[i].harga.toLocaleString()
+
+document.getElementById("detailBox").style.display="flex"
+
+}
+
+function tutupDetail(){
+
+document.getElementById("detailBox").style.display="none"
 
 }
 
