@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Medanshoping</title>
 
 <style>
@@ -21,8 +20,8 @@ padding:15px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-font-weight:bold;
 font-size:20px;
+font-weight:bold;
 }
 
 .cart{
@@ -34,9 +33,9 @@ cursor:pointer;
 }
 
 .banner{
-background:#ffcc00;
-text-align:center;
+background:#ffd000;
 padding:10px;
+text-align:center;
 font-weight:bold;
 }
 
@@ -89,6 +88,10 @@ margin-top:8px;
 cursor:pointer;
 }
 
+.rating{
+color:orange;
+}
+
 #cartBox{
 position:fixed;
 top:0;
@@ -117,10 +120,6 @@ overflow:auto;
 #detail img{
 width:100%;
 border-radius:10px;
-}
-
-.rating{
-color:orange;
 }
 
 </style>
@@ -199,7 +198,7 @@ deskripsi:"Jaket pria stylish dan hangat."
 
 ]
 
-let keranjang=[]
+let keranjang = JSON.parse(localStorage.getItem("keranjang")) || []
 
 function tampilProduk(data){
 
@@ -289,6 +288,8 @@ html+=`<p>${p.nama} - Rp${p.harga.toLocaleString()}</p>`
 document.getElementById("cartItems").innerHTML=html
 document.getElementById("totalHarga").innerText=total.toLocaleString()
 
+localStorage.setItem("keranjang", JSON.stringify(keranjang))
+
 }
 
 function bukaCart(){
@@ -317,11 +318,12 @@ pesan+=p.nama+" - Rp"+p.harga+"%0A"
 
 })
 
-window.open("https://wa.me/?text="+pesan)
+window.open("https://wa.me/6281220549530?text="+pesan)
 
 }
 
 tampilProduk(produk)
+updateCart()
 
 </script>
 
