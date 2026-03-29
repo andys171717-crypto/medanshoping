@@ -10,7 +10,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             background-color: #f9f9f9;
-            padding-top: 80px; /* Memberikan ruang di bagian atas */
+            padding-top: 120px; /* Memberikan ruang di bagian atas untuk elemen sticky */
         }
 
         /* CSS untuk Header */
@@ -45,10 +45,33 @@
             z-index: 90; /* Agar banner tetap di atas konten */
         }
 
+        /* CSS untuk Elemen Pencarian yang tetap di atas */
+        .search {
+            position: sticky;
+            top: 120px; /* Menjaga elemen pencarian tetap di atas saat scroll */
+            z-index: 10;
+            padding: 10px 0;
+            background-color: #fff;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .search input {
+            width: 80%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            background-color: #ff6600;
+            color: white;
+            font-size: 16px;
+        }
+
         /* CSS untuk Elemen Kategori yang sticky */
         .kategori {
             position: sticky;
-            top: 120px; /* Menjaga elemen kategori tetap terlihat saat scroll */
+            top: 180px; /* Menjaga elemen kategori tetap di atas saat scroll */
             background-color: #fff;
             z-index: 10;
             padding: 10px 0;
@@ -70,24 +93,6 @@
 
         .kategori button:hover {
             background-color: #ff9900;
-        }
-
-        /* CSS untuk Elemen Pencarian */
-        .search {
-            padding: 15px;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .search input {
-            width: 80%;
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #ddd;
-            background-color: #ff6600;
-            color: white;
-            font-size: 16px;
         }
 
         /* CSS untuk Produk */
