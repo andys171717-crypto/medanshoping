@@ -167,7 +167,7 @@ border-radius:10px;
 
 <div class="menu">
 
-<div class="btn" onclick="bukaWishlist()">❤️</div>
+<div class="btn">❤️</div>
 
 <div class="btn" onclick="bukaCart()">
 Keranjang (<span id="totalCart">0</span>)
@@ -260,6 +260,11 @@ deskripsi:"Jaket pria stylish."
 
 let keranjang = JSON.parse(localStorage.getItem("keranjang")) || []
 
+keranjang = keranjang.map(p=>{
+if(!p.qty){p.qty=1}
+return p
+})
+
 function tampilProduk(data){
 
 let html=""
@@ -294,7 +299,7 @@ document.getElementById("productList").innerHTML=html
 
 function beli(i){
 
-let item = keranjang.find(p => p.nama === produk[i].nama)
+let item = keranjang.find(p=>p.nama===produk[i].nama)
 
 if(item){
 
@@ -340,24 +345,27 @@ let jumlah=0
 
 keranjang.forEach((p,i)=>{
 
-let subtotal=p.harga*p.qty
+let qty=p.qty||1
+let harga=p.harga||0
 
-jumlah+=p.qty
+let subtotal=qty*harga
+
+jumlah+=qty
 total+=subtotal
 
 html+=`
 
-<div style="border-bottom:1px solid #ddd;padding:8px">
+<div style="border-bottom:1px solid #ddd;padding:10px">
 
 <b>${p.nama}</b><br>
 
-Rp${p.harga.toLocaleString()}
+Rp${harga.toLocaleString()}
 
 <div class="qty">
 
 <button onclick="kurangQty(${i})">-</button>
 
-${p.qty}
+${qty}
 
 <button onclick="tambahQty(${i})">+</button>
 
@@ -440,7 +448,7 @@ let pesan="Halo Medanshoping,%0A%0ASaya ingin membeli:%0A"
 
 keranjang.forEach((p)=>{
 
-pesan+=p.nama+" x"+p.qty+" - Rp"+(p.harga*p.qty)+"%0A"
+pesan+=p.nama+" x"+p.qty+" - Rp"+(p.qty*p.harga)+"%0A"
 
 })
 
