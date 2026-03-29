@@ -33,9 +33,10 @@
         }
         .banner {
             background: #ffd000;
-            padding: 10px;
+            padding: 15px;
             text-align: center;
             font-weight: bold;
+            font-size: 20px;
         }
         .search {
             padding: 15px;
@@ -57,6 +58,11 @@
             padding: 6px 10px;
             border-radius: 20px;
             cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .kategori button:hover {
+            background-color: #ff6600;
+            color: white;
         }
         .products {
             display: grid;
@@ -154,17 +160,22 @@
             border-radius: 6px;
             border: 1px solid #ccc;
         }
+        #userInfo {
+            font-weight: bold;
+            color: white;
+        }
     </style>
 </head>
 <body>
 
 <header>
-    🛒 Medanshoping
+    <span>🛒 Medanshoping</span>
     <div class="menu">
         <div class="btn">❤️</div>
-        <div class="btn" onclick="bukaCart()"> Keranjang (<span id="totalCart">0</span>) </div>
+        <div class="btn" onclick="bukaCart()">Keranjang (<span id="totalCart">0</span>)</div>
         <div class="btn" id="loginBtn" onclick="loginPage()">Login</div>
         <div class="btn" id="logoutBtn" style="display:none;" onclick="logout()">Logout</div>
+        <div class="btn" id="userInfo" style="display:none;"></div>
     </div>
 </header>
 
@@ -198,10 +209,10 @@
 </div>
 
 <div class="kategori">
-    <button onclick="filterKategori('all')">Semua</button>
-    <button onclick="filterKategori('fashion')">Fashion</button>
-    <button onclick="filterKategori('tas')">Tas</button>
-    <button onclick="filterKategori('sepatu')">Sepatu</button>
+    <button onclick="filterKategori('all')" id="kategoriAll">Semua</button>
+    <button onclick="filterKategori('fashion')" id="kategoriFashion">Fashion</button>
+    <button onclick="filterKategori('tas')" id="kategoriTas">Tas</button>
+    <button onclick="filterKategori('sepatu')" id="kategoriSepatu">Sepatu</button>
 </div>
 
 <div class="products" id="productList"></div>
@@ -249,6 +260,8 @@
             document.getElementById("loginForm").style.display = "none";
             document.getElementById("loginBtn").style.display = "none";
             document.getElementById("logoutBtn").style.display = "block";
+            document.getElementById("userInfo").style.display = "block";
+            document.getElementById("userInfo").innerText = `Hello, ${storedUsername}`;
             alert("Login Berhasil!");
         } else {
             alert("Username atau password salah!");
@@ -259,6 +272,7 @@
         localStorage.removeItem("isLoggedIn");
         document.getElementById("loginBtn").style.display = "block";
         document.getElementById("logoutBtn").style.display = "none";
+        document.getElementById("userInfo").style.display = "none";
         alert("Logout Berhasil!");
     }
 
