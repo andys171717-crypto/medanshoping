@@ -163,7 +163,8 @@
     <div class="menu">
         <div class="btn">❤️</div>
         <div class="btn" onclick="bukaCart()"> Keranjang (<span id="totalCart">0</span>) </div>
-        <div class="btn" onclick="loginPage()">Login</div>
+        <div class="btn" id="loginBtn" onclick="loginPage()">Login</div>
+        <div class="btn" id="logoutBtn" style="display:none;" onclick="logout()">Logout</div>
     </div>
 </header>
 
@@ -210,7 +211,7 @@
     <div id="cartItems"></div>
     <h3>Total: Rp<span id="totalHarga">0</span></h3>
     <br>
-    <button onclick="checkout()">Checkout</button>
+    <button id="checkoutBtn" onclick="checkout()" disabled>Checkout</button>
     <br><br>
     <button onclick="tutupCart()">Tutup</button>
 </div>
@@ -227,6 +228,7 @@
 
     let keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
     let isLoggedIn = localStorage.getItem("isLoggedIn");
+    let storedUsername = localStorage.getItem("username");
 
     keranjang = keranjang.map(p => { if (!p.qty) { p.qty = 1 } return p });
 
@@ -245,10 +247,19 @@
         if (username.toLowerCase() === storedUsername.toLowerCase() && password === storedPassword) {
             localStorage.setItem("isLoggedIn", true);
             document.getElementById("loginForm").style.display = "none";
+            document.getElementById("loginBtn").style.display = "none";
+            document.getElementById("logoutBtn").style.display = "block";
             alert("Login Berhasil!");
         } else {
             alert("Username atau password salah!");
         }
+    }
+
+    function logout() {
+        localStorage.removeItem("isLoggedIn");
+        document.getElementById("loginBtn").style.display = "block";
+        document.getElementById("logoutBtn").style.display = "none";
+        alert("Logout Berhasil!");
     }
 
     function showRegister() {
@@ -329,6 +340,11 @@
     }
 
     function beliProduk(i) {
+        if (!isLoggedIn) {
+            alert("Anda harus login terlebih dahulu!");
+            return;
+        }
+
         let qty = parseInt(document.getElementById("qty" + i).value) || 1;
         let item = keranjang.find(p => p.nama === produk[i].nama);
         if (item) {
@@ -409,6 +425,11 @@
     }
 
     function checkout() {
+        if (!isLoggedIn) {
+            alert("Anda harus login terlebih dahulu!");
+            return;
+        }
+
         let pesan = "Halo Medanshoping,%0A%0ASaya ingin membeli:%0A";
         keranjang.forEach((p) => {
             pesan += p.nama + " x" + p.qty + " - Rp" + (p.qty * p.harga) + "%0A";
