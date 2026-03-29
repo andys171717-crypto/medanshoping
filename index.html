@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medanshoping</title>
     <style>
+        /* Global Style */
         body {
-            font-family: Arial;
+            font-family: Arial, sans-serif;
             margin: 0;
             background: #f2f2f2;
         }
@@ -20,8 +22,7 @@
             align-items: center;
             font-size: 20px;
             font-weight: bold;
-            position: fixed;
-            width: 100%;
+            position: sticky;
             top: 0;
             z-index: 100;
         }
@@ -45,49 +46,49 @@
             text-align: center;
             font-weight: bold;
             font-size: 20px;
-            margin-top: 60px;
+            position: sticky;
+            top: 50px;
             z-index: 99;
-            position: relative;
         }
 
-        .search {
-            padding: 15px;
-            margin-top: 150px;
+        /* Search and Category Bar */
+        .search,
+        .kategori {
+            position: sticky;
+            top: 100px;
+            background-color: white;
+            z-index: 10;
+            padding: 10px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
         }
 
         .search input {
-            width: 100%;
+            width: 80%;
             padding: 10px;
             border-radius: 6px;
-            border: 1px solid #ddd;
+            border: 1px solid #ccc;
             background-color: #ff6600;
             color: white;
-        }
-
-        .kategori {
-            display: flex;
-            gap: 10px;
-            padding: 10px;
-            margin-top: 20px;
-            position: sticky;
-            top: 200px;
-            z-index: 50;
-            background: white;
         }
 
         .kategori button {
             border: 1px solid #ddd;
             background: #ff6600;
-            padding: 6px 10px;
+            padding: 6px 12px;
             border-radius: 20px;
             cursor: pointer;
             color: white;
+            transition: background-color 0.3s;
         }
 
         .kategori button:hover {
             background-color: #ff9900;
         }
 
+        /* Products Section */
         .products {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -151,6 +152,7 @@
             text-align: center;
         }
 
+        /* Cart Box */
         #cartBox {
             position: fixed;
             top: 0;
@@ -164,6 +166,7 @@
             overflow: auto;
         }
 
+        /* Detail Product Box */
         #detail {
             position: fixed;
             top: 0;
@@ -181,23 +184,7 @@
             border-radius: 10px;
         }
 
-        .form-container {
-            width: 300px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-        }
-
-        .form-container input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 6px;
-            border: 1px solid #ccc;
-        }
-
+        /* User Info */
         #userInfo {
             font-weight: bold;
             color: white;
@@ -205,48 +192,23 @@
             padding: 6px 12px;
             border-radius: 6px;
         }
-
-        .form-container a {
-            color: #ff6600;
-            text-decoration: none;
-        }
     </style>
 </head>
+
 <body>
+
     <header>
         <span>🛒 Medanshoping</span>
         <div class="menu">
-            <div class="btn">❤️</div>
             <div class="btn" onclick="bukaCart()">Keranjang (<span id="totalCart">0</span>)</div>
             <div class="btn" id="loginBtn" onclick="loginPage()">Login</div>
             <div class="btn" id="logoutBtn" style="display:none;" onclick="logout()">Logout</div>
             <div class="btn" id="userInfo" style="display:none;"></div>
         </div>
     </header>
-    
+
     <div class="banner">
         🔥 Promo Medanshoping Diskon Sampai 70%!
-    </div>
-
-    <!-- Form Login -->
-    <div id="loginForm" class="form-container" style="display:none;">
-        <h2>Login Medanshoping</h2>
-        <input type="text" id="username" placeholder="Username" /><br>
-        <input type="password" id="password" placeholder="Password" /><br>
-        <button onclick="login()">Login</button><br><br>
-        <a href="javascript:void(0);" onclick="showRegister()">Daftar</a> | 
-        <a href="javascript:void(0);" onclick="forgotPassword()">Lupa Password</a>
-    </div>
-
-    <!-- Form Daftar -->
-    <div id="registerForm" class="form-container" style="display:none;">
-        <h2>Registrasi Medanshoping</h2>
-        <input type="text" id="regUsername" placeholder="Username" /><br>
-        <input type="password" id="regPassword" placeholder="Password (min 5 karakter)" /><br>
-        <input type="password" id="regConfirmPassword" placeholder="Konfirmasi Password" /><br>
-        <input type="text" id="securityQuestion" placeholder="Pertanyaan Keamanan: Nama ibu kandung?" /><br>
-        <button onclick="register()">Daftar</button><br><br>
-        <a href="javascript:void(0);" onclick="showLogin()">Login</a>
     </div>
 
     <div class="search">
@@ -294,14 +256,13 @@
             document.getElementById("logoutBtn").style.display = "block";
             document.getElementById("userInfo").style.display = "block";
             document.getElementById("userInfo").innerText = `Hello, ${storedUsername}`;
-            tampilProduk(produk); // Tampilkan produk hanya jika sudah login
         } else {
             document.getElementById("loginBtn").style.display = "block";
             document.getElementById("logoutBtn").style.display = "none";
             document.getElementById("userInfo").style.display = "none";
         }
 
-        // Login
+        // Fungsi Login
         function loginPage() {
             document.getElementById("loginForm").style.display = "block";
         }
@@ -321,7 +282,6 @@
                 document.getElementById("userInfo").style.display = "block";
                 document.getElementById("userInfo").innerText = `Hello, ${storedUsername}`;
                 alert("Login Berhasil!");
-                tampilProduk(produk); // Tampilkan produk setelah login
             } else {
                 alert("Username atau password salah!");
             }
@@ -335,7 +295,45 @@
             alert("Logout Berhasil!");
         }
 
-        // Daftar Produk
+        function showRegister() {
+            document.getElementById("loginForm").style.display = "none";
+            document.getElementById("registerForm").style.display = "block";
+        }
+
+        function showLogin() {
+            document.getElementById("registerForm").style.display = "none";
+            document.getElementById("loginForm").style.display = "block";
+        }
+
+        function forgotPassword() {
+            alert("Form Lupa Password");
+        }
+
+        // Registrasi
+        function register() {
+            const username = document.getElementById("regUsername").value.trim();
+            const password = document.getElementById("regPassword").value.trim();
+            const confirmPassword = document.getElementById("regConfirmPassword").value.trim();
+            const securityQuestion = document.getElementById("securityQuestion").value.trim();
+
+            if (password.length < 5) {
+                alert("Password harus minimal 5 karakter!");
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert("Password dan konfirmasi password tidak cocok!");
+            } else {
+                localStorage.setItem("username", username);
+                localStorage.setItem("password", password);
+                localStorage.setItem("securityQuestion", securityQuestion);
+                alert("Pendaftaran berhasil! Silakan login.");
+                document.getElementById("registerForm").style.display = "none";
+                document.getElementById("loginForm").style.display = "block";
+            }
+        }
+
+        // Fungsi Produk
         function tampilProduk(data) {
             let html = "";
             data.forEach((p, i) => {
@@ -359,9 +357,125 @@
             document.getElementById("productList").innerHTML = html;
         }
 
-        // Function lainnya (kurangProduk, tambahProduk, beliProduk, checkout, dll) 
-        // Akan ada di script yang lebih lengkap, pastikan semua fungsi dikelola dengan baik.
+        // Fungsi tambah/kurang produk ke keranjang
+        function tambahProduk(i) {
+            let input = document.getElementById("qty" + i);
+            let val = parseInt(input.value) || 1;
+            if (val < 99) {
+                input.value = val + 1;
+            }
+        }
 
+        function kurangProduk(i) {
+            let input = document.getElementById("qty" + i);
+            let val = parseInt(input.value) || 1;
+            if (val > 1) {
+                input.value = val - 1;
+            }
+        }
+
+        function beliProduk(i) {
+            if (!isLoggedIn) {
+                alert("Anda harus login terlebih dahulu!");
+                return;
+            }
+
+            let qty = parseInt(document.getElementById("qty" + i).value) || 1;
+            let item = keranjang.find(p => p.nama === produk[i].nama);
+            if (item) {
+                item.qty += qty;
+            } else {
+                keranjang.push({ ...produk[i], qty: qty });
+            }
+            updateCart();
+            document.getElementById("qty" + i).value = 1;
+        }
+
+        function updateCart() {
+            let html = "";
+            let total = 0;
+            let jumlah = 0;
+
+            keranjang.forEach((p, i) => {
+                let subtotal = p.qty * p.harga;
+                jumlah += p.qty;
+                total += subtotal;
+                html += `
+                    <div style="border-bottom:1px solid #ddd;padding:10px">
+                        <b>${p.nama}</b><br> Rp${p.harga.toLocaleString()}
+                        <div class="qty">
+                            <button onclick="kurangQty(${i})">-</button>
+                            ${p.qty}
+                            <button onclick="tambahQty(${i})">+</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById("cartItems").innerHTML = html;
+            document.getElementById("totalHarga").innerText = total.toLocaleString();
+            document.getElementById("totalCart").innerText = jumlah;
+
+            localStorage.setItem("keranjang", JSON.stringify(keranjang));
+        }
+
+        function bukaCart() {
+            document.getElementById("cartBox").style.right = "0";
+        }
+
+        function tutupCart() {
+            document.getElementById("cartBox").style.right = "-100%";
+        }
+
+        function filterKategori(k) {
+            if (k === "all") {
+                tampilProduk(produk);
+            } else {
+                let hasil = produk.filter(p => p.kategori === k);
+                tampilProduk(hasil);
+            }
+        }
+
+        function cariProduk(text) {
+            let hasil = produk.filter(p => p.nama.toLowerCase().includes(text.toLowerCase()));
+            tampilProduk(hasil);
+        }
+
+        function detail(i) {
+            let p = produk[i];
+            document.getElementById("detail").style.display = "block";
+            document.getElementById("detail").innerHTML = `
+                <button onclick="tutupDetail()">⬅ Kembali</button>
+                <h2>${p.nama}</h2>
+                <img src="${p.gambar}">
+                <p>⭐ ${p.rating}</p>
+                <p>${p.deskripsi}</p>
+                <h3>Rp${p.harga.toLocaleString()}</h3>
+                <button onclick="beliProduk(${i})">Tambah Keranjang</button>
+            `;
+        }
+
+        function tutupDetail() {
+            document.getElementById("detail").style.display = "none";
+        }
+
+        function checkout() {
+            if (!isLoggedIn) {
+                alert("Anda harus login terlebih dahulu!");
+                return;
+            }
+
+            let pesan = "Halo Medanshoping,%0A%0ASaya ingin membeli:%0A";
+            keranjang.forEach((p) => {
+                pesan += p.nama + " x" + p.qty + " - Rp" + (p.qty * p.harga) + "%0A";
+            });
+            window.open("https://wa.me/6281220549530?text=" + pesan);
+        }
+
+        tampilProduk(produk);
+        updateCart();
     </script>
+
 </body>
+
 </html>
