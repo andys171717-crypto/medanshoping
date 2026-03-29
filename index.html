@@ -1,16 +1,115 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Medanshoping</title>
+
+<style>
+body{
+font-family:Arial;
+margin:0;
+background:#f4f4f4;
+}
+
+header{
+background:#ff6600;
+color:white;
+padding:15px;
+text-align:center;
+font-size:22px;
+font-weight:bold;
+}
+
+.search{
+text-align:center;
+padding:15px;
+}
+
+.search input{
+width:80%;
+padding:10px;
+border-radius:5px;
+border:1px solid #ccc;
+}
+
+.products{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+padding:15px;
+}
+
+.card{
+background:white;
+border-radius:10px;
+box-shadow:0 2px 5px rgba(0,0,0,0.2);
+padding:10px;
+text-align:center;
+}
+
+.card img{
+width:100%;
+border-radius:10px;
+}
+
+.price{
+color:green;
+font-weight:bold;
+}
+
+button{
+background:#ff6600;
+color:white;
+border:none;
+padding:8px 12px;
+border-radius:5px;
+margin-top:5px;
+}
+</style>
 </head>
 
 <body>
 
-<h1>🛒 Medanshoping</h1>
+<header>
+🛒 Medanshoping
+</header>
 
-<h2>Selamat datang di marketplace Medanshoping</h2>
+<div class="search">
+<input type="text" placeholder="Cari produk...">
+</div>
 
-<p>Website marketplace sederhana.</p>
+<div class="products">
+
+<div class="card">
+<img src="https://picsum.photos/200?1">
+<h3>Baju Fashion</h3>
+<p class="price">Rp120.000</p>
+<button>Beli</button>
+</div>
+
+<div class="card">
+<img src="https://picsum.photos/200?2">
+<h3>Tas Wanita</h3>
+<p class="price">Rp150.000</p>
+<button>Beli</button>
+</div>
+
+<div class="card">
+<img src="https://picsum.photos/200?3">
+<h3>Sepatu Trend</h3>
+<p class="price">Rp200.000</p>
+<button>Beli</button>
+</div>
+
+<div class="card">
+<img src="https://picsum.photos/200?4">
+<h3>Jaket Pria</h3>
+<p class="price">Rp250.000</p>
+<button>Beli</button>
+</div>
+
+</div>
 
 </body>
 </html>
