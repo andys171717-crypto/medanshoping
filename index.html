@@ -1,6 +1,10 @@
-<!DOCTYPE html><html>
-<head><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TembungShoping</title><style>
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TembungShoping</title>
+
+<style>
 
 body{
 margin:0;
@@ -10,30 +14,31 @@ padding-bottom:80px;
 }
 
 .header{
-background:#2c3e50;
+background:#34495e;
 padding:10px;
 display:flex;
-gap:10px;
 align-items:center;
+gap:10px;
 }
 
 .search{
 flex:1;
 padding:10px;
-border:none;
 border-radius:20px;
+border:none;
+outline:none;
 }
 
 .icon{
-color:white;
 font-size:22px;
+color:white;
 cursor:pointer;
 position:relative;
 }
 
-.cartcount{
+.cart-count{
 position:absolute;
-top:-6px;
+top:-5px;
 right:-8px;
 background:red;
 color:white;
@@ -42,11 +47,29 @@ padding:2px 6px;
 border-radius:50%;
 }
 
+.menu{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+background:white;
+padding:10px;
+text-align:center;
+font-size:14px;
+}
+
+.circle{
+width:45px;
+height:45px;
+background:#34495e;
+border-radius:50%;
+margin:auto;
+margin-bottom:5px;
+}
+
 .products{
+padding:10px;
 display:grid;
 grid-template-columns:repeat(2,1fr);
-gap:10px;
-padding:10px;
+gap:12px;
 }
 
 .product{
@@ -66,14 +89,14 @@ object-fit:cover;
 padding:10px;
 }
 
-.rating{
-color:orange;
-}
-
 .price{
 color:#e74c3c;
 font-weight:bold;
 font-size:18px;
+}
+
+.rating{
+color:orange;
 }
 
 button{
@@ -87,7 +110,7 @@ margin-top:6px;
 cursor:pointer;
 }
 
-.cartpanel{
+.cart-popup{
 position:fixed;
 top:0;
 right:-100%;
@@ -95,55 +118,98 @@ width:80%;
 height:100%;
 background:white;
 padding:20px;
-overflow:auto;
 transition:0.3s;
-z-index:999;
+overflow:auto;
+z-index:1000;
 }
 
-.cartpanel.show{
+.cart-popup.active{
 right:0;
 }
 
 .bottom{
 position:fixed;
 bottom:0;
+left:0;
 width:100%;
 background:white;
 display:flex;
 justify-content:space-around;
 padding:10px;
 box-shadow:0 -2px 10px rgba(0,0,0,0.1);
-font-size:13px;
 }
 
-</style></head><body><div class="header"><input class="search" id="search" placeholder="Cari produk di tembungshoping"><div class="icon" onclick="toggleCart()">
-🛒
-<span class="cartcount" id="cartcount">0</span>
-</div></div><div class="products" id="products"></div><div class="cartpanel" id="cartpanel"><h2>Keranjang</h2><div id="cartitems"></div><h3 id="total"></h3><button onclick="checkout()">Checkout</button>
+</style>
+</head>
 
-</div><div class="bottom"><div>🏠<br>Beranda</div>
+<body>
+
+<div class="header">
+
+<input class="search" id="search" placeholder="Cari produk di TembungShoping">
+
+<div class="icon" onclick="toggleCart()">
+🛒
+<span id="cartcount" class="cart-count">0</span>
+</div>
+
+<div class="icon" onclick="chatAdmin()">💬</div>
+
+</div>
+
+<div class="menu">
+<div><div class="circle"></div>Pulsa</div>
+<div><div class="circle"></div>Promo</div>
+<div><div class="circle"></div>Game</div>
+<div><div class="circle"></div>Live</div>
+<div><div class="circle"></div>Lainnya</div>
+</div>
+
+<div class="products" id="products"></div>
+
+<div class="cart-popup" id="cartpopup">
+
+<h2>Keranjang</h2>
+
+<div id="cartitems"></div>
+
+<h3 id="total"></h3>
+
+<button onclick="checkout()">Checkout</button>
+<br><br>
+<button onclick="toggleCart()" style="background:#e74c3c;">Tutup</button>
+
+</div>
+
+<div class="bottom">
+<div>🏠<br>Beranda</div>
 <div>📺<br>Live</div>
 <div>🔔<br>Notif</div>
-<div>👤<br>Akun</div></div><script>
+<div>👤<br>Akun</div>
+</div>
 
-var produk=[
+<script>
 
-{nama:"Sepatu Sport",harga:100000,img:"images/sepatu.jpg"},
-{nama:"Headphone Gaming",harga:200000,img:"images/headphone.jpg"},
-{nama:"Jam Tangan",harga:150000,img:"images/jam.jpg"},
-{nama:"Tas Fashion",harga:180000,img:"images/tas.jpg"},
-{nama:"Laptop Gaming",harga:8500000,img:"images/laptop.jpg"},
-{nama:"Mouse Gaming",harga:120000,img:"images/mouse.jpg"},
-{nama:"Keyboard RGB",harga:350000,img:"images/keyboard.jpg"},
-{nama:"Smartphone Android",harga:2500000,img:"images/hp.jpg"},
-{nama:"Kamera Digital",harga:3200000,img:"images/kamera.jpg"},
-{nama:"Speaker Bluetooth",harga:450000,img:"images/speaker.jpg"},
-{nama:"Power Bank",harga:95000,img:"images/powerbank.jpg"},
-{nama:"Kacamata Fashion",harga:80000,img:"images/kacamata.jpg"}
+let produk=[
+
+{nama:"Sepatu Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=60"},
+{nama:"Headphone Gaming",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=500&q=60"},
+{nama:"Jam Tangan",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=500&q=60"},
+{nama:"Tas Fashion",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=500&q=60"},
+
+{nama:"Laptop Gaming",harga:8500000,img:"https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=500&q=60"},
+{nama:"Mouse Gaming",harga:120000,img:"https://images.unsplash.com/photo-1527814050087-3793815479db?auto=format&fit=crop&w=500&q=60"},
+{nama:"Keyboard RGB",harga:350000,img:"https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=500&q=60"},
+{nama:"Smartphone Android",harga:2500000,img:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=500&q=60"},
+
+{nama:"Kamera Digital",harga:3200000,img:"https://images.unsplash.com/photo-1519183071298-a2962be96a27?auto=format&fit=crop&w=500&q=60"},
+{nama:"Speaker Bluetooth",harga:450000,img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad?auto=format&fit=crop&w=500&q=60"},
+{nama:"Power Bank",harga:95000,img:"https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=500&q=60"},
+{nama:"Kacamata Fashion",harga:80000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=500&q=60"}
 
 ]
 
-var cart=[]
+let cart=[]
 
 function rupiah(x){
 return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,".")
@@ -151,39 +217,39 @@ return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,".")
 
 function tampilProduk(){
 
-var html=""
+let html=""
 
-for(var i=0;i<produk.length;i++){
+produk.forEach(p=>{
 
 html+=`
 <div class="product">
 
-<img src="${produk[i].img}">
+<img src="${p.img}">
 
 <div class="info">
 
-<b>${produk[i].nama}</b>
+<b>${p.nama}</b>
 
 <div class="rating">⭐⭐⭐⭐☆</div>
 
-<div class="price">Rp${rupiah(produk[i].harga)}</div>
+<div class="price">Rp${rupiah(p.harga)}</div>
 
-<button onclick="addCart(${i})">Tambah Keranjang</button>
+<button onclick="addcart('${p.nama}',${p.harga})">Tambah Keranjang</button>
 
 </div>
 
 </div>
 `
 
-}
+})
 
 document.getElementById("products").innerHTML=html
 
 }
 
-function addCart(i){
+function addcart(nama,harga){
 
-cart.push(produk[i])
+cart.push({nama,harga})
 
 updateCart()
 
@@ -195,65 +261,65 @@ function updateCart(){
 
 document.getElementById("cartcount").innerText=cart.length
 
-var total=0
-var html=""
+let items=""
+let total=0
 
-for(var i=0;i<cart.length;i++){
+cart.forEach(p=>{
+items+=`<div>${p.nama} - Rp${rupiah(p.harga)}</div>`
+total+=p.harga
+})
 
-html+=cart[i].nama+" - Rp"+rupiah(cart[i].harga)+"<br>"
-
-total+=cart[i].harga
-
-}
-
-document.getElementById("cartitems").innerHTML=html
-document.getElementById("total").innerText="Total Rp"+rupiah(total)
+document.getElementById("cartitems").innerHTML=items
+document.getElementById("total").innerText="Total: Rp"+rupiah(total)
 
 }
 
 function toggleCart(){
-
-var c=document.getElementById("cartpanel")
-
-if(c.classList.contains("show")){
-c.classList.remove("show")
-}else{
-c.classList.add("show")
-}
-
+document.getElementById("cartpopup").classList.toggle("active")
 }
 
 function checkout(){
 
-var nomor="6281234567890"
-
-var pesan="Halo saya mau pesan:%0A"
-
-for(var i=0;i<cart.length;i++){
-pesan+=cart[i].nama+" Rp"+rupiah(cart[i].harga)+"%0A"
+if(cart.length==0){
+alert("Keranjang kosong")
+return
 }
 
-window.open("https://wa.me/"+nomor+"?text="+pesan)
+let nomor="6281220549530"
 
+let text="Halo TembungShoping,%0ASaya ingin memesan:%0A%0A"
+
+cart.forEach(p=>{
+text+=p.nama+" - Rp"+rupiah(p.harga)+"%0A"
+})
+
+window.open("https://wa.me/"+nomor+"?text="+text)
+
+}
+
+function chatAdmin(){
+window.open("https://wa.me/6281220549530")
 }
 
 document.getElementById("search").addEventListener("keyup",function(){
 
-var val=this.value.toLowerCase()
+let input=this.value.toLowerCase()
 
-var items=document.querySelectorAll(".product")
+let cards=document.querySelectorAll(".product")
 
-for(var i=0;i<items.length;i++){
+cards.forEach(c=>{
 
-var txt=items[i].innerText.toLowerCase()
+let text=c.innerText.toLowerCase()
 
-items[i].style.display=txt.includes(val)?"":"none"
+c.style.display=text.includes(input)?"":"none"
 
-}
+})
 
 })
 
 tampilProduk()
 
-</script></body>
+</script>
+
+</body>
 </html>
