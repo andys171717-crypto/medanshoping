@@ -204,9 +204,7 @@ let produk=[
 {nama:"Laptop Gaming",harga:8500000,img:"https://images.unsplash.com/photo-1517336714731-489689fd1ca8"},
 {nama:"Mouse Gaming",harga:120000,img:"https://images.unsplash.com/photo-1527814050087-3793815479db"},
 {nama:"Smartphone Android",harga:2500000,img:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9"},
-{nama:"Speaker Bluetooth",harga:450000,img:"https://images.unsplash.com/photo-1545454675-3531b543be5d"},
-{nama:"Power Bank",harga:95000,img:"https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5"},
-{nama:"Kacamata Fashion",harga:80000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083"}
+{nama:"Speaker Bluetooth",harga:450000,img:"https://images.unsplash.com/photo-1545454675-3531b543be5d"}
 
 ]
 
@@ -253,6 +251,8 @@ function addcart(nama,harga){
 
 cart.push({nama,harga})
 
+localStorage.setItem("cart",JSON.stringify(cart))
+
 updateCart()
 
 addNotif("🛒 "+nama+" ditambahkan ke keranjang")
@@ -262,6 +262,8 @@ alert("Produk masuk keranjang")
 }
 
 function updateCart(){
+
+localStorage.setItem("cart",JSON.stringify(cart))
 
 document.getElementById("cartcount").innerText=cart.length
 
@@ -376,6 +378,13 @@ c.style.display=text.includes(input)?"":"none"
 })
 
 })
+
+let savedCart = localStorage.getItem("cart")
+
+if(savedCart){
+cart = JSON.parse(savedCart)
+updateCart()
+}
 
 tampilProduk()
 
