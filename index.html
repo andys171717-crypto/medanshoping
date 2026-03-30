@@ -141,6 +141,41 @@ padding:10px;
 box-shadow:0 -2px 10px rgba(0,0,0,0.1);
 }
 
+/* POPUP */
+
+.popup-bg{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:2000;
+}
+
+.popup-box{
+background:white;
+width:80%;
+max-width:300px;
+padding:20px;
+border-radius:12px;
+text-align:center;
+animation:popup 0.3s;
+}
+
+.popup-box button{
+background:#34495e;
+margin-top:15px;
+}
+
+@keyframes popup{
+from{transform:scale(0.7);opacity:0}
+to{transform:scale(1);opacity:1}
+}
+
 </style></head><body><div class="header"><input class="search" id="search" placeholder="Cari produk di TembungShoping"><div class="icon" onclick="toggleCart()">
 🛒
 <span id="cartcount" class="cart-count">0</span>
@@ -158,20 +193,25 @@ box-shadow:0 -2px 10px rgba(0,0,0,0.1);
 
 <h2>Keranjang</h2><div id="cartitems"></div><h3 id="total"></h3><button onclick="checkout()">Checkout</button>
 
-</div><div class="bottom"><div onclick="menuHome()">🏠<br>Beranda</div><div onclick="menuLive2()">📺<br>Live</div><div onclick="menuNotif()">🔔<br>Notif</div><div onclick="menuAkun()">👤<br>Akun</div></div><script>
+</div><div class="bottom"><div onclick="menuHome()">🏠<br>Beranda</div><div onclick="menuLive2()">📺<br>Live</div><div onclick="menuNotif()">🔔<br>Notif</div><div onclick="menuAkun()">👤<br>Akun</div></div><!-- POPUP --><div class="popup-bg" id="popup"><div class="popup-box"><h3>🚧 Fitur Belum Tersedia</h3><p>
+Fitur ini sedang dalam pengembangan<br>
+dan akan segera hadir di <b>TembungShoping</b>.
+</p><button onclick="closePopup()">Oke</button>
+
+</div></div><script>
 
 let produk=[
 
-{nama:"Sepatu Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=60"},
-{nama:"Headphone Gaming",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=500&q=60"},
-{nama:"Jam Tangan",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=500&q=60"},
-{nama:"Tas Fashion",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=500&q=60"},
-{nama:"Laptop Gaming",harga:8500000,img:"https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=500&q=60"},
-{nama:"Mouse Gaming",harga:120000,img:"https://images.unsplash.com/photo-1527814050087-3793815479db?auto=format&fit=crop&w=500&q=60"},
-{nama:"Smartphone Android",harga:2500000,img:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=500&q=60"},
-{nama:"Speaker Bluetooth",harga:450000,img:"https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=500&q=60"},
-{nama:"Power Bank",harga:95000,img:"https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?auto=format&fit=crop&w=500&q=60"},
-{nama:"Kacamata Fashion",harga:80000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=500&q=60"}
+{nama:"Sepatu Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff"},
+{nama:"Headphone Gaming",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e"},
+{nama:"Jam Tangan",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30"},
+{nama:"Tas Fashion",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e"},
+{nama:"Laptop Gaming",harga:8500000,img:"https://images.unsplash.com/photo-1517336714731-489689fd1ca8"},
+{nama:"Mouse Gaming",harga:120000,img:"https://images.unsplash.com/photo-1527814050087-3793815479db"},
+{nama:"Smartphone Android",harga:2500000,img:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9"},
+{nama:"Speaker Bluetooth",harga:450000,img:"https://images.unsplash.com/photo-1545454675-3531b543be5d"},
+{nama:"Power Bank",harga:95000,img:"https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5"},
+{nama:"Kacamata Fashion",harga:80000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083"}
 
 ]
 
@@ -267,16 +307,30 @@ function chatAdmin(){
 window.open("https://wa.me/6281220549530")
 }
 
-function menuPulsa(){alert("Menu Pulsa")}
-function menuPromo(){alert("Menu Promo")}
-function menuGame(){alert("Menu Game")}
-function menuLive(){alert("Menu Live")}
-function menuLain(){alert("Menu Lainnya")}
+/* POPUP */
 
-function menuHome(){alert("Halaman Beranda")}
-function menuLive2(){alert("Live Streaming")}
-function menuNotif(){alert("Notifikasi")}
-function menuAkun(){alert("Halaman Akun")}
+function openPopup(){
+document.getElementById("popup").style.display="flex"
+}
+
+function closePopup(){
+document.getElementById("popup").style.display="none"
+}
+
+/* MENU */
+
+function menuPulsa(){openPopup()}
+function menuPromo(){openPopup()}
+function menuGame(){openPopup()}
+function menuLive(){openPopup()}
+function menuLain(){openPopup()}
+
+function menuHome(){openPopup()}
+function menuLive2(){openPopup()}
+function menuNotif(){openPopup()}
+function menuAkun(){openPopup()}
+
+/* SEARCH */
 
 document.getElementById("search").addEventListener("keyup",function(){
 
