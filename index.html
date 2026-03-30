@@ -3,180 +3,176 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedanShopping - Marketplace Online</title>
+    <title>MedanShopping</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
+        /* Resetting basic styles */
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
+            font-family: Arial, sans-serif;
             overflow-x: hidden;
-            background-color: #f8f8f8;
+            background-color: #f7f7f7;
         }
 
         /* Header */
         header {
-            background-color: #333;
+            background-color: #ff6600;
             color: white;
-            padding: 15px 30px;
+            padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 1000;
         }
 
         header .logo a {
-            font-size: 30px;
             color: white;
-            text-decoration: none;
+            font-size: 24px;
             font-weight: bold;
-            margin-right: 30px;
-        }
-
-        header .menu {
-            display: flex;
-            align-items: center;
-        }
-
-        header .menu a {
-            color: white;
             text-decoration: none;
-            margin: 0 20px;
-            font-size: 18px;
-        }
-
-        header .menu a:hover {
-            color: #f1c40f;
         }
 
         header .search-bar {
-            width: 250px;
+            width: 300px;
             padding: 10px;
-            border-radius: 25px;
-            border: 1px solid #ccc;
-            background-color: #fff;
-        }
-
-        header .menu-icons {
-            display: flex;
-            align-items: center;
+            border-radius: 20px;
+            border: none;
+            margin-right: 10px;
         }
 
         header .menu-icons a {
             color: white;
             margin: 0 15px;
-            font-size: 22px;
+            font-size: 20px;
         }
 
         header .menu-icons a:hover {
-            color: #f1c40f;
+            color: #ffcc00;
         }
 
-        header .hamburger-menu {
-            display: none;
+        /* Main Content */
+        .main-content {
+            margin-top: 80px; /* To avoid overlapping with fixed header */
         }
 
-        /* Banner */
         .banner {
-            background: #f1c40f;
+            background-color: #ff6600;
             color: white;
-            padding: 80px 0;
             text-align: center;
+            padding: 60px 20px;
         }
 
         .banner h1 {
-            font-size: 36px;
-            margin-bottom: 20px;
+            font-size: 28px;
+            margin-bottom: 15px;
         }
 
         .banner p {
             font-size: 18px;
-            margin-bottom: 30px;
-        }
-
-        .banner .btn {
-            background-color: #333;
-            color: white;
-            padding: 12px 30px;
-            border-radius: 25px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .banner .btn:hover {
-            background-color: #f1c40f;
-            color: #333;
-        }
-
-        /* Product Cards */
-        .products {
-            padding: 40px 0;
-            text-align: center;
-        }
-
-        .products h2 {
-            font-size: 32px;
             margin-bottom: 20px;
         }
 
-        .product-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 15px;
-            width: 100%;
-            padding: 0 20px;
+        .banner .btn {
+            padding: 15px 30px;
+            background-color: white;
+            color: #ff6600;
+            font-weight: bold;
+            border-radius: 25px;
+            text-decoration: none;
         }
 
-        .product-item {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s ease-in-out;
+        .banner .btn:hover {
+            background-color: #ffcc00;
+            color: white;
+        }
+
+        /* Category Icons */
+        .category-icons {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #fff;
+        }
+
+        .category-icons div {
             text-align: center;
+        }
+
+        .category-icons div i {
+            font-size: 30px;
+            color: #ff6600;
+        }
+
+        .category-icons div p {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        /* Products Section */
+        .products {
+            padding: 30px;
+            background-color: #fff;
+        }
+
+        .products h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .product-card {
+            background-color: #fff;
             border: 1px solid #eee;
-        }
-
-        .product-item:hover {
-            transform: scale(1.05);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .product-item img {
-            width: 100%;
-            height: auto;
             border-radius: 10px;
-            margin-bottom: 15px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        .product-item h3 {
-            font-size: 18px;
+        .product-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .product-card h3 {
+            font-size: 16px;
             margin: 10px 0;
         }
 
-        .product-item p {
-            font-size: 16px;
-            color: #333;
-        }
-
-        .product-item .btn {
-            background-color: #333;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            margin-top: 15px;
+        .product-card p {
+            font-size: 14px;
+            color: #ff6600;
             font-weight: bold;
         }
 
-        .product-item .btn:hover {
-            background-color: #f1c40f;
+        .product-card .btn {
+            padding: 10px;
+            background-color: #ff6600;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-top: 10px;
+        }
+
+        .product-card .btn:hover {
+            background-color: #ffcc00;
         }
 
         /* Footer */
@@ -185,51 +181,32 @@
             color: white;
             text-align: center;
             padding: 20px;
+            font-size: 14px;
         }
 
         footer a {
-            color: #fff;
+            color: white;
             text-decoration: none;
             margin: 0 10px;
         }
 
         footer a:hover {
-            color: #f1c40f;
+            color: #ffcc00;
         }
 
-        /* Mobile Specific Styling */
+        /* Mobile */
         @media (max-width: 768px) {
             header .search-bar {
                 width: 200px;
             }
 
-            .product-item {
-                width: 100%;  /* Makes product cards take up most of the width on mobile */
-                margin: 10px auto;
+            .category-icons {
+                flex-direction: column;
+                align-items: center;
             }
 
-            .banner h1 {
-                font-size: 28px;
-            }
-
-            .banner p {
-                font-size: 16px;
-            }
-
-            .menu-icons a {
-                font-size: 20px;
-            }
-
-            .menu-icons {
-                display: none;
-            }
-
-            /* Hamburger Menu */
-            .hamburger-menu {
-                display: block;
-                font-size: 30px;
-                cursor: pointer;
-                margin-right: 15px;
+            .category-icons div {
+                margin-bottom: 10px;
             }
         }
     </style>
@@ -241,90 +218,82 @@
         <div class="logo">
             <a href="#">MedanShopping</a>
         </div>
-        <div class="menu">
-            <a href="index.html">Home</a>
-            <a href="index.html#products">Products</a>
-            <input type="text" class="search-bar" placeholder="Cari produk...">
-        </div>
+        <input type="text" class="search-bar" placeholder="Cari produk...">
         <div class="menu-icons">
-            <a href="#" title="Favorit"><i class="fa fa-heart"></i></a> <!-- Heart icon for favorites -->
-            <a href="#" title="Keranjang"><i class="fa fa-shopping-cart"></i></a> <!-- Cart icon -->
-            <a href="login.html" title="Login"><i class="fa fa-user"></i></a> <!-- User login -->
-        </div>
-        <div class="hamburger-menu">
-            <i class="fa fa-bars"></i>
+            <a href="#"><i class="fas fa-shopping-cart"></i></a> <!-- Cart Icon -->
+            <a href="#"><i class="fas fa-bell"></i></a> <!-- Notification Icon -->
+            <a href="#"><i class="fas fa-heart"></i></a> <!-- Favorite Icon -->
         </div>
     </header>
 
-    <!-- Banner -->
-    <section class="banner">
-        <div class="banner-content">
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <!-- Banner -->
+        <section class="banner">
             <h1>Selamat datang di MedanShopping</h1>
             <p>Dapatkan produk terbaik dengan harga terjangkau.</p>
-            <a href="index.html#products" class="btn">Belanja Sekarang</a>
-        </div>
-    </section>
+            <a href="#products" class="btn">Belanja Sekarang</a>
+        </section>
 
-    <!-- Featured Products -->
-    <section class="products" id="products">
-        <h2>Produk Unggulan</h2>
-        <div class="product-list" id="product-list">
-            <!-- Produk akan ditambahkan lewat JavaScript -->
-        </div>
-    </section>
+        <!-- Category Icons -->
+        <section class="category-icons">
+            <div>
+                <i class="fas fa-mobile-alt"></i>
+                <p>Elektronik</p>
+            </div>
+            <div>
+                <i class="fas fa-tshirt"></i>
+                <p>Pakaian</p>
+            </div>
+            <div>
+                <i class="fas fa-home"></i>
+                <p>Perabot</p>
+            </div>
+            <div>
+                <i class="fas fa-laptop"></i>
+                <p>Gadget</p>
+            </div>
+        </section>
+
+        <!-- Products -->
+        <section class="products" id="products">
+            <h2>Produk Unggulan</h2>
+            <div class="product-grid">
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150" alt="Produk 1">
+                    <h3>Produk 1</h3>
+                    <p>Rp 100,000</p>
+                    <a href="#" class="btn">Tambahkan ke Keranjang</a>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150" alt="Produk 2">
+                    <h3>Produk 2</h3>
+                    <p>Rp 200,000</p>
+                    <a href="#" class="btn">Tambahkan ke Keranjang</a>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150" alt="Produk 3">
+                    <h3>Produk 3</h3>
+                    <p>Rp 300,000</p>
+                    <a href="#" class="btn">Tambahkan ke Keranjang</a>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150" alt="Produk 4">
+                    <h3>Produk 4</h3>
+                    <p>Rp 400,000</p>
+                    <a href="#" class="btn">Tambahkan ke Keranjang</a>
+                </div>
+            </div>
+        </section>
+
+    </div>
 
     <!-- Footer -->
     <footer>
         <p>&copy; 2026 MedanShopping. All rights reserved.</p>
         <p><a href="#">Privacy Policy</a> | <a href="#">Terms & Conditions</a></p>
     </footer>
-
-    <script>
-        // Menampilkan produk dari localStorage atau produk dummy jika belum ada produk
-        function renderProducts() {
-            const productList = document.getElementById('product-list');
-            const products = JSON.parse(localStorage.getItem('products')) || [];
-
-            if (products.length === 0) {
-                // Produk dummy jika belum ada produk di localStorage
-                const dummyProducts = [
-                    { name: 'Produk 1', price: '100,000', image: 'images/no-image.jpg' },
-                    { name: 'Produk 2', price: '200,000', image: 'images/no-image.jpg' },
-                    { name: 'Produk 3', price: '300,000', image: 'images/no-image.jpg' },
-                    { name: 'Produk 4', price: '400,000', image: 'images/no-image.jpg' },
-                ];
-
-                // Tampilkan produk dummy
-                dummyProducts.forEach((product) => {
-                    const productItem = document.createElement('div');
-                    productItem.classList.add('product-item');
-                    productItem.innerHTML = `
-                        <img src="${product.image}" alt="${product.name}">
-                        <h3>${product.name}</h3>
-                        <p>Rp ${product.price}</p>
-                        <button class="btn">Tambahkan ke Keranjang</button>
-                    `;
-                    productList.appendChild(productItem);
-                });
-            } else {
-                // Tampilkan produk dari localStorage
-                products.forEach((product) => {
-                    const productItem = document.createElement('div');
-                    productItem.classList.add('product-item');
-                    productItem.innerHTML = `
-                        <img src="${product.image || 'images/no-image.jpg'}" alt="${product.name}">
-                        <h3>${product.name}</h3>
-                        <p>Rp ${product.price}</p>
-                        <button class="btn">Tambahkan ke Keranjang</button>
-                    `;
-                    productList.appendChild(productItem);
-                });
-            }
-        }
-
-        // Render produk saat halaman dimuat
-        renderProducts();
-    </script>
 
 </body>
 </html>
