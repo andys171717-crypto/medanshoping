@@ -4,143 +4,322 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Medanshoping</title>
+    <title>MedanShopping - Marketplace Online</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        /* General Styling */
+        * {
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
         header {
-            background-color: orange;
-            color: white;
-            text-align: center;
+            background: #333;
+            color: #fff;
             padding: 10px 0;
         }
-        header .logo {
-            width: 150px;
-        }
-        header h1 {
-            font-size: 30px;
-            margin-top: 10px;
-        }
-        .promo {
-            background-color: yellow;
-            color: black;
-            padding: 10px;
-            font-size: 18px;
-            text-align: center;
-        }
-        .product-container {
+
+        header nav {
             display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
-            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
         }
-        .product {
-            background-color: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 200px;
-            padding: 10px;
-            margin: 10px;
+
+        header .logo a {
+            font-size: 24px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        header .menu a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+
+        header .menu a:hover {
+            color: #f1c40f;
+        }
+
+        /* Logo Styling */
+        header .logo {
+            font-size: 26px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        header .logo a {
+            color: #f1c40f;
+            font-size: 28px;
+        }
+
+        /* Banner Styling */
+        .banner {
+            background: url('images/banner.jpg') no-repeat center center/cover;
+            color: #fff;
+            padding: 100px 0;
             text-align: center;
-            border-radius: 10px;
         }
-        .product img {
-            width: 100%;
-            border-radius: 5px;
-        }
-        .product h2 {
-            font-size: 18px;
-            margin-top: 10px;
-        }
-        .product .price {
-            color: green;
-            font-size: 16px;
-            margin: 10px 0;
-        }
-        .product .rating {
-            color: gold;
-            font-size: 14px;
-        }
-        .product .add-cart {
-            background-color: orange;
-            color: white;
-            border: none;
-            padding: 10px;
-            width: 100%;
-            margin-top: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        .product .add-cart:hover {
-            background-color: darkorange;
-        }
-        .nav-buttons {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .nav-buttons button {
+
+        .banner .btn {
+            background: #f1c40f;
+            color: #fff;
             padding: 10px 20px;
-            margin: 5px;
-            background-color: orange;
-            color: white;
-            border: none;
-            cursor: pointer;
+            text-decoration: none;
             border-radius: 5px;
+            font-size: 16px;
         }
-        .nav-buttons button:hover {
-            background-color: darkorange;
+
+        /* Admin Panel Styling */
+        .admin-panel {
+            padding: 20px;
+            max-width: 600px;
+            margin: 20px auto;
+            background: #f4f4f4;
+            border-radius: 8px;
+        }
+
+        .admin-panel form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .admin-panel label {
+            margin: 10px 0 5px;
+        }
+
+        .admin-panel input, .admin-panel textarea {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .admin-panel button {
+            background: #333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .admin-panel button:hover {
+            background: #f1c40f;
+        }
+
+        /* Login Section Styling */
+        .login-section {
+            padding: 20px;
+            max-width: 400px;
+            margin: 50px auto;
+            background: #f4f4f4;
+            border-radius: 8px;
+        }
+
+        .login-section form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .login-section label {
+            margin: 10px 0 5px;
+        }
+
+        .login-section input {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .login-section button {
+            background: #333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .login-section button:hover {
+            background: #f1c40f;
+        }
+
+        /* Footer Styling */
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        footer a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #f1c40f;
+        }
+
+        /* Product Section */
+        .products {
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        .products h2 {
+            margin-bottom: 30px;
+        }
+
+        .product-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .product-item {
+            background: #f4f4f4;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            width: 200px;
+            margin: 10px;
+        }
+
+        .product-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .product-item .btn {
+            background: #333;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .product-item .btn:hover {
+            background: #f1c40f;
         }
     </style>
 </head>
 <body>
+
+    <!-- Header -->
     <header>
-        <img src="https://ibb.co/n4cfgJK" alt="Medanshoping Logo" class="logo">
-        <h1>Medanshoping</h1>
+        <nav>
+            <div class="logo">
+                <a href="#">MedanShopping</a>
+            </div>
+            <div class="menu">
+                <a href="index.html">Home</a>
+                <a href="index.html#products">Products</a>
+                <a href="login.html">Admin Login</a>
+            </div>
+        </nav>
     </header>
 
-    <div class="promo">
-        <span>🔥 Promo Medanshoping Diskon Sampai 70%! 🔥</span>
-    </div>
+    <!-- Banner -->
+    <section class="banner">
+        <div class="banner-content">
+            <h1>Selamat datang di MedanShopping</h1>
+            <p>Dapatkan produk terbaik dengan harga terjangkau.</p>
+            <a href="index.html#products" class="btn">Belanja Sekarang</a>
+        </div>
+    </section>
 
-    <div class="product-container">
-        <div class="product">
-            <img src="https://i.ibb.co/Z26HHjt/baju.jpg" alt="Baju Fashion">
-            <h2>Baju Fashion</h2>
-            <div class="price">Rp 120.000</div>
-            <div class="rating">⭐ 4.5</div>
-            <button class="add-cart">Tambah Keranjang</button>
+    <!-- Featured Products -->
+    <section class="products" id="products">
+        <h2>Produk Unggulan</h2>
+        <div class="product-list" id="product-list">
+            <!-- Produk akan ditambahkan lewat JavaScript -->
         </div>
-        <div class="product">
-            <img src="https://i.ibb.co/Z26HHjt/tas.jpg" alt="Tas Wanita">
-            <h2>Tas Wanita</h2>
-            <div class="price">Rp 150.000</div>
-            <div class="rating">⭐ 4.6</div>
-            <button class="add-cart">Tambah Keranjang</button>
-        </div>
-        <div class="product">
-            <img src="https://i.ibb.co/Z26HHjt/sepatu.jpg" alt="Sepatu Trend">
-            <h2>Sepatu Trend</h2>
-            <div class="price">Rp 200.000</div>
-            <div class="rating">⭐ 4.7</div>
-            <button class="add-cart">Tambah Keranjang</button>
-        </div>
-        <div class="product">
-            <img src="https://i.ibb.co/Z26HHjt/jaket.jpg" alt="Jaket Pria">
-            <h2>Jaket Pria</h2>
-            <div class="price">Rp 250.000</div>
-            <div class="rating">⭐ 4.8</div>
-            <button class="add-cart">Tambah Keranjang</button>
-        </div>
-    </div>
+    </section>
 
-    <div class="nav-buttons">
-        <button>Semua</button>
-        <button>Fashion</button>
-        <button>Tas</button>
-        <button>Sepatu</button>
-    </div>
-</body>
-</html>
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 MedanShopping. All rights reserved.</p>
+        <p><a href="#">Privacy Policy</a> | <a href="#">Terms & Conditions</a></p>
+    </footer>
+
+    <!-- Admin Panel (Tambah Produk) -->
+    <section class="admin-panel">
+        <h2>Tambah Produk Baru</h2>
+        <form id="product-form">
+            <label for="product-name">Nama Produk:</label>
+            <input type="text" id="product-name" required>
+
+            <label for="product-price">Harga Produk:</label>
+            <input type="number" id="product-price" required>
+
+            <label for="product-description">Deskripsi Produk:</label>
+            <textarea id="product-description" required></textarea>
+
+            <label for="product-image">Gambar Produk (URL):</label>
+            <input type="text" id="product-image">
+
+            <button type="submit" class="btn">Tambahkan Produk</button>
+        </form>
+    </section>
+
+    <!-- Login Admin (login.html) -->
+    <section class="login-section">
+        <h2>Login Admin</h2>
+        <form id="login-form">
+            <label for="username">Username:</label>
+            <input type="text" id="username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" required>
+
+            <button type="submit" class="btn">Login</button>
+        </form>
+        <p id="error-message" style="color: red; display: none;">Username atau Password salah!</p>
+    </section>
+
+    <script>
+        // Simpan data login admin
+        const adminCredentials = {
+            username: 'admin',
+            password: 'admin123'
+        };
+
+        // Validasi Login
+        const loginForm = document.getElementById('login-form');
+        const errorMessage = document.getElementById('error-message');
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === adminCredentials.username && password === adminCredentials.password) {
+                localStorage.setItem('isAdminLoggedIn', 'true');
+                window.location.href = 'admin.html';
+            } else {
+                errorMessage.style.display = 'block';
+            }
+        });
+
+        // Admin Panel Access
+        if (localStorage.getItem('isAdminLoggedIn') !== 'true') {
+            window.location.href = 'login.html';
+        }
+
+        // Menambah Produk
+        const productForm = document.getElementById('product-form');
+        productForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const productName = document.getElementById('
