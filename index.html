@@ -3,180 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medanshoping Marketplace</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Medanshoping</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f2f2f2;
+            background-color: #f9f9f9;
         }
-
-        /* Header */
         header {
-            background-color: #FF6A00;
-            padding: 20px;
-            text-align: center;
-        }
-
-        header img {
-            width: 150px;
-            height: auto;
-        }
-
-        header h1 {
-            font-size: 24px;
+            background-color: orange;
             color: white;
+            text-align: center;
+            padding: 10px 0;
+        }
+        header .logo {
+            width: 150px;
+        }
+        header h1 {
+            font-size: 30px;
             margin-top: 10px;
         }
-
-        /* Promo Banner */
-        .promo-banner {
-            background-color: #FFEB3B;
-            text-align: center;
+        .promo {
+            background-color: yellow;
+            color: black;
             padding: 10px;
-            font-weight: bold;
-            font-size: 1.2em;
+            font-size: 18px;
+            text-align: center;
         }
-
-        /* Categories */
-        .category-menu {
+        .product-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .product {
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            padding: 10px;
+            margin: 10px;
+            text-align: center;
+            border-radius: 10px;
+        }
+        .product img {
+            width: 100%;
+            border-radius: 5px;
+        }
+        .product h2 {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        .product .price {
+            color: green;
+            font-size: 16px;
+            margin: 10px 0;
+        }
+        .product .rating {
+            color: gold;
+            font-size: 14px;
+        }
+        .product .add-cart {
+            background-color: orange;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .product .add-cart:hover {
+            background-color: darkorange;
+        }
+        .nav-buttons {
             text-align: center;
             margin-top: 20px;
         }
-
-        .category-menu button {
+        .nav-buttons button {
             padding: 10px 20px;
-            font-size: 16px;
             margin: 5px;
-            border: none;
-            background-color: #FF6A00;
+            background-color: orange;
             color: white;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .category-menu button:hover {
-            background-color: #e65100;
-        }
-
-        /* Product Section */
-        .product-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            padding: 20px;
-        }
-
-        .product-card {
-            background-color: white;
-            padding: 20px;
-            margin: 10px;
-            width: 200px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
-
-        .product-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .product-card h3 {
-            margin-top: 10px;
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .product-card p {
-            color: #666;
-            font-size: 16px;
-        }
-
-        .product-card .price {
-            color: green;
-            font-weight: bold;
-            font-size: 18px;
-            margin-top: 10px;
-        }
-
-        .product-card button {
-            background-color: #FF6A00;
-            color: white;
-            padding: 10px;
             border: none;
-            width: 100%;
-            border-radius: 5px;
             cursor: pointer;
-            margin-top: 10px;
+            border-radius: 5px;
         }
-
-        .product-card button:hover {
-            background-color: #e65100;
+        .nav-buttons button:hover {
+            background-color: darkorange;
         }
     </style>
 </head>
 <body>
-
-    <!-- Header with Logo -->
     <header>
-        <a href="https://ibb.co/n4cfgJK">
-            <img src="https://drive.google.com/uc?export=view&id=1KqaIBF03F1jQ5HNfyrAQHG7pvRsndRvH" alt="Medanshoping Logo">
-        </a>
+        <img src="https://ibb.co/n4cfgJK" alt="Medanshoping Logo" class="logo">
         <h1>Medanshoping</h1>
     </header>
 
-    <!-- Promo Banner -->
-    <div class="promo-banner">
-        🔥 Promo Medanshoping Diskon Sampai 70%! 🔥
+    <div class="promo">
+        <span>🔥 Promo Medanshoping Diskon Sampai 70%! 🔥</span>
     </div>
 
-    <!-- Categories -->
-    <div class="category-menu">
+    <div class="product-container">
+        <div class="product">
+            <img src="https://i.ibb.co/Z26HHjt/baju.jpg" alt="Baju Fashion">
+            <h2>Baju Fashion</h2>
+            <div class="price">Rp 120.000</div>
+            <div class="rating">⭐ 4.5</div>
+            <button class="add-cart">Tambah Keranjang</button>
+        </div>
+        <div class="product">
+            <img src="https://i.ibb.co/Z26HHjt/tas.jpg" alt="Tas Wanita">
+            <h2>Tas Wanita</h2>
+            <div class="price">Rp 150.000</div>
+            <div class="rating">⭐ 4.6</div>
+            <button class="add-cart">Tambah Keranjang</button>
+        </div>
+        <div class="product">
+            <img src="https://i.ibb.co/Z26HHjt/sepatu.jpg" alt="Sepatu Trend">
+            <h2>Sepatu Trend</h2>
+            <div class="price">Rp 200.000</div>
+            <div class="rating">⭐ 4.7</div>
+            <button class="add-cart">Tambah Keranjang</button>
+        </div>
+        <div class="product">
+            <img src="https://i.ibb.co/Z26HHjt/jaket.jpg" alt="Jaket Pria">
+            <h2>Jaket Pria</h2>
+            <div class="price">Rp 250.000</div>
+            <div class="rating">⭐ 4.8</div>
+            <button class="add-cart">Tambah Keranjang</button>
+        </div>
+    </div>
+
+    <div class="nav-buttons">
         <button>Semua</button>
         <button>Fashion</button>
         <button>Tas</button>
         <button>Sepatu</button>
     </div>
-
-    <!-- Product Section -->
-    <div class="product-container">
-        <div class="product-card">
-            <img src="https://via.placeholder.com/200" alt="Baju Fashion">
-            <h3>Baju Fashion</h3>
-            <p class="price">Rp 120.000</p>
-            <p>⭐ 4.5</p>
-            <button>Tambah Keranjang</button>
-        </div>
-
-        <div class="product-card">
-            <img src="https://via.placeholder.com/200" alt="Tas Wanita">
-            <h3>Tas Wanita</h3>
-            <p class="price">Rp 150.000</p>
-            <p>⭐ 4.6</p>
-            <button>Tambah Keranjang</button>
-        </div>
-
-        <div class="product-card">
-            <img src="https://via.placeholder.com/200" alt="Sepatu Trend">
-            <h3>Sepatu Trend</h3>
-            <p class="price">Rp 200.000</p>
-            <p>⭐ 4.7</p>
-            <button>Tambah Keranjang</button>
-        </div>
-
-        <div class="product-card">
-            <img src="https://via.placeholder.com/200" alt="Jaket Pria">
-            <h3>Jaket Pria</h3>
-            <p class="price">Rp 250.000</p>
-            <p>⭐ 4.8</p>
-            <button>Tambah Keranjang</button>
-        </div>
-    </div>
-
 </body>
 </html>
