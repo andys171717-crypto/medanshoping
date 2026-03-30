@@ -6,10 +6,15 @@
     <title>MedanShopping - Marketplace Online</title>
     <style>
         /* General Styles */
-        body {
-            font-family: 'Arial', sans-serif;
+        * {
+            box-sizing: border-box; /* Ensure padding and border don't affect element width */
+        }
+
+        body, html {
             margin: 0;
             padding: 0;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+            width: 100%;
             background-color: #f8f8f8;
         }
 
@@ -25,6 +30,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 10px 20px;
+            width: 100%;
         }
 
         header .logo a {
@@ -106,6 +112,7 @@
             flex-wrap: wrap;
             justify-content: center;
             gap: 15px;  /* To add spacing between product cards */
+            width: 100%;
         }
 
         .product-item {
