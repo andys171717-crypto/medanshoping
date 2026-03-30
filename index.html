@@ -187,7 +187,11 @@ margin-top:15px;
 
 </div><div class="cart-popup" id="notifpopup"><button class="close-cart" onclick="toggleNotif()">Tutup</button>
 
-<h2>Notifikasi</h2><div id="notifitems">Belum ada notifikasi</div></div><div class="bottom"><div onclick="menuHome()">🏠<br>Beranda</div><div onclick="openPopup()">📺<br>Live</div><div onclick="toggleNotif()">🔔<br>Notif</div><div onclick="openPopup()">👤<br>Akun</div></div><div class="popup-bg" id="popup"><div class="popup-box"><h3>🚧 Fitur Belum Tersedia</h3><p>Fitur ini sedang dalam pengembangan dan akan segera hadir di <b>TembungShoping</b>.</p><button onclick="closePopup()">Oke</button>
+<h2>Notifikasi</h2><div id="notifitems">Belum ada notifikasi</div></div><div class="bottom"><div onclick="menuHome()">🏠<br>Beranda</div><div onclick="openPopup()">📺<br>Live</div><div class="icon" onclick="toggleNotif()">
+🔔
+<span id="notifcount" class="cart-count">0</span>
+<br>Notif
+</div><div onclick="openPopup()">👤<br>Akun</div></div><div class="popup-bg" id="popup"><div class="popup-box"><h3>🚧 Fitur Belum Tersedia</h3><p>Fitur ini sedang dalam pengembangan dan akan segera hadir di <b>TembungShoping</b>.</p><button onclick="closePopup()">Oke</button>
 
 </div></div><script>
 
@@ -279,12 +283,18 @@ document.getElementById("cartpopup").classList.toggle("active")
 }
 
 function toggleNotif(){
+
 document.getElementById("notifpopup").classList.toggle("active")
+
+document.getElementById("notifcount").innerText="0"
+
 }
 
 function addNotif(text){
 
 notif.unshift(text)
+
+document.getElementById("notifcount").innerText=notif.length
 
 let html=""
 
