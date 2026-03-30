@@ -65,14 +65,15 @@ margin-bottom:5px;
 padding:10px;
 display:grid;
 grid-template-columns:repeat(2,1fr);
-gap:10px;
+gap:12px;
 }
 
 .product{
 background:white;
-border-radius:10px;
+border-radius:12px;
 overflow:hidden;
-box-shadow:0 2px 6px rgba(0,0,0,0.1);
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
+cursor:pointer;
 }
 
 .product img{
@@ -82,27 +83,30 @@ object-fit:cover;
 }
 
 .info{
-padding:8px;
+padding:10px;
 }
 
 .price{
 color:#e74c3c;
 font-weight:bold;
+font-size:18px;
 }
 
 .rating{
-font-size:12px;
+font-size:14px;
 color:orange;
+margin:3px 0;
 }
 
 button{
 width:100%;
-padding:6px;
+padding:8px;
 border:none;
 background:#27ae60;
 color:white;
-border-radius:5px;
-margin-top:5px;
+border-radius:6px;
+margin-top:6px;
+font-size:14px;
 }
 
 /* BOTTOM MENU */
@@ -121,6 +125,7 @@ box-shadow:0 -2px 5px rgba(0,0,0,0.1);
 .bottom div{
 text-align:center;
 font-size:12px;
+cursor:pointer;
 }
 
 </style>
@@ -175,7 +180,7 @@ Lainnya
 
 <div class="products" id="products">
 
-<div class="product">
+<div class="product" onclick="detail('Sepatu Sport','100000')">
 
 <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff">
 
@@ -191,7 +196,7 @@ Lainnya
 Rp100.000
 </div>
 
-<button onclick="addcart('Sepatu Sport')">
+<button onclick="addcart('Sepatu Sport',event)">
 Tambah Keranjang
 </button>
 
@@ -200,9 +205,9 @@ Tambah Keranjang
 </div>
 
 
-<div class="product">
+<div class="product" onclick="detail('Headphone Gaming','200000')">
 
-<img src="https://images.unsplash.com/photo-1518441902117-bb3f7d7b14f1">
+<img src="https://images.unsplash.com/photo-1580894732444-8ecded7900cd">
 
 <div class="info">
 
@@ -216,7 +221,7 @@ Tambah Keranjang
 Rp200.000
 </div>
 
-<button onclick="addcart('Headphone Gaming')">
+<button onclick="addcart('Headphone Gaming',event)">
 Tambah Keranjang
 </button>
 
@@ -225,7 +230,7 @@ Tambah Keranjang
 </div>
 
 
-<div class="product">
+<div class="product" onclick="detail('Jam Tangan','150000')">
 
 <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30">
 
@@ -241,7 +246,7 @@ Tambah Keranjang
 Rp150.000
 </div>
 
-<button onclick="addcart('Jam Tangan')">
+<button onclick="addcart('Jam Tangan',event)">
 Tambah Keranjang
 </button>
 
@@ -250,7 +255,7 @@ Tambah Keranjang
 </div>
 
 
-<div class="product">
+<div class="product" onclick="detail('Tas Fashion','180000')">
 
 <img src="https://images.unsplash.com/photo-1591561954557-26941169b49e">
 
@@ -266,7 +271,7 @@ Tambah Keranjang
 Rp180.000
 </div>
 
-<button onclick="addcart('Tas Fashion')">
+<button onclick="addcart('Tas Fashion',event)">
 Tambah Keranjang
 </button>
 
@@ -294,7 +299,9 @@ Tambah Keranjang
 
 let keranjang=[]
 
-function addcart(nama){
+function addcart(nama,event){
+
+event.stopPropagation()
 
 keranjang.push(nama)
 
@@ -304,7 +311,11 @@ alert(nama+" ditambahkan ke keranjang")
 
 function cart(){
 
-alert("Isi keranjang : "+keranjang.join(", "))
+if(keranjang.length==0){
+alert("Keranjang kosong")
+}else{
+alert("Isi keranjang:\n"+keranjang.join("\n"))
+}
 
 }
 
@@ -316,7 +327,7 @@ alert("Chat penjual")
 
 function home(){
 
-alert("Beranda")
+alert("Halaman beranda")
 
 }
 
@@ -328,13 +339,19 @@ alert("Live streaming")
 
 function notif(){
 
-alert("Tidak ada notifikasi")
+alert("Belum ada notifikasi")
 
 }
 
 function akun(){
 
 alert("Halaman akun")
+
+}
+
+function detail(nama,harga){
+
+alert("Produk : "+nama+"\nHarga : Rp"+harga)
 
 }
 
