@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MedanShopping - Marketplace Online</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
-        /* General Styles */
         * {
-            box-sizing: border-box; /* Ensure padding and border don't affect element width */
+            box-sizing: border-box;
         }
 
         body, html {
             margin: 0;
             padding: 0;
-            overflow-x: hidden; /* Prevent horizontal scrolling */
             width: 100%;
+            overflow-x: hidden;
             background-color: #f8f8f8;
         }
 
@@ -22,20 +22,18 @@
         header {
             background-color: #333;
             color: white;
-            padding: 15px 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            padding: 10px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 20px;
-            width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
         header .logo a {
             font-size: 28px;
-            color: #fff;
+            color: white;
             text-decoration: none;
             font-weight: bold;
         }
@@ -57,11 +55,30 @@
         }
 
         header .search-bar {
-            width: 250px;
+            width: 200px;
             padding: 8px;
             border-radius: 25px;
             border: 1px solid #ccc;
             background-color: #fff;
+        }
+
+        header .menu-icons {
+            display: flex;
+            align-items: center;
+        }
+
+        header .menu-icons a {
+            color: white;
+            margin: 0 15px;
+            font-size: 20px;
+        }
+
+        header .menu-icons a:hover {
+            color: #f1c40f;
+        }
+
+        .hamburger-menu {
+            display: none;
         }
 
         /* Banner */
@@ -108,22 +125,21 @@
         }
 
         .product-list {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;  /* To add spacing between product cards */
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
             width: 100%;
+            padding: 0 20px;
         }
 
         .product-item {
             background: white;
             border-radius: 10px;
-            margin: 10px;
             padding: 20px;
-            width: 250px;  /* Adjusting the width for a better view on mobile */
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             transition: transform 0.2s ease-in-out;
             text-align: center;
+            border: 1px solid #eee;
         }
 
         .product-item:hover {
@@ -162,22 +178,6 @@
             background-color: #f1c40f;
         }
 
-        /* Menu Icons */
-        .menu-icons {
-            display: flex;
-            align-items: center;
-        }
-
-        .menu-icons a {
-            color: white;
-            margin: 0 15px;
-            font-size: 20px;
-        }
-
-        .menu-icons a:hover {
-            color: #f1c40f;
-        }
-
         /* Footer */
         footer {
             background-color: #333;
@@ -199,11 +199,11 @@
         /* Mobile Specific Styling */
         @media (max-width: 768px) {
             header .search-bar {
-                width: 200px;
+                width: 180px;
             }
 
             .product-item {
-                width: 95%;  /* Makes product cards take up most of the width on mobile */
+                width: 100%;  /* Makes product cards take up most of the width on mobile */
                 margin: 10px auto;
             }
 
