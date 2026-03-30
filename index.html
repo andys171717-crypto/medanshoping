@@ -9,127 +9,168 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #f2f2f2;
         }
+
         header {
-            background-color: orange;
+            background-color: #ff8200;
+            padding: 20px;
             color: white;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            text-align: center;
         }
-        header h1 {
-            margin: 0;
-        }
+
         header img {
-            height: 40px;
+            width: 150px;
+            height: auto;
         }
-        nav a {
-            color: white;
-            margin: 0 10px;
-            text-decoration: none;
-        }
-        .banner {
-            background-color: yellow;
+
+        .promo {
+            background-color: #ffcc00;
             text-align: center;
             padding: 10px;
         }
-        .banner h2 {
+
+        .promo h3 {
             margin: 0;
         }
+
         .product-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
+            gap: 20px;
             padding: 20px;
         }
+
         .product-card {
-            width: 200px;
-            margin: 15px;
-            padding: 10px;
             background-color: white;
-            border-radius: 5px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 200px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
             text-align: center;
+            padding: 15px;
+            transition: transform 0.3s;
         }
+
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+
         .product-card img {
             width: 100%;
             height: 150px;
             object-fit: cover;
             border-radius: 5px;
         }
-        .product-card h3 {
-            margin: 10px 0;
+
+        .product-card h4 {
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
         }
+
         .product-card p {
-            font-size: 16px;
-            color: #333;
+            color: #666;
         }
+
+        .product-card .price {
+            font-size: 18px;
+            color: green;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
         .product-card button {
-            background-color: orange;
+            background-color: #ff8200;
+            border: none;
             color: white;
             padding: 10px;
-            border: none;
+            font-size: 16px;
             width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+        }
+
+        .product-card button:hover {
+            background-color: #e07b00;
+        }
+        
+        .category-menu {
+            text-align: center;
+            padding: 10px;
+            background-color: #ff8200;
+            color: white;
+        }
+
+        .category-menu button {
+            background-color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            color: #ff8200;
+            margin: 5px;
             cursor: pointer;
             border-radius: 5px;
         }
-        .product-card button:hover {
-            background-color: #e07b00;
+
+        .category-menu button:hover {
+            background-color: #e0a000;
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
+
     <header>
-        <img src="https://i.ibb.co/n4cfgJK/Medan-Shoping-Logo.png" alt="Medanshoping Logo">
+        <img src="https://i.ibb.co/n4cfgJK/medanshoping-logo.jpg" alt="Medanshoping Logo">
         <h1>Medanshoping</h1>
-        <nav>
-            <a href="#">Dashboard</a>
-            <a href="#">Keranjang (0)</a>
-            <a href="#">Login</a>
-        </nav>
     </header>
 
-    <!-- Banner -->
-    <section class="banner">
-        <h2>🔥 Promo Medanshoping Diskon Sampai 70%!</h2>
-    </section>
+    <div class="promo">
+        <h3>🔥 Promo Medanshoping Diskon Sampai 70%!</h3>
+    </div>
 
-    <!-- Product Section -->
-    <section class="product-container">
+    <div class="category-menu">
+        <button>Semua</button>
+        <button>Fashion</button>
+        <button>Tas</button>
+        <button>Sepatu</button>
+    </div>
+
+    <div class="product-container">
         <div class="product-card">
-            <img src="https://i.imgur.com/QPfmPfx.jpg" alt="Baju Fashion">
-            <h3>Baju Fashion</h3>
+            <img src="https://via.placeholder.com/200x150" alt="Baju Fashion">
+            <h4>Baju Fashion</h4>
             <p>⭐ 4.5</p>
-            <p>Rp 120.000</p>
+            <p class="price">Rp 120.000</p>
             <button>Tambah Keranjang</button>
         </div>
-
+        
         <div class="product-card">
-            <img src="https://i.imgur.com/QPfmPfx.jpg" alt="Tas Wanita">
-            <h3>Tas Wanita</h3>
+            <img src="https://via.placeholder.com/200x150" alt="Tas Wanita">
+            <h4>Tas Wanita</h4>
             <p>⭐ 4.6</p>
-            <p>Rp 150.000</p>
+            <p class="price">Rp 150.000</p>
             <button>Tambah Keranjang</button>
         </div>
-
+        
         <div class="product-card">
-            <img src="https://i.imgur.com/QPfmPfx.jpg" alt="Sepatu Trend">
-            <h3>Sepatu Trend</h3>
+            <img src="https://via.placeholder.com/200x150" alt="Sepatu Trend">
+            <h4>Sepatu Trend</h4>
             <p>⭐ 4.7</p>
-            <p>Rp 200.000</p>
+            <p class="price">Rp 200.000</p>
             <button>Tambah Keranjang</button>
         </div>
-
+        
         <div class="product-card">
-            <img src="https://i.imgur.com/QPfmPfx.jpg" alt="Jaket Pria">
-            <h3>Jaket Pria</h3>
+            <img src="https://via.placeholder.com/200x150" alt="Jaket Pria">
+            <h4>Jaket Pria</h4>
             <p>⭐ 4.8</p>
-            <p>Rp 250.000</p>
+            <p class="price">Rp 250.000</p>
             <button>Tambah Keranjang</button>
         </div>
-    </section>
+    </div>
+
 </body>
 </html>
