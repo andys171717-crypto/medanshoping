@@ -24,7 +24,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 30px;
+            padding: 10px 20px;
         }
 
         header .logo a {
@@ -42,7 +42,7 @@
         header .menu a {
             color: white;
             text-decoration: none;
-            margin: 0 15px;
+            margin: 0 10px;
             font-size: 16px;
         }
 
@@ -51,11 +51,10 @@
         }
 
         header .search-bar {
-            width: 350px;
-            padding: 10px;
+            width: 250px;
+            padding: 8px;
             border-radius: 25px;
             border: 1px solid #ccc;
-            margin-left: 20px;
             background-color: #fff;
         }
 
@@ -63,17 +62,17 @@
         .banner {
             background: #f1c40f;
             color: white;
-            padding: 80px 0;
+            padding: 70px 0;
             text-align: center;
         }
 
         .banner h1 {
-            font-size: 36px;
+            font-size: 32px;
             margin-bottom: 20px;
         }
 
         .banner p {
-            font-size: 20px;
+            font-size: 18px;
             margin-bottom: 30px;
         }
 
@@ -155,16 +154,15 @@
             background-color: #f1c40f;
         }
 
-        /* Icons for Menu */
+        /* Menu Icons */
         .menu-icons {
             display: flex;
-            justify-content: flex-end;
             align-items: center;
         }
 
         .menu-icons a {
             color: white;
-            margin: 0 10px;
+            margin: 0 15px;
             font-size: 20px;
         }
 
@@ -190,22 +188,39 @@
             color: #f1c40f;
         }
 
+        /* Mobile Specific Styling */
         @media (max-width: 768px) {
-            .product-item {
-                width: 100%;
-                margin-bottom: 20px;
-            }
-
             header .search-bar {
-                width: 280px;
+                width: 200px;
             }
 
-            header .menu a {
-                font-size: 14px;
+            .product-item {
+                width: 90%;
+                margin: 10px auto;
+            }
+
+            .banner h1 {
+                font-size: 28px;
+            }
+
+            .banner p {
+                font-size: 16px;
             }
 
             .menu-icons a {
                 font-size: 18px;
+            }
+
+            .menu-icons {
+                display: none;
+            }
+
+            /* Hamburger Menu */
+            .hamburger-menu {
+                display: block;
+                font-size: 30px;
+                cursor: pointer;
+                margin-right: 15px;
             }
         }
     </style>
@@ -223,10 +238,12 @@
             <input type="text" class="search-bar" placeholder="Cari produk...">
         </div>
         <div class="menu-icons">
-            <a href="#" title="Menu"><i class="fa fa-bars"></i></a> <!-- Hamburger menu -->
             <a href="#" title="Favorit"><i class="fa fa-heart"></i></a> <!-- Heart icon for favorites -->
             <a href="#" title="Keranjang"><i class="fa fa-shopping-cart"></i></a> <!-- Cart icon -->
             <a href="login.html" title="Login"><i class="fa fa-user"></i></a> <!-- User login -->
+        </div>
+        <div class="hamburger-menu">
+            <i class="fa fa-bars"></i>
         </div>
     </header>
 
