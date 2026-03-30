@@ -176,7 +176,7 @@ from{transform:scale(0.7);opacity:0}
 to{transform:scale(1);opacity:1}
 }
 
-</style></head><body><div class="header"><input class="search" id="search" placeholder="Cari produk di TembungShoping"><div class="icon" onclick="toggleCart()">
+</style></head><body id="home"><div class="header"><input class="search" id="search" placeholder="Cari produk di TembungShoping"><div class="icon" onclick="toggleCart()">
 🛒
 <span id="cartcount" class="cart-count">0</span>
 </div><div class="icon" onclick="chatAdmin()">💬</div></div><div class="menu"><div onclick="menuPulsa()">
@@ -193,7 +193,7 @@ to{transform:scale(1);opacity:1}
 
 <h2>Keranjang</h2><div id="cartitems"></div><h3 id="total"></h3><button onclick="checkout()">Checkout</button>
 
-</div><div class="bottom"><div onclick="menuHome()">🏠<br>Beranda</div><div onclick="menuLive2()">📺<br>Live</div><div onclick="menuNotif()">🔔<br>Notif</div><div onclick="menuAkun()">👤<br>Akun</div></div><!-- POPUP --><div class="popup-bg" id="popup"><div class="popup-box"><h3>🚧 Fitur Belum Tersedia</h3><p>
+</div><div class="bottom"><div onclick="menuHome()">🏠<br>Beranda</div><div onclick="menuLive2()">📺<br>Live</div><div onclick="menuNotif()">🔔<br>Notif</div><div onclick="menuAkun()">👤<br>Akun</div></div><div class="popup-bg" id="popup"><div class="popup-box"><h3>🚧 Fitur Belum Tersedia</h3><p>
 Fitur ini sedang dalam pengembangan<br>
 dan akan segera hadir di <b>TembungShoping</b>.
 </p><button onclick="closePopup()">Oke</button>
@@ -256,7 +256,6 @@ document.getElementById("products").innerHTML=html
 function addcart(nama,harga){
 
 cart.push({nama,harga})
-
 updateCart()
 
 alert("Produk masuk keranjang")
@@ -307,8 +306,6 @@ function chatAdmin(){
 window.open("https://wa.me/6281220549530")
 }
 
-/* POPUP */
-
 function openPopup(){
 document.getElementById("popup").style.display="flex"
 }
@@ -317,15 +314,11 @@ function closePopup(){
 document.getElementById("popup").style.display="none"
 }
 
-/* MENU */
-
 function menuPulsa(){openPopup()}
 function menuPromo(){openPopup()}
 function menuGame(){openPopup()}
 function menuLive(){openPopup()}
 function menuLain(){openPopup()}
-
-/* BERANDA */
 
 function menuHome(){
 window.scrollTo({
@@ -337,8 +330,6 @@ behavior:"smooth"
 function menuLive2(){openPopup()}
 function menuNotif(){openPopup()}
 function menuAkun(){openPopup()}
-
-/* SEARCH */
 
 document.getElementById("search").addEventListener("keyup",function(){
 
