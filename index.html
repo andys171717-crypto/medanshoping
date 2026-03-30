@@ -43,24 +43,6 @@ padding:2px 6px;
 border-radius:50%;
 }
 
-.menu{
-display:grid;
-grid-template-columns:repeat(5,1fr);
-background:white;
-padding:10px;
-text-align:center;
-font-size:12px;
-}
-
-.circle{
-width:40px;
-height:40px;
-background:#2c3e50;
-border-radius:50%;
-margin:auto;
-margin-bottom:5px;
-}
-
 .products{
 padding:10px;
 display:grid;
@@ -85,14 +67,14 @@ object-fit:cover;
 padding:10px;
 }
 
+.rating{
+color:orange;
+}
+
 .price{
 color:#e74c3c;
 font-weight:bold;
 font-size:18px;
-}
-
-.rating{
-color:orange;
 }
 
 button{
@@ -103,24 +85,6 @@ background:#27ae60;
 color:white;
 border-radius:6px;
 margin-top:6px;
-cursor:pointer;
-}
-
-.cart{
-position:fixed;
-top:0;
-right:-100%;
-width:80%;
-height:100%;
-background:white;
-padding:20px;
-overflow:auto;
-transition:0.3s;
-z-index:999;
-}
-
-.cart.show{
-right:0;
 }
 
 .bottom{
@@ -132,56 +96,102 @@ display:flex;
 justify-content:space-around;
 padding:10px;
 box-shadow:0 -2px 10px rgba(0,0,0,0.1);
-font-size:13px;
 }
 
-</style></head><body><div class="header"><input class="search" id="search" placeholder="Cari produk di tembungshoping"><div class="icon" onclick="toggleCart()">
+</style></head><body><div class="header"><input class="search" id="search" placeholder="Cari produk di tembungshoping"><div class="icon" onclick="alert('Keranjang kosong')">
 🛒
-<span class="cart-count" id="cartcount">0</span>
-</div><div class="icon" onclick="chat()">💬</div></div><div class="menu"><div><div class="circle"></div>Pulsa</div>
-<div><div class="circle"></div>Promo</div>
-<div><div class="circle"></div>Game</div>
-<div><div class="circle"></div>Live</div>
-<div><div class="circle"></div>Lainnya</div></div><div class="products" id="products"></div><div class="cart" id="cart"><h2>Keranjang</h2><div id="cartitems"></div><h3 id="total"></h3><button onclick="checkout()">Checkout</button>
-
-</div><div class="bottom"><div>🏠<br>Beranda</div>
+</div></div><div class="products" id="products"></div><div class="bottom">
+<div>🏠<br>Beranda</div>
 <div>📺<br>Live</div>
 <div>🔔<br>Notif</div>
-<div>👤<br>Akun</div></div><script>
+<div>👤<br>Akun</div>
+</div><script>
 
 var produk=[
 
-{nama:"Sepatu Sport",harga:100000,img:"https://cdn.pixabay.com/photo/2016/11/19/18/06/feet-1840619_1280.jpg"},
-{nama:"Headphone Gaming",harga:200000,img:"https://cdn.pixabay.com/photo/2016/11/29/09/08/headphones-1868612_1280.jpg"},
-{nama:"Jam Tangan",harga:150000,img:"https://cdn.pixabay.com/photo/2016/11/29/03/53/watch-1867783_1280.jpg"},
-{nama:"Tas Fashion",harga:180000,img:"https://cdn.pixabay.com/photo/2016/11/29/12/54/bag-1868740_1280.jpg"},
-{nama:"Laptop Gaming",harga:8500000,img:"https://cdn.pixabay.com/photo/2015/05/15/14/47/computer-768608_1280.jpg"},
-{nama:"Mouse Gaming",harga:120000,img:"https://cdn.pixabay.com/photo/2014/05/02/21/50/mouse-336657_1280.jpg"},
-{nama:"Keyboard RGB",harga:350000,img:"https://cdn.pixabay.com/photo/2016/11/29/09/32/keyboard-1868871_1280.jpg"},
-{nama:"Smartphone Android",harga:2500000,img:"https://cdn.pixabay.com/photo/2017/01/06/19/15/smartphone-1957743_1280.jpg"},
-{nama:"Kamera Digital",harga:3200000,img:"https://cdn.pixabay.com/photo/2016/11/29/05/45/camera-1867187_1280.jpg"},
-{nama:"Speaker Bluetooth",harga:450000,img:"https://cdn.pixabay.com/photo/2016/11/29/09/08/speaker-1868613_1280.jpg"},
-{nama:"Power Bank",harga:95000,img:"https://cdn.pixabay.com/photo/2017/08/06/11/58/powerbank-2590790_1280.jpg"},
-{nama:"Kacamata Fashion",harga:80000,img:"https://cdn.pixabay.com/photo/2016/11/29/04/17/sunglasses-1867570_1280.jpg"}
+{
+nama:"Sepatu Sport",
+harga:"Rp100.000",
+img:"https://upload.wikimedia.org/wikipedia/commons/8/8d/Sports_shoes.jpg"
+},
 
-]
+{
+nama:"Headphone Gaming",
+harga:"Rp200.000",
+img:"https://upload.wikimedia.org/wikipedia/commons/6/6f/Headphones_1.jpg"
+},
 
-var cart=[]
+{
+nama:"Jam Tangan",
+harga:"Rp150.000",
+img:"https://upload.wikimedia.org/wikipedia/commons/0/0f/Wrist_watch.jpg"
+},
 
-function rupiah(x){
-return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,".")
+{
+nama:"Tas Fashion",
+harga:"Rp180.000",
+img:"https://upload.wikimedia.org/wikipedia/commons/4/4c/Leather_bag.jpg"
+},
+
+{
+nama:"Laptop Gaming",
+harga:"Rp8.500.000",
+img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Laptop.jpg"
+},
+
+{
+nama:"Mouse Gaming",
+harga:"Rp120.000",
+img:"https://upload.wikimedia.org/wikipedia/commons/5/5e/Computer_mouse.jpg"
+},
+
+{
+nama:"Keyboard RGB",
+harga:"Rp350.000",
+img:"https://upload.wikimedia.org/wikipedia/commons/3/31/Computer_keyboard.jpg"
+},
+
+{
+nama:"Smartphone Android",
+harga:"Rp2.500.000",
+img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Smartphone.jpg"
+},
+
+{
+nama:"Kamera Digital",
+harga:"Rp3.200.000",
+img:"https://upload.wikimedia.org/wikipedia/commons/7/7b/Digital_camera.jpg"
+},
+
+{
+nama:"Speaker Bluetooth",
+harga:"Rp450.000",
+img:"https://upload.wikimedia.org/wikipedia/commons/4/45/Loudspeaker.jpg"
+},
+
+{
+nama:"Power Bank",
+harga:"Rp95.000",
+img:"https://upload.wikimedia.org/wikipedia/commons/1/1b/Power_bank.jpg"
+},
+
+{
+nama:"Kacamata Fashion",
+harga:"Rp80.000",
+img:"https://upload.wikimedia.org/wikipedia/commons/3/3e/Sunglasses.jpg"
 }
 
-function tampilProduk(){
+]
 
 var html=""
 
 for(var i=0;i<produk.length;i++){
 
 html+=`
+
 <div class="product">
 
-<img loading="lazy" src="${produk[i].img}">
+<img src="${produk[i].img}" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg'">
 
 <div class="info">
 
@@ -189,99 +199,19 @@ html+=`
 
 <div class="rating">⭐⭐⭐⭐☆</div>
 
-<div class="price">Rp${rupiah(produk[i].harga)}</div>
+<div class="price">${produk[i].harga}</div>
 
-<button onclick="addCart(${i})">Tambah Keranjang</button>
+<button onclick="alert('Produk ditambahkan')">Tambah Keranjang</button>
+
+</div>
 
 </div>
 
-</div>
 `
 
 }
 
 document.getElementById("products").innerHTML=html
-
-}
-
-function addCart(i){
-
-cart.push(produk[i])
-updateCart()
-
-alert("Produk masuk keranjang")
-
-}
-
-function updateCart(){
-
-document.getElementById("cartcount").innerText=cart.length
-
-var total=0
-var html=""
-
-for(var i=0;i<cart.length;i++){
-
-html+=cart[i].nama+" - Rp"+rupiah(cart[i].harga)+"<br>"
-
-total+=cart[i].harga
-
-}
-
-document.getElementById("cartitems").innerHTML=html
-document.getElementById("total").innerText="Total Rp"+rupiah(total)
-
-}
-
-function toggleCart(){
-
-var c=document.getElementById("cart")
-
-if(c.classList.contains("show")){
-c.classList.remove("show")
-}else{
-c.classList.add("show")
-}
-
-}
-
-function checkout(){
-
-var nomor="6281220549530"
-
-var pesan="Halo saya mau pesan:%0A"
-
-for(var i=0;i<cart.length;i++){
-pesan+=cart[i].nama+" Rp"+rupiah(cart[i].harga)+"%0A"
-}
-
-window.open("https://wa.me/"+nomor+"?text="+pesan)
-
-}
-
-function chat(){
-
-window.open("https://wa.me/6281220549530")
-
-}
-
-document.getElementById("search").addEventListener("keyup",function(){
-
-var val=this.value.toLowerCase()
-
-var items=document.querySelectorAll(".product")
-
-for(var i=0;i<items.length;i++){
-
-var txt=items[i].innerText.toLowerCase()
-
-items[i].style.display=txt.includes(val)?"":"none"
-
-}
-
-})
-
-tampilProduk()
 
 </script></body>
 </html>
