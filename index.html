@@ -247,6 +247,34 @@ document.getElementById("products").innerHTML=html
 
 }
 
+function renderNotif(){
+
+let html=""
+
+if(notif.length==0){
+html="Belum ada notifikasi"
+}else{
+
+notif.forEach(n=>{
+html+=`<div style="padding:8px;border-bottom:1px solid #eee">${n}</div>`
+})
+
+}
+
+document.getElementById("notifitems").innerHTML=html
+
+}
+
+function addNotif(text){
+
+notif.unshift(text)
+
+document.getElementById("notifcount").innerText=notif.length
+
+renderNotif()
+
+}
+
 function addcart(nama,harga){
 
 cart.push({nama,harga})
@@ -286,25 +314,13 @@ document.getElementById("cartpopup").classList.toggle("active")
 
 function toggleNotif(){
 
-document.getElementById("notifpopup").classList.toggle("active")
+let popup=document.getElementById("notifpopup")
+
+popup.classList.toggle("active")
+
+renderNotif()
 
 document.getElementById("notifcount").innerText="0"
-
-}
-
-function addNotif(text){
-
-notif.unshift(text)
-
-document.getElementById("notifcount").innerText=notif.length
-
-let html=""
-
-notif.forEach(n=>{
-html+=`<div style="padding:8px;border-bottom:1px solid #eee">${n}</div>`
-})
-
-document.getElementById("notifitems").innerHTML=html
 
 }
 
