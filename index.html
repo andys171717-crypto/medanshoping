@@ -234,21 +234,13 @@ produk.forEach(p=>{
 
 html+=`
 <div class="product">
-
 <img src="${p.img}">
-
 <div class="info">
-
 <b>${p.nama}</b>
-
 <div class="rating">⭐⭐⭐⭐☆</div>
-
 <div class="price">Rp${rupiah(p.harga)}</div>
-
 <button onclick="addcart('${p.nama}',${p.harga})">Tambah Keranjang</button>
-
 </div>
-
 </div>
 `
 
@@ -259,11 +251,8 @@ document.getElementById("products").innerHTML=html
 }
 
 function updateNotifCount(){
-
 let unread = notif.filter(n=>!n.read).length
-
 document.getElementById("notifcount").innerText = unread
-
 }
 
 function renderNotif(){
@@ -276,12 +265,15 @@ html="Belum ada notifikasi"
 
 notif.forEach((n,i)=>{
 
+if(typeof n==="string"){
+n={text:n,read:false}
+notif[i]=n
+}
+
 html+=`
 <div onclick="readNotif(${i})"
 class="notif-item ${n.read ? "" : "notif-unread"}">
-
 ${n.text}
-
 </div>
 `
 
@@ -290,7 +282,6 @@ ${n.text}
 }
 
 document.getElementById("notifitems").innerHTML=html
-
 }
 
 function addNotif(text){
@@ -303,7 +294,6 @@ read:false
 localStorage.setItem("notif",JSON.stringify(notif))
 
 updateNotifCount()
-
 renderNotif()
 
 }
@@ -315,7 +305,6 @@ notif[i].read=true
 localStorage.setItem("notif",JSON.stringify(notif))
 
 updateNotifCount()
-
 renderNotif()
 
 }
@@ -335,8 +324,6 @@ alert("Produk masuk keranjang")
 }
 
 function updateCart(){
-
-localStorage.setItem("cart",JSON.stringify(cart))
 
 document.getElementById("cartcount").innerText=cart.length
 
@@ -418,10 +405,7 @@ cards.forEach(c=>{
 c.style.display=""
 })
 
-window.scrollTo({
-top:0,
-behavior:"smooth"
-})
+window.scrollTo({top:0,behavior:"smooth"})
 
 }
 
@@ -459,8 +443,23 @@ updateCart()
 let savedNotif = localStorage.getItem("notif")
 
 if(savedNotif){
-notif = JSON.parse(savedNotif)
+
+let data = JSON.parse(savedNotif)
+
+notif = data.map(n=>{
+
+if(typeof n === "string"){
+return {text:n,read:false}
+}
+
+return n
+
+})
+
+localStorage.setItem("notif",JSON.stringify(notif))
+
 updateNotifCount()
+
 }
 
 tampilProduk()
