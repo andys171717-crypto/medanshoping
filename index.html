@@ -1,6 +1,5 @@
 <!DOCTYPE html><html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<head><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TembungShoping</title><style>
 
 body{
@@ -32,9 +31,9 @@ cursor:pointer;
 position:relative;
 }
 
-.cart-count{
+.cartcount{
 position:absolute;
-top:-5px;
+top:-6px;
 right:-8px;
 background:red;
 color:white;
@@ -44,10 +43,10 @@ border-radius:50%;
 }
 
 .products{
-padding:10px;
 display:grid;
 grid-template-columns:repeat(2,1fr);
 gap:10px;
+padding:10px;
 }
 
 .product{
@@ -85,6 +84,24 @@ background:#27ae60;
 color:white;
 border-radius:6px;
 margin-top:6px;
+cursor:pointer;
+}
+
+.cartpanel{
+position:fixed;
+top:0;
+right:-100%;
+width:80%;
+height:100%;
+background:white;
+padding:20px;
+overflow:auto;
+transition:0.3s;
+z-index:999;
+}
+
+.cartpanel.show{
+right:0;
 }
 
 .bottom{
@@ -96,102 +113,52 @@ display:flex;
 justify-content:space-around;
 padding:10px;
 box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+font-size:13px;
 }
 
-</style></head><body><div class="header"><input class="search" id="search" placeholder="Cari produk di tembungshoping"><div class="icon" onclick="alert('Keranjang kosong')">
+</style></head><body><div class="header"><input class="search" id="search" placeholder="Cari produk di tembungshoping"><div class="icon" onclick="toggleCart()">
 🛒
-</div></div><div class="products" id="products"></div><div class="bottom">
-<div>🏠<br>Beranda</div>
+<span class="cartcount" id="cartcount">0</span>
+</div></div><div class="products" id="products"></div><div class="cartpanel" id="cartpanel"><h2>Keranjang</h2><div id="cartitems"></div><h3 id="total"></h3><button onclick="checkout()">Checkout</button>
+
+</div><div class="bottom"><div>🏠<br>Beranda</div>
 <div>📺<br>Live</div>
 <div>🔔<br>Notif</div>
-<div>👤<br>Akun</div>
-</div><script>
+<div>👤<br>Akun</div></div><script>
 
 var produk=[
 
-{
-nama:"Sepatu Sport",
-harga:"Rp100.000",
-img:"https://upload.wikimedia.org/wikipedia/commons/8/8d/Sports_shoes.jpg"
-},
-
-{
-nama:"Headphone Gaming",
-harga:"Rp200.000",
-img:"https://upload.wikimedia.org/wikipedia/commons/6/6f/Headphones_1.jpg"
-},
-
-{
-nama:"Jam Tangan",
-harga:"Rp150.000",
-img:"https://upload.wikimedia.org/wikipedia/commons/0/0f/Wrist_watch.jpg"
-},
-
-{
-nama:"Tas Fashion",
-harga:"Rp180.000",
-img:"https://upload.wikimedia.org/wikipedia/commons/4/4c/Leather_bag.jpg"
-},
-
-{
-nama:"Laptop Gaming",
-harga:"Rp8.500.000",
-img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Laptop.jpg"
-},
-
-{
-nama:"Mouse Gaming",
-harga:"Rp120.000",
-img:"https://upload.wikimedia.org/wikipedia/commons/5/5e/Computer_mouse.jpg"
-},
-
-{
-nama:"Keyboard RGB",
-harga:"Rp350.000",
-img:"https://upload.wikimedia.org/wikipedia/commons/3/31/Computer_keyboard.jpg"
-},
-
-{
-nama:"Smartphone Android",
-harga:"Rp2.500.000",
-img:"https://upload.wikimedia.org/wikipedia/commons/3/3a/Smartphone.jpg"
-},
-
-{
-nama:"Kamera Digital",
-harga:"Rp3.200.000",
-img:"https://upload.wikimedia.org/wikipedia/commons/7/7b/Digital_camera.jpg"
-},
-
-{
-nama:"Speaker Bluetooth",
-harga:"Rp450.000",
-img:"https://upload.wikimedia.org/wikipedia/commons/4/45/Loudspeaker.jpg"
-},
-
-{
-nama:"Power Bank",
-harga:"Rp95.000",
-img:"https://upload.wikimedia.org/wikipedia/commons/1/1b/Power_bank.jpg"
-},
-
-{
-nama:"Kacamata Fashion",
-harga:"Rp80.000",
-img:"https://upload.wikimedia.org/wikipedia/commons/3/3e/Sunglasses.jpg"
-}
+{nama:"Sepatu Sport",harga:100000,img:"images/sepatu.jpg"},
+{nama:"Headphone Gaming",harga:200000,img:"images/headphone.jpg"},
+{nama:"Jam Tangan",harga:150000,img:"images/jam.jpg"},
+{nama:"Tas Fashion",harga:180000,img:"images/tas.jpg"},
+{nama:"Laptop Gaming",harga:8500000,img:"images/laptop.jpg"},
+{nama:"Mouse Gaming",harga:120000,img:"images/mouse.jpg"},
+{nama:"Keyboard RGB",harga:350000,img:"images/keyboard.jpg"},
+{nama:"Smartphone Android",harga:2500000,img:"images/hp.jpg"},
+{nama:"Kamera Digital",harga:3200000,img:"images/kamera.jpg"},
+{nama:"Speaker Bluetooth",harga:450000,img:"images/speaker.jpg"},
+{nama:"Power Bank",harga:95000,img:"images/powerbank.jpg"},
+{nama:"Kacamata Fashion",harga:80000,img:"images/kacamata.jpg"}
 
 ]
+
+var cart=[]
+
+function rupiah(x){
+return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,".")
+}
+
+function tampilProduk(){
 
 var html=""
 
 for(var i=0;i<produk.length;i++){
 
 html+=`
-
 <div class="product">
 
-<img src="${produk[i].img}" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/a/ac/No_image_available.svg'">
+<img src="${produk[i].img}">
 
 <div class="info">
 
@@ -199,19 +166,94 @@ html+=`
 
 <div class="rating">⭐⭐⭐⭐☆</div>
 
-<div class="price">${produk[i].harga}</div>
+<div class="price">Rp${rupiah(produk[i].harga)}</div>
 
-<button onclick="alert('Produk ditambahkan')">Tambah Keranjang</button>
-
-</div>
+<button onclick="addCart(${i})">Tambah Keranjang</button>
 
 </div>
 
+</div>
 `
 
 }
 
 document.getElementById("products").innerHTML=html
+
+}
+
+function addCart(i){
+
+cart.push(produk[i])
+
+updateCart()
+
+alert("Produk masuk keranjang")
+
+}
+
+function updateCart(){
+
+document.getElementById("cartcount").innerText=cart.length
+
+var total=0
+var html=""
+
+for(var i=0;i<cart.length;i++){
+
+html+=cart[i].nama+" - Rp"+rupiah(cart[i].harga)+"<br>"
+
+total+=cart[i].harga
+
+}
+
+document.getElementById("cartitems").innerHTML=html
+document.getElementById("total").innerText="Total Rp"+rupiah(total)
+
+}
+
+function toggleCart(){
+
+var c=document.getElementById("cartpanel")
+
+if(c.classList.contains("show")){
+c.classList.remove("show")
+}else{
+c.classList.add("show")
+}
+
+}
+
+function checkout(){
+
+var nomor="6281234567890"
+
+var pesan="Halo saya mau pesan:%0A"
+
+for(var i=0;i<cart.length;i++){
+pesan+=cart[i].nama+" Rp"+rupiah(cart[i].harga)+"%0A"
+}
+
+window.open("https://wa.me/"+nomor+"?text="+pesan)
+
+}
+
+document.getElementById("search").addEventListener("keyup",function(){
+
+var val=this.value.toLowerCase()
+
+var items=document.querySelectorAll(".product")
+
+for(var i=0;i<items.length;i++){
+
+var txt=items[i].innerText.toLowerCase()
+
+items[i].style.display=txt.includes(val)?"":"none"
+
+}
+
+})
+
+tampilProduk()
 
 </script></body>
 </html>
