@@ -1,20 +1,15 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>TembungShoping</title>
 
 <style>
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial;
-}
-
 body{
+margin:0;
+font-family:Arial;
 background:#f2f2f2;
 }
 
@@ -30,13 +25,13 @@ gap:10px;
 
 .search{
 flex:1;
-padding:8px 12px;
+padding:10px;
 border-radius:20px;
 border:none;
 }
 
 .icon{
-font-size:20px;
+font-size:22px;
 color:white;
 cursor:pointer;
 }
@@ -47,16 +42,15 @@ cursor:pointer;
 display:grid;
 grid-template-columns:repeat(5,1fr);
 background:white;
-padding:15px;
+padding:10px;
 text-align:center;
 }
 
 .menu-item{
 font-size:12px;
-cursor:pointer;
 }
 
-.menu-icon{
+.circle{
 width:45px;
 height:45px;
 background:#34495e;
@@ -76,14 +70,19 @@ gap:10px;
 
 .product{
 background:white;
-padding:10px;
 border-radius:10px;
-cursor:pointer;
+overflow:hidden;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
 }
 
 .product img{
 width:100%;
-border-radius:6px;
+height:140px;
+object-fit:cover;
+}
+
+.info{
+padding:8px;
 }
 
 .price{
@@ -91,12 +90,26 @@ color:#e74c3c;
 font-weight:bold;
 }
 
+.rating{
+font-size:12px;
+color:orange;
+}
+
+button{
+width:100%;
+padding:6px;
+border:none;
+background:#27ae60;
+color:white;
+border-radius:5px;
+margin-top:5px;
+}
+
 /* BOTTOM MENU */
 
 .bottom{
 position:fixed;
 bottom:0;
-left:0;
 width:100%;
 background:white;
 display:flex;
@@ -108,10 +121,10 @@ box-shadow:0 -2px 5px rgba(0,0,0,0.1);
 .bottom div{
 text-align:center;
 font-size:12px;
-cursor:pointer;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -131,28 +144,28 @@ cursor:pointer;
 
 <div class="menu">
 
-<div class="menu-item" onclick="menu('Pulsa')">
-<div class="menu-icon"></div>
+<div class="menu-item">
+<div class="circle"></div>
 Pulsa
 </div>
 
-<div class="menu-item" onclick="menu('Promo')">
-<div class="menu-icon"></div>
+<div class="menu-item">
+<div class="circle"></div>
 Promo
 </div>
 
-<div class="menu-item" onclick="menu('Game')">
-<div class="menu-icon"></div>
+<div class="menu-item">
+<div class="circle"></div>
 Game
 </div>
 
-<div class="menu-item" onclick="menu('Live')">
-<div class="menu-icon"></div>
+<div class="menu-item">
+<div class="circle"></div>
 Live
 </div>
 
-<div class="menu-item" onclick="menu('Lainnya')">
-<div class="menu-icon"></div>
+<div class="menu-item">
+<div class="circle"></div>
 Lainnya
 </div>
 
@@ -162,85 +175,167 @@ Lainnya
 
 <div class="products" id="products">
 
-<div class="product" onclick="detail('Sepatu Sport','100000')">
+<div class="product">
+
 <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff">
-<p>Sepatu Sport</p>
-<div class="price">Rp100.000</div>
+
+<div class="info">
+
+<b>Sepatu Sport</b>
+
+<div class="rating">
+⭐⭐⭐⭐☆
 </div>
 
-<div class="product" onclick="detail('Headphone Gaming','200000')">
+<div class="price">
+Rp100.000
+</div>
+
+<button onclick="addcart('Sepatu Sport')">
+Tambah Keranjang
+</button>
+
+</div>
+
+</div>
+
+
+<div class="product">
+
 <img src="https://images.unsplash.com/photo-1518441902117-bb3f7d7b14f1">
-<p>Headphone Gaming</p>
-<div class="price">Rp200.000</div>
+
+<div class="info">
+
+<b>Headphone Gaming</b>
+
+<div class="rating">
+⭐⭐⭐⭐⭐
 </div>
 
-<div class="product" onclick="detail('Jam Tangan','150000')">
-<img src="https://images.unsplash.com/photo-1519741497674-611481863552">
-<p>Jam Tangan</p>
-<div class="price">Rp150.000</div>
+<div class="price">
+Rp200.000
 </div>
 
-<div class="product" onclick="detail('Tas Fashion','180000')">
-<img src="https://images.unsplash.com/photo-1593032465171-8c3c0c4d6d7f">
-<p>Tas Fashion</p>
-<div class="price">Rp180.000</div>
-</div>
+<button onclick="addcart('Headphone Gaming')">
+Tambah Keranjang
+</button>
 
 </div>
 
-<!-- BOTTOM -->
+</div>
+
+
+<div class="product">
+
+<img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30">
+
+<div class="info">
+
+<b>Jam Tangan</b>
+
+<div class="rating">
+⭐⭐⭐⭐☆
+</div>
+
+<div class="price">
+Rp150.000
+</div>
+
+<button onclick="addcart('Jam Tangan')">
+Tambah Keranjang
+</button>
+
+</div>
+
+</div>
+
+
+<div class="product">
+
+<img src="https://images.unsplash.com/photo-1591561954557-26941169b49e">
+
+<div class="info">
+
+<b>Tas Fashion</b>
+
+<div class="rating">
+⭐⭐⭐⭐☆
+</div>
+
+<div class="price">
+Rp180.000
+</div>
+
+<button onclick="addcart('Tas Fashion')">
+Tambah Keranjang
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- MENU BAWAH -->
 
 <div class="bottom">
 
 <div onclick="home()">🏠<br>Beranda</div>
+
 <div onclick="live()">📺<br>Live</div>
+
 <div onclick="notif()">🔔<br>Notif</div>
+
 <div onclick="akun()">👤<br>Akun</div>
 
 </div>
 
 <script>
 
-/* MENU */
+let keranjang=[]
 
-function menu(nama){
-alert("Menu "+nama+" dibuka")
+function addcart(nama){
+
+keranjang.push(nama)
+
+alert(nama+" ditambahkan ke keranjang")
+
 }
-
-/* CART */
 
 function cart(){
-alert("Keranjang belanja")
-}
 
-/* CHAT */
+alert("Isi keranjang : "+keranjang.join(", "))
+
+}
 
 function chat(){
+
 alert("Chat penjual")
+
 }
-
-/* DETAIL PRODUK */
-
-function detail(nama,harga){
-alert("Produk: "+nama+"\nHarga: Rp"+harga)
-}
-
-/* BOTTOM MENU */
 
 function home(){
+
 alert("Beranda")
+
 }
 
 function live(){
+
 alert("Live streaming")
+
 }
 
 function notif(){
-alert("Notifikasi")
+
+alert("Tidak ada notifikasi")
+
 }
 
 function akun(){
+
 alert("Halaman akun")
+
 }
 
 /* SEARCH */
@@ -248,16 +343,14 @@ alert("Halaman akun")
 document.getElementById("search").addEventListener("keyup",function(){
 
 let input=this.value.toLowerCase()
+
 let products=document.querySelectorAll(".product")
 
 products.forEach(p=>{
+
 let text=p.innerText.toLowerCase()
 
-if(text.includes(input)){
-p.style.display="block"
-}else{
-p.style.display="none"
-}
+p.style.display=text.includes(input)?"block":"none"
 
 })
 
