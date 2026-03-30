@@ -4,302 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MedanShopping</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body, html {
-            font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
-        }
-
-        header {
-            background-color: #ff6600;
-            color: white;
-            padding: 10px 20px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        header .logo {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        header .search-container {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            align-items: center;
-        }
-
-        header .search-bar {
-            width: 70%;
-            padding: 10px;
-            border-radius: 25px;
-            border: none;
-        }
-
-        header .menu-icons {
-            display: flex;
-            justify-content: flex-end;
-            width: 30%;
-        }
-
-        header .menu-icons a {
-            color: white;
-            margin: 0 10px;
-            font-size: 20px;
-        }
-
-        header .menu-icons a:hover {
-            color: #ffcc00;
-        }
-
-        .main-content {
-            margin-top: 130px; /* To avoid overlapping with fixed header */
-            padding: 20px;
-        }
-
-        .banner {
-            background-color: #ff6600;
-            color: white;
-            text-align: center;
-            padding: 60px 20px;
-        }
-
-        .banner h1 {
-            font-size: 28px;
-            margin-bottom: 15px;
-        }
-
-        .banner p {
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-
-        .banner .btn {
-            padding: 15px 30px;
-            background-color: white;
-            color: #ff6600;
-            font-weight: bold;
-            border-radius: 25px;
-            text-decoration: none;
-        }
-
-        .banner .btn:hover {
-            background-color: #ffcc00;
-            color: white;
-        }
-
-        .category-icons {
-            display: flex;
-            justify-content: space-around;
-            margin: 20px 0;
-            padding: 10px;
-            background-color: #fff;
-        }
-
-        .category-icons div {
-            text-align: center;
-        }
-
-        .category-icons div i {
-            font-size: 30px;
-            color: #ff6600;
-        }
-
-        .category-icons div p {
-            margin-top: 10px;
-            font-size: 14px;
-        }
-
-        .products {
-            padding: 30px;
-            background-color: #fff;
-        }
-
-        .products h2 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-        }
-
-        .product-card {
-            background-color: #fff;
-            border: 1px solid #eee;
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .product-card img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-
-        .product-card h3 {
-            font-size: 16px;
-            margin: 10px 0;
-        }
-
-        .product-card p {
-            font-size: 14px;
-            color: #ff6600;
-            font-weight: bold;
-        }
-
-        .product-card .btn {
-            padding: 10px;
-            background-color: #ff6600;
-            color: white;
-            border-radius: 5px;
-            text-decoration: none;
-            margin-top: 10px;
-        }
-
-        .product-card .btn:hover {
-            background-color: #ffcc00;
-        }
-
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 20px;
-            font-size: 14px;
-        }
-
-        footer a {
-            color: white;
-            text-decoration: none;
-            margin: 0 10px;
-        }
-
-        footer a:hover {
-            color: #ffcc00;
-        }
-
-        @media (max-width: 768px) {
-            header .search-bar {
-                width: 50%;
-            }
-
-            .category-icons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .category-icons div {
-                margin-bottom: 10px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <!-- Header -->
     <header>
-        <div class="logo">
-            <a href="#">MedanShopping</a>
-        </div>
-        <div class="search-container">
-            <input type="text" class="search-bar" placeholder="Cari produk...">
-            <div class="menu-icons">
-                <a href="#"><i class="fas fa-shopping-cart"></i></a> <!-- Cart Icon -->
-                <a href="#"><i class="fas fa-heart"></i></a> <!-- Favorite Icon -->
-                <a href="#"><i class="fas fa-bars"></i></a> <!-- Menu Icon -->
-            </div>
+        <div class="logo">MedanShopping</div>
+        <input type="text" placeholder="Cari produk...">
+        <div class="header-icons">
+            <img src="keranjang.png" alt="Keranjang">
+            <img src="favorit.png" alt="Favorit">
+            <img src="menu.png" alt="Menu">
         </div>
     </header>
 
     <!-- Main Content -->
-    <div class="main-content">
-
-        <!-- Banner -->
-        <section class="banner">
+    <main>
+        <section class="intro">
             <h1>Selamat datang di MedanShopping</h1>
             <p>Dapatkan produk terbaik dengan harga terjangkau.</p>
-            <a href="#products" class="btn">Belanja Sekarang</a>
+            <button>Belanja Sekarang</button>
         </section>
 
-        <!-- Category Icons -->
-        <section class="category-icons">
-            <div>
-                <i class="fas fa-mobile-alt"></i>
-                <p>Elektronik</p>
-            </div>
-            <div>
-                <i class="fas fa-tshirt"></i>
-                <p>Pakaian</p>
-            </div>
-            <div>
-                <i class="fas fa-home"></i>
-                <p>Perabot</p>
-            </div>
-            <div>
-                <i class="fas fa-laptop"></i>
-                <p>Gadget</p>
-            </div>
+        <section class="categories">
+            <button>Elektronik</button>
+            <button>Pakaian</button>
+            <button>Perabot</button>
+            <button>Gadget</button>
         </section>
 
-        <!-- Products -->
-        <section class="products" id="products">
+        <section class="featured-products">
             <h2>Produk Unggulan</h2>
-            <div class="product-grid">
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/150" alt="Produk 1">
-                    <h3>Produk 1</h3>
-                    <p>Rp 100,000</p>
-                    <a href="#" class="btn">Tambahkan ke Keranjang</a>
-                </div>
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/150" alt="Produk 2">
-                    <h3>Produk 2</h3>
-                    <p>Rp 200,000</p>
-                    <a href="#" class="btn">Tambahkan ke Keranjang</a>
-                </div>
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/150" alt="Produk 3">
-                    <h3>Produk 3</h3>
-                    <p>Rp 300,000</p>
-                    <a href="#" class="btn">Tambahkan ke Keranjang</a>
-                </div>
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/150" alt="Produk 4">
-                    <h3>Produk 4</h3>
-                    <p>Rp 400,000</p>
-                    <a href="#" class="btn">Tambahkan ke Keranjang</a>
-                </div>
+            <div class="product">
+                <img src="product1.jpg" alt="Product 1">
+                <h3>Produk 1</h3>
+                <p>Rp 100.000</p>
+                <button>Tambahkan ke Keranjang</button>
+            </div>
+            <div class="product">
+                <img src="product2.jpg" alt="Product 2">
+                <h3>Produk 2</h3>
+                <p>Rp 200.000</p>
+                <button>Tambahkan ke Keranjang</button>
             </div>
         </section>
+    </main>
 
-    </div>
-
-    <!-- Footer -->
+    <!-- Navigasi seperti Shopee -->
     <footer>
-        <p>&copy; 2026 MedanShopping. All rights reserved.</p>
-        <p><a href="#">Privacy Policy</a> | <a href="#">Terms & Conditions</a></p>
+        <nav>
+            <button>Beranda</button>
+            <button>Live & Video</button>
+            <button>Notifikasi</button>
+            <button>Saya</button>
+        </nav>
     </footer>
 
+    <script src="script.js"></script>
 </body>
 </html>
