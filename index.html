@@ -11,11 +11,11 @@ padding-bottom:80px;
 }
 
 .header{
-background:#34495e;
+background:#2c3e50;
 padding:10px;
 display:flex;
-align-items:center;
 gap:10px;
+align-items:center;
 }
 
 .search{
@@ -23,7 +23,6 @@ flex:1;
 padding:10px;
 border-radius:20px;
 border:none;
-outline:none;
 }
 
 .icon{
@@ -33,9 +32,9 @@ cursor:pointer;
 position:relative;
 }
 
-.cart-count{
+.count{
 position:absolute;
-top:-5px;
+top:-6px;
 right:-8px;
 background:red;
 color:white;
@@ -44,95 +43,65 @@ padding:2px 6px;
 border-radius:50%;
 }
 
-.menu{
-display:grid;
-grid-template-columns:repeat(5,1fr);
-background:white;
-padding:10px;
-text-align:center;
-font-size:14px;
-}
-
-.circle{
-width:45px;
-height:45px;
-background:#34495e;
-border-radius:50%;
-margin:auto;
-margin-bottom:5px;
-}
-
 .products{
-padding:10px;
 display:grid;
 grid-template-columns:repeat(2,1fr);
-gap:12px;
+gap:10px;
+padding:10px;
 }
 
 .product{
 background:white;
-border-radius:12px;
+border-radius:10px;
 overflow:hidden;
-box-shadow:0 2px 8px rgba(0,0,0,0.1);
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
 }
 
 .product img{
 width:100%;
-height:140px;
+height:130px;
 object-fit:cover;
 }
 
 .info{
-padding:10px;
+padding:8px;
 }
 
 .price{
 color:#e74c3c;
 font-weight:bold;
-font-size:18px;
-}
-
-.rating{
-color:orange;
 }
 
 button{
 width:100%;
-padding:8px;
+padding:7px;
 border:none;
 background:#27ae60;
 color:white;
-border-radius:6px;
-margin-top:6px;
-cursor:pointer;
+border-radius:5px;
+margin-top:5px;
 }
 
-.cart-popup{
+.panel{
 position:fixed;
 top:0;
 right:-100%;
-width:80%;
+width:85%;
 height:100%;
 background:white;
-padding:20px;
 transition:0.3s;
+padding:15px;
 overflow:auto;
-z-index:1000;
+z-index:999;
 }
 
-.cart-popup.active{
+.panel.active{
 right:0;
-}
-
-.close-cart{
-background:#e74c3c;
-margin-bottom:10px;
 }
 
 .bottom{
 position:fixed;
 bottom:0;
-left:0;
 width:100%;
 background:white;
 display:flex;
@@ -141,86 +110,50 @@ padding:10px;
 box-shadow:0 -2px 10px rgba(0,0,0,0.1);
 }
 
+.qty{
+display:flex;
+gap:6px;
+align-items:center;
+margin-top:5px;
+}
+
+.qty button{
+width:30px;
+padding:4px;
+background:#3498db;
+}
+
 .notif-item{
 padding:10px;
 border-bottom:1px solid #eee;
-cursor:pointer;
 }
 
-.notif-unread{
+.unread{
 background:#eef3ff;
 font-weight:bold;
 }
 
-.popup-bg{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.5);
-display:none;
-align-items:center;
-justify-content:center;
-z-index:2000;
-}
-
-.popup-box{
-background:white;
-width:80%;
-max-width:300px;
-padding:20px;
-border-radius:12px;
-text-align:center;
-}
-
-.popup-box button{
-background:#34495e;
-margin-top:15px;
-}
-
-</style></head><body><div class="header"><input class="search" id="search" placeholder="Cari produk di TembungShoping"><div class="icon" onclick="toggleCart()">
+</style></head><body><div class="header"><input class="search" id="search" placeholder="Cari produk"><div class="icon" onclick="toggleCart()">
 🛒
-<span id="cartcount" class="cart-count">0</span>
-</div><div class="icon" onclick="chatAdmin()">💬</div></div><div class="menu"><div onclick="openPopup()">
-<div class="circle"></div>Pulsa
-</div><div onclick="openPopup()">
-<div class="circle"></div>Promo
-</div><div onclick="openPopup()">
-<div class="circle"></div>Game
-</div><div onclick="openPopup()">
-<div class="circle"></div>Live
-</div><div onclick="openPopup()">
-<div class="circle"></div>Lainnya
-</div></div><div class="products" id="products"></div><div class="cart-popup" id="cartpopup"><button class="close-cart" onclick="toggleCart()">Tutup</button>
+<span id="cartCount" class="count">0</span>
+</div><div class="icon" onclick="chatAdmin()">💬</div></div><div class="products" id="products"></div><div class="panel" id="cartPanel"><button onclick="toggleCart()">Tutup</button>
 
-<h2>Keranjang</h2><div id="cartitems"></div><h3 id="total"></h3><button onclick="checkout()">Checkout</button>
+<h2>Keranjang</h2><div id="cartItems"></div><h3 id="total"></h3><button onclick="checkout()">Checkout</button>
 
-</div><div class="cart-popup" id="notifpopup"><button class="close-cart" onclick="toggleNotif()">Tutup</button>
+</div><div class="panel" id="notifPanel"><button onclick="toggleNotif()">Tutup</button>
 
-<h2>Notifikasi</h2><div id="notifitems">Belum ada notifikasi</div></div><div class="bottom"><div onclick="menuHome()">🏠<br>Beranda</div><div onclick="openPopup()">📺<br>Live</div><div class="icon" onclick="toggleNotif()">
-🔔
-<span id="notifcount" class="cart-count">0</span>
-<br>Notif
-</div><div onclick="openPopup()">👤<br>Akun</div></div><div class="popup-bg" id="popup"><div class="popup-box"><h3>🚧 Fitur Belum Tersedia</h3><p>Fitur ini sedang dalam pengembangan dan akan segera hadir di <b>TembungShoping</b>.</p><button onclick="closePopup()">Oke</button>
-
-</div></div><script>
+<h2>Notifikasi</h2><div id="notifItems"></div></div><div class="bottom"><div onclick="menuHome()">🏠<br>Beranda</div><div onclick="toggleNotif()">🔔<br>Notif <span id="notifCount"></span></div><div onclick="openOrder()">📦<br>Pesanan</div><div onclick="openPopup()">👤<br>Akun</div></div><script>
 
 let produk=[
-
 {nama:"Sepatu Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff"},
 {nama:"Headphone Gaming",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e"},
 {nama:"Jam Tangan",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30"},
-{nama:"Tas Fashion",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e"},
-{nama:"Laptop Gaming",harga:8500000,img:"https://images.unsplash.com/photo-1517336714731-489689fd1ca8"},
-{nama:"Mouse Gaming",harga:120000,img:"https://images.unsplash.com/photo-1527814050087-3793815479db"},
-{nama:"Smartphone Android",harga:2500000,img:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9"},
-{nama:"Speaker Bluetooth",harga:450000,img:"https://images.unsplash.com/photo-1545454675-3531b543be5d"}
-
+{nama:"Tas Fashion",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e"}
 ]
 
-let cart=[]
-let notif=[]
+let cart=JSON.parse(localStorage.getItem("cart")||"[]")
+let notif=JSON.parse(localStorage.getItem("notif")||"[]")
+let orders=JSON.parse(localStorage.getItem("orders")||"[]")
 
 function rupiah(x){
 return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,".")
@@ -234,67 +167,190 @@ produk.forEach(p=>{
 
 html+=`
 <div class="product">
+
 <img src="${p.img}">
+
 <div class="info">
+
 <b>${p.nama}</b>
-<div class="rating">⭐⭐⭐⭐☆</div>
+
 <div class="price">Rp${rupiah(p.harga)}</div>
-<button onclick="addcart('${p.nama}',${p.harga})">Tambah Keranjang</button>
+
+<button onclick="addCart('${p.nama}',${p.harga})">
+Tambah Keranjang
+</button>
+
 </div>
+
 </div>
 `
 
 })
 
-document.getElementById("products").innerHTML=html
+products.innerHTML=html
 
 }
 
-function updateNotifCount(){
-let unread = notif.filter(n=>!n.read).length
-document.getElementById("notifcount").innerText = unread
+function addCart(nama,harga){
+
+let find=cart.find(p=>p.nama==nama)
+
+if(find){
+find.qty++
+}else{
+cart.push({nama,harga,qty:1})
+}
+
+saveCart()
+
+addNotif("🛒 "+nama+" masuk keranjang")
+
+}
+
+function saveCart(){
+
+localStorage.setItem("cart",JSON.stringify(cart))
+
+renderCart()
+
+}
+
+function renderCart(){
+
+cartCount.innerText=cart.length
+
+let html=""
+let total=0
+
+cart.forEach((p,i)=>{
+
+total+=p.harga*p.qty
+
+html+=`
+
+<div>
+
+<b>${p.nama}</b>
+
+<div>Rp${rupiah(p.harga)}</div>
+
+<div class="qty">
+
+<button onclick="minQty(${i})">-</button>
+
+${p.qty}
+
+<button onclick="addQty(${i})">+</button>
+
+<button onclick="removeCart(${i})">🗑</button>
+
+</div>
+
+</div>
+
+<hr>
+
+`
+
+})
+
+cartItems.innerHTML=html
+
+total.innerText="Total Rp"+rupiah(total)
+
+}
+
+function addQty(i){
+
+cart[i].qty++
+
+saveCart()
+
+}
+
+function minQty(i){
+
+cart[i].qty--
+
+if(cart[i].qty<=0){
+cart.splice(i,1)
+}
+
+saveCart()
+
+}
+
+function removeCart(i){
+
+cart.splice(i,1)
+
+saveCart()
+
+}
+
+function checkout(){
+
+if(cart.length==0){
+alert("Keranjang kosong")
+return
+}
+
+orders.push(...cart)
+
+localStorage.setItem("orders",JSON.stringify(orders))
+
+addNotif("📦 Pesanan berhasil dibuat")
+
+let text="Halo saya mau pesan:%0A"
+
+cart.forEach(p=>{
+text+=p.nama+" x"+p.qty+"%0A"
+})
+
+window.open("https://wa.me/6281220549530?text="+text)
+
+cart=[]
+
+saveCart()
+
+}
+
+function addNotif(text){
+
+notif.unshift({text,read:false})
+
+localStorage.setItem("notif",JSON.stringify(notif))
+
+renderNotif()
+
 }
 
 function renderNotif(){
 
 let html=""
-
-if(notif.length==0){
-html="Belum ada notifikasi"
-}else{
+let unread=0
 
 notif.forEach((n,i)=>{
 
-if(typeof n==="string"){
-n={text:n,read:false}
-notif[i]=n
-}
+if(!n.read) unread++
 
 html+=`
-<div onclick="readNotif(${i})"
-class="notif-item ${n.read ? "" : "notif-unread"}">
+
+<div class="notif-item ${n.read?"":"unread"}" onclick="readNotif(${i})">
+
 ${n.text}
+
+<button onclick="delNotif(${i});event.stopPropagation()">🗑</button>
+
 </div>
+
 `
 
 })
 
-}
+notifItems.innerHTML=html||"Belum ada notif"
 
-document.getElementById("notifitems").innerHTML=html
-}
-
-function addNotif(text){
-
-notif.unshift({
-text:text,
-read:false
-})
-
-localStorage.setItem("notif",JSON.stringify(notif))
-
-updateNotifCount()
-renderNotif()
+notifCount.innerText=unread
 
 }
 
@@ -304,164 +360,70 @@ notif[i].read=true
 
 localStorage.setItem("notif",JSON.stringify(notif))
 
-updateNotifCount()
 renderNotif()
 
 }
 
-function addcart(nama,harga){
+function delNotif(i){
 
-cart.push({nama,harga})
+notif.splice(i,1)
 
-localStorage.setItem("cart",JSON.stringify(cart))
+localStorage.setItem("notif",JSON.stringify(notif))
 
-updateCart()
-
-addNotif("🛒 "+nama+" ditambahkan ke keranjang")
-
-alert("Produk masuk keranjang")
-
-}
-
-function updateCart(){
-
-document.getElementById("cartcount").innerText=cart.length
-
-let items=""
-let total=0
-
-cart.forEach(p=>{
-items+=`<div>${p.nama} - Rp${rupiah(p.harga)}</div>`
-total+=p.harga
-})
-
-document.getElementById("cartitems").innerHTML=items
-document.getElementById("total").innerText="Total: Rp"+rupiah(total)
+renderNotif()
 
 }
 
 function toggleCart(){
 
-let cartpopup=document.getElementById("cartpopup")
-let notifpopup=document.getElementById("notifpopup")
+cartPanel.classList.toggle("active")
 
-notifpopup.classList.remove("active")
-
-cartpopup.classList.toggle("active")
+notifPanel.classList.remove("active")
 
 }
 
 function toggleNotif(){
 
-let notifpopup=document.getElementById("notifpopup")
-let cartpopup=document.getElementById("cartpopup")
+notifPanel.classList.toggle("active")
 
-cartpopup.classList.remove("active")
-
-notifpopup.classList.toggle("active")
+cartPanel.classList.remove("active")
 
 renderNotif()
 
 }
 
-function checkout(){
-
-if(cart.length==0){
-alert("Keranjang masih kosong")
-return
-}
-
-addNotif("📦 Pesanan baru dibuat")
-
-let nomor="6281220549530"
-
-let text="Halo TembungShoping,%0ASaya ingin memesan:%0A%0A"
-
-cart.forEach(p=>{
-text+=p.nama+" - Rp"+rupiah(p.harga)+"%0A"
-})
-
-window.open("https://wa.me/"+nomor+"?text="+text)
-
-}
-
 function chatAdmin(){
+
 window.open("https://wa.me/6281220549530")
+
 }
 
 function menuHome(){
-
-let cartpopup=document.getElementById("cartpopup")
-let notifpopup=document.getElementById("notifpopup")
-
-cartpopup.classList.remove("active")
-notifpopup.classList.remove("active")
 
 document.getElementById("search").value=""
 
 let cards=document.querySelectorAll(".product")
 
-cards.forEach(c=>{
-c.style.display=""
-})
+cards.forEach(c=>c.style.display="")
 
-window.scrollTo({top:0,behavior:"smooth"})
+window.scrollTo({top:0})
 
 }
 
-function openPopup(){
-document.getElementById("popup").style.display="flex"
-}
+search.addEventListener("keyup",function(){
 
-function closePopup(){
-document.getElementById("popup").style.display="none"
-}
+let v=this.value.toLowerCase()
 
-document.getElementById("search").addEventListener("keyup",function(){
+document.querySelectorAll(".product").forEach(p=>{
 
-let input=this.value.toLowerCase()
-
-let cards=document.querySelectorAll(".product")
-
-cards.forEach(c=>{
-
-let text=c.innerText.toLowerCase()
-
-c.style.display=text.includes(input)?"":"none"
+p.style.display=p.innerText.toLowerCase().includes(v)?"":"none"
 
 })
 
 })
 
-let savedCart = localStorage.getItem("cart")
-
-if(savedCart){
-cart = JSON.parse(savedCart)
-updateCart()
-}
-
-let savedNotif = localStorage.getItem("notif")
-
-if(savedNotif){
-
-let data = JSON.parse(savedNotif)
-
-notif = data.map(n=>{
-
-if(typeof n === "string"){
-return {text:n,read:false}
-}
-
-return n
-
-})
-
-localStorage.setItem("notif",JSON.stringify(notif))
-
-updateNotifCount()
-
-}
-
+renderCart()
+renderNotif()
 tampilProduk()
 
 </script></body>
