@@ -149,6 +149,8 @@ padding:15px;
 </style></head><body><div class="header"><input class="search" id="search" placeholder="Cari produk"><div class="icon" onclick="toggleCart()">
 🛒
 <span id="cartCount" class="count">0</span>
+</div><div class="icon" onclick="showNotif()">
+🔔
 </div><div class="icon" onclick="chatAdmin()">💬</div></div><div class="products" id="products"></div><div class="panel" id="cartPanel"><button onclick="toggleCart()">Tutup</button>
 
 <h2>Keranjang</h2><div id="cartItems"></div><h3 id="total"></h3><button onclick="checkout()">Checkout</button>
@@ -162,7 +164,7 @@ Cocok untuk kebutuhan sehari hari.
 
 <button onclick="buyNow()">Beli Sekarang</button>
 
-</div></div><div class="bottom"><div onclick="menuHome()">🏠<br>Beranda</div><div onclick="toggleCart()">🛒<br>Keranjang</div><div onclick="chatAdmin()">💬<br>Chat</div><div onclick="menuHome()">👤<br>Akun</div></div><script>
+</div></div><div class="bottom"><div onclick="menuHome()">🏠<br>Beranda</div><div onclick="toggleCart()">🛒<br>Keranjang</div><div onclick="chatAdmin()">💬<br>Chat</div><div onclick="akun()">👤<br>Akun</div></div><script>
 
 let produk=[
 
@@ -178,6 +180,11 @@ let produk=[
 ]
 
 let cart=JSON.parse(localStorage.getItem("cart")||"[]")
+
+cart=cart.map(p=>{
+if(!p.qty){p.qty=1}
+return p
+})
 
 let currentProduct=null
 
@@ -220,9 +227,7 @@ function openDetail(i){
 currentProduct=produk[i]
 
 detailImg.src=currentProduct.img
-
 detailName.innerText=currentProduct.nama
-
 detailPrice.innerText="Rp"+rupiah(currentProduct.harga)
 
 detailPage.style.display="block"
@@ -234,9 +239,7 @@ detailPage.style.display="none"
 }
 
 function addCartDetail(){
-
 addCart(currentProduct.nama,currentProduct.harga)
-
 }
 
 function addCart(nama,harga){
@@ -268,11 +271,11 @@ function renderCart(){
 cartCount.innerText=cart.length
 
 let html=""
-let total=0
+let totalHarga=0
 
 cart.forEach((p,i)=>{
 
-total+=p.harga*p.qty
+totalHarga+=p.harga*p.qty
 
 html+=`
 
@@ -304,7 +307,7 @@ ${p.qty}
 
 cartItems.innerHTML=html
 
-total.innerText="Total Rp"+rupiah(total)
+total.innerText="Total Rp"+rupiah(totalHarga)
 
 }
 
@@ -331,9 +334,7 @@ saveCart()
 }
 
 function toggleCart(){
-
 cartPanel.classList.toggle("active")
-
 }
 
 function checkout(){
@@ -352,7 +353,6 @@ text+=p.nama+" x"+p.qty+"%0A"
 window.open("https://wa.me/6281220549530?text="+text)
 
 cart=[]
-
 saveCart()
 
 }
@@ -366,17 +366,20 @@ window.open("https://wa.me/6281220549530?text="+text)
 }
 
 function chatAdmin(){
-
 window.open("https://wa.me/6281220549530")
-
 }
 
 function menuHome(){
-
 detailPage.style.display="none"
-
 window.scrollTo({top:0})
+}
 
+function akun(){
+alert("Fitur akun belum tersedia")
+}
+
+function showNotif(){
+alert("🔔 Notifikasi\n\nFitur belum tersedia")
 }
 
 search.addEventListener("keyup",function(){
