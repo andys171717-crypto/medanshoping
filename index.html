@@ -269,6 +269,8 @@ function addNotif(text){
 
 notif.unshift(text)
 
+localStorage.setItem("notif",JSON.stringify(notif))
+
 document.getElementById("notifcount").innerText=notif.length
 
 renderNotif()
@@ -400,6 +402,13 @@ let savedCart = localStorage.getItem("cart")
 if(savedCart){
 cart = JSON.parse(savedCart)
 updateCart()
+}
+
+let savedNotif = localStorage.getItem("notif")
+
+if(savedNotif){
+notif = JSON.parse(savedNotif)
+document.getElementById("notifcount").innerText = notif.length
 }
 
 tampilProduk()
