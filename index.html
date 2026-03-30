@@ -1,24 +1,21 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TembungShoping</title>
-
-<style>
+<title>TembungShoping</title><style>
 
 body{
 margin:0;
 font-family:Arial;
 background:#f2f2f2;
-padding-bottom:80px;
 }
 
+/* HEADER */
+
 .header{
-background:#34495e;
+background:#2c3e50;
 padding:10px;
 display:flex;
 align-items:center;
-gap:10px;
 }
 
 .search{
@@ -28,287 +25,274 @@ border-radius:20px;
 border:none;
 }
 
-.icon{
-font-size:22px;
+.carticon{
 color:white;
+font-size:22px;
+margin-left:10px;
 cursor:pointer;
 position:relative;
 }
 
-.cart-count{
+.badge{
+background:red;
+color:white;
+border-radius:50%;
+font-size:12px;
+padding:2px 6px;
 position:absolute;
 top:-5px;
 right:-8px;
-background:red;
-color:white;
-font-size:12px;
-padding:2px 6px;
-border-radius:50%;
 }
 
-.menu{
-display:grid;
-grid-template-columns:repeat(5,1fr);
+/* KATEGORI */
+
+.kategori{
+display:flex;
+overflow:auto;
 background:white;
 padding:10px;
+}
+
+.kategori div{
 text-align:center;
+margin-right:15px;
 font-size:14px;
 }
 
 .circle{
-width:45px;
-height:45px;
-background:#34495e;
+width:50px;
+height:50px;
 border-radius:50%;
+background:#34495e;
 margin:auto;
-margin-bottom:5px;
 }
 
-.products{
-padding:10px;
+/* PRODUK */
+
+.container{
 display:grid;
-grid-template-columns:repeat(2,1fr);
+grid-template-columns:1fr 1fr;
 gap:12px;
+padding:12px;
 }
 
-.product{
+.card{
 background:white;
 border-radius:12px;
 overflow:hidden;
-box-shadow:0 2px 8px rgba(0,0,0,0.1);
+box-shadow:0 2px 5px rgba(0,0,0,0.1);
 }
 
-.product img{
+.card img{
 width:100%;
 height:140px;
 object-fit:cover;
 }
 
-.info{
-padding:10px;
+.card h3{
+margin:8px;
+font-size:18px;
 }
 
 .price{
 color:#e74c3c;
 font-weight:bold;
-font-size:18px;
+margin-left:8px;
 }
 
-.rating{
-color:orange;
+.star{
+color:#f1c40f;
+margin-left:8px;
 }
 
-button{
-width:100%;
-padding:8px;
-border:none;
+.btn{
 background:#27ae60;
 color:white;
-border-radius:6px;
-margin-top:6px;
+border:none;
+padding:10px;
+width:90%;
+margin:10px;
+border-radius:8px;
 cursor:pointer;
 }
 
-.cart-popup{
+/* KERANJANG */
+
+.cartpage{
 position:fixed;
 top:0;
-right:-100%;
-width:80%;
+left:0;
+width:100%;
 height:100%;
 background:white;
-padding:20px;
-transition:0.3s;
-overflow:auto;
-z-index:1000;
+display:none;
+flex-direction:column;
 }
 
-.cart-popup.active{
-right:0;
+.cartheader{
+display:flex;
+align-items:center;
+background:#2c3e50;
+color:white;
+padding:10px;
 }
+
+.backbtn{
+margin-right:10px;
+cursor:pointer;
+}
+
+.cartitems{
+flex:1;
+overflow:auto;
+padding:10px;
+}
+
+.checkout{
+background:#27ae60;
+color:white;
+border:none;
+padding:15px;
+margin:10px;
+border-radius:10px;
+font-size:16px;
+}
+
+/* MENU BAWAH */
 
 .bottom{
 position:fixed;
 bottom:0;
-left:0;
 width:100%;
 background:white;
 display:flex;
 justify-content:space-around;
-padding:10px;
-box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+padding:8px 0;
+border-top:1px solid #ddd;
 }
 
-</style>
-</head>
+.bottom div{
+text-align:center;
+font-size:14px;
+cursor:pointer;
+}
 
-<body>
-
-<div class="header">
-
-<input class="search" id="search" placeholder="Cari produk di TembungShoping">
-
-<div class="icon" onclick="toggleCart()">
-🛒
-<span id="cartcount" class="cart-count">0</span>
+</style></head><body><!-- HEADER --><div class="header">
+<input class="search" id="search" onkeyup="searchProduk()" placeholder="Cari produk di TembungShoping">
+<div class="carticon" onclick="openCart()">🛒
+<span class="badge" id="cartcount">0</span>
 </div>
-
-<div class="icon" onclick="chatAdmin()">💬</div>
-
-</div>
-
-<div class="menu">
+</div><!-- KATEGORI --><div class="kategori">
 <div><div class="circle"></div>Pulsa</div>
 <div><div class="circle"></div>Promo</div>
 <div><div class="circle"></div>Game</div>
 <div><div class="circle"></div>Live</div>
 <div><div class="circle"></div>Lainnya</div>
-</div>
+</div><!-- PRODUK --><div class="container" id="produklist"><div class="card produk">
+<img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff">
+<h3>Sepatu Sport</h3>
+<div class="star">⭐⭐⭐⭐☆</div>
+<div class="price">Rp100.000</div>
+<button class="btn" onclick="addCart('Sepatu Sport','100000')">Tambah Keranjang</button>
+</div><div class="card produk">
+<img src="https://images.unsplash.com/photo-1518443895914-2c3cc8a6d2aa">
+<h3>Headphone Gaming</h3>
+<div class="star">⭐⭐⭐⭐☆</div>
+<div class="price">Rp200.000</div>
+<button class="btn" onclick="addCart('Headphone Gaming','200000')">Tambah Keranjang</button>
+</div><div class="card produk">
+<img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30">
+<h3>Jam Tangan</h3>
+<div class="star">⭐⭐⭐⭐☆</div>
+<div class="price">Rp150.000</div>
+<button class="btn" onclick="addCart('Jam Tangan','150000')">Tambah Keranjang</button>
+</div><div class="card produk">
+<img src="https://images.unsplash.com/photo-1590874103328-eac38a683ce7">
+<h3>Tas Fashion</h3>
+<div class="star">⭐⭐⭐⭐☆</div>
+<div class="price">Rp180.000</div>
+<button class="btn" onclick="addCart('Tas Fashion','180000')">Tambah Keranjang</button>
+</div></div><!-- HALAMAN KERANJANG --><div class="cartpage" id="cartpage"><div class="cartheader">
+<div class="backbtn" onclick="closeCart()">⬅</div>
+<h3>Keranjang</h3>
+</div><div class="cartitems" id="cartitems"></div><button class="checkout" onclick="checkout()">Checkout</button>
 
-<div class="products" id="products"></div>
-
-<div class="cart-popup" id="cartpopup">
-
-<h2>Keranjang</h2>
-
-<div id="cartitems"></div>
-
-<h3 id="total"></h3>
-
-<button onclick="checkout()">Checkout</button>
-
-</div>
-
-<div class="bottom">
-<div>🏠<br>Beranda</div>
+</div><!-- MENU BAWAH --><div class="bottom">
+<div onclick="scrollTop()">🏠<br>Beranda</div>
 <div>📺<br>Live</div>
 <div>🔔<br>Notif</div>
 <div>👤<br>Akun</div>
-</div>
+</div><script>
 
-<script>
+let cart=[];
 
-let produk=[
+function addCart(nama,harga){
 
-{nama:"Sepatu Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=60"},
-{nama:"Headphone Gaming",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=500&q=60"},
-{nama:"Jam Tangan",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=500&q=60"},
-{nama:"Tas Fashion",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=500&q=60"},
+cart.push({nama,harga});
 
-{nama:"Laptop Gaming",harga:8500000,img:"https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=500&q=60"},
-{nama:"Mouse Gaming",harga:120000,img:"https://images.unsplash.com/photo-1527814050087-3793815479db?auto=format&fit=crop&w=500&q=60"},
-{nama:"Smartphone Android",harga:2500000,img:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=500&q=60"},
-{nama:"Speaker Bluetooth",harga:450000,img:"https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&w=500&q=60"},
-{nama:"Power Bank",harga:95000,img:"https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?auto=format&fit=crop&w=500&q=60"},
-{nama:"Kacamata Fashion",harga:80000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=500&q=60"}
+updateCart();
 
-]
-
-let cart=[]
-
-function rupiah(x){
-return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,".")
-}
-
-function tampilProduk(){
-
-let html=""
-
-produk.forEach(p=>{
-
-html+=`
-<div class="product">
-
-<img src="${p.img}">
-
-<div class="info">
-
-<b>${p.nama}</b>
-
-<div class="rating">⭐⭐⭐⭐☆</div>
-
-<div class="price">Rp${rupiah(p.harga)}</div>
-
-<button onclick="addcart('${p.nama}',${p.harga})">Tambah Keranjang</button>
-
-</div>
-
-</div>
-`
-
-})
-
-document.getElementById("products").innerHTML=html
-
-}
-
-function addcart(nama,harga){
-
-cart.push({nama,harga})
-
-updateCart()
-
-alert("Produk masuk keranjang")
+alert("Produk ditambahkan ke keranjang");
 
 }
 
 function updateCart(){
 
-document.getElementById("cartcount").innerText=cart.length
+document.getElementById("cartcount").innerText=cart.length;
 
-let items=""
-let total=0
+let html="";
 
-cart.forEach(p=>{
-items+=`<div>${p.nama} - Rp${rupiah(p.harga)}</div>`
-total+=p.harga
-})
+cart.forEach((item,i)=>{
 
-document.getElementById("cartitems").innerHTML=items
-document.getElementById("total").innerText="Total: Rp"+rupiah(total)
+html+=`
+<p>${item.nama} - Rp${item.harga}</p>
+`;
+
+});
+
+document.getElementById("cartitems").innerHTML=html;
 
 }
 
-function toggleCart(){
-document.getElementById("cartpopup").classList.toggle("active")
+function openCart(){
+
+document.getElementById("cartpage").style.display="flex";
+
+}
+
+function closeCart(){
+
+document.getElementById("cartpage").style.display="none";
+
 }
 
 function checkout(){
 
-let nomor="6281220549530"
+let pesan="Halo saya ingin order:%0A";
 
-let text="Halo TembungShoping,%0ASaya ingin memesan:%0A%0A"
+cart.forEach(i=>{
+pesan+=i.nama+" - Rp"+i.harga+"%0A";
+});
 
-cart.forEach(p=>{
-text+=p.nama+" - Rp"+rupiah(p.harga)+"%0A"
-})
-
-window.open("https://wa.me/"+nomor+"?text="+text)
+window.open("https://wa.me/6280000000000?text="+pesan);
 
 }
 
-function chatAdmin(){
-window.open("https://wa.me/6281220549530")
+function searchProduk(){
+
+let input=document.getElementById("search").value.toLowerCase();
+
+let produk=document.querySelectorAll(".produk");
+
+produk.forEach(p=>{
+
+let nama=p.innerText.toLowerCase();
+
+p.style.display=nama.includes(input)?"block":"none";
+
+});
+
 }
 
-document.getElementById("search").addEventListener("keyup",function(){
-
-let input=this.value.toLowerCase()
-
-let cards=document.querySelectorAll(".product")
-
-cards.forEach(c=>{
-
-let text=c.innerText.toLowerCase()
-
-c.style.display=text.includes(input)?"":"none"
-
-})
-
-})
-
-tampilProduk()
-
-</script>
-
-</body>
+</script></body>
 </html>
