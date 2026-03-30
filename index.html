@@ -1,194 +1,21 @@
-<!DOCTYPE html><html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TembungShoping</title><style>
-
-body{
-margin:0;
-font-family:Arial;
-background:#f2f2f2;
-padding-bottom:80px;
-}
-
-.header{
-background:#34495e;
-padding:10px;
-display:flex;
-align-items:center;
-gap:10px;
-}
-
-.search{
-flex:1;
-padding:10px;
-border-radius:20px;
-border:none;
-}
-
-.icon{
-font-size:22px;
-color:white;
-cursor:pointer;
-position:relative;
-}
-
-.cart-count{
-position:absolute;
-top:-5px;
-right:-8px;
-background:red;
-color:white;
-font-size:12px;
-padding:2px 6px;
-border-radius:50%;
-}
-
-.menu{
-display:grid;
-grid-template-columns:repeat(5,1fr);
-background:white;
-padding:10px;
-text-align:center;
-}
-
-.circle{
-width:45px;
-height:45px;
-background:#34495e;
-border-radius:50%;
-margin:auto;
-margin-bottom:5px;
-}
-
-.products{
-padding:10px;
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:12px;
-}
-
-.product{
-background:white;
-border-radius:12px;
-overflow:hidden;
-box-shadow:0 2px 8px rgba(0,0,0,0.1);
-cursor:pointer;
-}
-
-.product img{
-width:100%;
-height:140px;
-object-fit:cover;
-}
-
-.info{
-padding:10px;
-}
-
-.price{
-color:#e74c3c;
-font-weight:bold;
-font-size:18px;
-}
-
-.rating{
-color:orange;
-}
-
-button{
-width:100%;
-padding:8px;
-border:none;
-background:#27ae60;
-color:white;
-border-radius:6px;
-margin-top:6px;
-cursor:pointer;
-}
-
-.cart-popup{
-position:fixed;
-top:0;
-right:-100%;
-width:80%;
-height:100%;
-background:white;
-padding:20px;
-transition:0.3s;
-z-index:1000;
-overflow:auto;
-}
-
-.cart-popup.active{
-right:0;
-}
-
-.detail{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:white;
-display:none;
-overflow:auto;
-z-index:2000;
-}
-
-.detail img{
-width:100%;
-}
-
-.detail-content{
-padding:15px;
-}
-
-.bottom{
-position:fixed;
-bottom:0;
-left:0;
-width:100%;
-background:white;
-display:flex;
-justify-content:space-around;
-padding:12px 0;
-box-shadow:0 -2px 10px rgba(0,0,0,0.15);
-}
-
-</style></head><body><div class="header"><input class="search" id="search" placeholder="Cari produk di TembungShoping"><div class="icon" onclick="toggleCart()">
-🛒
-<span id="cartcount" class="cart-count">0</span>
-</div><div class="icon" onclick="chatAdmin()">💬</div></div><div class="menu"><div><div class="circle"></div>Pulsa</div>
-<div><div class="circle"></div>Promo</div>
-<div><div class="circle"></div>Game</div>
-<div><div class="circle"></div>Live</div>
-<div><div class="circle"></div>Lainnya</div></div><div class="products" id="products"></div><div class="cart-popup" id="cartpopup"><h2>Keranjang</h2><div id="cartitems"></div><h3 id="total"></h3><button onclick="checkout()">Checkout</button>
-
-</div><div class="detail" id="detail"><img id="detailimg"><div class="detail-content"><h2 id="detailname"></h2><h3 id="detailprice"></h3><p>Produk berkualitas dengan harga terbaik.</p><button onclick="addcart(detailNama,detailHarga)">Tambah Keranjang</button>
-
-<button onclick="closeDetail()">Tutup</button>
-
-</div></div><div class="bottom"><div>🏠<br>Beranda</div>
-<div>📺<br>Live</div>
-<div>🔔<br>Notif</div>
-<div>👤<br>Akun</div></div><script>
+<script>
 
 let produk=[
 
-{nama:"Sepatu Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff"},
-{nama:"Headphone Gaming",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e"},
-{nama:"Jam Tangan",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30"},
-{nama:"Tas Fashion",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e"},
+{nama:"Sepatu Sport",harga:100000,img:"https://picsum.photos/300?1"},
+{nama:"Headphone Gaming",harga:200000,img:"https://picsum.photos/300?2"},
+{nama:"Jam Tangan",harga:150000,img:"https://picsum.photos/300?3"},
+{nama:"Tas Fashion",harga:180000,img:"https://picsum.photos/300?4"},
 
-{nama:"Laptop Gaming",harga:8500000,img:"https://images.unsplash.com/photo-1517336714731-489689fd1ca8"},
-{nama:"Mouse Gaming",harga:120000,img:"https://images.unsplash.com/photo-1527814050087-3793815479db"},
-{nama:"Keyboard RGB",harga:350000,img:"https://images.unsplash.com/photo-1518770660439-4636190af475"},
-{nama:"Smartphone Android",harga:2500000,img:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9"},
+{nama:"Laptop Gaming",harga:8500000,img:"https://picsum.photos/300?5"},
+{nama:"Mouse Gaming",harga:120000,img:"https://picsum.photos/300?6"},
+{nama:"Keyboard RGB",harga:350000,img:"https://picsum.photos/300?7"},
+{nama:"Smartphone Android",harga:2500000,img:"https://picsum.photos/300?8"},
 
-{nama:"Kamera Digital",harga:3200000,img:"https://images.unsplash.com/photo-1519183071298-a2962be96a27"},
-{nama:"Speaker Bluetooth",harga:450000,img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad"},
-{nama:"Power Bank",harga:95000,img:"https://images.unsplash.com/photo-1583394838336-acd977736f90"},
-{nama:"Kacamata Fashion",harga:80000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083"}
+{nama:"Kamera Digital",harga:3200000,img:"https://picsum.photos/300?9"},
+{nama:"Speaker Bluetooth",harga:450000,img:"https://picsum.photos/300?10"},
+{nama:"Power Bank",harga:95000,img:"https://picsum.photos/300?11"},
+{nama:"Kacamata Fashion",harga:80000,img:"https://picsum.photos/300?12"}
 
 ]
 
@@ -200,13 +27,15 @@ return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,".")
 
 function tampilProduk(){
 
-let html=""
+let container=document.getElementById("products")
+container.innerHTML=""
 
 produk.forEach((p,i)=>{
 
-html+=`
+let card=document.createElement("div")
+card.className="product"
 
-<div class="product" onclick="detail(${i})">
+card.innerHTML=`
 
 <img src="${p.img}">
 
@@ -218,24 +47,30 @@ html+=`
 
 <div class="price">Rp${rupiah(p.harga)}</div>
 
-<button onclick="event.stopPropagation();addcart('${p.nama}',${p.harga})">Tambah Keranjang</button>
-
-</div>
+<button class="btncart">Tambah Keranjang</button>
 
 </div>
 
 `
 
-})
+card.onclick=function(){
+detail(i)
+}
 
-document.getElementById("products").innerHTML=html
+card.querySelector(".btncart").onclick=function(e){
+e.stopPropagation()
+addcart(p.nama,p.harga)
+}
+
+container.appendChild(card)
+
+})
 
 }
 
 function addcart(nama,harga){
 
 cart.push({nama,harga})
-
 updateCart()
 
 alert("Produk ditambahkan ke keranjang")
@@ -250,11 +85,8 @@ let items=""
 let total=0
 
 cart.forEach(p=>{
-
 items+=`<div>${p.nama} - Rp${rupiah(p.harga)}</div>`
-
 total+=p.harga
-
 })
 
 document.getElementById("cartitems").innerHTML=items
@@ -263,9 +95,7 @@ document.getElementById("total").innerText="Total: Rp"+rupiah(total)
 }
 
 function toggleCart(){
-
 document.getElementById("cartpopup").classList.toggle("active")
-
 }
 
 let detailNama
@@ -328,5 +158,4 @@ c.style.display=text.includes(input)?"":"none"
 
 tampilProduk()
 
-</script></body>
-</html>
+</script>
