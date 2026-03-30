@@ -21,33 +21,45 @@
             background-color: #ff6600;
             color: white;
             padding: 10px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        header .logo a {
-            color: white;
+        header .logo {
             font-size: 24px;
             font-weight: bold;
-            text-decoration: none;
+            margin-bottom: 10px;
+        }
+
+        header .search-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            align-items: center;
         }
 
         header .search-bar {
-            width: 250px;
+            width: 70%;
             padding: 10px;
             border-radius: 25px;
             border: none;
         }
 
+        header .menu-icons {
+            display: flex;
+            justify-content: flex-end;
+            width: 30%;
+        }
+
         header .menu-icons a {
             color: white;
-            margin: 0 15px;
+            margin: 0 10px;
             font-size: 20px;
         }
 
@@ -56,7 +68,7 @@
         }
 
         .main-content {
-            margin-top: 80px; /* To avoid overlapping with fixed header */
+            margin-top: 130px; /* To avoid overlapping with fixed header */
             padding: 20px;
         }
 
@@ -189,7 +201,7 @@
 
         @media (max-width: 768px) {
             header .search-bar {
-                width: 200px;
+                width: 50%;
             }
 
             .category-icons {
@@ -210,12 +222,13 @@
         <div class="logo">
             <a href="#">MedanShopping</a>
         </div>
-        <input type="text" class="search-bar" placeholder="Cari produk...">
-        <div class="menu-icons">
-            <a href="#"><i class="fas fa-shopping-cart"></i></a> <!-- Cart Icon -->
-            <a href="#"><i class="fas fa-bell"></i></a> <!-- Notification Icon -->
-            <a href="#"><i class="fas fa-heart"></i></a> <!-- Favorite Icon -->
-            <a href="#"><i class="fas fa-bars"></i></a> <!-- Menu Icon -->
+        <div class="search-container">
+            <input type="text" class="search-bar" placeholder="Cari produk...">
+            <div class="menu-icons">
+                <a href="#"><i class="fas fa-shopping-cart"></i></a> <!-- Cart Icon -->
+                <a href="#"><i class="fas fa-heart"></i></a> <!-- Favorite Icon -->
+                <a href="#"><i class="fas fa-bars"></i></a> <!-- Menu Icon -->
+            </div>
         </div>
     </header>
 
