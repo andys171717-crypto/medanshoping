@@ -1,219 +1,201 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TembungShoping</title>
-    <style>
-        /* Reset CSS */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TembungShoping</title>
 
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            background-color: #f4f4f4;
-        }
+<style>
 
-        /* Header */
-        header {
-            background-color: #333;
-            color: white;
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
 
-        header .logo h1 a {
-            color: white;
-            text-decoration: none;
-            font-size: 2rem;
-        }
+body{
+background:#f4f4f4;
+}
 
-        header nav ul {
-            list-style-type: none;
-            display: flex;
-        }
+/* HEADER */
 
-        header nav ul li {
-            margin-left: 20px;
-        }
+header{
+background:#333;
+color:white;
+padding:15px;
+display:flex;
+flex-wrap:wrap;
+align-items:center;
+justify-content:space-between;
+}
 
-        header nav ul li a {
-            color: white;
-            text-decoration: none;
-            font-size: 1rem;
-        }
+.logo{
+font-size:22px;
+font-weight:bold;
+}
 
-        /* Hero Section */
-        .hero {
-            background-color: #2e3b4e;
-            color: white;
-            padding: 2rem;
-            text-align: center;
-        }
+nav ul{
+display:flex;
+list-style:none;
+gap:15px;
+}
 
-        .hero .btn {
-            background-color: #ff5733;
-            color: white;
-            padding: 0.5rem 1.5rem;
-            text-decoration: none;
-            font-size: 1.1rem;
-            border-radius: 5px;
-            margin-top: 1rem;
-        }
+nav ul li a{
+color:white;
+text-decoration:none;
+font-size:14px;
+}
 
-        .hero .btn:hover {
-            background-color: #ff4522;
-        }
+/* HERO */
 
-        /* Featured Products */
-        .featured-products {
-            padding: 2rem;
-            text-align: center;
-        }
+.hero{
+background:#34495e;
+color:white;
+text-align:center;
+padding:40px 15px;
+}
 
-        .featured-products h2 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
+.hero h2{
+font-size:24px;
+margin-bottom:10px;
+}
 
-        .products {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-        }
+.hero p{
+margin-bottom:15px;
+}
 
-        .product {
-            background-color: white;
-            padding: 1rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 30%;
-            margin: 1rem 0;
-            text-align: center;
-        }
+.btn{
+background:#ff4d2d;
+color:white;
+padding:10px 20px;
+text-decoration:none;
+border-radius:6px;
+display:inline-block;
+}
 
-        .product img {
-            width: 100%;
-            border-radius: 8px;
-        }
+/* PRODUK */
 
-        .product h3 {
-            margin-top: 0.5rem;
-            font-size: 1.2rem;
-        }
+.featured{
+padding:30px 15px;
+text-align:center;
+}
 
-        .product p {
-            margin: 0.5rem 0;
-            color: #666;
-        }
+.featured h2{
+margin-bottom:25px;
+font-size:26px;
+}
 
-        .product span {
-            display: block;
-            font-size: 1.1rem;
-            color: #333;
-            margin-top: 0.5rem;
-        }
+.products{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+}
 
-        .product a {
-            display: inline-block;
-            margin-top: 1rem;
-            background-color: #28a745;
-            color: white;
-            padding: 0.5rem 1.2rem;
-            text-decoration: none;
-            border-radius: 5px;
-        }
+.product{
+background:white;
+padding:15px;
+border-radius:10px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+transition:0.3s;
+}
 
-        .product a:hover {
-            background-color: #218838;
-        }
+.product img{
+width:100%;
+border-radius:8px;
+margin-bottom:10px;
+}
 
-        /* Footer */
-        footer {
-            background-color: #333;
-            color: white;
-            padding: 1rem;
-            text-align: center;
-        }
+.product h3{
+margin-bottom:10px;
+}
 
-        footer nav ul {
-            list-style-type: none;
-            margin-top: 1rem;
-        }
+.price{
+font-weight:bold;
+margin:10px 0;
+}
 
-        footer nav ul li {
-            display: inline-block;
-            margin-left: 20px;
-        }
+.buy{
+background:#28a745;
+color:white;
+padding:8px 15px;
+text-decoration:none;
+border-radius:5px;
+display:inline-block;
+}
 
-        footer nav ul li a {
-            color: white;
-            text-decoration: none;
-        }
-    </style>
+/* MOBILE */
+
+@media (max-width:768px){
+
+header{
+flex-direction:column;
+align-items:flex-start;
+}
+
+nav ul{
+margin-top:10px;
+flex-wrap:wrap;
+}
+
+.products{
+grid-template-columns:1fr;
+}
+
+.hero h2{
+font-size:20px;
+}
+
+}
+
+</style>
 </head>
+
 <body>
-    <!-- Header -->
-    <header>
-        <div class="logo">
-            <h1><a href="#">TembungShoping</a></h1>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#">Beranda</a></li>
-                <li><a href="#">Produk</a></li>
-                <li><a href="#">Tentang Kami</a></li>
-                <li><a href="#">Kontak</a></li>
-                <li><a href="#">Masuk</a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <h2>Temukan Berbagai Produk Terbaik di TembungShoping</h2>
-        <p>Belanja sekarang dan nikmati penawaran menarik!</p>
-        <a href="#" class="btn">Belanja Sekarang</a>
-    </section>
+<header>
+<div class="logo">TembungShoping</div>
 
-    <!-- Featured Products -->
-    <section class="featured-products">
-        <h2>Produk Unggulan</h2>
-        <div class="products">
-            <div class="product">
-                <img src="product1.jpg" alt="Produk 1">
-                <h3>Nama Produk 1</h3>
-                <p>Deskripsi singkat produk</p>
-                <span>Rp 100,000</span>
-                <a href="#">Beli Sekarang</a>
-            </div>
-            <div class="product">
-                <img src="product2.jpg" alt="Produk 2">
-                <h3>Nama Produk 2</h3>
-                <p>Deskripsi singkat produk</p>
-                <span>Rp 200,000</span>
-                <a href="#">Beli Sekarang</a>
-            </div>
-            <!-- Tambahkan produk lainnya -->
-        </div>
-    </section>
+<nav>
+<ul>
+<li><a href="#">Beranda</a></li>
+<li><a href="#">Produk</a></li>
+<li><a href="#">Tentang</a></li>
+<li><a href="#">Kontak</a></li>
+<li><a href="#">Masuk</a></li>
+</ul>
+</nav>
+</header>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2026 TembungShoping - Semua Hak Dilindungi</p>
-        <nav>
-            <ul>
-                <li><a href="#">Kebijakan Privasi</a></li>
-                <li><a href="#">Syarat & Ketentuan</a></li>
-                <li><a href="#">Bantuan</a></li>
-            </ul>
-        </nav>
-    </footer>
+<section class="hero">
+<h2>Temukan Berbagai Produk Terbaik di TembungShoping</h2>
+<p>Belanja sekarang dan nikmati penawaran menarik</p>
+<a class="btn" href="#">Belanja Sekarang</a>
+</section>
+
+<section class="featured">
+<h2>Produk Unggulan</h2>
+
+<div class="products">
+
+<div class="product">
+<img src="https://via.placeholder.com/300">
+<h3>Nama Produk 1</h3>
+<p>Deskripsi singkat produk</p>
+<div class="price">Rp 100.000</div>
+<a class="buy" href="#">Beli</a>
+</div>
+
+<div class="product">
+<img src="https://via.placeholder.com/300">
+<h3>Nama Produk 2</h3>
+<p>Deskripsi singkat produk</p>
+<div class="price">Rp 200.000</div>
+<a class="buy" href="#">Beli</a>
+</div>
+
+</div>
+</section>
+
 </body>
 </html>
