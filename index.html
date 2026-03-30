@@ -6,28 +6,28 @@
 body{
 margin:0;
 font-family:Arial;
-background:#f1f1f1;
+background:#f2f2f2;
 padding-bottom:80px;
 }
 
 .header{
-background:#34495e;
+background:#2c3e50;
 padding:10px;
 display:flex;
-gap:10px;
 align-items:center;
+gap:10px;
 }
 
 .search{
 flex:1;
 padding:10px;
-border-radius:20px;
 border:none;
+border-radius:20px;
 }
 
 .icon{
-font-size:22px;
 color:white;
+font-size:22px;
 cursor:pointer;
 position:relative;
 }
@@ -54,7 +54,7 @@ text-align:center;
 .circle{
 width:40px;
 height:40px;
-background:#34495e;
+background:#2c3e50;
 border-radius:50%;
 margin:auto;
 margin-bottom:5px;
@@ -100,7 +100,7 @@ border:none;
 background:#27ae60;
 color:white;
 border-radius:6px;
-margin-top:5px;
+margin-top:6px;
 cursor:pointer;
 }
 
@@ -114,7 +114,7 @@ background:white;
 padding:20px;
 overflow:auto;
 transition:0.3s;
-z-index:1000;
+z-index:999;
 }
 
 .cart.show{
@@ -135,35 +135,39 @@ box-shadow:0 -2px 10px rgba(0,0,0,0.1);
 </style></head><body><div class="header"><input class="search" id="search" placeholder="Cari produk"><div class="icon" onclick="toggleCart()">
 🛒
 <span class="cart-count" id="cartcount">0</span>
-</div><div class="icon" onclick="chat()">💬</div></div><div class="menu"><div><div class="circle"></div>Pulsa</div>
+</div><div class="icon" onclick="chat()">💬</div></div><div class="menu">
+<div><div class="circle"></div>Pulsa</div>
 <div><div class="circle"></div>Promo</div>
 <div><div class="circle"></div>Game</div>
 <div><div class="circle"></div>Live</div>
-<div><div class="circle"></div>Lainnya</div></div><div class="products" id="products"></div><div class="cart" id="cart"><h2>Keranjang</h2><div id="cartitems"></div><h3 id="total"></h3><button onclick="checkout()">Checkout</button>
+<div><div class="circle"></div>Lainnya</div>
+</div><div class="products" id="products"></div><div class="cart" id="cart"><h2>Keranjang</h2><div id="cartitems"></div><h3 id="total"></h3><button onclick="checkout()">Checkout</button>
 
-</div><div class="bottom"><div>🏠<br>Beranda</div>
+</div><div class="bottom">
+<div>🏠<br>Beranda</div>
 <div>📺<br>Live</div>
 <div>🔔<br>Notif</div>
-<div>👤<br>Akun</div></div><script>
+<div>👤<br>Akun</div>
+</div><script>
 
-let produk=[
+var produk=[
 
-{nama:"Sepatu Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=400&q=60"},
-{nama:"Headphone Gaming",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=400&q=60"},
-{nama:"Jam Tangan",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=60"},
-{nama:"Tas Fashion",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?auto=format&fit=crop&w=400&q=60"},
-{nama:"Laptop Gaming",harga:8500000,img:"https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=400&q=60"},
-{nama:"Mouse Gaming",harga:120000,img:"https://images.unsplash.com/photo-1527814050087-3793815479db?auto=format&fit=crop&w=400&q=60"},
-{nama:"Keyboard RGB",harga:350000,img:"https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=400&q=60"},
-{nama:"Smartphone Android",harga:2500000,img:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=400&q=60"},
-{nama:"Kamera Digital",harga:3200000,img:"https://images.unsplash.com/photo-1519183071298-a2962be96a27?auto=format&fit=crop&w=400&q=60"},
-{nama:"Speaker Bluetooth",harga:450000,img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad?auto=format&fit=crop&w=400&q=60"},
-{nama:"Power Bank",harga:95000,img:"https://images.unsplash.com/photo-1583394838336-acd977736f90?auto=format&fit=crop&w=400&q=60"},
-{nama:"Kacamata Fashion",harga:80000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=400&q=60"}
+{nama:"Sepatu Sport",harga:100000,img:"https://picsum.photos/300?1"},
+{nama:"Headphone Gaming",harga:200000,img:"https://picsum.photos/300?2"},
+{nama:"Jam Tangan",harga:150000,img:"https://picsum.photos/300?3"},
+{nama:"Tas Fashion",harga:180000,img:"https://picsum.photos/300?4"},
+{nama:"Laptop Gaming",harga:8500000,img:"https://picsum.photos/300?5"},
+{nama:"Mouse Gaming",harga:120000,img:"https://picsum.photos/300?6"},
+{nama:"Keyboard RGB",harga:350000,img:"https://picsum.photos/300?7"},
+{nama:"Smartphone Android",harga:2500000,img:"https://picsum.photos/300?8"},
+{nama:"Kamera Digital",harga:3200000,img:"https://picsum.photos/300?9"},
+{nama:"Speaker Bluetooth",harga:450000,img:"https://picsum.photos/300?10"},
+{nama:"Power Bank",harga:95000,img:"https://picsum.photos/300?11"},
+{nama:"Kacamata Fashion",harga:80000,img:"https://picsum.photos/300?12"}
 
 ]
 
-let cart=[]
+var cart=[]
 
 function rupiah(x){
 return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,".")
@@ -171,22 +175,22 @@ return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,".")
 
 function tampilProduk(){
 
-let html=""
+var html=""
 
-produk.forEach((p,i)=>{
+for(var i=0;i<produk.length;i++){
 
 html+=`
 <div class="product">
 
-<img src="${p.img}">
+<img src="${produk[i].img}">
 
 <div class="info">
 
-<b>${p.nama}</b>
+<b>${produk[i].nama}</b>
 
 <div class="rating">⭐⭐⭐⭐☆</div>
 
-<div class="price">Rp${rupiah(p.harga)}</div>
+<div class="price">Rp${rupiah(produk[i].harga)}</div>
 
 <button onclick="addCart(${i})">Tambah Keranjang</button>
 
@@ -195,7 +199,7 @@ html+=`
 </div>
 `
 
-})
+}
 
 document.getElementById("products").innerHTML=html
 
@@ -207,7 +211,7 @@ cart.push(produk[i])
 
 updateCart()
 
-alert("Produk ditambahkan")
+alert("Produk masuk keranjang")
 
 }
 
@@ -215,37 +219,43 @@ function updateCart(){
 
 document.getElementById("cartcount").innerText=cart.length
 
-let items=""
-let total=0
+var total=0
+var html=""
 
-cart.forEach(p=>{
+for(var i=0;i<cart.length;i++){
 
-items+=`<div>${p.nama} - Rp${rupiah(p.harga)}</div>`
+html+=cart[i].nama+" - Rp"+rupiah(cart[i].harga)+"<br>"
 
-total+=p.harga
+total+=cart[i].harga
 
-})
+}
 
-document.getElementById("cartitems").innerHTML=items
+document.getElementById("cartitems").innerHTML=html
 document.getElementById("total").innerText="Total Rp"+rupiah(total)
 
 }
 
 function toggleCart(){
 
-document.getElementById("cart").classList.toggle("show")
+var c=document.getElementById("cart")
+
+if(c.classList.contains("show")){
+c.classList.remove("show")
+}else{
+c.classList.add("show")
+}
 
 }
 
 function checkout(){
 
-let nomor="6281220549530"
+var nomor="6281220549530"
 
-let pesan="Halo saya mau pesan:%0A"
+var pesan="Halo saya mau pesan:%0A"
 
-cart.forEach(p=>{
-pesan+=p.nama+" Rp"+rupiah(p.harga)+"%0A"
-})
+for(var i=0;i<cart.length;i++){
+pesan+=cart[i].nama+" Rp"+rupiah(cart[i].harga)+"%0A"
+}
 
 window.open("https://wa.me/"+nomor+"?text="+pesan)
 
@@ -259,17 +269,17 @@ window.open("https://wa.me/6281220549530")
 
 document.getElementById("search").addEventListener("keyup",function(){
 
-let val=this.value.toLowerCase()
+var val=this.value.toLowerCase()
 
-let cards=document.querySelectorAll(".product")
+var items=document.querySelectorAll(".product")
 
-cards.forEach(card=>{
+for(var i=0;i<items.length;i++){
 
-let text=card.innerText.toLowerCase()
+var txt=items[i].innerText.toLowerCase()
 
-card.style.display=text.includes(val)?"":"none"
+items[i].style.display=txt.includes(val)?"":"none"
 
-})
+}
 
 })
 
