@@ -141,6 +141,17 @@ padding:10px;
 box-shadow:0 -2px 10px rgba(0,0,0,0.1);
 }
 
+.notif-item{
+padding:10px;
+border-bottom:1px solid #eee;
+cursor:pointer;
+}
+
+.notif-unread{
+background:#eef3ff;
+font-weight:bold;
+}
+
 .popup-bg{
 position:fixed;
 top:0;
@@ -247,6 +258,14 @@ document.getElementById("products").innerHTML=html
 
 }
 
+function updateNotifCount(){
+
+let unread = notif.filter(n=>!n.read).length
+
+document.getElementById("notifcount").innerText = unread
+
+}
+
 function renderNotif(){
 
 let html=""
@@ -255,8 +274,17 @@ if(notif.length==0){
 html="Belum ada notifikasi"
 }else{
 
-notif.forEach(n=>{
-html+=`<div style="padding:8px;border-bottom:1px solid #eee">${n}</div>`
+notif.forEach((n,i)=>{
+
+html+=`
+<div onclick="readNotif(${i})"
+class="notif-item ${n.read ? "" : "notif-unread"}">
+
+${n.text}
+
+</div>
+`
+
 })
 
 }
@@ -267,11 +295,26 @@ document.getElementById("notifitems").innerHTML=html
 
 function addNotif(text){
 
-notif.unshift(text)
+notif.unshift({
+text:text,
+read:false
+})
 
 localStorage.setItem("notif",JSON.stringify(notif))
 
-document.getElementById("notifcount").innerText=notif.length
+updateNotifCount()
+
+renderNotif()
+
+}
+
+function readNotif(i){
+
+notif[i].read=true
+
+localStorage.setItem("notif",JSON.stringify(notif))
+
+updateNotifCount()
 
 renderNotif()
 
@@ -331,8 +374,6 @@ cartpopup.classList.remove("active")
 notifpopup.classList.toggle("active")
 
 renderNotif()
-
-document.getElementById("notifcount").innerText="0"
 
 }
 
@@ -419,7 +460,7 @@ let savedNotif = localStorage.getItem("notif")
 
 if(savedNotif){
 notif = JSON.parse(savedNotif)
-document.getElementById("notifcount").innerText = notif.length
+updateNotifCount()
 }
 
 tampilProduk()
