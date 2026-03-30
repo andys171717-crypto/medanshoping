@@ -1,16 +1,12 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<title>TembungShoping</title>
-
-<style>
+<meta name="viewport" content="width=device-width, initial-scale=1"><title>TembungShoping</title><style>
 
 body{
 margin:0;
 font-family:Arial;
 background:#f2f2f2;
+padding-bottom:70px;
 }
 
 /* HEADER */
@@ -28,6 +24,7 @@ flex:1;
 padding:10px;
 border-radius:20px;
 border:none;
+outline:none;
 }
 
 .icon{
@@ -74,6 +71,11 @@ border-radius:12px;
 overflow:hidden;
 box-shadow:0 2px 8px rgba(0,0,0,0.1);
 cursor:pointer;
+transition:0.2s;
+}
+
+.product:hover{
+transform:scale(1.02);
 }
 
 .product img{
@@ -107,6 +109,7 @@ color:white;
 border-radius:6px;
 margin-top:6px;
 font-size:14px;
+cursor:pointer;
 }
 
 /* BOTTOM MENU */
@@ -128,174 +131,55 @@ font-size:12px;
 cursor:pointer;
 }
 
-</style>
-
-</head>
-
-<body>
-
-<!-- HEADER -->
-
-<div class="header">
-
-<input class="search" id="search" placeholder="Cari produk di TembungShoping">
-
-<div class="icon" onclick="cart()">🛒</div>
-<div class="icon" onclick="chat()">💬</div>
-
-</div>
-
-<!-- MENU -->
-
-<div class="menu">
-
-<div class="menu-item">
+</style></head><body><!-- HEADER --><div class="header"><input class="search" id="search" placeholder="Cari produk di TembungShoping"><div class="icon" onclick="cart()">🛒</div>
+<div class="icon" onclick="chat()">💬</div></div><!-- MENU --><div class="menu"><div class="menu-item">
 <div class="circle"></div>
 Pulsa
-</div>
-
-<div class="menu-item">
+</div><div class="menu-item">
 <div class="circle"></div>
 Promo
-</div>
-
-<div class="menu-item">
+</div><div class="menu-item">
 <div class="circle"></div>
 Game
-</div>
-
-<div class="menu-item">
+</div><div class="menu-item">
 <div class="circle"></div>
 Live
-</div>
-
-<div class="menu-item">
+</div><div class="menu-item">
 <div class="circle"></div>
 Lainnya
-</div>
-
-</div>
-
-<!-- PRODUK -->
-
-<div class="products" id="products">
-
-<div class="product" onclick="detail('Sepatu Sport','100000')">
-
-<img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff">
-
-<div class="info">
-
-<b>Sepatu Sport</b>
+</div></div><!-- PRODUK --><div class="products" id="products"><div class="product" onclick="detail('Sepatu Sport','100000')"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff"><div class="info"><b>Sepatu Sport</b>
 
 <div class="rating">
 ⭐⭐⭐⭐☆
-</div>
-
-<div class="price">
+</div><div class="price">
 Rp100.000
-</div>
-
-<button onclick="addcart('Sepatu Sport',event)">
+</div><button onclick="addcart('Sepatu Sport',event)">
 Tambah Keranjang
-</button>
-
-</div>
-
-</div>
-
-
-<div class="product" onclick="detail('Headphone Gaming','200000')">
-
-<img src="https://images.unsplash.com/photo-1580894732444-8ecded7900cd">
-
-<div class="info">
-
-<b>Headphone Gaming</b>
+</button></div></div><div class="product" onclick="detail('Headphone Gaming','200000')"><img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e"><div class="info"><b>Headphone Gaming</b>
 
 <div class="rating">
 ⭐⭐⭐⭐⭐
-</div>
-
-<div class="price">
+</div><div class="price">
 Rp200.000
-</div>
-
-<button onclick="addcart('Headphone Gaming',event)">
+</div><button onclick="addcart('Headphone Gaming',event)">
 Tambah Keranjang
-</button>
-
-</div>
-
-</div>
-
-
-<div class="product" onclick="detail('Jam Tangan','150000')">
-
-<img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30">
-
-<div class="info">
-
-<b>Jam Tangan</b>
+</button></div></div><div class="product" onclick="detail('Jam Tangan','150000')"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30"><div class="info"><b>Jam Tangan</b>
 
 <div class="rating">
 ⭐⭐⭐⭐☆
-</div>
-
-<div class="price">
+</div><div class="price">
 Rp150.000
-</div>
-
-<button onclick="addcart('Jam Tangan',event)">
+</div><button onclick="addcart('Jam Tangan',event)">
 Tambah Keranjang
-</button>
-
-</div>
-
-</div>
-
-
-<div class="product" onclick="detail('Tas Fashion','180000')">
-
-<img src="https://images.unsplash.com/photo-1591561954557-26941169b49e">
-
-<div class="info">
-
-<b>Tas Fashion</b>
+</button></div></div><div class="product" onclick="detail('Tas Fashion','180000')"><img src="https://images.unsplash.com/photo-1591561954557-26941169b49e"><div class="info"><b>Tas Fashion</b>
 
 <div class="rating">
 ⭐⭐⭐⭐☆
-</div>
-
-<div class="price">
+</div><div class="price">
 Rp180.000
-</div>
-
-<button onclick="addcart('Tas Fashion',event)">
+</div><button onclick="addcart('Tas Fashion',event)">
 Tambah Keranjang
-</button>
-
-</div>
-
-</div>
-
-</div>
-
-<!-- MENU BAWAH -->
-
-<div class="bottom">
-
-<div onclick="home()">🏠<br>Beranda</div>
-
-<div onclick="live()">📺<br>Live</div>
-
-<div onclick="notif()">🔔<br>Notif</div>
-
-<div onclick="akun()">👤<br>Akun</div>
-
-</div>
-
-<script>
+</button></div></div></div><!-- MENU BAWAH --><div class="bottom"><div onclick="home()">🏠<br>Beranda</div><div onclick="live()">📺<br>Live</div><div onclick="notif()">🔔<br>Notif</div><div onclick="akun()">👤<br>Akun</div></div><script>
 
 let keranjang=[]
 
@@ -367,13 +251,11 @@ products.forEach(p=>{
 
 let text=p.innerText.toLowerCase()
 
-p.style.display=text.includes(input)?"block":"none"
+p.style.display = text.includes(input) ? "" : "none"
 
 })
 
 })
 
-</script>
-
-</body>
+</script></body>
 </html>
