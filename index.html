@@ -311,14 +311,24 @@ document.getElementById("total").innerText="Total: Rp"+rupiah(total)
 }
 
 function toggleCart(){
-document.getElementById("cartpopup").classList.toggle("active")
+
+let cartpopup=document.getElementById("cartpopup")
+let notifpopup=document.getElementById("notifpopup")
+
+notifpopup.classList.remove("active")
+
+cartpopup.classList.toggle("active")
+
 }
 
 function toggleNotif(){
 
-let popup=document.getElementById("notifpopup")
+let notifpopup=document.getElementById("notifpopup")
+let cartpopup=document.getElementById("cartpopup")
 
-popup.classList.toggle("active")
+cartpopup.classList.remove("active")
+
+notifpopup.classList.toggle("active")
 
 renderNotif()
 
@@ -354,14 +364,15 @@ window.open("https://wa.me/6281220549530")
 function menuHome(){
 
 let cartpopup=document.getElementById("cartpopup")
+let notifpopup=document.getElementById("notifpopup")
 
-if(cartpopup.classList.contains("active")){
 cartpopup.classList.remove("active")
-}
+notifpopup.classList.remove("active")
 
 document.getElementById("search").value=""
 
 let cards=document.querySelectorAll(".product")
+
 cards.forEach(c=>{
 c.style.display=""
 })
