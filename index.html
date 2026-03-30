@@ -5,79 +5,150 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MedanShopping - Marketplace Online</title>
     <style>
-        /* Style umum untuk pengunjung */
+        /* General Styles */
         body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
         }
 
+        /* Navbar */
         header {
-            background: #333;
-            color: #fff;
-            padding: 10px 0;
+            background-color: #333;
+            color: white;
+            padding: 15px 0;
         }
 
         header .logo a {
-            font-size: 24px;
+            font-size: 26px;
             color: #fff;
             text-decoration: none;
             font-weight: bold;
+            margin-left: 30px;
         }
 
         header .menu a {
-            color: #fff;
+            color: white;
             text-decoration: none;
             margin: 0 15px;
+            font-size: 16px;
         }
 
         header .menu a:hover {
             color: #f1c40f;
         }
 
+        .search-bar {
+            width: 300px;
+            padding: 8px;
+            margin: 15px auto;
+            display: block;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        /* Banner */
         .banner {
             background: #f1c40f;
-            color: #fff;
-            padding: 50px 0;
+            color: white;
+            padding: 80px 0;
             text-align: center;
         }
 
+        .banner h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .banner p {
+            font-size: 20px;
+            margin-bottom: 30px;
+        }
+
+        .banner .btn {
+            background-color: #333;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .banner .btn:hover {
+            background-color: #f1c40f;
+            color: #333;
+        }
+
+        /* Featured Products */
         .products {
-            padding: 50px 0;
+            padding: 40px 0;
             text-align: center;
+        }
+
+        .products h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        /* Product Cards */
+        .product-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .product-item {
-            background: #f4f4f4;
-            padding: 20px;
-            border-radius: 8px;
-            text-align: center;
-            width: 200px;
+            background: white;
+            border-radius: 10px;
             margin: 10px;
-            display: inline-block;
+            padding: 20px;
+            width: 220px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out;
+            text-align: center;
+        }
+
+        .product-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
         }
 
         .product-item img {
             width: 100%;
             height: auto;
-            border-radius: 8px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .product-item h3 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .product-item p {
+            font-size: 16px;
+            color: #333;
         }
 
         .product-item .btn {
-            background: #333;
+            background-color: #333;
             color: white;
             padding: 10px 20px;
-            border: none;
             border-radius: 5px;
-            cursor: pointer;
+            text-decoration: none;
+            margin-top: 15px;
+            font-weight: bold;
         }
 
         .product-item .btn:hover {
-            background: #f1c40f;
+            background-color: #f1c40f;
         }
 
+        /* Footer */
         footer {
-            background: #333;
-            color: #fff;
+            background-color: #333;
+            color: white;
             text-align: center;
             padding: 20px;
         }
@@ -85,10 +156,18 @@
         footer a {
             color: #fff;
             text-decoration: none;
+            margin: 0 10px;
         }
 
         footer a:hover {
             color: #f1c40f;
+        }
+
+        @media (max-width: 768px) {
+            .product-item {
+                width: 100%;
+                margin-bottom: 20px;
+            }
         }
     </style>
 </head>
@@ -106,6 +185,7 @@
                 <a href="login.html">Admin Login</a>
             </div>
         </nav>
+        <input type="text" class="search-bar" placeholder="Cari produk...">
     </header>
 
     <!-- Banner -->
