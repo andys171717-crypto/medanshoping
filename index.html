@@ -176,7 +176,7 @@ from{transform:scale(0.7);opacity:0}
 to{transform:scale(1);opacity:1}
 }
 
-</style></head><body id="home"><div class="header"><input class="search" id="search" placeholder="Cari produk di TembungShoping"><div class="icon" onclick="toggleCart()">
+</style></head><body><div class="header"><input class="search" id="search" placeholder="Cari produk di TembungShoping"><div class="icon" onclick="toggleCart()">
 🛒
 <span id="cartcount" class="cart-count">0</span>
 </div><div class="icon" onclick="chatAdmin()">💬</div></div><div class="menu"><div onclick="menuPulsa()">
@@ -189,7 +189,7 @@ to{transform:scale(1);opacity:1}
 <div class="circle"></div>Live
 </div><div onclick="menuLain()">
 <div class="circle"></div>Lainnya
-</div></div><div class="products" id="products"></div><div class="cart-popup" id="cartpopup"><button class="close-cart" onclick="toggleCart()">Tutup</button>
+</div></div><div id="homePage"><div class="products" id="products"></div></div><div class="cart-popup" id="cartpopup"><button class="close-cart" onclick="toggleCart()">Tutup</button>
 
 <h2>Keranjang</h2><div id="cartitems"></div><h3 id="total"></h3><button onclick="checkout()">Checkout</button>
 
@@ -321,10 +321,14 @@ function menuLive(){openPopup()}
 function menuLain(){openPopup()}
 
 function menuHome(){
+
+toggleCart()
+
 window.scrollTo({
 top:0,
 behavior:"smooth"
 })
+
 }
 
 function menuLive2(){openPopup()}
