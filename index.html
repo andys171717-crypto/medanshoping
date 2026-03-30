@@ -6,7 +6,6 @@
     <title>MedanShopping</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
-        /* Resetting basic styles */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -15,11 +14,9 @@
 
         body, html {
             font-family: Arial, sans-serif;
-            overflow-x: hidden;
             background-color: #f7f7f7;
         }
 
-        /* Header */
         header {
             background-color: #ff6600;
             color: white;
@@ -42,11 +39,10 @@
         }
 
         header .search-bar {
-            width: 300px;
+            width: 250px;
             padding: 10px;
-            border-radius: 20px;
+            border-radius: 25px;
             border: none;
-            margin-right: 10px;
         }
 
         header .menu-icons a {
@@ -59,9 +55,9 @@
             color: #ffcc00;
         }
 
-        /* Main Content */
         .main-content {
             margin-top: 80px; /* To avoid overlapping with fixed header */
+            padding: 20px;
         }
 
         .banner {
@@ -95,7 +91,6 @@
             color: white;
         }
 
-        /* Category Icons */
         .category-icons {
             display: flex;
             justify-content: space-around;
@@ -118,7 +113,6 @@
             font-size: 14px;
         }
 
-        /* Products Section */
         .products {
             padding: 30px;
             background-color: #fff;
@@ -175,7 +169,6 @@
             background-color: #ffcc00;
         }
 
-        /* Footer */
         footer {
             background-color: #333;
             color: white;
@@ -194,7 +187,6 @@
             color: #ffcc00;
         }
 
-        /* Mobile */
         @media (max-width: 768px) {
             header .search-bar {
                 width: 200px;
@@ -223,6 +215,7 @@
             <a href="#"><i class="fas fa-shopping-cart"></i></a> <!-- Cart Icon -->
             <a href="#"><i class="fas fa-bell"></i></a> <!-- Notification Icon -->
             <a href="#"><i class="fas fa-heart"></i></a> <!-- Favorite Icon -->
+            <a href="#"><i class="fas fa-bars"></i></a> <!-- Menu Icon -->
         </div>
     </header>
 
