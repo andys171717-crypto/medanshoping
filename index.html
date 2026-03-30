@@ -82,7 +82,6 @@ background:white;
 border-radius:12px;
 overflow:hidden;
 box-shadow:0 2px 8px rgba(0,0,0,0.1);
-cursor:pointer;
 }
 
 .product img{
@@ -115,9 +114,10 @@ background:#27ae60;
 color:white;
 border-radius:6px;
 margin-top:6px;
+cursor:pointer;
 }
 
-/* CART POPUP */
+/* CART */
 
 .cart-popup{
 position:fixed;
@@ -171,19 +171,19 @@ cursor:pointer;
 <div class="menu-item"><div class="circle"></div>Live</div>
 <div class="menu-item"><div class="circle"></div>Lainnya</div></div><!-- PRODUK --><div class="products" id="products"><div class="product"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff"><div class="info"><b>Sepatu Sport</b>
 
-<div class="rating">⭐⭐⭐⭐☆</div><div class="price">Rp100000</div><button onclick="addcart('Sepatu Sport',100000)">Tambah Keranjang</button>
+<div class="rating">⭐⭐⭐⭐☆</div><div class="price">Rp100.000</div><button onclick="addcart('Sepatu Sport',100000)">Tambah Keranjang</button>
 
 </div></div><div class="product"><img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e"><div class="info"><b>Headphone Gaming</b>
 
-<div class="rating">⭐⭐⭐⭐⭐</div><div class="price">Rp200000</div><button onclick="addcart('Headphone Gaming',200000)">Tambah Keranjang</button>
+<div class="rating">⭐⭐⭐⭐⭐</div><div class="price">Rp200.000</div><button onclick="addcart('Headphone Gaming',200000)">Tambah Keranjang</button>
 
 </div></div><div class="product"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30"><div class="info"><b>Jam Tangan</b>
 
-<div class="rating">⭐⭐⭐⭐☆</div><div class="price">Rp150000</div><button onclick="addcart('Jam Tangan',150000)">Tambah Keranjang</button>
+<div class="rating">⭐⭐⭐⭐☆</div><div class="price">Rp150.000</div><button onclick="addcart('Jam Tangan',150000)">Tambah Keranjang</button>
 
 </div></div><div class="product"><img src="https://images.unsplash.com/photo-1591561954557-26941169b49e"><div class="info"><b>Tas Fashion</b>
 
-<div class="rating">⭐⭐⭐⭐☆</div><div class="price">Rp180000</div><button onclick="addcart('Tas Fashion',180000)">Tambah Keranjang</button>
+<div class="rating">⭐⭐⭐⭐☆</div><div class="price">Rp180.000</div><button onclick="addcart('Tas Fashion',180000)">Tambah Keranjang</button>
 
 </div></div></div><!-- CART --><div class="cart-popup" id="cartpopup"><h2>Keranjang</h2><div id="cartitems"></div><h3 id="total"></h3></div><!-- MENU BAWAH --><div class="bottom"><div>🏠<br>Beranda</div>
 <div>📺<br>Live</div>
@@ -191,6 +191,10 @@ cursor:pointer;
 <div>👤<br>Akun</div></div><script>
 
 let cart=[]
+
+function rupiah(angka){
+return angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g,".")
+}
 
 function addcart(nama,harga){
 
@@ -209,7 +213,7 @@ let total=0
 
 cart.forEach(p=>{
 
-items+=`<div class="cart-item">${p.nama} - Rp${p.harga}</div>`
+items+=`<div class="cart-item">${p.nama} - Rp${rupiah(p.harga)}</div>`
 
 total+=p.harga
 
@@ -217,7 +221,7 @@ total+=p.harga
 
 document.getElementById("cartitems").innerHTML=items
 
-document.getElementById("total").innerText="Total: Rp"+total
+document.getElementById("total").innerText="Total: Rp"+rupiah(total)
 
 }
 
