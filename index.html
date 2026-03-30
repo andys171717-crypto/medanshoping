@@ -55,11 +55,12 @@ background:white;
 border-radius:10px;
 overflow:hidden;
 box-shadow:0 2px 6px rgba(0,0,0,0.1);
+cursor:pointer;
 }
 
 .product img{
 width:100%;
-height:130px;
+height:140px;
 object-fit:cover;
 }
 
@@ -74,12 +75,12 @@ font-weight:bold;
 
 button{
 width:100%;
-padding:7px;
+padding:8px;
 border:none;
 background:#27ae60;
 color:white;
 border-radius:5px;
-margin-top:5px;
+margin-top:6px;
 }
 
 .panel{
@@ -123,14 +124,26 @@ padding:4px;
 background:#3498db;
 }
 
-.notif-item{
-padding:10px;
-border-bottom:1px solid #eee;
+.detail{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:white;
+display:none;
+overflow:auto;
+z-index:1000;
 }
 
-.unread{
-background:#eef3ff;
-font-weight:bold;
+.detail img{
+width:100%;
+height:250px;
+object-fit:cover;
+}
+
+.detail-info{
+padding:15px;
 }
 
 </style></head><body><div class="header"><input class="search" id="search" placeholder="Cari produk"><div class="icon" onclick="toggleCart()">
@@ -140,20 +153,33 @@ font-weight:bold;
 
 <h2>Keranjang</h2><div id="cartItems"></div><h3 id="total"></h3><button onclick="checkout()">Checkout</button>
 
-</div><div class="panel" id="notifPanel"><button onclick="toggleNotif()">Tutup</button>
+</div><div class="detail" id="detailPage"><button onclick="closeDetail()">⬅ Kembali</button>
 
-<h2>Notifikasi</h2><div id="notifItems"></div></div><div class="bottom"><div onclick="menuHome()">🏠<br>Beranda</div><div onclick="toggleNotif()">🔔<br>Notif <span id="notifCount"></span></div><div onclick="openOrder()">📦<br>Pesanan</div><div onclick="openPopup()">👤<br>Akun</div></div><script>
+<img id="detailImg"><div class="detail-info"><h2 id="detailName"></h2><h3 id="detailPrice"></h3><p>
+Produk berkualitas terbaik di TembungShoping.
+Cocok untuk kebutuhan sehari hari.
+</p><button onclick="addCartDetail()">Tambah Keranjang</button>
+
+<button onclick="buyNow()">Beli Sekarang</button>
+
+</div></div><div class="bottom"><div onclick="menuHome()">🏠<br>Beranda</div><div onclick="toggleCart()">🛒<br>Keranjang</div><div onclick="chatAdmin()">💬<br>Chat</div><div onclick="menuHome()">👤<br>Akun</div></div><script>
 
 let produk=[
+
 {nama:"Sepatu Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff"},
 {nama:"Headphone Gaming",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e"},
 {nama:"Jam Tangan",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30"},
-{nama:"Tas Fashion",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e"}
+{nama:"Tas Fashion",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e"},
+{nama:"Laptop Gaming",harga:8500000,img:"https://images.unsplash.com/photo-1517336714731-489689fd1ca8"},
+{nama:"Mouse Gaming",harga:120000,img:"https://images.unsplash.com/photo-1527814050087-3793815479db"},
+{nama:"Smartphone Android",harga:2500000,img:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9"},
+{nama:"Speaker Bluetooth",harga:450000,img:"https://images.unsplash.com/photo-1545454675-3531b543be5d"}
+
 ]
 
 let cart=JSON.parse(localStorage.getItem("cart")||"[]")
-let notif=JSON.parse(localStorage.getItem("notif")||"[]")
-let orders=JSON.parse(localStorage.getItem("orders")||"[]")
+
+let currentProduct=null
 
 function rupiah(x){
 return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,".")
@@ -163,10 +189,11 @@ function tampilProduk(){
 
 let html=""
 
-produk.forEach(p=>{
+produk.forEach((p,i)=>{
 
 html+=`
-<div class="product">
+
+<div class="product" onclick="openDetail(${i})">
 
 <img src="${p.img}">
 
@@ -176,18 +203,39 @@ html+=`
 
 <div class="price">Rp${rupiah(p.harga)}</div>
 
-<button onclick="addCart('${p.nama}',${p.harga})">
-Tambah Keranjang
-</button>
-
 </div>
 
 </div>
+
 `
 
 })
 
 products.innerHTML=html
+
+}
+
+function openDetail(i){
+
+currentProduct=produk[i]
+
+detailImg.src=currentProduct.img
+
+detailName.innerText=currentProduct.nama
+
+detailPrice.innerText="Rp"+rupiah(currentProduct.harga)
+
+detailPage.style.display="block"
+
+}
+
+function closeDetail(){
+detailPage.style.display="none"
+}
+
+function addCartDetail(){
+
+addCart(currentProduct.nama,currentProduct.harga)
 
 }
 
@@ -203,7 +251,7 @@ cart.push({nama,harga,qty:1})
 
 saveCart()
 
-addNotif("🛒 "+nama+" masuk keranjang")
+alert("Produk masuk keranjang")
 
 }
 
@@ -261,11 +309,8 @@ total.innerText="Total Rp"+rupiah(total)
 }
 
 function addQty(i){
-
 cart[i].qty++
-
 saveCart()
-
 }
 
 function minQty(i){
@@ -281,10 +326,13 @@ saveCart()
 }
 
 function removeCart(i){
-
 cart.splice(i,1)
-
 saveCart()
+}
+
+function toggleCart(){
+
+cartPanel.classList.toggle("active")
 
 }
 
@@ -294,12 +342,6 @@ if(cart.length==0){
 alert("Keranjang kosong")
 return
 }
-
-orders.push(...cart)
-
-localStorage.setItem("orders",JSON.stringify(orders))
-
-addNotif("📦 Pesanan berhasil dibuat")
 
 let text="Halo saya mau pesan:%0A"
 
@@ -315,80 +357,11 @@ saveCart()
 
 }
 
-function addNotif(text){
+function buyNow(){
 
-notif.unshift({text,read:false})
+let text="Halo saya mau beli "+currentProduct.nama
 
-localStorage.setItem("notif",JSON.stringify(notif))
-
-renderNotif()
-
-}
-
-function renderNotif(){
-
-let html=""
-let unread=0
-
-notif.forEach((n,i)=>{
-
-if(!n.read) unread++
-
-html+=`
-
-<div class="notif-item ${n.read?"":"unread"}" onclick="readNotif(${i})">
-
-${n.text}
-
-<button onclick="delNotif(${i});event.stopPropagation()">🗑</button>
-
-</div>
-
-`
-
-})
-
-notifItems.innerHTML=html||"Belum ada notif"
-
-notifCount.innerText=unread
-
-}
-
-function readNotif(i){
-
-notif[i].read=true
-
-localStorage.setItem("notif",JSON.stringify(notif))
-
-renderNotif()
-
-}
-
-function delNotif(i){
-
-notif.splice(i,1)
-
-localStorage.setItem("notif",JSON.stringify(notif))
-
-renderNotif()
-
-}
-
-function toggleCart(){
-
-cartPanel.classList.toggle("active")
-
-notifPanel.classList.remove("active")
-
-}
-
-function toggleNotif(){
-
-notifPanel.classList.toggle("active")
-
-cartPanel.classList.remove("active")
-
-renderNotif()
+window.open("https://wa.me/6281220549530?text="+text)
 
 }
 
@@ -400,11 +373,7 @@ window.open("https://wa.me/6281220549530")
 
 function menuHome(){
 
-document.getElementById("search").value=""
-
-let cards=document.querySelectorAll(".product")
-
-cards.forEach(c=>c.style.display="")
+detailPage.style.display="none"
 
 window.scrollTo({top:0})
 
@@ -423,7 +392,6 @@ p.style.display=p.innerText.toLowerCase().includes(v)?"":"none"
 })
 
 renderCart()
-renderNotif()
 tampilProduk()
 
 </script></body>
