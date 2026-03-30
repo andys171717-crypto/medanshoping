@@ -3,173 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medanshoping</title>
+    <title>Medanshoping Marketplace</title>
+    <link rel="stylesheet" href="style.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f2f2f2;
+            box-sizing: border-box;
         }
 
         header {
-            background-color: #ff8200;
-            padding: 20px;
+            background-color: #FF6F00;
+            padding: 10px 20px;
             text-align: center;
         }
 
         header img {
-            width: 180px;
+            width: 200px;
             height: auto;
         }
 
-        .promo {
-            background-color: #ffcc00;
-            text-align: center;
-            padding: 10px;
+        header .promo {
+            background-color: #FFEB3B;
+            padding: 10px 0;
+            color: black;
+            font-weight: bold;
         }
 
-        .promo h3 {
-            margin: 0;
+        .menu {
+            display: flex;
+            justify-content: center;
+            background-color: #FF6F00;
+            padding: 10px 0;
         }
 
-        .category-menu {
-            text-align: center;
-            padding: 10px;
-            background-color: #ff8200;
+        .menu a {
             color: white;
-        }
-
-        .category-menu button {
-            background-color: #ffffff;
-            border: none;
+            text-decoration: none;
             padding: 10px 20px;
-            color: #ff8200;
-            margin: 5px;
-            cursor: pointer;
-            border-radius: 5px;
+            font-size: 16px;
+            text-transform: uppercase;
         }
 
-        .category-menu button:hover {
-            background-color: #e0a000;
+        .menu a:hover {
+            background-color: #ff8c00;
         }
 
         .product-container {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
-            gap: 20px;
+            flex-wrap: wrap;
             padding: 20px;
         }
 
         .product-card {
-            background-color: white;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            margin: 10px;
             width: 200px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
             text-align: center;
+            border-radius: 10px;
             padding: 15px;
-            transition: transform 0.3s;
-        }
-
-        .product-card:hover {
-            transform: scale(1.05);
         }
 
         .product-card img {
             width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 5px;
+            height: auto;
+            border-radius: 10px;
         }
 
-        .product-card h4 {
-            margin-top: 10px;
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .product-card p {
-            color: #666;
+        .product-card h3 {
+            margin: 10px 0;
         }
 
         .product-card .price {
             font-size: 18px;
-            color: green;
-            font-weight: bold;
-            margin-top: 10px;
+            color: #4CAF50;
+        }
+
+        .product-card .rating {
+            color: gold;
         }
 
         .product-card button {
-            background-color: #ff8200;
-            border: none;
+            background-color: #FF6F00;
             color: white;
+            border: none;
             padding: 10px;
-            font-size: 16px;
             width: 100%;
-            border-radius: 5px;
-            cursor: pointer;
             margin-top: 10px;
-            transition: background-color 0.3s;
+            border-radius: 5px;
         }
 
         .product-card button:hover {
-            background-color: #e07b00;
+            background-color: #e65100;
         }
     </style>
 </head>
 <body>
-
     <header>
-        <!-- Header with Image -->
         <img src="https://ibb.co/n4cfgJK" alt="Medanshoping Logo">
     </header>
 
     <div class="promo">
-        <h3>🔥 Promo Medanshoping Diskon Sampai 70%!</h3>
+        <p>🔥 Promo Medanshoping Diskon Sampai 70%! 🔥</p>
     </div>
 
-    <div class="category-menu">
-        <button>Semua</button>
-        <button>Fashion</button>
-        <button>Tas</button>
-        <button>Sepatu</button>
+    <div class="menu">
+        <a href="#">Semua</a>
+        <a href="#">Fashion</a>
+        <a href="#">Tas</a>
+        <a href="#">Sepatu</a>
     </div>
 
     <div class="product-container">
         <div class="product-card">
-            <img src="https://via.placeholder.com/200x150" alt="Baju Fashion">
-            <h4>Baju Fashion</h4>
-            <p>⭐ 4.5</p>
+            <img src="https://via.placeholder.com/150" alt="Baju Fashion">
+            <h3>Baju Fashion</h3>
             <p class="price">Rp 120.000</p>
+            <p class="rating">⭐ 4.5</p>
             <button>Tambah Keranjang</button>
         </div>
-        
+
         <div class="product-card">
-            <img src="https://via.placeholder.com/200x150" alt="Tas Wanita">
-            <h4>Tas Wanita</h4>
-            <p>⭐ 4.6</p>
+            <img src="https://via.placeholder.com/150" alt="Tas Wanita">
+            <h3>Tas Wanita</h3>
             <p class="price">Rp 150.000</p>
+            <p class="rating">⭐ 4.6</p>
             <button>Tambah Keranjang</button>
         </div>
-        
+
         <div class="product-card">
-            <img src="https://via.placeholder.com/200x150" alt="Sepatu Trend">
-            <h4>Sepatu Trend</h4>
-            <p>⭐ 4.7</p>
+            <img src="https://via.placeholder.com/150" alt="Sepatu Trend">
+            <h3>Sepatu Trend</h3>
             <p class="price">Rp 200.000</p>
+            <p class="rating">⭐ 4.7</p>
             <button>Tambah Keranjang</button>
         </div>
-        
+
         <div class="product-card">
-            <img src="https://via.placeholder.com/200x150" alt="Jaket Pria">
-            <h4>Jaket Pria</h4>
-            <p>⭐ 4.8</p>
+            <img src="https://via.placeholder.com/150" alt="Jaket Pria">
+            <h3>Jaket Pria</h3>
             <p class="price">Rp 250.000</p>
+            <p class="rating">⭐ 4.8</p>
             <button>Tambah Keranjang</button>
         </div>
     </div>
-
 </body>
 </html>
