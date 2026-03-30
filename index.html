@@ -3,303 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MedanShopping</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <title>TembungShoping</title>
     <style>
+        /* Reset CSS */
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
 
-        body, html {
+        body {
             font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
+            line-height: 1.6;
+            background-color: #f4f4f4;
         }
 
+        /* Header */
         header {
-            background-color: #ff6600;
+            background-color: #333;
             color: white;
-            padding: 10px 20px;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        header .logo {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        header .search-container {
+            padding: 1rem;
             display: flex;
             justify-content: space-between;
-            width: 100%;
             align-items: center;
         }
 
-        header .search-bar {
-            width: 70%;
-            padding: 10px;
-            border-radius: 25px;
-            border: none;
-        }
-
-        header .menu-icons {
-            display: flex;
-            justify-content: flex-end;
-            width: 30%;
-        }
-
-        header .menu-icons a {
+        header .logo h1 a {
             color: white;
-            margin: 0 10px;
-            font-size: 20px;
-        }
-
-        header .menu-icons a:hover {
-            color: #ffcc00;
-        }
-
-        .main-content {
-            margin-top: 130px; /* To avoid overlapping with fixed header */
-            padding: 20px;
-        }
-
-        .banner {
-            background-color: #ff6600;
-            color: white;
-            text-align: center;
-            padding: 60px 20px;
-        }
-
-        .banner h1 {
-            font-size: 28px;
-            margin-bottom: 15px;
-        }
-
-        .banner p {
-            font-size: 18px;
-            margin-bottom: 20px;
-        }
-
-        .banner .btn {
-            padding: 15px 30px;
-            background-color: white;
-            color: #ff6600;
-            font-weight: bold;
-            border-radius: 25px;
             text-decoration: none;
+            font-size: 2rem;
         }
 
-        .banner .btn:hover {
-            background-color: #ffcc00;
-            color: white;
-        }
-
-        .category-icons {
+        header nav ul {
+            list-style-type: none;
             display: flex;
-            justify-content: space-around;
-            margin: 20px 0;
-            padding: 10px;
-            background-color: #fff;
         }
 
-        .category-icons div {
+        header nav ul li {
+            margin-left: 20px;
+        }
+
+        header nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background-color: #2e3b4e;
+            color: white;
+            padding: 2rem;
             text-align: center;
         }
 
-        .category-icons div i {
-            font-size: 30px;
-            color: #ff6600;
+        .hero .btn {
+            background-color: #ff5733;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            text-decoration: none;
+            font-size: 1.1rem;
+            border-radius: 5px;
+            margin-top: 1rem;
         }
 
-        .category-icons div p {
-            margin-top: 10px;
-            font-size: 14px;
+        .hero .btn:hover {
+            background-color: #ff4522;
+        }
+
+        /* Featured Products */
+        .featured-products {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .featured-products h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
         }
 
         .products {
-            padding: 30px;
-            background-color: #fff;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
         }
 
-        .products h2 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-        }
-
-        .product-card {
-            background-color: #fff;
-            border: 1px solid #eee;
-            border-radius: 10px;
-            padding: 15px;
+        .product {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 30%;
+            margin: 1rem 0;
             text-align: center;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        .product-card img {
+        .product img {
             width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 10px;
+            border-radius: 8px;
         }
 
-        .product-card h3 {
-            font-size: 16px;
-            margin: 10px 0;
+        .product h3 {
+            margin-top: 0.5rem;
+            font-size: 1.2rem;
         }
 
-        .product-card p {
-            font-size: 14px;
-            color: #ff6600;
-            font-weight: bold;
+        .product p {
+            margin: 0.5rem 0;
+            color: #666;
         }
 
-        .product-card .btn {
-            padding: 10px;
-            background-color: #ff6600;
+        .product span {
+            display: block;
+            font-size: 1.1rem;
+            color: #333;
+            margin-top: 0.5rem;
+        }
+
+        .product a {
+            display: inline-block;
+            margin-top: 1rem;
+            background-color: #28a745;
             color: white;
-            border-radius: 5px;
+            padding: 0.5rem 1.2rem;
             text-decoration: none;
-            margin-top: 10px;
+            border-radius: 5px;
         }
 
-        .product-card .btn:hover {
-            background-color: #ffcc00;
+        .product a:hover {
+            background-color: #218838;
         }
 
+        /* Footer */
         footer {
             background-color: #333;
             color: white;
+            padding: 1rem;
             text-align: center;
-            padding: 20px;
-            font-size: 14px;
         }
 
-        footer a {
+        footer nav ul {
+            list-style-type: none;
+            margin-top: 1rem;
+        }
+
+        footer nav ul li {
+            display: inline-block;
+            margin-left: 20px;
+        }
+
+        footer nav ul li a {
             color: white;
             text-decoration: none;
-            margin: 0 10px;
-        }
-
-        footer a:hover {
-            color: #ffcc00;
-        }
-
-        @media (max-width: 768px) {
-            header .search-bar {
-                width: 50%;
-            }
-
-            .category-icons {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .category-icons div {
-                margin-bottom: 10px;
-            }
         }
     </style>
 </head>
 <body>
-
     <!-- Header -->
     <header>
         <div class="logo">
-            <a href="#">MedanShopping</a>
+            <h1><a href="#">TembungShoping</a></h1>
         </div>
-        <div class="search-container">
-            <input type="text" class="search-bar" placeholder="Cari produk...">
-            <div class="menu-icons">
-                <a href="#"><i class="fas fa-shopping-cart"></i></a> <!-- Cart Icon -->
-                <a href="#"><i class="fas fa-heart"></i></a> <!-- Favorite Icon -->
-                <a href="#"><i class="fas fa-bars"></i></a> <!-- Menu Icon -->
-            </div>
-        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Beranda</a></li>
+                <li><a href="#">Produk</a></li>
+                <li><a href="#">Tentang Kami</a></li>
+                <li><a href="#">Kontak</a></li>
+                <li><a href="#">Masuk</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <!-- Main Content -->
-    <div class="main-content">
+    <!-- Hero Section -->
+    <section class="hero">
+        <h2>Temukan Berbagai Produk Terbaik di TembungShoping</h2>
+        <p>Belanja sekarang dan nikmati penawaran menarik!</p>
+        <a href="#" class="btn">Belanja Sekarang</a>
+    </section>
 
-        <!-- Banner -->
-        <section class="banner">
-            <h1>Selamat datang di MedanShopping</h1>
-            <p>Dapatkan produk terbaik dengan harga terjangkau.</p>
-            <a href="#products" class="btn">Belanja Sekarang</a>
-        </section>
-
-        <!-- Category Icons -->
-        <section class="category-icons">
-            <div>
-                <i class="fas fa-mobile-alt"></i>
-                <p>Elektronik</p>
+    <!-- Featured Products -->
+    <section class="featured-products">
+        <h2>Produk Unggulan</h2>
+        <div class="products">
+            <div class="product">
+                <img src="product1.jpg" alt="Produk 1">
+                <h3>Nama Produk 1</h3>
+                <p>Deskripsi singkat produk</p>
+                <span>Rp 100,000</span>
+                <a href="#">Beli Sekarang</a>
             </div>
-            <div>
-                <i class="fas fa-tshirt"></i>
-                <p>Pakaian</p>
+            <div class="product">
+                <img src="product2.jpg" alt="Produk 2">
+                <h3>Nama Produk 2</h3>
+                <p>Deskripsi singkat produk</p>
+                <span>Rp 200,000</span>
+                <a href="#">Beli Sekarang</a>
             </div>
-            <div>
-                <i class="fas fa-home"></i>
-                <p>Perabot</p>
-            </div>
-            <div>
-                <i class="fas fa-laptop"></i>
-                <p>Gadget</p>
-            </div>
-        </section>
-
-        <!-- Products -->
-        <section class="products" id="products">
-            <h2>Produk Unggulan</h2>
-            <div class="product-grid">
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/150" alt="Produk 1">
-                    <h3>Produk 1</h3>
-                    <p>Rp 100,000</p>
-                    <a href="#" class="btn">Tambahkan ke Keranjang</a>
-                </div>
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/150" alt="Produk 2">
-                    <h3>Produk 2</h3>
-                    <p>Rp 200,000</p>
-                    <a href="#" class="btn">Tambahkan ke Keranjang</a>
-                </div>
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/150" alt="Produk 3">
-                    <h3>Produk 3</h3>
-                    <p>Rp 300,000</p>
-                    <a href="#" class="btn">Tambahkan ke Keranjang</a>
-                </div>
-                <div class="product-card">
-                    <img src="https://via.placeholder.com/150" alt="Produk 4">
-                    <h3>Produk 4</h3>
-                    <p>Rp 400,000</p>
-                    <a href="#" class="btn">Tambahkan ke Keranjang</a>
-                </div>
-            </div>
-        </section>
-
-    </div>
+            <!-- Tambahkan produk lainnya -->
+        </div>
+    </section>
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2026 MedanShopping. All rights reserved.</p>
-        <p><a href="#">Privacy Policy</a> | <a href="#">Terms & Conditions</a></p>
+        <p>&copy; 2026 TembungShoping - Semua Hak Dilindungi</p>
+        <nav>
+            <ul>
+                <li><a href="#">Kebijakan Privasi</a></li>
+                <li><a href="#">Syarat & Ketentuan</a></li>
+                <li><a href="#">Bantuan</a></li>
+            </ul>
+        </nav>
     </footer>
-
 </body>
 </html>
