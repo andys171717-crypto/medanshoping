@@ -179,24 +179,21 @@ to{transform:scale(1);opacity:1}
 </style></head><body><div class="header"><input class="search" id="search" placeholder="Cari produk di TembungShoping"><div class="icon" onclick="toggleCart()">
 🛒
 <span id="cartcount" class="cart-count">0</span>
-</div><div class="icon" onclick="chatAdmin()">💬</div></div><div class="menu"><div onclick="menuPulsa()">
+</div><div class="icon" onclick="chatAdmin()">💬</div></div><div class="menu"><div onclick="openPopup()">
 <div class="circle"></div>Pulsa
-</div><div onclick="menuPromo()">
+</div><div onclick="openPopup()">
 <div class="circle"></div>Promo
-</div><div onclick="menuGame()">
+</div><div onclick="openPopup()">
 <div class="circle"></div>Game
-</div><div onclick="menuLive()">
+</div><div onclick="openPopup()">
 <div class="circle"></div>Live
-</div><div onclick="menuLain()">
+</div><div onclick="openPopup()">
 <div class="circle"></div>Lainnya
-</div></div><div id="homePage"><div class="products" id="products"></div></div><div class="cart-popup" id="cartpopup"><button class="close-cart" onclick="toggleCart()">Tutup</button>
+</div></div><div class="products" id="products"></div><div class="cart-popup" id="cartpopup"><button class="close-cart" onclick="toggleCart()">Tutup</button>
 
 <h2>Keranjang</h2><div id="cartitems"></div><h3 id="total"></h3><button onclick="checkout()">Checkout</button>
 
-</div><div class="bottom"><div onclick="menuHome()">🏠<br>Beranda</div><div onclick="menuLive2()">📺<br>Live</div><div onclick="menuNotif()">🔔<br>Notif</div><div onclick="menuAkun()">👤<br>Akun</div></div><div class="popup-bg" id="popup"><div class="popup-box"><h3>🚧 Fitur Belum Tersedia</h3><p>
-Fitur ini sedang dalam pengembangan<br>
-dan akan segera hadir di <b>TembungShoping</b>.
-</p><button onclick="closePopup()">Oke</button>
+</div><div class="bottom"><div onclick="menuHome()">🏠<br>Beranda</div><div onclick="openPopup()">📺<br>Live</div><div onclick="openPopup()">🔔<br>Notif</div><div onclick="openPopup()">👤<br>Akun</div></div><div class="popup-bg" id="popup"><div class="popup-box"><h3>🚧 Fitur Belum Tersedia</h3><p>Fitur ini sedang dalam pengembangan dan akan segera hadir di <b>TembungShoping</b>.</p><button onclick="closePopup()">Oke</button>
 
 </div></div><script>
 
@@ -256,6 +253,7 @@ document.getElementById("products").innerHTML=html
 function addcart(nama,harga){
 
 cart.push({nama,harga})
+
 updateCart()
 
 alert("Produk masuk keranjang")
@@ -306,23 +304,13 @@ function chatAdmin(){
 window.open("https://wa.me/6281220549530")
 }
 
-function openPopup(){
-document.getElementById("popup").style.display="flex"
-}
-
-function closePopup(){
-document.getElementById("popup").style.display="none"
-}
-
-function menuPulsa(){openPopup()}
-function menuPromo(){openPopup()}
-function menuGame(){openPopup()}
-function menuLive(){openPopup()}
-function menuLain(){openPopup()}
-
 function menuHome(){
 
-toggleCart()
+let cartpopup=document.getElementById("cartpopup")
+
+if(cartpopup.classList.contains("active")){
+cartpopup.classList.remove("active")
+}
 
 window.scrollTo({
 top:0,
@@ -331,9 +319,13 @@ behavior:"smooth"
 
 }
 
-function menuLive2(){openPopup()}
-function menuNotif(){openPopup()}
-function menuAkun(){openPopup()}
+function openPopup(){
+document.getElementById("popup").style.display="flex"
+}
+
+function closePopup(){
+document.getElementById("popup").style.display="none"
+}
 
 document.getElementById("search").addEventListener("keyup",function(){
 
