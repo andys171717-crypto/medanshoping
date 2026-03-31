@@ -352,21 +352,6 @@ function rupiah(x){
 return Number(x).toLocaleString("id-ID")
 }
 
-function syncQty(){
-
-document.querySelectorAll(".product").forEach(box=>{
-
-let nama=box.querySelector("b").innerText
-let input=box.querySelector(".qty-input")
-
-let qty=cart.filter(item=>item.nama==nama).length
-
-input.value=qty
-
-})
-
-}
-
 function tampilProduk(list=produk){
 
 let html=""
@@ -413,22 +398,62 @@ html+=`
 </div>
 
 `
-
 })
 
 document.getElementById("products").innerHTML=html
-
 syncQty()
+
+}
+
+function syncQty(){
+
+document.querySelectorAll(".product").forEach(box=>{
+
+let nama=box.querySelector("b").innerText
+let input=box.querySelector(".qty-input")
+
+let qty=cart.filter(i=>i.nama==nama).length
+
+input.value=qty
+
+})
 
 }
 
 function renderCart(){
 
-let html=""
-
+let data={}
 cart.forEach(item=>{
-html+=`<p>${item.nama} - Rp${rupiah(item.harga)}</p>`
+if(!data[item.nama]){
+data[item.nama]={harga:item.harga,qty:0}
+}
+data[item.nama].qty++
 })
+
+let html=""
+let total=0
+
+for(let nama in data){
+
+let item=data[nama]
+let subtotal=item.harga*item.qty
+total+=subtotal
+
+html+=`
+<div style="border-bottom:1px solid #eee;padding:10px 0">
+<b>${nama}</b><br>
+Qty : ${item.qty}<br>
+Subtotal : <b>Rp${rupiah(subtotal)}</b>
+</div>
+`
+}
+
+html+=`
+<div style="margin-top:15px">
+<h3>Total : Rp${rupiah(total)}</h3>
+<button onclick="checkoutWA()">Checkout WhatsApp</button>
+</div>
+`
 
 document.getElementById("cartitems").innerHTML=html
 document.getElementById("cartcount").innerText=cart.length
@@ -475,6 +500,34 @@ break
 renderCart()
 
 }
+
+}
+
+function checkoutWA(){
+
+let data={}
+cart.forEach(item=>{
+if(!data[item.nama]){
+data[item.nama]={harga:item.harga,qty:0}
+}
+data[item.nama].qty++
+})
+
+let pesan="Halo Admin,%0ASaya ingin memesan:%0A%0A"
+let total=0
+
+for(let nama in data){
+
+let item=data[nama]
+let subtotal=item.harga*item.qty
+total+=subtotal
+
+pesan+=`${nama} x${item.qty} = Rp${rupiah(subtotal)}%0A`
+}
+
+pesan+=`%0ATotal Belanja : Rp${rupiah(total)}`
+
+window.open("https://wa.me/6281220549530?text="+pesan)
 
 }
 
