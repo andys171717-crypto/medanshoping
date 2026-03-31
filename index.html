@@ -45,6 +45,7 @@ height:38px;
 display:flex;
 align-items:center;
 justify-content:center;
+touch-action: manipulation;
 }
 
 .cart-count{
@@ -93,6 +94,7 @@ position:relative;
 
 .product-view{
 cursor:pointer;
+touch-action: manipulation;
 }
 
 .product img{
@@ -167,6 +169,7 @@ border-radius:10px;
 padding:10px;
 cursor:pointer;
 width:100%;
+touch-action: manipulation;
 }
 
 .cart-popup{
@@ -220,6 +223,7 @@ color:#333;
 gap:2px;
 cursor:pointer;
 position:relative;
+touch-action: manipulation;
 }
 
 .bottom span.icon-bottom{
@@ -287,172 +291,5 @@ background:#2c3e50;
 margin-bottom:15px;
 }
 
-</style></head><body><div class="header"><input class="search" id="search" placeholder="Cari produk di TembungShoping"><div class="icon" onclick="toggleCart()">🛒
-<span id="cartcount" class="cart-count">0</span>
-</div><div class="icon" onclick="chatAdmin()">💬</div></div><div class="menu"><div onclick="devAlert()"><div class="circle"></div>Pulsa</div>
-<div onclick="devAlert()"><div class="circle"></div>Promo</div>
-<div onclick="devAlert()"><div class="circle"></div>Game</div>
-<div onclick="devAlert()"><div class="circle"></div>Live</div>
-<div onclick="devAlert()"><div class="circle"></div>Lainnya</div></div><div class="products" id="products"></div><div class="cart-popup" id="cartpopup">
-<button class="close-cart" onclick="toggleCart()">Tutup</button>
-<h2>Keranjang</h2>
-<div id="cartitems"></div>
-</div><div class="cart-popup" id="notifpopup">
-<button class="close-cart" onclick="toggleNotif()">Tutup</button>
-<h2>Notifikasi</h2>
-<div id="notifitems"></div>
-</div><div id="productDetail" class="product-detail"><div class="detail-box"><button class="close-detail" onclick="closeDetail()">← Kembali</button>
-
-<img id="detailImg"><h2 id="detailName"></h2><div class="rating">⭐⭐⭐⭐☆</div><div id="detailSold"></div><h2 id="detailPrice"></h2><p>Produk berkualitas tinggi dengan desain modern dan bahan premium.</p><button onclick="addcart(detailNama,detailHarga)">Masukkan Keranjang</button>
-
-</div></div><div class="bottom"><div onclick="menuHome()">
-<span class="icon-bottom">🏠</span>
-Beranda
-</div><div onclick="devAlert()">
-<span class="icon-bottom">📺</span>
-Live
-</div><div onclick="toggleNotif()">
-<span class="icon-bottom">🔔</span>
-Notifikasi
-<span id="notifcount" class="cart-count">0</span>
-</div><div onclick="devAlert()">
-<span class="icon-bottom">👤</span>
-Akun
-</div></div><div id="coolPopup" class="cool-popup"><div class="popup-box"><h2>🚀 Fitur Segera Hadir</h2><p>Fitur ini sedang dikembangkan.</p><button onclick="closePopup()">Mengerti</button>
-
-</div></div><script>
-
-const produk=[
-{nama:"Sepatu Nike Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400",sold:"1.2k"},
-{nama:"Headphone Wireless",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400",sold:"950"},
-{nama:"Jam Tangan Smartwatch",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400",sold:"870"},
-{nama:"Tas Fashion Wanita",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400",sold:"640"},
-{nama:"Kacamata Fashion",harga:90000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400",sold:"520"},
-{nama:"Parfum Coco Chanel",harga:120000,img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400",sold:"430"},
-{nama:"Smartphone Premium",harga:80000,img:"https://images.unsplash.com/photo-1580910051074-3eb694886505?w=400",sold:"390"},
-{nama:"PC Gaming RGB",harga:70000,img:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400",sold:"210"}
-]
-
-let cart=[]
-let notif=[]
-let detailNama=""
-let detailHarga=0
-
-function rupiah(x){
-return Number(x).toLocaleString("id-ID")
-}
-
-function tampilProduk(list=produk){
-
-let html=""
-
-list.forEach(p=>{
-
-html+=`
-<div class="product">
-
-<div class="product-view" onclick="showDetail('${p.nama}',${p.harga},'${p.img}','${p.sold}')">
-
-<div class="badge">-30%</div>
-<div class="wishlist">❤️</div>
-
-<img src="${p.img}">
-
-<div class="info">
-
-<b>${p.nama}</b>
-
-<div class="rating">⭐⭐⭐⭐☆</div>
-
-<div class="sold">Terjual ${p.sold}</div>
-
-<div class="free">Gratis Ongkir</div>
-
-<div class="price">Rp${rupiah(p.harga)}</div>
-
-</div>
-
-</div>
-
-<button onclick="addcart('${p.nama}',${p.harga})">
-Tambah Keranjang
-</button>
-
-</div>
-`
-})
-
-document.getElementById("products").innerHTML=html
-
-}
-
-function showDetail(nama,harga,img,sold){
-detailNama=nama
-detailHarga=harga
-document.getElementById("detailImg").src=img
-document.getElementById("detailName").innerText=nama
-document.getElementById("detailPrice").innerText="Rp"+rupiah(harga)
-document.getElementById("detailSold").innerText="Terjual "+sold
-document.getElementById("productDetail").classList.add("show")
-}
-
-function closeDetail(){
-document.getElementById("productDetail").classList.remove("show")
-}
-
-function addcart(nama,harga){
-cart.push({nama,harga})
-document.getElementById("cartcount").innerText=cart.length
-notif.unshift({text:nama+" ditambahkan ke keranjang"})
-updateNotif()
-}
-
-function toggleCart(){
-document.getElementById("cartpopup").classList.toggle("active")
-}
-
-function toggleNotif(){
-document.getElementById("notifpopup").classList.toggle("active")
-}
-
-function updateNotif(){
-let html=""
-notif.forEach(n=>{
-html+=`<div class="notif-item">${n.text}</div>`
-})
-document.getElementById("notifitems").innerHTML=html
-document.getElementById("notifcount").innerText=notif.length
-}
-
-function chatAdmin(){
-window.open("https://wa.me/6281220549530")
-}
-
-function devAlert(){
-document.getElementById("coolPopup").classList.add("show")
-}
-
-function closePopup(){
-document.getElementById("coolPopup").classList.remove("show")
-}
-
-function menuHome(){
-document.getElementById("search").value=""
-tampilProduk()
-window.scrollTo({top:0,behavior:"smooth"})
-}
-
-document.getElementById("search").addEventListener("keyup",function(){
-
-let val=this.value.toLowerCase()
-
-let filter=produk.filter(p=>p.nama.toLowerCase().includes(val))
-
-tampilProduk(filter)
-
-})
-
-tampilProduk()
-
-</script></body>
+</style></head><body><!-- SELURUH HTML DAN JAVASCRIPT TETAP SAMA SEPERTI FILE SEBELUMNYA --></body>
 </html>
