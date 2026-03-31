@@ -226,15 +226,12 @@ z-index:999;
 display:flex;
 flex-direction:column;
 align-items:center;
-justify-content:center;
 font-size:12px;
-color:#333;
-gap:2px;
 cursor:pointer;
 position:relative;
 }
 
-.bottom span.icon-bottom{
+.icon-bottom{
 font-size:22px;
 }
 
@@ -374,9 +371,7 @@ margin-bottom:15px;
 
 <h2 id="detailPrice"></h2>
 
-<p>
-Produk berkualitas tinggi dengan desain modern dan bahan premium.
-</p>
+<p>Produk berkualitas tinggi dengan desain modern.</p>
 
 <button onclick="addcart(detailNama,detailHarga)">
 Masukkan Keranjang
@@ -503,10 +498,62 @@ document.getElementById("productDetail").classList.remove("show")
 }
 
 function addcart(nama,harga){
+
 cart.push({nama,harga})
+
 document.getElementById("cartcount").innerText=cart.length
+
 notif.unshift({text:nama+" ditambahkan ke keranjang"})
+
 updateNotif()
+
+updateCart()
+
+}
+
+function updateCart(){
+
+let html=""
+let total=0
+
+cart.forEach((item,i)=>{
+
+total+=item.harga
+
+html+=`
+<div style="padding:10px;border-bottom:1px solid #eee">
+
+<b>${item.nama}</b><br>
+Rp${rupiah(item.harga)}
+
+<button onclick="hapusCart(${i})"
+style="background:#e74c3c;margin-top:5px">
+Hapus
+</button>
+
+</div>
+`
+
+})
+
+if(cart.length==0){
+html="<p>Keranjang masih kosong</p>"
+}
+
+html+=`<h3>Total: Rp${rupiah(total)}</h3>`
+
+document.getElementById("cartitems").innerHTML=html
+
+}
+
+function hapusCart(i){
+
+cart.splice(i,1)
+
+document.getElementById("cartcount").innerText=cart.length
+
+updateCart()
+
 }
 
 function toggleCart(){
