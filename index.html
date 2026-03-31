@@ -332,8 +332,6 @@ margin-bottom:15px;
 
 <div class="products" id="products"></div>
 
-<!-- CART -->
-
 <div class="cart-popup" id="cartpopup">
 
 <button class="close-cart" onclick="toggleCart()">Tutup</button>
@@ -344,8 +342,6 @@ margin-bottom:15px;
 
 </div>
 
-<!-- NOTIF -->
-
 <div class="cart-popup" id="notifpopup">
 
 <button class="close-cart" onclick="toggleNotif()">Tutup</button>
@@ -355,8 +351,6 @@ margin-bottom:15px;
 <div id="notifitems"></div>
 
 </div>
-
-<!-- DETAIL PRODUK -->
 
 <div id="productDetail" class="product-detail">
 
@@ -378,15 +372,13 @@ margin-bottom:15px;
 Produk berkualitas tinggi dengan desain modern dan bahan premium.
 </p>
 
-<button onclick="addcart(detailNama,detailHarga)">
+<button onclick="addcart(detailNama,detailHarga);return false;">
 Masukkan Keranjang
 </button>
 
 </div>
 
 </div>
-
-<!-- MENU BAWAH -->
 
 <div class="bottom">
 
@@ -475,7 +467,7 @@ html+=`
 
 <div class="price">Rp${rupiah(p.harga)}</div>
 
-<button onclick="event.stopPropagation();addcart('${p.nama}',${p.harga})">
+<button onclick="addcart('${p.nama}',${p.harga});return false;">
 Tambah Keranjang
 </button>
 
