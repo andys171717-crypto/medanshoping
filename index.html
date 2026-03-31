@@ -98,6 +98,7 @@ position:relative;
 width:100%;
 height:170px;
 object-fit:cover;
+cursor:pointer;
 }
 
 .info{
@@ -113,22 +114,9 @@ height:38px;
 overflow:hidden;
 }
 
-.rating{
-color:#ffb400;
-font-size:14px;
-}
-
-.sold{
-font-size:12px;
-color:#777;
-}
-
-.free{
-font-size:11px;
-color:#27ae60;
-font-weight:bold;
-margin:4px 0;
-}
+.rating{color:#ffb400;font-size:14px;}
+.sold{font-size:12px;color:#777;}
+.free{font-size:11px;color:#27ae60;font-weight:bold;margin:4px 0;}
 
 .price{
 color:#e74c3c;
@@ -187,6 +175,29 @@ z-index:1000;
 right:0;
 }
 
+.cart-item{
+border-bottom:1px solid #eee;
+padding:10px 0;
+}
+
+.cart-qty{
+display:flex;
+gap:8px;
+align-items:center;
+margin-top:6px;
+}
+
+.cart-qty button{
+width:30px;
+height:30px;
+padding:0;
+}
+
+.remove-btn{
+background:#e74c3c;
+margin-top:6px;
+}
+
 .close-cart{
 background:#e74c3c;
 margin-bottom:10px;
@@ -203,7 +214,6 @@ justify-content:space-around;
 align-items:center;
 height:65px;
 box-shadow:0 -3px 12px rgba(0,0,0,0.08);
-z-index:999;
 }
 
 .bottom div{
@@ -214,11 +224,9 @@ font-size:12px;
 cursor:pointer;
 }
 
-.icon-bottom{
-font-size:22px;
-}
+.icon-bottom{font-size:22px;}
 
-/* popup */
+/* popup fitur */
 
 .cool-popup{
 position:fixed;
@@ -232,7 +240,7 @@ align-items:center;
 justify-content:center;
 opacity:0;
 pointer-events:none;
-transition:0.3s;
+transition:.3s;
 z-index:2000;
 }
 
@@ -250,16 +258,27 @@ max-width:320px;
 text-align:center;
 }
 
-.popup-icon{
-font-size:42px;
-margin-bottom:10px;
-animation:bounce 1.5s infinite;
+/* detail produk */
+
+.detail-popup{
+position:fixed;
+bottom:-100%;
+left:0;
+width:100%;
+background:white;
+border-radius:20px 20px 0 0;
+padding:20px;
+transition:.3s;
+z-index:3000;
 }
 
-@keyframes bounce{
-0%{transform:translateY(0)}
-50%{transform:translateY(-6px)}
-100%{transform:translateY(0)}
+.detail-popup.show{
+bottom:0;
+}
+
+.detail-popup img{
+width:100%;
+border-radius:10px;
 }
 
 </style>
@@ -292,7 +311,6 @@ animation:bounce 1.5s infinite;
 <div class="cart-popup" id="cartpopup">
 
 <button class="close-cart" onclick="toggleCart()">Tutup</button>
-
 <h2>Keranjang</h2>
 
 <div id="cartitems"></div>
@@ -300,26 +318,46 @@ animation:bounce 1.5s infinite;
 </div>
 
 <div class="bottom">
-
 <div onclick="menuHome()"><span class="icon-bottom">🏠</span>Beranda</div>
 <div onclick="devAlert()"><span class="icon-bottom">📺</span>Live</div>
 <div onclick="devAlert()"><span class="icon-bottom">🔔</span>Notifikasi</div>
 <div onclick="devAlert()"><span class="icon-bottom">👤</span>Akun</div>
-
 </div>
+
+<!-- popup fitur -->
 
 <div id="coolPopup" class="cool-popup">
 <div class="popup-box">
-
-<div class="popup-icon">🚀</div>
-
-<h2>✨ Fitur Baru Segera Hadir</h2>
-
-<p>Kami sedang menyiapkan fitur menarik untuk membuat pengalaman belanja kamu lebih cepat, mudah, dan menyenangkan. Nantikan update terbaru dari kami!</p>
-
+<h2>🚀 Fitur Baru Segera Hadir</h2>
+<p>Kami sedang menyiapkan fitur baru agar pengalaman belanja kamu lebih mudah dan menyenangkan.</p>
 <button onclick="closePopup()">Mengerti</button>
-
 </div>
+</div>
+
+<!-- popup detail produk -->
+
+<div id="detailPopup" class="detail-popup">
+
+<img id="detailImg">
+
+<h2 id="detailNama"></h2>
+
+<p id="detailSold"></p>
+
+<h3 id="detailHarga"></h3>
+
+<div class="qty-control">
+<button onclick="detailMinus()">-</button>
+<input id="detailQty" class="qty-input" value="1">
+<button onclick="detailPlus()">+</button>
+</div>
+
+<button onclick="addDetailCart()">Tambah ke Keranjang</button>
+
+<br><br>
+
+<button onclick="closeDetail()">Tutup</button>
+
 </div>
 
 <script>
@@ -335,7 +373,8 @@ const produk=[
 {nama:"PC Gaming RGB",harga:70000,img:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400",sold:"210"}
 ]
 
-let cart=JSON.parse(localStorage.getItem("cart")) || []
+let cart=JSON.parse(localStorage.getItem("cart"))||[]
+let selectedProduk=null
 
 function rupiah(x){
 return Number(x).toLocaleString("id-ID")
@@ -345,12 +384,12 @@ function tampilProduk(list=produk){
 
 let html=""
 
-list.forEach(p=>{
+list.forEach((p,i)=>{
 
 html+=`
 <div class="product">
 
-<img src="${p.img}">
+<img src="${p.img}" onclick="showDetail(${i})">
 
 <div class="info">
 <b>${p.nama}</b>
@@ -361,9 +400,9 @@ html+=`
 </div>
 
 <div class="qty-control">
-<button onclick="minusQty('${p.nama}',${p.harga})">-</button>
-<input class="qty-input" value="0" readonly>
-<button onclick="plusQty('${p.nama}',${p.harga})">+</button>
+<button onclick="minusQty(${i})">-</button>
+<input class="qty-input" id="qty${i}" value="0">
+<button onclick="plusQty(${i})">+</button>
 </div>
 
 </div>
@@ -371,21 +410,18 @@ html+=`
 })
 
 document.getElementById("products").innerHTML=html
-
 syncQty()
 
 }
 
 function syncQty(){
 
-document.querySelectorAll(".product").forEach(box=>{
+produk.forEach((p,i)=>{
 
-let nama=box.querySelector("b").innerText
-let input=box.querySelector(".qty-input")
+let qty=cart.filter(c=>c.nama==p.nama).length
+let el=document.getElementById("qty"+i)
 
-let qty=cart.filter(i=>i.nama==nama).length
-
-input.value=qty
+if(el) el.value=qty
 
 })
 
@@ -407,77 +443,92 @@ let total=0
 for(let nama in data){
 
 let item=data[nama]
-
 let subtotal=item.harga*item.qty
-
 total+=subtotal
 
 html+=`
-<div style="border-bottom:1px solid #eee;padding:10px 0">
-<b>${nama}</b><br>
-Qty : ${item.qty}<br>
-Subtotal : <b>Rp${rupiah(subtotal)}</b>
+<div class="cart-item">
+
+<b>${nama}</b>
+
+<div class="cart-qty">
+
+<button onclick="cartMinus('${nama}')">-</button>
+
+<span>${item.qty}</span>
+
+<button onclick="cartPlus('${nama}',${item.harga})">+</button>
+
+</div>
+
+<div>Subtotal : Rp${rupiah(subtotal)}</div>
+
+<button class="remove-btn" onclick="removeItem('${nama}')">Hapus</button>
+
 </div>
 `
 
 }
 
 html+=`
-<div style="margin-top:15px">
 <h3>Total : Rp${rupiah(total)}</h3>
 <button onclick="checkoutWA()">Checkout WhatsApp</button>
-</div>
 `
 
 document.getElementById("cartitems").innerHTML=html
 document.getElementById("cartcount").innerText=cart.length
-
 localStorage.setItem("cart",JSON.stringify(cart))
 
 }
 
-function plusQty(nama,harga){
+function plusQty(i){
+cart.push(produk[i])
+renderCart()
+syncQty()
+}
 
+function minusQty(i){
+
+let index=cart.findIndex(c=>c.nama==produk[i].nama)
+
+if(index>-1){
+cart.splice(index,1)
+renderCart()
+syncQty()
+}
+
+}
+
+function cartPlus(nama,harga){
 cart.push({nama,harga})
+renderCart()
+syncQty()
+}
+
+function cartMinus(nama){
+
+let index=cart.findIndex(c=>c.nama==nama)
+
+if(index>-1){
+cart.splice(index,1)
+}
 
 renderCart()
-
 syncQty()
 
 }
 
-function minusQty(nama,harga){
+function removeItem(nama){
 
-for(let i=0;i<cart.length;i++){
-
-if(cart[i].nama==nama){
-
-cart.splice(i,1)
-
-break
-
-}
-
-}
+cart=cart.filter(c=>c.nama!=nama)
 
 renderCart()
-
 syncQty()
 
 }
 
 function toggleCart(){
-
-let popup=document.getElementById("cartpopup")
-
-popup.classList.toggle("active")
-
-if(popup.classList.contains("active")){
-localStorage.setItem("cartOpen","1")
-}else{
-localStorage.setItem("cartOpen","0")
-}
-
+document.getElementById("cartpopup").classList.toggle("active")
 }
 
 function checkoutWA(){
@@ -493,50 +544,80 @@ window.open("https://wa.me/6281220549530?text="+text)
 }
 
 function chatAdmin(){
-
 window.open("https://wa.me/6281220549530")
-
 }
 
 function devAlert(){
-
 document.getElementById("coolPopup").classList.add("show")
-
 }
 
 function closePopup(){
-
 document.getElementById("coolPopup").classList.remove("show")
-
 }
 
 function menuHome(){
-
 document.getElementById("search").value=""
-
 tampilProduk()
-
 window.scrollTo(0,0)
-
 }
 
 document.getElementById("search").addEventListener("keyup",function(){
 
-let keyword=this.value.toLowerCase()
-
-let hasil=produk.filter(p=>p.nama.toLowerCase().includes(keyword))
-
+let key=this.value.toLowerCase()
+let hasil=produk.filter(p=>p.nama.toLowerCase().includes(key))
 tampilProduk(hasil)
 
 })
 
-tampilProduk()
+function showDetail(i){
+
+selectedProduk=produk[i]
+
+document.getElementById("detailImg").src=selectedProduk.img
+document.getElementById("detailNama").innerText=selectedProduk.nama
+document.getElementById("detailSold").innerText="Terjual "+selectedProduk.sold
+document.getElementById("detailHarga").innerText="Rp"+rupiah(selectedProduk.harga)
+
+document.getElementById("detailQty").value=1
+
+document.getElementById("detailPopup").classList.add("show")
+
+}
+
+function closeDetail(){
+document.getElementById("detailPopup").classList.remove("show")
+}
+
+function detailPlus(){
+document.getElementById("detailQty").value++
+}
+
+function detailMinus(){
+
+let q=document.getElementById("detailQty")
+
+if(q.value>1){
+q.value--
+}
+
+}
+
+function addDetailCart(){
+
+let qty=parseInt(document.getElementById("detailQty").value)
+
+for(let i=0;i<qty;i++){
+cart.push(selectedProduk)
+}
 
 renderCart()
+syncQty()
+closeDetail()
 
-if(localStorage.getItem("cartOpen")=="1"){
-document.getElementById("cartpopup").classList.add("active")
 }
+
+tampilProduk()
+renderCart()
 
 </script>
 
