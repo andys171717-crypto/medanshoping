@@ -198,6 +198,8 @@ background:#e74c3c;
 margin-bottom:10px;
 }
 
+/* NOTIF */
+
 .notif-item{
 padding:10px;
 border-bottom:1px solid #eee;
@@ -232,7 +234,39 @@ position:relative;
 font-size:22px;
 }
 
-/* DETAIL */
+/* POPUP */
+
+.cool-popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.4);
+display:flex;
+align-items:center;
+justify-content:center;
+opacity:0;
+pointer-events:none;
+transition:0.3s;
+z-index:2000;
+}
+
+.cool-popup.show{
+opacity:1;
+pointer-events:auto;
+}
+
+.popup-box{
+background:white;
+padding:25px;
+border-radius:20px;
+width:80%;
+max-width:320px;
+text-align:center;
+}
+
+/* DETAIL PRODUK */
 
 .product-detail{
 position:fixed;
@@ -283,14 +317,18 @@ margin-bottom:15px;
 </div>
 
 <div class="menu">
+
 <div onclick="devAlert()"><div class="circle"></div>Pulsa</div>
 <div onclick="devAlert()"><div class="circle"></div>Promo</div>
 <div onclick="devAlert()"><div class="circle"></div>Game</div>
 <div onclick="devAlert()"><div class="circle"></div>Live</div>
 <div onclick="devAlert()"><div class="circle"></div>Lainnya</div>
+
 </div>
 
 <div class="products" id="products"></div>
+
+<!-- CART -->
 
 <div class="cart-popup" id="cartpopup">
 <button class="close-cart" onclick="toggleCart()">Tutup</button>
@@ -298,42 +336,82 @@ margin-bottom:15px;
 <div id="cartitems"></div>
 </div>
 
+<!-- NOTIF -->
+
 <div class="cart-popup" id="notifpopup">
 <button class="close-cart" onclick="toggleNotif()">Tutup</button>
 <h2>Notifikasi</h2>
 <div id="notifitems"></div>
 </div>
 
+<!-- DETAIL -->
+
 <div id="productDetail" class="product-detail">
+
 <div class="detail-box">
 
 <button class="close-detail" onclick="closeDetail()">← Kembali</button>
 
 <img id="detailImg">
+
 <h2 id="detailName"></h2>
 
 <div class="rating">⭐⭐⭐⭐☆</div>
+
 <div id="detailSold"></div>
+
 <h2 id="detailPrice"></h2>
+
+<p>
+Produk berkualitas tinggi dengan desain modern dan bahan premium.
+</p>
 
 <button onclick="addcart(detailNama,detailHarga)">
 Masukkan Keranjang
 </button>
 
 </div>
+
 </div>
+
+<!-- MENU BAWAH -->
 
 <div class="bottom">
 
-<div onclick="menuHome()">🏠<div>Beranda</div></div>
-<div onclick="devAlert()">📺<div>Live</div></div>
-
-<div onclick="toggleNotif()">🔔
-<span id="notifcount" class="cart-count">0</span>
-<div>Notifikasi</div>
+<div onclick="menuHome()">
+<span>🏠</span>
+Beranda
 </div>
 
-<div onclick="devAlert()">👤<div>Akun</div></div>
+<div onclick="devAlert()">
+<span>📺</span>
+Live
+</div>
+
+<div onclick="toggleNotif()">
+<span>🔔</span>
+Notifikasi
+<span id="notifcount" class="cart-count">0</span>
+</div>
+
+<div onclick="devAlert()">
+<span>👤</span>
+Akun
+</div>
+
+</div>
+
+<div id="coolPopup" class="cool-popup">
+
+<div class="popup-box">
+
+<h2>🚀 Fitur Segera Hadir</h2>
+
+<p>Fitur ini sedang dikembangkan.</p>
+
+<button onclick="closePopup()">Mengerti</button>
+
+</div>
 
 </div>
 
@@ -343,7 +421,11 @@ const produk=[
 {nama:"Sepatu Nike Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400",sold:"1.2k"},
 {nama:"Headphone Wireless",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400",sold:"950"},
 {nama:"Jam Tangan Smartwatch",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400",sold:"870"},
-{nama:"Tas Fashion Wanita",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400",sold:"640"}
+{nama:"Tas Fashion Wanita",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400",sold:"640"},
+{nama:"Kacamata Fashion",harga:90000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400",sold:"520"},
+{nama:"Parfum Coco Chanel",harga:120000,img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400",sold:"430"},
+{nama:"Smartphone Premium",harga:80000,img:"https://images.unsplash.com/photo-1580910051074-3eb694886505?w=400",sold:"390"},
+{nama:"PC Gaming RGB",harga:70000,img:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400",sold:"210"}
 ]
 
 let cart=[]
@@ -437,10 +519,16 @@ window.open("https://wa.me/6281220549530")
 }
 
 function devAlert(){
-alert("Fitur sedang dikembangkan")
+document.getElementById("coolPopup").classList.add("show")
+}
+
+function closePopup(){
+document.getElementById("coolPopup").classList.remove("show")
 }
 
 function menuHome(){
+document.getElementById("search").value=""
+document.querySelectorAll(".product").forEach(p=>p.style.display="block")
 window.scrollTo({top:0,behavior:"smooth"})
 }
 
