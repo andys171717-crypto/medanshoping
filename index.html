@@ -14,8 +14,6 @@ padding-top:75px;
 padding-bottom:80px;
 }
 
-/* HEADER */
-
 .header{
 background:#2c3e50;
 padding:12px;
@@ -63,8 +61,6 @@ padding:2px 6px;
 border-radius:50%;
 }
 
-/* MENU */
-
 .menu{
 display:grid;
 grid-template-columns:repeat(5,1fr);
@@ -82,8 +78,6 @@ border-radius:50%;
 margin:auto;
 margin-bottom:5px;
 }
-
-/* PRODUK */
 
 .products{
 padding:12px;
@@ -175,8 +169,6 @@ cursor:pointer;
 width:100%;
 }
 
-/* CART */
-
 .cart-popup{
 position:fixed;
 top:0;
@@ -199,14 +191,10 @@ background:#e74c3c;
 margin-bottom:10px;
 }
 
-/* NOTIF */
-
 .notif-item{
 padding:10px;
 border-bottom:1px solid #eee;
 }
-
-/* MENU BAWAH */
 
 .bottom{
 position:fixed;
@@ -238,8 +226,6 @@ position:relative;
 font-size:22px;
 }
 
-/* POPUP */
-
 .cool-popup{
 position:fixed;
 top:0;
@@ -269,8 +255,6 @@ width:80%;
 max-width:320px;
 text-align:center;
 }
-
-/* DETAIL PRODUK */
 
 .product-detail{
 position:fixed;
@@ -333,23 +317,15 @@ margin-bottom:15px;
 <div class="products" id="products"></div>
 
 <div class="cart-popup" id="cartpopup">
-
 <button class="close-cart" onclick="toggleCart()">Tutup</button>
-
 <h2>Keranjang</h2>
-
 <div id="cartitems"></div>
-
 </div>
 
 <div class="cart-popup" id="notifpopup">
-
 <button class="close-cart" onclick="toggleNotif()">Tutup</button>
-
 <h2>Notifikasi</h2>
-
 <div id="notifitems"></div>
-
 </div>
 
 <div id="productDetail" class="product-detail">
@@ -368,13 +344,9 @@ margin-bottom:15px;
 
 <h2 id="detailPrice"></h2>
 
-<p>
-Produk berkualitas tinggi dengan desain modern dan bahan premium.
-</p>
+<p>Produk berkualitas tinggi dengan desain modern dan bahan premium.</p>
 
-<button onclick="event.stopPropagation();event.preventDefault();addcart(detailNama,detailHarga)">
-Masukkan Keranjang
-</button>
+<button onclick="addcart(detailNama,detailHarga)">Masukkan Keranjang</button>
 
 </div>
 
@@ -448,7 +420,7 @@ let html=""
 produk.forEach(p=>{
 
 html+=`
-<div class="product" onclick="showDetail('${p.nama}',${p.harga},'${p.img}','${p.sold}')">
+<div class="product" onclick="showDetail('${p.nama}',${p.harga},'${p.img}','${p.sold}',event)">
 
 <div class="badge">-30%</div>
 <div class="wishlist">❤️</div>
@@ -467,7 +439,7 @@ html+=`
 
 <div class="price">Rp${rupiah(p.harga)}</div>
 
-<button onclick="event.stopPropagation();event.preventDefault();addcart('${p.nama}',${p.harga})">
+<button onclick="addcart('${p.nama}',${p.harga})">
 Tambah Keranjang
 </button>
 
@@ -480,9 +452,12 @@ Tambah Keranjang
 document.getElementById("products").innerHTML=html
 }
 
-function showDetail(nama,harga,img,sold){
+function showDetail(nama,harga,img,sold,event){
+if(event.target.tagName==="BUTTON") return
+
 detailNama=nama
 detailHarga=harga
+
 document.getElementById("detailImg").src=img
 document.getElementById("detailName").innerText=nama
 document.getElementById("detailPrice").innerText="Rp"+rupiah(harga)
