@@ -16,7 +16,7 @@ padding-bottom:80px;
 /* HEADER */
 
 .header{
-background:#34495e;
+background:#2c3e50;
 padding:10px;
 display:flex;
 align-items:center;
@@ -63,7 +63,7 @@ font-size:14px;
 .circle{
 width:45px;
 height:45px;
-background:#2c3e50;
+background:#34495e;
 border-radius:50%;
 margin:auto;
 margin-bottom:5px;
@@ -151,7 +151,7 @@ width:100%;
 margin-top:6px;
 }
 
-/* BOTTOM MENU */
+/* BOTTOM */
 
 .bottom{
 position:fixed;
@@ -178,7 +178,7 @@ background:#eef3ff;
 font-weight:bold;
 }
 
-/* POPUP MODERN */
+/* POPUP */
 
 .cool-popup{
 position:fixed;
@@ -409,6 +409,7 @@ let subtotal=p.harga*p.qty
 html+=`
 <div style="border-bottom:1px solid #eee;padding:10px">
 <b>${p.nama}</b>
+
 <div style="display:flex;justify-content:space-between;margin-top:6px">
 
 <div>
@@ -490,8 +491,21 @@ document.getElementById("cartpopup").classList.remove("active")
 document.getElementById("notifpopup").classList.toggle("active")
 }
 
+/* BERANDA FIX */
+
 function menuHome(){
+
+document.getElementById("cartpopup").classList.remove("active")
+document.getElementById("notifpopup").classList.remove("active")
+
+document.getElementById("search").value=""
+
+document.querySelectorAll(".product").forEach(function(p){
+p.style.display="block"
+})
+
 window.scrollTo({top:0,behavior:"smooth"})
+
 }
 
 function chatAdmin(){
@@ -522,11 +536,9 @@ card.style.display=card.innerText.toLowerCase().includes(val)?"":"none"
 
 document.addEventListener("DOMContentLoaded",()=>{
 
-setTimeout(()=>{
 tampilProduk()
 updateCart()
 updateNotif()
-},10)
 
 })
 
