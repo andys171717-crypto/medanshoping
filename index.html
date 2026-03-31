@@ -346,7 +346,11 @@ const produk=[
 {nama:"PC Gaming RGB",harga:70000,img:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400",sold:"210"}
 ]
 
-let cart=JSON.parse(localStorage.getItem("cart")) || []
+let cart=JSON.parse(localStorage.getItem("cart")) || {}
+
+function saveCart(){
+localStorage.setItem("cart",JSON.stringify(cart))
+}
 
 function rupiah(x){
 return Number(x).toLocaleString("id-ID")
@@ -355,15 +359,25 @@ return Number(x).toLocaleString("id-ID")
 function renderCart(){
 
 let html=""
+let total=0
+let count=0
 
-cart.forEach(item=>{
-html+=`<p>${item.nama} - Rp${rupiah(item.harga)}</p>`
-})
+for(let nama in cart){
+
+let item=produk.find(p=>p.nama==nama)
+
+for(let i=0;i<cart[nama];i++){
+html+=`<p>${nama} - Rp${rupiah(item.harga)}</p>`
+total+=item.harga
+count++
+}
+
+}
 
 document.getElementById("cartitems").innerHTML=html
-document.getElementById("cartcount").innerText=cart.length
+document.getElementById("cartcount").innerText=count
 
-localStorage.setItem("cart",JSON.stringify(cart))
+saveCart()
 
 }
 
@@ -374,9 +388,7 @@ document.querySelectorAll(".product").forEach(box=>{
 let nama=box.querySelector("b").innerText
 let input=box.querySelector(".qty-input")
 
-let jumlah=cart.filter(i=>i.nama==nama).length
-
-input.value=jumlah
+input.value=cart[nama] || 0
 
 })
 
@@ -384,15 +396,11 @@ input.value=jumlah
 
 function plusQty(nama,harga,btn){
 
-let box=btn.parentElement
-let input=box.querySelector(".qty-input")
+if(!cart[nama]) cart[nama]=0
 
-let qty=parseInt(input.value)
-qty++
+cart[nama]++
 
-input.value=qty
-
-cart.push({nama,harga})
+btn.parentElement.querySelector(".qty-input").value=cart[nama]
 
 renderCart()
 
@@ -400,26 +408,15 @@ renderCart()
 
 function minusQty(nama,harga,btn){
 
-let box=btn.parentElement
-let input=box.querySelector(".qty-input")
+if(!cart[nama]) return
 
-let qty=parseInt(input.value)
+cart[nama]--
 
-if(qty>0){
+if(cart[nama]<=0) delete cart[nama]
 
-qty--
-input.value=qty
-
-for(let i=0;i<cart.length;i++){
-if(cart[i].nama==nama){
-cart.splice(i,1)
-break
-}
-}
+btn.parentElement.querySelector(".qty-input").value=cart[nama] || 0
 
 renderCart()
-
-}
 
 }
 
@@ -469,6 +466,7 @@ html+=`
 </div>
 
 `
+
 })
 
 document.getElementById("products").innerHTML=html
@@ -496,9 +494,7 @@ document.getElementById("coolPopup").classList.remove("show")
 function menuHome(){
 
 document.getElementById("search").value=""
-
 tampilProduk()
-
 window.scrollTo(0,0)
 
 }
