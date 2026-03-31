@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TembungShoping</title>
-
-<style>
+<title>TembungShoping</title><style>
 
 body{
 margin:0;
@@ -290,111 +287,40 @@ background:#2c3e50;
 margin-bottom:15px;
 }
 
-</style>
-</head>
-
-<body>
-
-<div class="header">
-
-<input class="search" id="search" placeholder="Cari produk di TembungShoping">
-
-<div class="icon" onclick="toggleCart()">🛒
+</style></head><body><div class="header"><input class="search" id="search" placeholder="Cari produk di TembungShoping"><div class="icon" onclick="toggleCart()">🛒
 <span id="cartcount" class="cart-count">0</span>
-</div>
-
-<div class="icon" onclick="chatAdmin()">💬</div>
-
-</div>
-
-<div class="menu">
-
-<div onclick="devAlert()"><div class="circle"></div>Pulsa</div>
+</div><div class="icon" onclick="chatAdmin()">💬</div></div><div class="menu"><div onclick="devAlert()"><div class="circle"></div>Pulsa</div>
 <div onclick="devAlert()"><div class="circle"></div>Promo</div>
 <div onclick="devAlert()"><div class="circle"></div>Game</div>
 <div onclick="devAlert()"><div class="circle"></div>Live</div>
-<div onclick="devAlert()"><div class="circle"></div>Lainnya</div>
-
-</div>
-
-<div class="products" id="products"></div>
-
-<div class="cart-popup" id="cartpopup">
+<div onclick="devAlert()"><div class="circle"></div>Lainnya</div></div><div class="products" id="products"></div><div class="cart-popup" id="cartpopup">
 <button class="close-cart" onclick="toggleCart()">Tutup</button>
 <h2>Keranjang</h2>
 <div id="cartitems"></div>
-</div>
-
-<div class="cart-popup" id="notifpopup">
+</div><div class="cart-popup" id="notifpopup">
 <button class="close-cart" onclick="toggleNotif()">Tutup</button>
 <h2>Notifikasi</h2>
 <div id="notifitems"></div>
-</div>
+</div><div id="productDetail" class="product-detail"><div class="detail-box"><button class="close-detail" onclick="closeDetail()">← Kembali</button>
 
-<div id="productDetail" class="product-detail">
+<img id="detailImg"><h2 id="detailName"></h2><div class="rating">⭐⭐⭐⭐☆</div><div id="detailSold"></div><h2 id="detailPrice"></h2><p>Produk berkualitas tinggi dengan desain modern dan bahan premium.</p><button onclick="addcart(detailNama,detailHarga)">Masukkan Keranjang</button>
 
-<div class="detail-box">
-
-<button class="close-detail" onclick="closeDetail()">← Kembali</button>
-
-<img id="detailImg">
-
-<h2 id="detailName"></h2>
-
-<div class="rating">⭐⭐⭐⭐☆</div>
-
-<div id="detailSold"></div>
-
-<h2 id="detailPrice"></h2>
-
-<p>Produk berkualitas tinggi dengan desain modern dan bahan premium.</p>
-
-<button onclick="addcart(detailNama,detailHarga)">Masukkan Keranjang</button>
-
-</div>
-
-</div>
-
-<div class="bottom">
-
-<div onclick="menuHome()">
+</div></div><div class="bottom"><div onclick="menuHome()">
 <span class="icon-bottom">🏠</span>
 Beranda
-</div>
-
-<div onclick="devAlert()">
+</div><div onclick="devAlert()">
 <span class="icon-bottom">📺</span>
 Live
-</div>
-
-<div onclick="toggleNotif()">
+</div><div onclick="toggleNotif()">
 <span class="icon-bottom">🔔</span>
 Notifikasi
 <span id="notifcount" class="cart-count">0</span>
-</div>
-
-<div onclick="devAlert()">
+</div><div onclick="devAlert()">
 <span class="icon-bottom">👤</span>
 Akun
-</div>
+</div></div><div id="coolPopup" class="cool-popup"><div class="popup-box"><h2>🚀 Fitur Segera Hadir</h2><p>Fitur ini sedang dikembangkan.</p><button onclick="closePopup()">Mengerti</button>
 
-</div>
-
-<div id="coolPopup" class="cool-popup">
-
-<div class="popup-box">
-
-<h2>🚀 Fitur Segera Hadir</h2>
-
-<p>Fitur ini sedang dikembangkan.</p>
-
-<button onclick="closePopup()">Mengerti</button>
-
-</div>
-
-</div>
-
-<script>
+</div></div><script>
 
 const produk=[
 {nama:"Sepatu Nike Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400",sold:"1.2k"},
@@ -513,7 +439,7 @@ document.getElementById("coolPopup").classList.remove("show")
 function menuHome(){
 document.getElementById("search").value=""
 document.querySelectorAll(".product").forEach(p=>p.style.display="block")
-window.scrollTo({top:0,behavior:"smooth"})
+window.scrollTo(0,0)
 }
 
 document.getElementById("search").addEventListener("keyup",function(){
@@ -525,7 +451,5 @@ card.style.display=card.innerText.toLowerCase().includes(val)?"":"none"
 
 tampilProduk()
 
-</script>
-
-</body>
+</script></body>
 </html>
