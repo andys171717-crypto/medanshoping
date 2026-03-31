@@ -13,8 +13,6 @@ background:#f2f2f2;
 padding-bottom:80px;
 }
 
-/* HEADER */
-
 .header{
 background:#34495e;
 padding:10px;
@@ -49,8 +47,6 @@ padding:2px 6px;
 border-radius:50%;
 }
 
-/* MENU */
-
 .menu{
 display:grid;
 grid-template-columns:repeat(5,1fr);
@@ -68,8 +64,6 @@ border-radius:50%;
 margin:auto;
 margin-bottom:5px;
 }
-
-/* PRODUK */
 
 .products{
 padding:10px;
@@ -114,8 +108,6 @@ padding:8px;
 cursor:pointer;
 }
 
-/* CART */
-
 .cart-popup{
 position:fixed;
 top:0;
@@ -150,8 +142,6 @@ width:100%;
 margin-top:6px;
 }
 
-/* BOTTOM MENU */
-
 .bottom{
 position:fixed;
 bottom:0;
@@ -164,8 +154,6 @@ padding:10px;
 box-shadow:0 -2px 10px rgba(0,0,0,0.1);
 }
 
-/* NOTIF */
-
 .notif-item{
 padding:10px;
 border-bottom:1px solid #eee;
@@ -177,75 +165,10 @@ background:#eef3ff;
 font-weight:bold;
 }
 
-/* POPUP */
-
-.popup-bg{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.45);
-display:none;
-align-items:center;
-justify-content:center;
-z-index:2000;
-animation:fadein 0.2s;
-}
-
-.popup-box{
-background:white;
-width:85%;
-max-width:320px;
-padding:25px;
-border-radius:16px;
-text-align:center;
-box-shadow:0 10px 25px rgba(0,0,0,0.2);
-animation:popup 0.25s ease;
-}
-
-.popup-icon{
-font-size:40px;
-margin-bottom:10px;
-}
-
-.popup-title{
-font-size:18px;
-font-weight:bold;
-margin-bottom:8px;
-}
-
-.popup-text{
-font-size:14px;
-color:#555;
-}
-
-.popup-btn{
-margin-top:18px;
-width:100%;
-padding:10px;
-background:#34495e;
-border:none;
-border-radius:8px;
-color:white;
-}
-
-@keyframes popup{
-from{transform:scale(0.8);opacity:0}
-to{transform:scale(1);opacity:1}
-}
-
-@keyframes fadein{
-from{opacity:0}
-to{opacity:1}
-}
-
 </style>
 </head>
 
 <body>
-
-<!-- HEADER -->
 
 <div class="header">
 
@@ -260,37 +183,31 @@ to{opacity:1}
 
 </div>
 
-<!-- MENU -->
-
 <div class="menu">
 
-<div onclick="openPopup()">
+<div onclick="devAlert()">
 <div class="circle"></div>Pulsa
 </div>
 
-<div onclick="openPopup()">
+<div onclick="devAlert()">
 <div class="circle"></div>Promo
 </div>
 
-<div onclick="openPopup()">
+<div onclick="devAlert()">
 <div class="circle"></div>Game
 </div>
 
-<div onclick="openPopup()">
+<div onclick="devAlert()">
 <div class="circle"></div>Live
 </div>
 
-<div onclick="openPopup()">
+<div onclick="devAlert()">
 <div class="circle"></div>Lainnya
 </div>
 
 </div>
 
-<!-- PRODUK -->
-
 <div class="products" id="products"></div>
-
-<!-- CART -->
 
 <div class="cart-popup" id="cartpopup">
 
@@ -306,8 +223,6 @@ to{opacity:1}
 
 </div>
 
-<!-- NOTIF -->
-
 <div class="cart-popup" id="notifpopup">
 
 <button class="close-cart" onclick="toggleNotif()">Tutup</button>
@@ -318,13 +233,11 @@ to{opacity:1}
 
 </div>
 
-<!-- BOTTOM -->
-
 <div class="bottom">
 
 <div onclick="menuHome()">🏠<br>Beranda</div>
 
-<div onclick="openPopup()">📺<br>Live</div>
+<div onclick="devAlert()">📺<br>Live</div>
 
 <div class="icon" onclick="toggleNotif()">
 🔔
@@ -332,33 +245,7 @@ to{opacity:1}
 <br>Notif
 </div>
 
-<div onclick="openPopup()">👤<br>Akun</div>
-
-</div>
-
-<!-- POPUP -->
-
-<div class="popup-bg" id="popup">
-
-<div class="popup-box">
-
-<div class="popup-icon">🚧</div>
-
-<div class="popup-title">
-Fitur Segera Hadir
-</div>
-
-<div class="popup-text">
-Fitur ini sedang dalam pengembangan  
-dan akan segera tersedia di  
-<b>TembungShoping</b>.
-</div>
-
-<button class="popup-btn" onclick="closePopup()">
-Mengerti
-</button>
-
-</div>
+<div onclick="devAlert()">👤<br>Akun</div>
 
 </div>
 
@@ -373,11 +260,14 @@ let produk=[
 
 ]
 
-let cart=JSON.parse(localStorage.getItem("cart"))||[]
-let notif=JSON.parse(localStorage.getItem("notif"))||[]
+let cart = JSON.parse(localStorage.getItem("cart") || "[]")
+let notif = JSON.parse(localStorage.getItem("notif") || "[]")
+
+if(!Array.isArray(cart)) cart=[]
+if(!Array.isArray(notif)) notif=[]
 
 function rupiah(x){
-return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,".")
+return Number(x).toLocaleString("id-ID")
 }
 
 function tampilProduk(){
@@ -428,7 +318,10 @@ let items=""
 
 cart.forEach((p,i)=>{
 
-totalQty+=p.qty
+if(!p.qty) p.qty=1
+if(!p.harga) p.harga=0
+
+totalQty+=Number(p.qty)
 
 let subtotal=p.harga*p.qty
 
@@ -467,7 +360,8 @@ if(items==""){items="Keranjang kosong"}
 
 document.getElementById("cartitems").innerHTML=items
 document.getElementById("total").innerText="Total: Rp"+rupiah(totalHarga)
-document.getElementById("cartcount").innerText=totalQty
+
+document.getElementById("cartcount").innerText=totalQty||0
 
 localStorage.setItem("cart",JSON.stringify(cart))
 
@@ -565,12 +459,8 @@ window.scrollTo({top:0,behavior:"smooth"})
 
 }
 
-function openPopup(){
-document.getElementById("popup").style.display="flex"
-}
-
-function closePopup(){
-document.getElementById("popup").style.display="none"
+function devAlert(){
+alert("Fitur ini sedang dikembangkan 🚧")
 }
 
 document.getElementById("search").addEventListener("keyup",function(){
