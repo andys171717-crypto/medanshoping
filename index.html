@@ -240,6 +240,32 @@ cursor:pointer;
 font-size:22px;
 }
 
+.popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:2000;
+}
+
+.popup-box{
+background:white;
+padding:25px;
+border-radius:12px;
+text-align:center;
+width:80%;
+}
+
+.popup button{
+margin-top:15px;
+background:#2c3e50;
+}
+
 </style>
 </head>
 
@@ -282,6 +308,14 @@ font-size:22px;
 <div onclick="devAlert()"><span class="icon-bottom">📺</span>Live</div>
 <div onclick="devAlert()"><span class="icon-bottom">🔔</span>Notifikasi</div>
 <div onclick="devAlert()"><span class="icon-bottom">👤</span>Akun</div>
+</div>
+
+<div class="popup" id="popup">
+<div class="popup-box">
+<h3>🚀 Fitur Segera Hadir</h3>
+<p>Kami sedang menyiapkan fitur ini untuk pengalaman belanja yang lebih baik.</p>
+<button onclick="closePopup()">Mengerti</button>
+</div>
 </div>
 
 <script>
@@ -483,11 +517,15 @@ window.open("https://wa.me/6281220549530")
 }
 
 function devAlert(){
-alert("Fitur segera hadir")
+document.getElementById("popup").style.display="flex"
+}
+
+function closePopup(){
+document.getElementById("popup").style.display="none"
 }
 
 function menuHome(){
-window.scrollTo(0,0)
+window.scrollTo({top:0,behavior:"smooth"})
 }
 
 tampilProduk()
