@@ -83,6 +83,12 @@ background:white;
 border-radius:12px;
 overflow:hidden;
 box-shadow:0 2px 8px rgba(0,0,0,0.1);
+position:relative;
+transition:0.2s;
+}
+
+.product:active{
+transform:scale(0.96);
 }
 
 .product img{
@@ -92,18 +98,46 @@ object-fit:cover;
 background:#eee;
 }
 
+.badge{
+position:absolute;
+top:8px;
+left:8px;
+background:#e74c3c;
+color:white;
+font-size:12px;
+padding:3px 6px;
+border-radius:5px;
+}
+
+.wishlist{
+position:absolute;
+top:8px;
+right:8px;
+font-size:18px;
+background:white;
+border-radius:50%;
+padding:4px;
+}
+
 .info{
 padding:10px;
+}
+
+.rating{
+color:orange;
+font-size:14px;
+}
+
+.sold{
+font-size:12px;
+color:#777;
 }
 
 .price{
 color:#e74c3c;
 font-weight:bold;
 font-size:18px;
-}
-
-.rating{
-color:orange;
+margin:3px 0;
 }
 
 button{
@@ -113,6 +147,7 @@ color:white;
 border-radius:6px;
 padding:8px;
 cursor:pointer;
+width:100%;
 }
 
 /* CART */
@@ -284,7 +319,7 @@ to{transform:scale(1);opacity:1}
 
 <h3 id="total"></h3>
 
-<button style="width:100%;margin-top:10px" onclick="checkout()">Checkout</button>
+<button onclick="checkout()">Checkout</button>
 
 </div>
 
@@ -324,7 +359,7 @@ to{transform:scale(1);opacity:1}
 <div class="popup-icon">🚀</div>
 <div class="popup-title">Segera Hadir</div>
 <div class="popup-text">
-Fitur ini sedang kami siapkan untuk pengalaman belanja yang lebih seru di TembungShoping.
+Fitur ini sedang kami siapkan agar pengalaman belanja di TembungShoping semakin seru.
 </div>
 <button onclick="closePopup()">Mengerti</button>
 </div>
@@ -336,14 +371,14 @@ Fitur ini sedang kami siapkan untuk pengalaman belanja yang lebih seru di Tembun
 
 const produk=[
 
-{nama:"Sepatu Nike Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
-{nama:"Headphone Wireless",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"},
-{nama:"Jam Tangan Smartwatch",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400"},
-{nama:"Tas Fashion Wanita",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400"},
-{nama:"Kacamata Fashion Bulat",harga:90000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400"},
-{nama:"Parfum Coco Chanel",harga:120000,img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400"},
-{nama:"Smartphone Premium",harga:80000,img:"https://images.unsplash.com/photo-1580910051074-3eb694886505?w=400"},
-{nama:"PC Gaming RGB",harga:70000,img:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400"}
+{nama:"Sepatu Nike Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400",sold:"1.2k",diskon:"-30%"},
+{nama:"Headphone Wireless",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400",sold:"950",diskon:"-15%"},
+{nama:"Jam Tangan Smartwatch",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400",sold:"870",diskon:"-20%"},
+{nama:"Tas Fashion Wanita",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400",sold:"640",diskon:"-25%"},
+{nama:"Kacamata Fashion Bulat",harga:90000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400",sold:"520",diskon:"-10%"},
+{nama:"Parfum Coco Chanel",harga:120000,img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400",sold:"430",diskon:"-18%"},
+{nama:"Smartphone Premium",harga:80000,img:"https://images.unsplash.com/photo-1580910051074-3eb694886505?w=400",sold:"390",diskon:"-12%"},
+{nama:"PC Gaming RGB",harga:70000,img:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400",sold:"210",diskon:"-35%"}
 
 ]
 
@@ -364,13 +399,26 @@ produk.forEach(p=>{
 
 html+=`
 <div class="product">
+
+<div class="badge">${p.diskon}</div>
+<div class="wishlist">♡</div>
+
 <img loading="lazy" src="${p.img}">
+
 <div class="info">
+
 <b>${p.nama}</b>
+
 <div class="rating">⭐⭐⭐⭐☆</div>
+
+<div class="sold">Terjual ${p.sold}</div>
+
 <div class="price">Rp${rupiah(p.harga)}</div>
+
 <button onclick="addcart('${p.nama}',${p.harga})">Tambah Keranjang</button>
+
 </div>
+
 </div>
 `
 
@@ -389,7 +437,7 @@ let exist=cart.find(p=>p.nama===nama)
 if(exist){exist.qty++}
 else{cart.push({nama,harga,qty:1})}
 
-addNotif("🛒 "+nama+" ditambahkan")
+addNotif("🛒 "+nama+" ditambahkan ke keranjang")
 
 updateCart()
 
@@ -408,6 +456,7 @@ let subtotal=p.harga*p.qty
 
 html+=`
 <div style="border-bottom:1px solid #eee;padding:10px">
+
 <b>${p.nama}</b>
 
 <div style="display:flex;justify-content:space-between;margin-top:6px">
@@ -423,6 +472,7 @@ html+=`
 </div>
 
 <button class="hapus-btn" onclick="hapusItem(${i})">Hapus</button>
+
 </div>
 `
 
@@ -508,20 +558,6 @@ window.scrollTo({top:0,behavior:"smooth"})
 
 }
 
-function chatAdmin(){
-window.open("https://wa.me/6281220549530")
-}
-
-/* POPUP */
-
-function devAlert(){
-document.getElementById("coolPopup").classList.add("show")
-}
-
-function closePopup(){
-document.getElementById("coolPopup").classList.remove("show")
-}
-
 /* SEARCH */
 
 document.getElementById("search").addEventListener("keyup",function(){
@@ -533,6 +569,24 @@ card.style.display=card.innerText.toLowerCase().includes(val)?"":"none"
 })
 
 })
+
+/* OTHER */
+
+function chatAdmin(){
+window.open("https://wa.me/6281220549530")
+}
+
+function devAlert(){
+document.getElementById("coolPopup").classList.add("show")
+}
+
+function closePopup(){
+document.getElementById("coolPopup").classList.remove("show")
+}
+
+function checkout(){
+alert("Checkout belum tersedia")
+}
 
 document.addEventListener("DOMContentLoaded",()=>{
 
