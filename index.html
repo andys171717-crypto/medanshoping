@@ -94,10 +94,6 @@ box-shadow:0 5px 12px rgba(0,0,0,0.08);
 position:relative;
 }
 
-.product-view{
-cursor:pointer;
-}
-
 .product img{
 width:100%;
 height:170px;
@@ -244,48 +240,6 @@ cursor:pointer;
 font-size:22px;
 }
 
-.cool-popup{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.45);
-display:flex;
-align-items:center;
-justify-content:center;
-opacity:0;
-pointer-events:none;
-transition:0.3s;
-z-index:2000;
-}
-
-.cool-popup.show{
-opacity:1;
-pointer-events:auto;
-}
-
-.popup-box{
-background:white;
-padding:25px;
-border-radius:20px;
-width:80%;
-max-width:320px;
-text-align:center;
-}
-
-.popup-icon{
-font-size:42px;
-margin-bottom:10px;
-animation:bounce 1.5s infinite;
-}
-
-@keyframes bounce{
-0%{transform:translateY(0)}
-50%{transform:translateY(-6px)}
-100%{transform:translateY(0)}
-}
-
 </style>
 </head>
 
@@ -302,11 +256,11 @@ animation:bounce 1.5s infinite;
 </div>
 
 <div class="menu">
-<div onclick="devAlert()"><div class="circle"></div>Pulsa</div>
-<div onclick="devAlert()"><div class="circle"></div>Promo</div>
-<div onclick="devAlert()"><div class="circle"></div>Game</div>
-<div onclick="devAlert()"><div class="circle"></div>Live</div>
-<div onclick="devAlert()"><div class="circle"></div>Lainnya</div>
+<div><div class="circle"></div>Pulsa</div>
+<div><div class="circle"></div>Promo</div>
+<div><div class="circle"></div>Game</div>
+<div><div class="circle"></div>Live</div>
+<div><div class="circle"></div>Lainnya</div>
 </div>
 
 <div class="products" id="products"></div>
@@ -319,18 +273,9 @@ animation:bounce 1.5s infinite;
 
 <div class="bottom">
 <div onclick="menuHome()"><span class="icon-bottom">🏠</span>Beranda</div>
-<div onclick="devAlert()"><span class="icon-bottom">📺</span>Live</div>
-<div onclick="devAlert()"><span class="icon-bottom">🔔</span>Notifikasi</div>
-<div onclick="devAlert()"><span class="icon-bottom">👤</span>Akun</div>
-</div>
-
-<div id="coolPopup" class="cool-popup">
-<div class="popup-box">
-<div class="popup-icon">🚀</div>
-<h2>Fitur Segera Hadir</h2>
-<p>Kami sedang menyiapkan fitur ini untuk pengalaman belanja yang lebih baik.</p>
-<button onclick="closePopup()">Mengerti</button>
-</div>
+<div><span class="icon-bottom">📺</span>Live</div>
+<div><span class="icon-bottom">🔔</span>Notifikasi</div>
+<div><span class="icon-bottom">👤</span>Akun</div>
 </div>
 
 <script>
@@ -339,35 +284,26 @@ const produk=[
 {nama:"Sepatu Nike Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400",sold:"1.2k"},
 {nama:"Headphone Wireless",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400",sold:"950"},
 {nama:"Jam Tangan Smartwatch",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400",sold:"870"},
-{nama:"Tas Fashion Wanita",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400",sold:"640"},
-{nama:"Kacamata Fashion",harga:90000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400",sold:"520"},
-{nama:"Parfum Coco Chanel",harga:120000,img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400",sold:"430"},
-{nama:"Smartphone Premium",harga:80000,img:"https://images.unsplash.com/photo-1580910051074-3eb694886505?w=400",sold:"390"},
-{nama:"PC Gaming RGB",harga:70000,img:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400",sold:"210"}
+{nama:"Tas Fashion Wanita",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400",sold:"640"}
 ]
 
-let cart=[]
+let cart = JSON.parse(localStorage.getItem("cart")) || []
 
 function rupiah(x){
 return Number(x).toLocaleString("id-ID")
 }
 
-function tampilProduk(list=produk){
+function tampilProduk(){
 
 let html=""
 
-list.forEach(p=>{
+produk.forEach(p=>{
 
 html+=`
 
 <div class="product">
 
-<div class="product-view">
-
-<div class="badge">-30%</div>
-<div class="wishlist">❤️</div>
-
-<img loading="lazy" src="${p.img}">
+<img src="${p.img}">
 
 <div class="info">
 
@@ -380,8 +316,6 @@ html+=`
 <div class="free">Gratis Ongkir</div>
 
 <div class="price">Rp${rupiah(p.harga)}</div>
-
-</div>
 
 </div>
 
@@ -413,22 +347,21 @@ html+=`<p>${item.nama} - Rp${rupiah(item.harga)}</p>`
 })
 
 document.getElementById("cartitems").innerHTML=html
+document.getElementById("cartcount").innerText=cart.length
 
 }
 
 function plusQty(nama,harga,btn){
 
-let box=btn.parentElement
-let input=box.querySelector(".qty-input")
-
+let input=btn.parentElement.querySelector(".qty-input")
 let qty=parseInt(input.value)
-qty++
 
+qty++
 input.value=qty
 
 cart.push({nama,harga})
 
-document.getElementById("cartcount").innerText=cart.length
+localStorage.setItem("cart",JSON.stringify(cart))
 
 renderCart()
 
@@ -436,9 +369,7 @@ renderCart()
 
 function minusQty(nama,harga,btn){
 
-let box=btn.parentElement
-let input=box.querySelector(".qty-input")
-
+let input=btn.parentElement.querySelector(".qty-input")
 let qty=parseInt(input.value)
 
 if(qty>0){
@@ -448,7 +379,7 @@ input.value=qty
 
 cart.pop()
 
-document.getElementById("cartcount").innerText=cart.length
+localStorage.setItem("cart",JSON.stringify(cart))
 
 renderCart()
 
@@ -464,35 +395,12 @@ function chatAdmin(){
 window.open("https://wa.me/6281220549530")
 }
 
-function devAlert(){
-document.getElementById("coolPopup").classList.add("show")
-}
-
-function closePopup(){
-document.getElementById("coolPopup").classList.remove("show")
-}
-
 function menuHome(){
-
-document.getElementById("search").value=""
-
-tampilProduk()
-
 window.scrollTo(0,0)
-
 }
 
-document.getElementById("search").addEventListener("keyup",function(){
-
-let keyword=this.value.toLowerCase()
-
-let hasil=produk.filter(p=>p.nama.toLowerCase().includes(keyword))
-
-tampilProduk(hasil)
-
-})
-
 tampilProduk()
+renderCart()
 
 </script>
 
