@@ -5,6 +5,7 @@
 <title>TembungShoping</title>
 
 <style>
+
 body{
 margin:0;
 font-family:Arial;
@@ -175,6 +176,7 @@ cursor:pointer;
 background:#eef3ff;
 font-weight:bold;
 }
+
 </style>
 </head>
 
@@ -312,7 +314,7 @@ produk.forEach(p=>{
 
 html+=`
 <div class="product">
-<img src="${p.img}">
+<img loading="lazy" src="${p.img}">
 <div class="info">
 <b>${p.nama}</b>
 <div class="rating">⭐⭐⭐⭐☆</div>
@@ -504,15 +506,20 @@ c.style.display=text.includes(input)?"":"none"
 
 })
 
-/* LOAD */
+/* LOAD CEPAT */
 
-window.onload=function(){
+document.addEventListener("DOMContentLoaded",()=>{
 
+requestAnimationFrame(()=>{
 tampilProduk()
+})
+
+setTimeout(()=>{
 updateCart()
 updateNotif()
+},50)
 
-}
+})
 
 </script>
 
