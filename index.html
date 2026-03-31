@@ -94,6 +94,10 @@ box-shadow:0 5px 12px rgba(0,0,0,0.08);
 position:relative;
 }
 
+.product-view{
+cursor:pointer;
+}
+
 .product img{
 width:100%;
 height:170px;
@@ -240,30 +244,46 @@ cursor:pointer;
 font-size:22px;
 }
 
-.popup{
+.cool-popup{
 position:fixed;
 top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.5);
-display:none;
+background:rgba(0,0,0,0.45);
+display:flex;
 align-items:center;
 justify-content:center;
+opacity:0;
+pointer-events:none;
+transition:0.3s;
 z-index:2000;
+}
+
+.cool-popup.show{
+opacity:1;
+pointer-events:auto;
 }
 
 .popup-box{
 background:white;
 padding:25px;
-border-radius:12px;
-text-align:center;
+border-radius:20px;
 width:80%;
+max-width:320px;
+text-align:center;
 }
 
-.popup button{
-margin-top:15px;
-background:#2c3e50;
+.popup-icon{
+font-size:42px;
+margin-bottom:10px;
+animation:bounce 1.5s infinite;
+}
+
+@keyframes bounce{
+0%{transform:translateY(0)}
+50%{transform:translateY(-6px)}
+100%{transform:translateY(0)}
 }
 
 </style>
@@ -272,7 +292,6 @@ background:#2c3e50;
 <body>
 
 <div class="header">
-
 <input class="search" id="search" placeholder="Cari produk di TembungShoping">
 
 <div class="icon" onclick="toggleCart()">🛒
@@ -280,7 +299,6 @@ background:#2c3e50;
 </div>
 
 <div class="icon" onclick="chatAdmin()">💬</div>
-
 </div>
 
 <div class="menu">
@@ -294,13 +312,9 @@ background:#2c3e50;
 <div class="products" id="products"></div>
 
 <div class="cart-popup" id="cartpopup">
-
 <button class="close-cart" onclick="toggleCart()">Tutup</button>
-
 <h2>Keranjang</h2>
-
 <div id="cartitems"></div>
-
 </div>
 
 <div class="bottom">
@@ -310,9 +324,10 @@ background:#2c3e50;
 <div onclick="devAlert()"><span class="icon-bottom">👤</span>Akun</div>
 </div>
 
-<div class="popup" id="popup">
+<div id="coolPopup" class="cool-popup">
 <div class="popup-box">
-<h3>🚀 Fitur Segera Hadir</h3>
+<div class="popup-icon">🚀</div>
+<h2>Fitur Segera Hadir</h2>
 <p>Kami sedang menyiapkan fitur ini untuk pengalaman belanja yang lebih baik.</p>
 <button onclick="closePopup()">Mengerti</button>
 </div>
@@ -323,32 +338,36 @@ background:#2c3e50;
 const produk=[
 {nama:"Sepatu Nike Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400",sold:"1.2k"},
 {nama:"Headphone Wireless",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400",sold:"950"},
-{nama:"Jam Tangan Smartwatch",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400",sold:"870"}
+{nama:"Jam Tangan Smartwatch",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400",sold:"870"},
+{nama:"Tas Fashion Wanita",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400",sold:"640"},
+{nama:"Kacamata Fashion",harga:90000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400",sold:"520"},
+{nama:"Parfum Coco Chanel",harga:120000,img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400",sold:"430"},
+{nama:"Smartphone Premium",harga:80000,img:"https://images.unsplash.com/photo-1580910051074-3eb694886505?w=400",sold:"390"},
+{nama:"PC Gaming RGB",harga:70000,img:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400",sold:"210"}
 ]
 
-let produkTampil=[...produk]
-
-let cart=JSON.parse(localStorage.getItem("cart"))||[]
+let cart=JSON.parse(localStorage.getItem("cart")) || []
 
 function rupiah(x){
 return Number(x).toLocaleString("id-ID")
 }
 
-function tampilProduk(){
+function tampilProduk(list=produk){
 
 let html=""
 
-produkTampil.forEach(p=>{
+list.forEach(p=>{
 
 html+=`
 
 <div class="product">
 
-<div class="badge">-30%</div>
+<div class="product-view">
 
+<div class="badge">-30%</div>
 <div class="wishlist">❤️</div>
 
-<img src="${p.img}">
+<img loading="lazy" src="${p.img}">
 
 <div class="info">
 
@@ -361,6 +380,8 @@ html+=`
 <div class="free">Gratis Ongkir</div>
 
 <div class="price">Rp${rupiah(p.harga)}</div>
+
+</div>
 
 </div>
 
@@ -377,11 +398,9 @@ html+=`
 </div>
 
 `
-
 })
 
 document.getElementById("products").innerHTML=html
-
 syncQty()
 
 }
@@ -391,7 +410,6 @@ function syncQty(){
 document.querySelectorAll(".product").forEach(box=>{
 
 let nama=box.querySelector("b").innerText
-
 let input=box.querySelector(".qty-input")
 
 let qty=cart.filter(i=>i.nama==nama).length
@@ -418,9 +436,7 @@ let total=0
 for(let nama in data){
 
 let item=data[nama]
-
 let subtotal=item.harga*item.qty
-
 total+=subtotal
 
 html+=`
@@ -430,7 +446,6 @@ Qty : ${item.qty}<br>
 Subtotal : <b>Rp${rupiah(subtotal)}</b>
 </div>
 `
-
 }
 
 html+=`
@@ -444,6 +459,8 @@ document.getElementById("cartitems").innerHTML=html
 document.getElementById("cartcount").innerText=cart.length
 
 localStorage.setItem("cart",JSON.stringify(cart))
+
+syncQty()
 
 }
 
@@ -488,6 +505,34 @@ renderCart()
 
 }
 
+function checkoutWA(){
+
+let data={}
+cart.forEach(item=>{
+if(!data[item.nama]){
+data[item.nama]={harga:item.harga,qty:0}
+}
+data[item.nama].qty++
+})
+
+let pesan="Halo Admin,%0ASaya ingin memesan:%0A%0A"
+let total=0
+
+for(let nama in data){
+
+let item=data[nama]
+let subtotal=item.harga*item.qty
+total+=subtotal
+
+pesan+=`${nama} x${item.qty} = Rp${rupiah(subtotal)}%0A`
+}
+
+pesan+=`%0ATotal Belanja : Rp${rupiah(total)}`
+
+window.open("https://wa.me/6281220549530?text="+pesan)
+
+}
+
 function toggleCart(){
 
 let popup=document.getElementById("cartpopup")
@@ -502,41 +547,37 @@ localStorage.setItem("cartOpen","0")
 
 }
 
-function checkoutWA(){
-
-let pesan="Halo Admin,%0ASaya ingin memesan:%0A"
-
-cart.forEach(i=>{
-pesan+=`${i.nama} - Rp${rupiah(i.harga)}%0A`
-})
-
-window.open("https://wa.me/6281220549530?text="+pesan)
-
-}
-
 function chatAdmin(){
 window.open("https://wa.me/6281220549530")
 }
 
 function devAlert(){
-document.getElementById("popup").style.display="flex"
+document.getElementById("coolPopup").classList.add("show")
 }
 
 function closePopup(){
-document.getElementById("popup").style.display="none"
+document.getElementById("coolPopup").classList.remove("show")
 }
 
 function menuHome(){
 
 document.getElementById("search").value=""
 
-produkTampil=[...produk]
-
 tampilProduk()
 
 window.scrollTo(0,0)
 
 }
+
+document.getElementById("search").addEventListener("keyup",function(){
+
+let keyword=this.value.toLowerCase()
+
+let hasil=produk.filter(p=>p.nama.toLowerCase().includes(keyword))
+
+tampilProduk(hasil)
+
+})
 
 tampilProduk()
 renderCart()
