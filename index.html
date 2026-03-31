@@ -1,4 +1,5 @@
-<!DOCTYPE html><html>
+<!DOCTYPE html>
+<html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TembungShoping</title>
@@ -124,18 +125,6 @@ padding:6px;
 font-size:14px;
 }
 
-.qty-badge{
-position:absolute;
-bottom:55px;
-right:10px;
-background:#27ae60;
-color:white;
-font-size:12px;
-padding:4px 8px;
-border-radius:8px;
-display:none;
-}
-
 .info{
 padding:10px;
 }
@@ -183,7 +172,7 @@ cursor:pointer;
 width:100%;
 }
 
-/* QTY CONTROL */
+/* qty control */
 
 .qty-control{
 display:flex;
@@ -209,6 +198,8 @@ border-radius:6px;
 height:32px;
 }
 
+/* cart popup */
+
 .cart-popup{
 position:fixed;
 top:0;
@@ -231,10 +222,7 @@ background:#e74c3c;
 margin-bottom:10px;
 }
 
-.notif-item{
-padding:10px;
-border-bottom:1px solid #eee;
-}
+/* bottom nav */
 
 .bottom{
 position:fixed;
@@ -254,17 +242,16 @@ z-index:999;
 display:flex;
 flex-direction:column;
 align-items:center;
-justify-content:center;
 font-size:12px;
-color:#333;
-gap:2px;
 cursor:pointer;
 position:relative;
 }
 
-.bottom span.icon-bottom{
+.icon-bottom{
 font-size:22px;
 }
+
+/* popup fitur */
 
 .cool-popup{
 position:fixed;
@@ -272,7 +259,7 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.4);
+background:rgba(0,0,0,0.45);
 display:flex;
 align-items:center;
 justify-content:center;
@@ -296,6 +283,34 @@ max-width:320px;
 text-align:center;
 }
 
+.popup-icon{
+font-size:42px;
+margin-bottom:10px;
+animation:bounce 1.5s infinite;
+}
+
+@keyframes bounce{
+0%{transform:translateY(0)}
+50%{transform:translateY(-6px)}
+100%{transform:translateY(0)}
+}
+
+.popup-box h2{
+margin:5px 0;
+color:#2c3e50;
+}
+
+.popup-box p{
+font-size:14px;
+color:#555;
+line-height:1.5;
+}
+
+.popup-box button{
+margin-top:15px;
+font-weight:bold;
+}
+
 </style>
 </head>
 
@@ -313,11 +328,32 @@ text-align:center;
 
 
 <div class="menu">
-<div onclick="devAlert()"><div class="circle"></div>Pulsa</div>
-<div onclick="devAlert()"><div class="circle"></div>Promo</div>
-<div onclick="devAlert()"><div class="circle"></div>Game</div>
-<div onclick="devAlert()"><div class="circle"></div>Live</div>
-<div onclick="devAlert()"><div class="circle"></div>Lainnya</div>
+
+<div onclick="devAlert()">
+<div class="circle"></div>
+Pulsa
+</div>
+
+<div onclick="devAlert()">
+<div class="circle"></div>
+Promo
+</div>
+
+<div onclick="devAlert()">
+<div class="circle"></div>
+Game
+</div>
+
+<div onclick="devAlert()">
+<div class="circle"></div>
+Live
+</div>
+
+<div onclick="devAlert()">
+<div class="circle"></div>
+Lainnya
+</div>
+
 </div>
 
 
@@ -328,13 +364,6 @@ text-align:center;
 <button class="close-cart" onclick="toggleCart()">Tutup</button>
 <h2>Keranjang</h2>
 <div id="cartitems"></div>
-</div>
-
-
-<div class="cart-popup" id="notifpopup">
-<button class="close-cart" onclick="toggleNotif()">Tutup</button>
-<h2>Notifikasi</h2>
-<div id="notifitems"></div>
 </div>
 
 
@@ -350,15 +379,36 @@ Beranda
 Live
 </div>
 
-<div onclick="toggleNotif()">
+<div onclick="devAlert()">
 <span class="icon-bottom">🔔</span>
 Notifikasi
-<span id="notifcount" class="cart-count">0</span>
 </div>
 
 <div onclick="devAlert()">
 <span class="icon-bottom">👤</span>
 Akun
+</div>
+
+</div>
+
+
+<div id="coolPopup" class="cool-popup">
+
+<div class="popup-box">
+
+<div class="popup-icon">🚀</div>
+
+<h2>Fitur Segera Hadir</h2>
+
+<p>
+Kami sedang menyiapkan fitur ini untuk memberikan pengalaman
+belanja yang lebih seru dan nyaman di <b>TembungShoping</b>.
+<br><br>
+Nantikan update terbaru kami!
+</p>
+
+<button onclick="closePopup()">Mengerti</button>
+
 </div>
 
 </div>
@@ -378,7 +428,6 @@ const produk=[
 ]
 
 let cart=[]
-let notif=[]
 
 function rupiah(x){
 return Number(x).toLocaleString("id-ID")
@@ -428,6 +477,7 @@ html+=`
 </div>
 
 </div>
+
 `
 })
 
@@ -442,6 +492,7 @@ let input=box.querySelector(".qty-input")
 
 let qty=parseInt(input.value)
 qty++
+
 input.value=qty
 
 cart.push({nama,harga})
@@ -474,30 +525,21 @@ function toggleCart(){
 document.getElementById("cartpopup").classList.toggle("active")
 }
 
-function toggleNotif(){
-document.getElementById("notifpopup").classList.toggle("active")
-}
-
 function chatAdmin(){
 window.open("https://wa.me/6281220549530")
 }
 
 function devAlert(){
-document.getElementById("coolPopup")?.classList.add("show")
+document.getElementById("coolPopup").classList.add("show")
+}
+
+function closePopup(){
+document.getElementById("coolPopup").classList.remove("show")
 }
 
 function menuHome(){
-document.getElementById("search").value=""
-tampilProduk()
 window.scrollTo(0,0)
 }
-
-document.getElementById("search").addEventListener("keyup",function(){
-let val=this.value.toLowerCase()
-document.querySelectorAll(".product").forEach(card=>{
-card.style.display=card.innerText.toLowerCase().includes(val)?"":"none"
-})
-})
 
 tampilProduk()
 
