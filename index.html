@@ -98,18 +98,53 @@ position:relative;
 width:100%;
 height:170px;
 object-fit:cover;
-cursor:pointer;
 }
 
 .info{
 padding:10px;
 }
 
+.info b{
+font-size:16px;
+display:block;
+margin-bottom:4px;
+line-height:1.3;
+height:38px;
+overflow:hidden;
+}
+
+.rating{
+color:#ffb400;
+font-size:14px;
+}
+
+.sold{
+font-size:12px;
+color:#777;
+}
+
+.free{
+font-size:11px;
+color:#27ae60;
+font-weight:bold;
+margin:4px 0;
+}
+
 .price{
 color:#e74c3c;
 font-size:20px;
 font-weight:bold;
-margin-top:5px;
+margin:6px 0;
+}
+
+button{
+border:none;
+background:#27ae60;
+color:white;
+border-radius:10px;
+padding:10px;
+cursor:pointer;
+width:100%;
 }
 
 .qty-control{
@@ -123,11 +158,8 @@ padding:10px;
 .qty-control button{
 width:35px;
 height:35px;
-border:none;
-background:#27ae60;
-color:white;
+padding:0;
 font-size:18px;
-border-radius:6px;
 }
 
 .qty-input{
@@ -149,11 +181,15 @@ background:white;
 padding:20px;
 overflow:auto;
 z-index:1000;
-transition:.3s;
 }
 
 .cart-popup.active{
 right:0;
+}
+
+.close-cart{
+background:#e74c3c;
+margin-bottom:10px;
 }
 
 .bottom{
@@ -164,9 +200,10 @@ width:100%;
 background:white;
 display:flex;
 justify-content:space-around;
-height:65px;
 align-items:center;
+height:65px;
 box-shadow:0 -3px 12px rgba(0,0,0,0.08);
+z-index:999;
 }
 
 .bottom div{
@@ -181,27 +218,48 @@ cursor:pointer;
 font-size:22px;
 }
 
-/* DETAIL PRODUK */
+/* popup */
 
-.detail-popup{
+.cool-popup{
 position:fixed;
-bottom:-100%;
+top:0;
 left:0;
 width:100%;
-background:white;
-border-radius:20px 20px 0 0;
-padding:20px;
+height:100%;
+background:rgba(0,0,0,0.45);
+display:flex;
+align-items:center;
+justify-content:center;
+opacity:0;
+pointer-events:none;
+transition:0.3s;
 z-index:2000;
-transition:.3s;
 }
 
-.detail-popup.show{
-bottom:0;
+.cool-popup.show{
+opacity:1;
+pointer-events:auto;
 }
 
-.detail-popup img{
-width:100%;
-border-radius:12px;
+.popup-box{
+background:white;
+padding:25px;
+border-radius:20px;
+width:80%;
+max-width:320px;
+text-align:center;
+}
+
+.popup-icon{
+font-size:42px;
+margin-bottom:10px;
+animation:bounce 1.5s infinite;
+}
+
+@keyframes bounce{
+0%{transform:translateY(0)}
+50%{transform:translateY(-6px)}
+100%{transform:translateY(0)}
 }
 
 </style>
@@ -222,20 +280,21 @@ border-radius:12px;
 </div>
 
 <div class="menu">
-
 <div onclick="devAlert()"><div class="circle"></div>Pulsa</div>
 <div onclick="devAlert()"><div class="circle"></div>Promo</div>
 <div onclick="devAlert()"><div class="circle"></div>Game</div>
 <div onclick="devAlert()"><div class="circle"></div>Live</div>
 <div onclick="devAlert()"><div class="circle"></div>Lainnya</div>
-
 </div>
 
 <div class="products" id="products"></div>
 
 <div class="cart-popup" id="cartpopup">
 
+<button class="close-cart" onclick="toggleCart()">Tutup</button>
+
 <h2>Keranjang</h2>
+
 <div id="cartitems"></div>
 
 </div>
@@ -244,30 +303,23 @@ border-radius:12px;
 
 <div onclick="menuHome()"><span class="icon-bottom">🏠</span>Beranda</div>
 <div onclick="devAlert()"><span class="icon-bottom">📺</span>Live</div>
-<div onclick="devAlert()"><span class="icon-bottom">🔔</span>Notif</div>
+<div onclick="devAlert()"><span class="icon-bottom">🔔</span>Notifikasi</div>
 <div onclick="devAlert()"><span class="icon-bottom">👤</span>Akun</div>
 
 </div>
 
+<div id="coolPopup" class="cool-popup">
+<div class="popup-box">
 
-<!-- DETAIL PRODUK -->
+<div class="popup-icon">🚀</div>
 
-<div class="detail-popup" id="detailPopup">
+<h2>✨ Fitur Baru Segera Hadir</h2>
 
-<img id="detailImg">
+<p>Kami sedang menyiapkan fitur menarik untuk membuat pengalaman belanja kamu lebih cepat, mudah, dan menyenangkan. Nantikan update terbaru dari kami!</p>
 
-<h2 id="detailNama"></h2>
+<button onclick="closePopup()">Mengerti</button>
 
-<p id="detailSold"></p>
-
-<h3 id="detailHarga"></h3>
-
-<button onclick="addDetailCart()">Tambah ke Keranjang</button>
-
-<br><br>
-
-<button onclick="closeDetail()">Tutup</button>
-
+</div>
 </div>
 
 <script>
@@ -284,7 +336,6 @@ const produk=[
 ]
 
 let cart=JSON.parse(localStorage.getItem("cart")) || []
-let selectedProduk=null
 
 function rupiah(x){
 return Number(x).toLocaleString("id-ID")
@@ -294,33 +345,25 @@ function tampilProduk(list=produk){
 
 let html=""
 
-list.forEach((p,i)=>{
+list.forEach(p=>{
 
 html+=`
 <div class="product">
 
-<img src="${p.img}" onclick="showDetail(${i})">
+<img src="${p.img}">
 
 <div class="info">
-
 <b>${p.nama}</b>
-
-<div>⭐⭐⭐⭐☆</div>
-
-<div>Terjual ${p.sold}</div>
-
+<div class="rating">⭐⭐⭐⭐☆</div>
+<div class="sold">Terjual ${p.sold}</div>
+<div class="free">Gratis Ongkir</div>
 <div class="price">Rp${rupiah(p.harga)}</div>
-
 </div>
 
 <div class="qty-control">
-
-<button onclick="minusQty(${i})">-</button>
-
-<input class="qty-input" id="qty${i}" value="0">
-
-<button onclick="plusQty(${i})">+</button>
-
+<button onclick="minusQty('${p.nama}',${p.harga})">-</button>
+<input class="qty-input" value="0" readonly>
+<button onclick="plusQty('${p.nama}',${p.harga})">+</button>
 </div>
 
 </div>
@@ -328,19 +371,21 @@ html+=`
 })
 
 document.getElementById("products").innerHTML=html
+
 syncQty()
 
 }
 
 function syncQty(){
 
-produk.forEach((p,i)=>{
+document.querySelectorAll(".product").forEach(box=>{
 
-let qty=cart.filter(c=>c.nama==p.nama).length
+let nama=box.querySelector("b").innerText
+let input=box.querySelector(".qty-input")
 
-let el=document.getElementById("qty"+i)
+let qty=cart.filter(i=>i.nama==nama).length
 
-if(el) el.value=qty
+input.value=qty
 
 })
 
@@ -348,15 +393,41 @@ if(el) el.value=qty
 
 function renderCart(){
 
+let data={}
+cart.forEach(item=>{
+if(!data[item.nama]){
+data[item.nama]={harga:item.harga,qty:0}
+}
+data[item.nama].qty++
+})
+
 let html=""
 let total=0
 
-cart.forEach(c=>{
-html+=c.nama+"<br>"
-total+=c.harga
-})
+for(let nama in data){
 
-html+="<h3>Total : Rp"+rupiah(total)+"</h3>"
+let item=data[nama]
+
+let subtotal=item.harga*item.qty
+
+total+=subtotal
+
+html+=`
+<div style="border-bottom:1px solid #eee;padding:10px 0">
+<b>${nama}</b><br>
+Qty : ${item.qty}<br>
+Subtotal : <b>Rp${rupiah(subtotal)}</b>
+</div>
+`
+
+}
+
+html+=`
+<div style="margin-top:15px">
+<h3>Total : Rp${rupiah(total)}</h3>
+<button onclick="checkoutWA()">Checkout WhatsApp</button>
+</div>
+`
 
 document.getElementById("cartitems").innerHTML=html
 document.getElementById("cartcount").innerText=cart.length
@@ -365,33 +436,77 @@ localStorage.setItem("cart",JSON.stringify(cart))
 
 }
 
-function plusQty(i){
+function plusQty(nama,harga){
 
-cart.push(produk[i])
+cart.push({nama,harga})
 
 renderCart()
+
 syncQty()
 
 }
 
-function minusQty(i){
+function minusQty(nama,harga){
 
-let index=cart.findIndex(c=>c.nama==produk[i].nama)
+for(let i=0;i<cart.length;i++){
 
-if(index>-1){
+if(cart[i].nama==nama){
 
-cart.splice(index,1)
+cart.splice(i,1)
 
-renderCart()
-syncQty()
+break
 
 }
+
+}
+
+renderCart()
+
+syncQty()
 
 }
 
 function toggleCart(){
 
-document.getElementById("cartpopup").classList.toggle("active")
+let popup=document.getElementById("cartpopup")
+
+popup.classList.toggle("active")
+
+if(popup.classList.contains("active")){
+localStorage.setItem("cartOpen","1")
+}else{
+localStorage.setItem("cartOpen","0")
+}
+
+}
+
+function checkoutWA(){
+
+let text="Pesanan:%0A"
+
+cart.forEach(i=>{
+text+=i.nama+"%0A"
+})
+
+window.open("https://wa.me/6281220549530?text="+text)
+
+}
+
+function chatAdmin(){
+
+window.open("https://wa.me/6281220549530")
+
+}
+
+function devAlert(){
+
+document.getElementById("coolPopup").classList.add("show")
+
+}
+
+function closePopup(){
+
+document.getElementById("coolPopup").classList.remove("show")
 
 }
 
@@ -407,56 +522,21 @@ window.scrollTo(0,0)
 
 document.getElementById("search").addEventListener("keyup",function(){
 
-let key=this.value.toLowerCase()
+let keyword=this.value.toLowerCase()
 
-let hasil=produk.filter(p=>p.nama.toLowerCase().includes(key))
+let hasil=produk.filter(p=>p.nama.toLowerCase().includes(keyword))
 
 tampilProduk(hasil)
 
 })
 
-function showDetail(i){
-
-selectedProduk=produk[i]
-
-document.getElementById("detailImg").src=selectedProduk.img
-document.getElementById("detailNama").innerText=selectedProduk.nama
-document.getElementById("detailSold").innerText="Terjual "+selectedProduk.sold
-document.getElementById("detailHarga").innerText="Rp"+rupiah(selectedProduk.harga)
-
-document.getElementById("detailPopup").classList.add("show")
-
-}
-
-function closeDetail(){
-
-document.getElementById("detailPopup").classList.remove("show")
-
-}
-
-function addDetailCart(){
-
-cart.push(selectedProduk)
-
-renderCart()
-syncQty()
-
-}
-
-function chatAdmin(){
-
-window.open("https://wa.me/6281220549530")
-
-}
-
-function devAlert(){
-
-alert("Fitur sedang dikembangkan")
-
-}
-
 tampilProduk()
+
 renderCart()
+
+if(localStorage.getItem("cartOpen")=="1"){
+document.getElementById("cartpopup").classList.add("active")
+}
 
 </script>
 
