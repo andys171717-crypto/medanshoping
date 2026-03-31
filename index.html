@@ -10,47 +10,55 @@ body{
 margin:0;
 font-family:Arial;
 background:#f2f2f2;
+padding-top:75px;
 padding-bottom:80px;
-padding-top:70px;
 }
 
 /* HEADER */
 
 .header{
 background:#2c3e50;
-padding:10px;
+padding:12px 12px;
 display:flex;
 align-items:center;
-gap:10px;
+gap:12px;
 position:fixed;
 top:0;
 left:0;
 width:100%;
 z-index:1000;
+box-sizing:border-box;
 }
 
 .search{
 flex:1;
-padding:10px;
-border-radius:20px;
+height:42px;
+padding:0 16px;
+border-radius:25px;
 border:none;
 outline:none;
+font-size:14px;
 }
 
 .icon{
-font-size:22px;
+font-size:24px;
 color:white;
 cursor:pointer;
 position:relative;
+width:38px;
+height:38px;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
 .cart-count{
 position:absolute;
-top:-5px;
-right:-8px;
+top:-4px;
+right:-6px;
 background:red;
 color:white;
-font-size:12px;
+font-size:11px;
 padding:2px 6px;
 border-radius:50%;
 }
@@ -64,13 +72,12 @@ background:white;
 padding:10px;
 text-align:center;
 font-size:14px;
-margin-top:10px;
 }
 
 .circle{
 width:45px;
 height:45px;
-background:#34495e;
+background:#3b4f63;
 border-radius:50%;
 margin:auto;
 margin-bottom:5px;
@@ -89,7 +96,7 @@ gap:14px;
 background:white;
 border-radius:16px;
 overflow:hidden;
-box-shadow:0 6px 14px rgba(0,0,0,0.08);
+box-shadow:0 5px 12px rgba(0,0,0,0.08);
 position:relative;
 cursor:pointer;
 }
@@ -123,6 +130,15 @@ font-size:14px;
 
 .info{
 padding:10px;
+}
+
+.info b{
+font-size:16px;
+display:block;
+margin-bottom:4px;
+line-height:1.3;
+height:38px;
+overflow:hidden;
 }
 
 .rating{
@@ -188,15 +204,9 @@ margin-bottom:10px;
 .notif-item{
 padding:10px;
 border-bottom:1px solid #eee;
-cursor:pointer;
 }
 
-.notif-unread{
-background:#eef3ff;
-font-weight:bold;
-}
-
-/* BOTTOM */
+/* BOTTOM MENU */
 
 .bottom{
 position:fixed;
@@ -208,9 +218,11 @@ display:flex;
 justify-content:space-around;
 padding:10px;
 box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+text-align:center;
+font-size:14px;
 }
 
-/* POPUP FITUR */
+/* POPUP */
 
 .cool-popup{
 position:fixed;
@@ -314,10 +326,6 @@ margin-bottom:15px;
 
 <div id="cartitems"></div>
 
-<h3 id="total"></h3>
-
-<button onclick="checkout()">Checkout</button>
-
 </div>
 
 <!-- NOTIF -->
@@ -384,9 +392,7 @@ Masukkan Keranjang
 <h2>🚀 Fitur Segera Hadir</h2>
 
 <p>
-Fitur ini sedang kami kembangkan<br>
-untuk memberikan pengalaman belanja<br>
-yang lebih baik di <b>TembungShoping</b>.
+Fitur ini sedang kami kembangkan untuk pengalaman belanja yang lebih baik.
 </p>
 
 <button onclick="closePopup()">Mengerti</button>
@@ -398,21 +404,18 @@ yang lebih baik di <b>TembungShoping</b>.
 <script>
 
 const produk=[
-
 {nama:"Sepatu Nike Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400",sold:"1.2k"},
 {nama:"Headphone Wireless",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400",sold:"950"},
 {nama:"Jam Tangan Smartwatch",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400",sold:"870"},
 {nama:"Tas Fashion Wanita",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400",sold:"640"},
-{nama:"Kacamata Fashion Bulat",harga:90000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400",sold:"520"},
+{nama:"Kacamata Fashion",harga:90000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400",sold:"520"},
 {nama:"Parfum Coco Chanel",harga:120000,img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400",sold:"430"},
 {nama:"Smartphone Premium",harga:80000,img:"https://images.unsplash.com/photo-1580910051074-3eb694886505?w=400",sold:"390"},
 {nama:"PC Gaming RGB",harga:70000,img:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400",sold:"210"}
-
 ]
 
 let cart=[]
 let notif=[]
-
 let detailNama=""
 let detailHarga=0
 
@@ -454,25 +457,19 @@ Tambah Keranjang
 
 </div>
 `
-
 })
 
 document.getElementById("products").innerHTML=html
-
 }
 
 function showDetail(nama,harga,img,sold){
-
 detailNama=nama
 detailHarga=harga
-
 document.getElementById("detailImg").src=img
 document.getElementById("detailName").innerText=nama
 document.getElementById("detailPrice").innerText="Rp"+rupiah(harga)
 document.getElementById("detailSold").innerText="Terjual "+sold
-
 document.getElementById("productDetail").classList.add("show")
-
 }
 
 function closeDetail(){
@@ -480,15 +477,10 @@ document.getElementById("productDetail").classList.remove("show")
 }
 
 function addcart(nama,harga){
-
 cart.push({nama,harga})
-
 document.getElementById("cartcount").innerText=cart.length
-
-notif.unshift({text:nama+" ditambahkan ke keranjang",read:false})
-
+notif.unshift({text:nama+" ditambahkan ke keranjang"})
 updateNotif()
-
 }
 
 function toggleCart(){
@@ -500,21 +492,12 @@ document.getElementById("notifpopup").classList.toggle("active")
 }
 
 function updateNotif(){
-
 let html=""
-let unread=0
-
-notif.forEach((n,i)=>{
-
-if(!n.read) unread++
-
+notif.forEach(n=>{
 html+=`<div class="notif-item">${n.text}</div>`
-
 })
-
 document.getElementById("notifitems").innerHTML=html
-document.getElementById("notifcount").innerText=unread
-
+document.getElementById("notifcount").innerText=notif.length
 }
 
 function chatAdmin(){
@@ -530,25 +513,16 @@ document.getElementById("coolPopup").classList.remove("show")
 }
 
 function menuHome(){
-
 document.getElementById("search").value=""
-
-document.querySelectorAll(".product").forEach(function(p){
-p.style.display="block"
-})
-
+document.querySelectorAll(".product").forEach(p=>p.style.display="block")
 window.scrollTo({top:0,behavior:"smooth"})
-
 }
 
 document.getElementById("search").addEventListener("keyup",function(){
-
 let val=this.value.toLowerCase()
-
 document.querySelectorAll(".product").forEach(card=>{
 card.style.display=card.innerText.toLowerCase().includes(val)?"":"none"
 })
-
 })
 
 tampilProduk()
