@@ -22,7 +22,6 @@ top:0;
 left:0;
 width:100%;
 z-index:1000;
-box-sizing:border-box;
 }
 
 .search{
@@ -32,7 +31,6 @@ padding:0 16px;
 border-radius:25px;
 border:none;
 outline:none;
-font-size:14px;
 }
 
 .icon{
@@ -40,17 +38,12 @@ font-size:24px;
 color:white;
 cursor:pointer;
 position:relative;
-width:38px;
-height:38px;
-display:flex;
-align-items:center;
-justify-content:center;
 }
 
 .cart-count{
 position:absolute;
-top:-4px;
-right:-6px;
+top:-5px;
+right:-8px;
 background:red;
 color:white;
 font-size:11px;
@@ -119,56 +112,41 @@ right:8px;
 background:white;
 border-radius:50%;
 padding:6px;
-font-size:14px;
-}
-
-.qty-badge{
-position:absolute;
-bottom:55px;
-right:10px;
-background:#27ae60;
-color:white;
-font-size:12px;
-padding:4px 8px;
-border-radius:8px;
-display:none;
 }
 
 .info{
 padding:10px;
 }
 
-.info b{
-font-size:16px;
-display:block;
-margin-bottom:4px;
-line-height:1.3;
-height:38px;
-overflow:hidden;
-}
-
-.rating{
-color:#ffb400;
-font-size:14px;
-}
-
-.sold{
-font-size:12px;
-color:#777;
-}
-
-.free{
-font-size:11px;
-color:#27ae60;
-font-weight:bold;
-margin:4px 0;
-}
-
 .price{
 color:#e74c3c;
 font-size:20px;
 font-weight:bold;
-margin:6px 0;
+}
+
+.qty-control{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:10px;
+margin:8px;
+}
+
+.qty-btn{
+background:#27ae60;
+color:white;
+border:none;
+width:28px;
+height:28px;
+border-radius:6px;
+cursor:pointer;
+font-size:16px;
+}
+
+.qty-number{
+font-size:14px;
+min-width:20px;
+text-align:center;
 }
 
 button{
@@ -181,33 +159,6 @@ cursor:pointer;
 width:100%;
 }
 
-.cart-popup{
-position:fixed;
-top:0;
-right:-100%;
-width:80%;
-height:100%;
-background:white;
-padding:20px;
-transition:0.3s;
-overflow:auto;
-z-index:1000;
-}
-
-.cart-popup.active{
-right:0;
-}
-
-.close-cart{
-background:#e74c3c;
-margin-bottom:10px;
-}
-
-.notif-item{
-padding:10px;
-border-bottom:1px solid #eee;
-}
-
 .bottom{
 position:fixed;
 bottom:0;
@@ -216,137 +167,36 @@ width:100%;
 background:white;
 display:flex;
 justify-content:space-around;
-align-items:center;
 height:65px;
+align-items:center;
 box-shadow:0 -3px 12px rgba(0,0,0,0.08);
-z-index:999;
 }
 
 .bottom div{
 display:flex;
 flex-direction:column;
 align-items:center;
-justify-content:center;
 font-size:12px;
-color:#333;
-gap:2px;
 cursor:pointer;
-position:relative;
 }
 
-.bottom span.icon-bottom{
-font-size:22px;
-}
-
-.cool-popup{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.4);
-display:flex;
-align-items:center;
-justify-content:center;
-opacity:0;
-pointer-events:none;
-transition:0.3s;
-z-index:2000;
-}
-
-.cool-popup.show{
-opacity:1;
-pointer-events:auto;
-}
-
-.popup-box{
-background:white;
-padding:25px;
-border-radius:20px;
-width:80%;
-max-width:320px;
-text-align:center;
-}
-
-.product-detail{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:white;
-z-index:3000;
-overflow:auto;
-display:none;
-}
-
-.product-detail.show{
-display:block;
-}
-
-.detail-box{
-padding:20px;
-}
-
-.detail-box img{
-width:100%;
-border-radius:10px;
-margin-bottom:15px;
-}
-
-.close-detail{
-background:#2c3e50;
-margin-bottom:15px;
-}
-
-</style></head><body><div class="header"><input class="search" id="search" placeholder="Cari produk di TembungShoping"><div class="icon" onclick="toggleCart()">🛒
+</style></head><body><div class="header"><input class="search" id="search" placeholder="Cari produk"><div class="icon">🛒
 <span id="cartcount" class="cart-count">0</span>
-</div><div class="icon" onclick="chatAdmin()">💬</div></div><div class="menu"><div onclick="devAlert()"><div class="circle"></div>Pulsa</div>
-<div onclick="devAlert()"><div class="circle"></div>Promo</div>
-<div onclick="devAlert()"><div class="circle"></div>Game</div>
-<div onclick="devAlert()"><div class="circle"></div>Live</div>
-<div onclick="devAlert()"><div class="circle"></div>Lainnya</div></div><div class="products" id="products"></div><div class="cart-popup" id="cartpopup">
-<button class="close-cart" onclick="toggleCart()">Tutup</button>
-<h2>Keranjang</h2>
-<div id="cartitems"></div>
-</div><div class="cart-popup" id="notifpopup">
-<button class="close-cart" onclick="toggleNotif()">Tutup</button>
-<h2>Notifikasi</h2>
-<div id="notifitems"></div>
-</div><div id="productDetail" class="product-detail"><div class="detail-box"><button class="close-detail" onclick="closeDetail()">← Kembali</button>
-
-<img id="detailImg"><h2 id="detailName"></h2><div class="rating">⭐⭐⭐⭐☆</div><div id="detailSold"></div><h2 id="detailPrice"></h2><p>Produk berkualitas tinggi dengan desain modern dan bahan premium.</p><button onclick="addcart(detailNama,detailHarga,this)">Masukkan Keranjang</button>
-
-</div></div><div class="bottom"><div onclick="menuHome()">
-<span class="icon-bottom">🏠</span>
-Beranda
-</div><div onclick="devAlert()">
-<span class="icon-bottom">📺</span>
-Live
-</div><div onclick="toggleNotif()">
-<span class="icon-bottom">🔔</span>
-Notifikasi
-<span id="notifcount" class="cart-count">0</span>
-</div><div onclick="devAlert()">
-<span class="icon-bottom">👤</span>
-Akun
-</div></div><div id="coolPopup" class="cool-popup"><div class="popup-box"><h2>🚀 Fitur Segera Hadir</h2><p>Fitur ini sedang dikembangkan.</p><button onclick="closePopup()">Mengerti</button>
-
-</div></div><script>
+</div><div class="icon">💬</div></div><div class="menu"><div><div class="circle"></div>Pulsa</div>
+<div><div class="circle"></div>Promo</div>
+<div><div class="circle"></div>Game</div>
+<div><div class="circle"></div>Live</div>
+<div><div class="circle"></div>Lainnya</div></div><div class="products" id="products"></div><div class="bottom"><div>🏠<span>Beranda</span></div>
+<div>📺<span>Live</span></div>
+<div>🔔<span>Notifikasi</span></div>
+<div>👤<span>Akun</span></div></div><script>
 
 const produk=[
-{nama:"Sepatu Nike Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400",sold:"1.2k"},
-{nama:"Headphone Wireless",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400",sold:"950"},
-{nama:"Jam Tangan Smartwatch",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400",sold:"870"},
-{nama:"Tas Fashion Wanita",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400",sold:"640"},
-{nama:"Kacamata Fashion",harga:90000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400",sold:"520"},
-{nama:"Parfum Coco Chanel",harga:120000,img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400",sold:"430"},
-{nama:"Smartphone Premium",harga:80000,img:"https://images.unsplash.com/photo-1580910051074-3eb694886505?w=400",sold:"390"},
-{nama:"PC Gaming RGB",harga:70000,img:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400",sold:"210"}
+{nama:"Sepatu Nike Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400",qty:0},
+{nama:"Headphone Wireless",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400",qty:0},
+{nama:"Jam Tangan Smartwatch",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400",qty:0},
+{nama:"Tas Fashion Wanita",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400",qty:0}
 ]
-
-let cart=[]
-let notif=[]
 
 function rupiah(x){
 return Number(x).toLocaleString("id-ID")
@@ -356,15 +206,15 @@ function tampilProduk(){
 
 let html=""
 
-produk.forEach(p=>{
+produk.forEach((p,i)=>{
 
 html+=`
+
 <div class="product">
 
-<div class="product-view" onclick="showDetail('${p.nama}',${p.harga},'${p.img}','${p.sold}')">
+<div class="product-view">
 
 <div class="badge">-30%</div>
-<div class="wishlist">❤️</div>
 
 <img loading="lazy" src="${p.img}">
 
@@ -372,93 +222,65 @@ html+=`
 
 <b>${p.nama}</b>
 
-<div class="rating">⭐⭐⭐⭐☆</div>
-
-<div class="sold">Terjual ${p.sold}</div>
-
-<div class="free">Gratis Ongkir</div>
-
 <div class="price">Rp${rupiah(p.harga)}</div>
 
 </div>
 
 </div>
 
-<div class="qty-badge">1</div>
+<div class="qty-control">
 
-<button onclick="addcart('${p.nama}',${p.harga},this)">
-Tambah Keranjang
-</button>
+<button class="qty-btn" onclick="kurang(${i})">-</button>
+
+<div class="qty-number" id="qty${i}">${p.qty}</div>
+
+<button class="qty-btn" onclick="tambah(${i})">+</button>
 
 </div>
+
+</div>
+
 `
+
 })
 
 document.getElementById("products").innerHTML=html
 
-}
-
-function addcart(nama,harga,btn){
-
-cart.push({nama,harga})
-
-document.getElementById("cartcount").innerText=cart.length
-
-notif.unshift({text:nama+" ditambahkan ke keranjang"})
-updateNotif()
-
-let card = btn.parentElement
-let badge = card.querySelector(".qty-badge")
-
-let qty = parseInt(badge.innerText) || 0
-qty++
-
-badge.innerText = qty
-badge.style.display="block"
+updateCart()
 
 }
 
-function toggleCart(){
-document.getElementById("cartpopup").classList.toggle("active")
+function tambah(i){
+
+produk[i].qty++
+
+updateCart()
+
+document.getElementById("qty"+i).innerText=produk[i].qty
+
 }
 
-function toggleNotif(){
-document.getElementById("notifpopup").classList.toggle("active")
+function kurang(i){
+
+if(produk[i].qty>0){
+produk[i].qty--
+updateCart()
+document.getElementById("qty"+i).innerText=produk[i].qty
 }
 
-function updateNotif(){
-let html=""
-notif.forEach(n=>{
-html+=`<div class="notif-item">${n.text}</div>`
+}
+
+function updateCart(){
+
+let total=0
+
+produk.forEach(p=>{
+total+=p.qty
 })
-document.getElementById("notifitems").innerHTML=html
-document.getElementById("notifcount").innerText=notif.length
-}
 
-function chatAdmin(){
-window.open("https://wa.me/6281220549530")
-}
+document.getElementById("cartcount").innerText=total
 
-function devAlert(){
-document.getElementById("coolPopup").classList.add("show")
 }
-
-function closePopup(){
-document.getElementById("coolPopup").classList.remove("show")
-}
-
-function menuHome(){
-document.getElementById("search").value=""
-tampilProduk()
-window.scrollTo(0,0)
-}
-
-document.getElementById("search").addEventListener("keyup",function(){
-let val=this.value.toLowerCase()
-document.querySelectorAll(".product").forEach(card=>{
-card.style.display=card.innerText.toLowerCase().includes(val)?"":"none"
-})
-})
 
 tampilProduk()
 
