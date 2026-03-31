@@ -404,6 +404,18 @@ document.getElementById("products").innerHTML=html
 
 }
 
+function renderCart(){
+
+let html=""
+
+cart.forEach(item=>{
+html+=`<p>${item.nama} - Rp${rupiah(item.harga)}</p>`
+})
+
+document.getElementById("cartitems").innerHTML=html
+
+}
+
 function plusQty(nama,harga,btn){
 
 let box=btn.parentElement
@@ -417,6 +429,8 @@ input.value=qty
 cart.push({nama,harga})
 
 document.getElementById("cartcount").innerText=cart.length
+
+renderCart()
 
 }
 
@@ -435,6 +449,8 @@ input.value=qty
 cart.pop()
 
 document.getElementById("cartcount").innerText=cart.length
+
+renderCart()
 
 }
 
