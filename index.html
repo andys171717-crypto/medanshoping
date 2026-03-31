@@ -332,31 +332,17 @@ margin-bottom:15px;
 
 <div class="products" id="products"></div>
 
-<!-- CART -->
-
 <div class="cart-popup" id="cartpopup">
-
 <button class="close-cart" onclick="toggleCart()">Tutup</button>
-
 <h2>Keranjang</h2>
-
 <div id="cartitems"></div>
-
 </div>
-
-<!-- NOTIF -->
 
 <div class="cart-popup" id="notifpopup">
-
 <button class="close-cart" onclick="toggleNotif()">Tutup</button>
-
 <h2>Notifikasi</h2>
-
 <div id="notifitems"></div>
-
 </div>
-
-<!-- DETAIL PRODUK -->
 
 <div id="productDetail" class="product-detail">
 
@@ -378,15 +364,13 @@ margin-bottom:15px;
 Produk berkualitas tinggi dengan desain modern dan bahan premium.
 </p>
 
-<button onclick="addcart(detailNama,detailHarga)">
+<button onclick="event.stopPropagation();addcart(detailNama,detailHarga)">
 Masukkan Keranjang
 </button>
 
 </div>
 
 </div>
-
-<!-- MENU BAWAH -->
 
 <div class="bottom">
 
@@ -503,6 +487,7 @@ document.getElementById("productDetail").classList.remove("show")
 }
 
 function addcart(nama,harga){
+event.stopPropagation()
 cart.push({nama,harga})
 document.getElementById("cartcount").innerText=cart.length
 notif.unshift({text:nama+" ditambahkan ke keranjang"})
