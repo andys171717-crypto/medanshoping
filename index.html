@@ -204,9 +204,9 @@ width:80%;
 height:100%;
 background:white;
 padding:20px;
-transition:0.3s;
 overflow:auto;
 z-index:1000;
+transition:right .3s;
 }
 
 .cart-popup.active{
@@ -582,9 +582,11 @@ tampilProduk(hasil)
 tampilProduk()
 renderCart()
 
+setTimeout(()=>{
 if(localStorage.getItem("cartOpen")=="1"){
 document.getElementById("cartpopup").classList.add("active")
 }
+},50)
 
 </script>
 
