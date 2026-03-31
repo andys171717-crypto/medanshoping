@@ -582,11 +582,11 @@ tampilProduk(hasil)
 tampilProduk()
 renderCart()
 
-setTimeout(()=>{
-if(localStorage.getItem("cartOpen")=="1"){
+let cartState = localStorage.getItem("cartOpen")
+
+if(cartState=="1"){
 document.getElementById("cartpopup").classList.add("active")
 }
-},50)
 
 </script>
 
