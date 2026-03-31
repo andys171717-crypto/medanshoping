@@ -294,9 +294,13 @@ background:#2c3e50;
 <div class="products" id="products"></div>
 
 <div class="cart-popup" id="cartpopup">
+
 <button class="close-cart" onclick="toggleCart()">Tutup</button>
+
 <h2>Keranjang</h2>
+
 <div id="cartitems"></div>
+
 </div>
 
 <div class="bottom">
@@ -319,12 +323,7 @@ background:#2c3e50;
 const produk=[
 {nama:"Sepatu Nike Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400",sold:"1.2k"},
 {nama:"Headphone Wireless",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400",sold:"950"},
-{nama:"Jam Tangan Smartwatch",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400",sold:"870"},
-{nama:"Tas Pria Premium",harga:180000,img:"https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=400",sold:"1k"},
-{nama:"Kacamata Fashion",harga:90000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400",sold:"700"},
-{nama:"Mouse Gaming RGB",harga:120000,img:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400",sold:"860"},
-{nama:"Keyboard Mechanical",harga:250000,img:"https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400",sold:"640"},
-{nama:"Speaker Bluetooth",harga:175000,img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400",sold:"530"}
+{nama:"Jam Tangan Smartwatch",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400",sold:"870"}
 ]
 
 let produkTampil=[...produk]
@@ -384,28 +383,6 @@ html+=`
 document.getElementById("products").innerHTML=html
 
 syncQty()
-
-}
-
-document.getElementById("search").addEventListener("input",function(){
-
-let key=this.value.toLowerCase()
-
-produkTampil=produk.filter(p=>p.nama.toLowerCase().includes(key))
-
-tampilProduk()
-
-})
-
-function menuHome(){
-
-document.getElementById("search").value=""
-
-produkTampil=[...produk]
-
-tampilProduk()
-
-window.scrollTo({top:0,behavior:"smooth"})
 
 }
 
@@ -517,6 +494,12 @@ let popup=document.getElementById("cartpopup")
 
 popup.classList.toggle("active")
 
+if(popup.classList.contains("active")){
+localStorage.setItem("cartOpen","1")
+}else{
+localStorage.setItem("cartOpen","0")
+}
+
 }
 
 function checkoutWA(){
@@ -543,8 +526,24 @@ function closePopup(){
 document.getElementById("popup").style.display="none"
 }
 
+function menuHome(){
+
+document.getElementById("search").value=""
+
+produkTampil=[...produk]
+
+tampilProduk()
+
+window.scrollTo(0,0)
+
+}
+
 tampilProduk()
 renderCart()
+
+if(localStorage.getItem("cartOpen")=="1"){
+document.getElementById("cartpopup").classList.add("active")
+}
 
 </script>
 
