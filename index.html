@@ -1,27 +1,21 @@
-<!DOCTYPE html>
-<html lang="id">
+<!DOCTYPE html><html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TembungShopping</title>
-
-<style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TembungShoping</title><style>
 
 body{
 margin:0;
 font-family:Arial;
 background:#f2f2f2;
+padding-bottom:80px;
 }
 
-/* HEADER */
-
-header{
-background:#3b5168;
+.header{
+background:#34495e;
 padding:10px;
 display:flex;
 align-items:center;
 gap:10px;
-color:white;
 }
 
 .search{
@@ -29,66 +23,62 @@ flex:1;
 padding:10px;
 border-radius:20px;
 border:none;
+outline:none;
 }
 
 .icon{
-position:relative;
 font-size:22px;
+color:white;
 cursor:pointer;
+position:relative;
 }
 
-.badge{
+.cart-count{
 position:absolute;
 top:-5px;
-right:-5px;
+right:-8px;
 background:red;
 color:white;
 font-size:12px;
-border-radius:50%;
 padding:2px 6px;
+border-radius:50%;
 }
 
-/* KATEGORI */
-
-.category{
-display:flex;
-justify-content:space-around;
-padding:15px 0;
+.menu{
+display:grid;
+grid-template-columns:repeat(5,1fr);
 background:white;
-}
-
-.cat{
+padding:10px;
 text-align:center;
 font-size:14px;
 }
 
 .circle{
-width:50px;
-height:50px;
-background:#3b5168;
+width:45px;
+height:45px;
+background:#34495e;
 border-radius:50%;
 margin:auto;
+margin-bottom:5px;
 }
-
-/* PRODUK */
 
 .products{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:10px;
 padding:10px;
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:12px;
 }
 
-.card{
+.product{
 background:white;
-border-radius:10px;
+border-radius:12px;
 overflow:hidden;
-box-shadow:0 2px 5px rgba(0,0,0,0.1);
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
 
-.card img{
+.product img{
 width:100%;
-height:150px;
+height:140px;
 object-fit:cover;
 }
 
@@ -99,55 +89,70 @@ padding:10px;
 .price{
 color:#e74c3c;
 font-weight:bold;
+font-size:18px;
 }
 
-.btn{
+.rating{
+color:orange;
+}
+
+button{
+width:100%;
+padding:8px;
+border:none;
 background:#27ae60;
 color:white;
-border:none;
-padding:10px;
-width:100%;
 border-radius:6px;
-margin-top:8px;
+margin-top:6px;
 cursor:pointer;
 }
 
-/* BOTTOM NAV */
+.cart-popup{
+position:fixed;
+top:0;
+right:-100%;
+width:80%;
+height:100%;
+background:white;
+padding:20px;
+transition:0.3s;
+overflow:auto;
+z-index:1000;
+}
+
+.cart-popup.active{
+right:0;
+}
+
+.close-cart{
+background:#e74c3c;
+margin-bottom:10px;
+}
 
 .bottom{
 position:fixed;
 bottom:0;
+left:0;
 width:100%;
 background:white;
 display:flex;
 justify-content:space-around;
-padding:10px 0;
-border-top:1px solid #ddd;
+padding:10px;
+box-shadow:0 -2px 10px rgba(0,0,0,0.1);
 }
 
-.nav{
-text-align:center;
-font-size:14px;
+.notif-item{
+padding:10px;
+border-bottom:1px solid #eee;
 cursor:pointer;
 }
 
-/* MODAL */
-
-.modal{
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-background:white;
-padding:20px;
-border-radius:10px;
-width:80%;
-max-width:350px;
-display:none;
-z-index:1000;
+.notif-unread{
+background:#eef3ff;
+font-weight:bold;
 }
 
-.overlay{
+.popup-bg{
 position:fixed;
 top:0;
 left:0;
@@ -155,256 +160,309 @@ width:100%;
 height:100%;
 background:rgba(0,0,0,0.5);
 display:none;
+align-items:center;
+justify-content:center;
+z-index:2000;
 }
 
-.close{
-background:#e74c3c;
-color:white;
-border:none;
-padding:10px;
-width:100%;
-border-radius:6px;
-margin-bottom:10px;
-cursor:pointer;
+.popup-box{
+background:white;
+width:80%;
+max-width:300px;
+padding:20px;
+border-radius:12px;
+text-align:center;
 }
 
-.checkout{
-background:#27ae60;
-color:white;
-border:none;
-padding:10px;
-width:100%;
-border-radius:6px;
-margin-top:10px;
-cursor:pointer;
+.popup-box button{
+background:#34495e;
+margin-top:15px;
 }
 
-</style>
-</head>
-
-<body>
-
-<header>
-
-<input id="search" class="search" placeholder="Cari produk">
-
-<div class="icon" onclick="openCart()">
+</style></head><body><div class="header"><input class="search" id="search" placeholder="Cari produk di TembungShoping"><div class="icon" onclick="toggleCart()">
 🛒
-<span id="cartCount" class="badge">0</span>
-</div>
+<span id="cartcount" class="cart-count">0</span>
+</div><div class="icon" onclick="chatAdmin()">💬</div></div><div class="menu"><div onclick="openPopup()">
+<div class="circle"></div>Pulsa
+</div><div onclick="openPopup()">
+<div class="circle"></div>Promo
+</div><div onclick="openPopup()">
+<div class="circle"></div>Game
+</div><div onclick="openPopup()">
+<div class="circle"></div>Live
+</div><div onclick="openPopup()">
+<div class="circle"></div>Lainnya
+</div></div><div class="products" id="products"></div><div class="cart-popup" id="cartpopup"><button class="close-cart" onclick="toggleCart()">Tutup</button>
 
-<div class="icon" onclick="openNotif()">
+<h2>Keranjang</h2><div id="cartitems"></div><h3 id="total"></h3><button onclick="checkout()">Checkout</button>
+
+</div><div class="cart-popup" id="notifpopup"><button class="close-cart" onclick="toggleNotif()">Tutup</button>
+
+<h2>Notifikasi</h2><div id="notifitems">Belum ada notifikasi</div></div><div class="bottom"><div onclick="menuHome()">🏠<br>Beranda</div><div onclick="openPopup()">📺<br>Live</div><div class="icon" onclick="toggleNotif()">
 🔔
-<span id="notifCount" class="badge">2</span>
-</div>
+<span id="notifcount" class="cart-count">0</span>
+<br>Notif
+</div><div onclick="openPopup()">👤<br>Akun</div></div><div class="popup-bg" id="popup"><div class="popup-box"><h3>🚧 Fitur Belum Tersedia</h3><p>Fitur ini sedang dalam pengembangan dan akan segera hadir di <b>TembungShoping</b>.</p><button onclick="closePopup()">Oke</button>
 
-<div class="icon" onclick="openChat()">💬</div>
+</div></div><script>
 
-</header>
+let produk=[
 
-<div class="category">
-<div class="cat"><div class="circle"></div>Pulsa</div>
-<div class="cat"><div class="circle"></div>Promo</div>
-<div class="cat"><div class="circle"></div>Game</div>
-<div class="cat"><div class="circle"></div>Live</div>
-<div class="cat"><div class="circle"></div>Lainnya</div>
-</div>
-
-<div class="products" id="products"></div>
-
-<!-- CART -->
-
-<div class="overlay" id="overlay"></div>
-
-<div class="modal" id="cartModal">
-
-<button class="close" onclick="closeModal()">Tutup</button>
-
-<h2>Keranjang</h2>
-
-<div id="cartItems"></div>
-
-<h3 id="total"></h3>
-
-<button class="checkout">Checkout</button>
-
-</div>
-
-<!-- NOTIF -->
-
-<div class="modal" id="notifModal">
-
-<h2>Notifikasi</h2>
-
-<p id="notifText">Pesan baru tersedia</p>
-
-<button class="btn" onclick="readNotif()">Oke</button>
-
-</div>
-
-<!-- BOTTOM NAV -->
-
-<div class="bottom">
-
-<div class="nav" onclick="goHome()">🏠<br>Beranda</div>
-
-<div class="nav" onclick="openCart()">🛒<br>Keranjang</div>
-
-<div class="nav" onclick="openChat()">💬<br>Chat</div>
-
-<div class="nav" onclick="openAccount()">👤<br>Akun</div>
-
-</div>
-
-<script>
-
-let products=[
 {nama:"Sepatu Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff"},
-{nama:"Headphone Gaming",harga:200000,img:"https://images.unsplash.com/photo-1518444065439-e933c06ce9cd"},
-{nama:"Jam Tangan",harga:150000,img:"https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b"},
-{nama:"Tas Fashion",harga:180000,img:"https://images.unsplash.com/photo-1584917865442-de89df76afd3"},
+{nama:"Headphone Gaming",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e"},
+{nama:"Jam Tangan",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30"},
+{nama:"Tas Fashion",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e"},
 {nama:"Laptop Gaming",harga:8500000,img:"https://images.unsplash.com/photo-1517336714731-489689fd1ca8"},
-{nama:"Mouse Gaming",harga:120000,img:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7"}
-];
+{nama:"Mouse Gaming",harga:120000,img:"https://images.unsplash.com/photo-1527814050087-3793815479db"},
+{nama:"Smartphone Android",harga:2500000,img:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9"},
+{nama:"Speaker Bluetooth",harga:450000,img:"https://images.unsplash.com/photo-1545454675-3531b543be5d"}
 
-let cart=JSON.parse(localStorage.getItem("cart"))||[];
-let notif=JSON.parse(localStorage.getItem("notif"))||["Pesan"];
+]
 
-function saveData(){
-localStorage.setItem("cart",JSON.stringify(cart));
-localStorage.setItem("notif",JSON.stringify(notif));
+let cart=[]
+let notif=[]
+
+function rupiah(x){
+return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,".")
 }
 
-function renderProducts(){
+function tampilProduk(){
 
-let container=document.getElementById("products");
-container.innerHTML="";
+let html=""
 
-products.forEach((p,i)=>{
+produk.forEach(p=>{
 
-container.innerHTML+=`
-<div class="card">
-
+html+=`
+<div class="product">
 <img src="${p.img}">
-
 <div class="info">
-
-<h3>${p.nama}</h3>
-
-<div class="price">Rp${p.harga.toLocaleString()}</div>
-
-<button class="btn" onclick="addCart(${i})">Tambah Keranjang</button>
-
+<b>${p.nama}</b>
+<div class="rating">⭐⭐⭐⭐☆</div>
+<div class="price">Rp${rupiah(p.harga)}</div>
+<button onclick="addcart('${p.nama}',${p.harga})">Tambah Keranjang</button>
 </div>
-
 </div>
-`;
+`
 
-});
+})
+
+document.getElementById("products").innerHTML=html
 
 }
 
-function addCart(i){
+function updateNotifCount(){
+let unread = notif.filter(n=>!n.read).length
+document.getElementById("notifcount").innerText = unread
+}
 
-cart.push(products[i]);
+function renderNotif(){
 
-saveData();
+let html=""
 
-updateCart();
+if(notif.length==0){
+html="Belum ada notifikasi"
+}else{
+
+notif.forEach((n,i)=>{
+
+if(typeof n==="string"){
+n={text:n,read:false}
+notif[i]=n
+}
+
+html+=`
+<div onclick="readNotif(${i})"
+class="notif-item ${n.read ? "" : "notif-unread"}">
+${n.text}
+</div>
+`
+
+})
+
+}
+
+document.getElementById("notifitems").innerHTML=html
+}
+
+function addNotif(text){
+
+notif.unshift({
+text:text,
+read:false
+})
+
+localStorage.setItem("notif",JSON.stringify(notif))
+
+updateNotifCount()
+renderNotif()
+
+}
+
+function readNotif(i){
+
+notif[i].read=true
+
+localStorage.setItem("notif",JSON.stringify(notif))
+
+updateNotifCount()
+renderNotif()
+
+}
+
+function addcart(nama,harga){
+
+cart.push({nama,harga})
+
+localStorage.setItem("cart",JSON.stringify(cart))
+
+updateCart()
+
+addNotif("🛒 "+nama+" ditambahkan ke keranjang")
+
+alert("Produk masuk keranjang")
 
 }
 
 function updateCart(){
 
-document.getElementById("cartCount").innerText=cart.length;
+document.getElementById("cartcount").innerText=cart.length
 
-}
-
-function openCart(){
-
-let modal=document.getElementById("cartModal");
-let overlay=document.getElementById("overlay");
-
-modal.style.display="block";
-overlay.style.display="block";
-
-let items="";
-let total=0;
+let items=""
+let total=0
 
 cart.forEach(p=>{
+items+=`<div>${p.nama} - Rp${rupiah(p.harga)}</div>`
+total+=p.harga
+})
 
-items+=`${p.nama} - Rp${p.harga.toLocaleString()}<br>`;
-total+=p.harga;
-
-});
-
-document.getElementById("cartItems").innerHTML=items||"Keranjang kosong";
-
-document.getElementById("total").innerText="Total: Rp"+total.toLocaleString();
+document.getElementById("cartitems").innerHTML=items
+document.getElementById("total").innerText="Total: Rp"+rupiah(total)
 
 }
 
-function openNotif(){
+function toggleCart(){
 
-let modal=document.getElementById("notifModal");
-let overlay=document.getElementById("overlay");
+let cartpopup=document.getElementById("cartpopup")
+let notifpopup=document.getElementById("notifpopup")
 
-modal.style.display="block";
-overlay.style.display="block";
+notifpopup.classList.remove("active")
 
-}
-
-function readNotif(){
-
-notif=[];
-
-saveData();
-
-document.getElementById("notifCount").innerText="0";
-
-closeModal();
+cartpopup.classList.toggle("active")
 
 }
 
-function closeModal(){
+function toggleNotif(){
 
-document.querySelectorAll(".modal").forEach(m=>m.style.display="none");
+let notifpopup=document.getElementById("notifpopup")
+let cartpopup=document.getElementById("cartpopup")
 
-document.getElementById("overlay").style.display="none";
+cartpopup.classList.remove("active")
 
-}
+notifpopup.classList.toggle("active")
 
-function openChat(){
-
-alert("Fitur chat belum tersedia");
-
-}
-
-function openAccount(){
-
-alert("Fitur akun belum tersedia");
+renderNotif()
 
 }
 
-function goHome(){
+function checkout(){
 
-document.getElementById("search").value="";
+if(cart.length==0){
+alert("Keranjang masih kosong")
+return
+}
 
-window.scrollTo(0,0);
+addNotif("📦 Pesanan baru dibuat")
+
+let nomor="6281220549530"
+
+let text="Halo TembungShoping,%0ASaya ingin memesan:%0A%0A"
+
+cart.forEach(p=>{
+text+=p.nama+" - Rp"+rupiah(p.harga)+"%0A"
+})
+
+window.open("https://wa.me/"+nomor+"?text="+text)
 
 }
 
-function updateNotif(){
+function chatAdmin(){
+window.open("https://wa.me/6281220549530")
+}
 
-document.getElementById("notifCount").innerText=notif.length;
+function menuHome(){
+
+let cartpopup=document.getElementById("cartpopup")
+let notifpopup=document.getElementById("notifpopup")
+
+cartpopup.classList.remove("active")
+notifpopup.classList.remove("active")
+
+document.getElementById("search").value=""
+
+let cards=document.querySelectorAll(".product")
+
+cards.forEach(c=>{
+c.style.display=""
+})
+
+window.scrollTo({top:0,behavior:"smooth"})
 
 }
 
-renderProducts();
-updateCart();
-updateNotif();
+function openPopup(){
+document.getElementById("popup").style.display="flex"
+}
 
-</script>
+function closePopup(){
+document.getElementById("popup").style.display="none"
+}
 
-</body>
+document.getElementById("search").addEventListener("keyup",function(){
+
+let input=this.value.toLowerCase()
+
+let cards=document.querySelectorAll(".product")
+
+cards.forEach(c=>{
+
+let text=c.innerText.toLowerCase()
+
+c.style.display=text.includes(input)?"":"none"
+
+})
+
+})
+
+let savedCart = localStorage.getItem("cart")
+
+if(savedCart){
+cart = JSON.parse(savedCart)
+updateCart()
+}
+
+let savedNotif = localStorage.getItem("notif")
+
+if(savedNotif){
+
+let data = JSON.parse(savedNotif)
+
+notif = data.map(n=>{
+
+if(typeof n === "string"){
+return {text:n,read:false}
+}
+
+return n
+
+})
+
+localStorage.setItem("notif",JSON.stringify(notif))
+
+updateNotifCount()
+
+}
+
+tampilProduk()
+
+</script></body>
 </html>
