@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="max-age=86400">
+
 <title>TembungShoping</title>
 
 <style>
@@ -198,8 +201,6 @@ background:#e74c3c;
 margin-bottom:10px;
 }
 
-/* NOTIF */
-
 .notif-item{
 padding:10px;
 border-bottom:1px solid #eee;
@@ -328,23 +329,17 @@ margin-bottom:15px;
 
 <div class="products" id="products"></div>
 
-<!-- CART -->
-
 <div class="cart-popup" id="cartpopup">
 <button class="close-cart" onclick="toggleCart()">Tutup</button>
 <h2>Keranjang</h2>
 <div id="cartitems"></div>
 </div>
 
-<!-- NOTIF -->
-
 <div class="cart-popup" id="notifpopup">
 <button class="close-cart" onclick="toggleNotif()">Tutup</button>
 <h2>Notifikasi</h2>
 <div id="notifitems"></div>
 </div>
-
-<!-- DETAIL -->
 
 <div id="productDetail" class="product-detail">
 
@@ -362,10 +357,6 @@ margin-bottom:15px;
 
 <h2 id="detailPrice"></h2>
 
-<p>
-Produk berkualitas tinggi dengan desain modern dan bahan premium.
-</p>
-
 <button onclick="addcart(detailNama,detailHarga)">
 Masukkan Keranjang
 </button>
@@ -374,45 +365,25 @@ Masukkan Keranjang
 
 </div>
 
-<!-- MENU BAWAH -->
-
 <div class="bottom">
 
-<div onclick="menuHome()">
-<span>🏠</span>
-Beranda
-</div>
+<div onclick="menuHome()">🏠 Beranda</div>
+<div onclick="devAlert()">📺 Live</div>
 
-<div onclick="devAlert()">
-<span>📺</span>
-Live
-</div>
-
-<div onclick="toggleNotif()">
-<span>🔔</span>
-Notifikasi
+<div onclick="toggleNotif()">🔔 Notifikasi
 <span id="notifcount" class="cart-count">0</span>
 </div>
 
-<div onclick="devAlert()">
-<span>👤</span>
-Akun
-</div>
+<div onclick="devAlert()">👤 Akun</div>
 
 </div>
 
 <div id="coolPopup" class="cool-popup">
-
 <div class="popup-box">
-
 <h2>🚀 Fitur Segera Hadir</h2>
-
 <p>Fitur ini sedang dikembangkan.</p>
-
 <button onclick="closePopup()">Mengerti</button>
-
 </div>
-
 </div>
 
 <script>
@@ -439,17 +410,22 @@ return Number(x).toLocaleString("id-ID")
 
 function tampilProduk(){
 
-let html=""
+const container=document.getElementById("products")
+container.innerHTML=""
+
+let fragment=document.createDocumentFragment()
 
 produk.forEach(p=>{
 
-html+=`
-<div class="product">
+let div=document.createElement("div")
+div.className="product"
 
+div.innerHTML=`
 <div class="badge">-30%</div>
 <div class="wishlist">❤️</div>
 
-<img src="${p.img}" onclick="showDetail('${p.nama}',${p.harga},'${p.img}','${p.sold}')">
+<img src="${p.img}" loading="lazy"
+onclick="showDetail('${p.nama}',${p.harga},'${p.img}','${p.sold}')">
 
 <div class="info">
 
@@ -468,12 +444,14 @@ Tambah Keranjang
 </button>
 
 </div>
-
-</div>
 `
+
+fragment.appendChild(div)
+
 })
 
-document.getElementById("products").innerHTML=html
+container.appendChild(fragment)
+
 }
 
 function showDetail(nama,harga,img,sold){
