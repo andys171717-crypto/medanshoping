@@ -3,7 +3,6 @@
 <head>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta http-equiv="Cache-Control" content="max-age=86400">
 
 <title>TembungShoping</title>
 
@@ -14,7 +13,7 @@ margin:0;
 font-family:Arial;
 background:#f2f2f2;
 padding-top:75px;
-padding-bottom:80px;
+padding-bottom:70px;
 }
 
 /* HEADER */
@@ -35,7 +34,7 @@ box-sizing:border-box;
 
 .search{
 flex:1;
-height:42px;
+height:40px;
 padding:0 16px;
 border-radius:25px;
 border:none;
@@ -44,12 +43,12 @@ font-size:14px;
 }
 
 .icon{
-font-size:24px;
+font-size:22px;
 color:white;
 cursor:pointer;
 position:relative;
-width:38px;
-height:38px;
+width:36px;
+height:36px;
 display:flex;
 align-items:center;
 justify-content:center;
@@ -57,11 +56,11 @@ justify-content:center;
 
 .cart-count{
 position:absolute;
-top:-4px;
-right:-6px;
+top:-3px;
+right:-5px;
 background:red;
 color:white;
-font-size:11px;
+font-size:10px;
 padding:2px 6px;
 border-radius:50%;
 }
@@ -74,12 +73,12 @@ grid-template-columns:repeat(5,1fr);
 background:white;
 padding:10px;
 text-align:center;
-font-size:14px;
+font-size:13px;
 }
 
 .circle{
-width:45px;
-height:45px;
+width:42px;
+height:42px;
 background:#3b4f63;
 border-radius:50%;
 margin:auto;
@@ -99,7 +98,7 @@ gap:14px;
 background:white;
 border-radius:16px;
 overflow:hidden;
-box-shadow:0 5px 12px rgba(0,0,0,0.08);
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
 position:relative;
 }
 
@@ -201,24 +200,26 @@ background:#e74c3c;
 margin-bottom:10px;
 }
 
+/* NOTIF */
+
 .notif-item{
 padding:10px;
 border-bottom:1px solid #eee;
 }
 
-/* MENU BAWAH */
+/* MENU BAWAH (DIRAPIKAN) */
 
 .bottom{
 position:fixed;
 bottom:0;
 left:0;
 width:100%;
-background:white;
+background:#fff;
 display:flex;
 justify-content:space-around;
 align-items:center;
-height:65px;
-box-shadow:0 -3px 12px rgba(0,0,0,0.08);
+height:60px;
+border-top:1px solid #eee;
 z-index:999;
 }
 
@@ -226,13 +227,16 @@ z-index:999;
 display:flex;
 flex-direction:column;
 align-items:center;
+justify-content:center;
 font-size:12px;
-cursor:pointer;
+color:#444;
+width:25%;
 position:relative;
 }
 
 .bottom span{
-font-size:22px;
+font-size:20px;
+margin-bottom:2px;
 }
 
 /* POPUP */
@@ -267,7 +271,7 @@ max-width:320px;
 text-align:center;
 }
 
-/* DETAIL PRODUK */
+/* DETAIL */
 
 .product-detail{
 position:fixed;
@@ -341,40 +345,28 @@ margin-bottom:15px;
 <div id="notifitems"></div>
 </div>
 
-<div id="productDetail" class="product-detail">
-
-<div class="detail-box">
-
-<button class="close-detail" onclick="closeDetail()">← Kembali</button>
-
-<img id="detailImg">
-
-<h2 id="detailName"></h2>
-
-<div class="rating">⭐⭐⭐⭐☆</div>
-
-<div id="detailSold"></div>
-
-<h2 id="detailPrice"></h2>
-
-<button onclick="addcart(detailNama,detailHarga)">
-Masukkan Keranjang
-</button>
-
-</div>
-
-</div>
-
 <div class="bottom">
 
-<div onclick="menuHome()">🏠 Beranda</div>
-<div onclick="devAlert()">📺 Live</div>
+<div onclick="menuHome()">
+<span>🏠</span>
+Beranda
+</div>
 
-<div onclick="toggleNotif()">🔔 Notifikasi
+<div onclick="devAlert()">
+<span>📺</span>
+Live
+</div>
+
+<div onclick="toggleNotif()">
+<span>🔔</span>
+Notifikasi
 <span id="notifcount" class="cart-count">0</span>
 </div>
 
-<div onclick="devAlert()">👤 Akun</div>
+<div onclick="devAlert()">
+<span>👤</span>
+Akun
+</div>
 
 </div>
 
@@ -401,8 +393,6 @@ const produk=[
 
 let cart=[]
 let notif=[]
-let detailNama=""
-let detailHarga=0
 
 function rupiah(x){
 return Number(x).toLocaleString("id-ID")
@@ -410,26 +400,23 @@ return Number(x).toLocaleString("id-ID")
 
 function tampilProduk(){
 
-const container=document.getElementById("products")
-container.innerHTML=""
-
-let fragment=document.createDocumentFragment()
+let html=""
 
 produk.forEach(p=>{
 
-let div=document.createElement("div")
-div.className="product"
+html+=`
 
-div.innerHTML=`
+<div class="product">
+
 <div class="badge">-30%</div>
+
 <div class="wishlist">❤️</div>
 
-<img src="${p.img}" loading="lazy"
-onclick="showDetail('${p.nama}',${p.harga},'${p.img}','${p.sold}')">
+<img src="${p.img}" loading="lazy">
 
 <div class="info">
 
-<b onclick="showDetail('${p.nama}',${p.harga},'${p.img}','${p.sold}')">${p.nama}</b>
+<b>${p.nama}</b>
 
 <div class="rating">⭐⭐⭐⭐☆</div>
 
@@ -444,28 +431,15 @@ Tambah Keranjang
 </button>
 
 </div>
-`
 
-fragment.appendChild(div)
+</div>
+
+`
 
 })
 
-container.appendChild(fragment)
+document.getElementById("products").innerHTML=html
 
-}
-
-function showDetail(nama,harga,img,sold){
-detailNama=nama
-detailHarga=harga
-document.getElementById("detailImg").src=img
-document.getElementById("detailName").innerText=nama
-document.getElementById("detailPrice").innerText="Rp"+rupiah(harga)
-document.getElementById("detailSold").innerText="Terjual "+sold
-document.getElementById("productDetail").classList.add("show")
-}
-
-function closeDetail(){
-document.getElementById("productDetail").classList.remove("show")
 }
 
 function addcart(nama,harga){
