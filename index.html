@@ -10,8 +10,8 @@ body{
 margin:0;
 font-family:Arial;
 background:#f2f2f2;
-padding-top:75px;
-padding-bottom:140px;
+padding-top:120px;
+padding-bottom:80px;
 }
 
 .header{
@@ -68,6 +68,8 @@ background:white;
 padding:10px;
 text-align:center;
 font-size:14px;
+position:relative;
+z-index:10;
 }
 
 .circle{
@@ -104,6 +106,12 @@ cursor:pointer;
 padding:10px;
 }
 
+.info b{
+font-size:16px;
+display:block;
+margin-bottom:4px;
+}
+
 .rating{color:#ffb400;font-size:14px;}
 .sold{font-size:12px;color:#777;}
 .free{font-size:11px;color:#27ae60;font-weight:bold;margin:4px 0;}
@@ -113,6 +121,16 @@ color:#e74c3c;
 font-size:20px;
 font-weight:bold;
 margin:6px 0;
+}
+
+button{
+border:none;
+background:#27ae60;
+color:white;
+border-radius:10px;
+padding:10px;
+cursor:pointer;
+width:100%;
 }
 
 .qty-control{
@@ -126,10 +144,7 @@ padding:10px;
 .qty-control button{
 width:35px;
 height:35px;
-border:none;
-background:#27ae60;
-color:white;
-border-radius:8px;
+padding:0;
 font-size:18px;
 }
 
@@ -151,7 +166,7 @@ height:100%;
 background:white;
 padding:20px;
 overflow:auto;
-z-index:2000;
+z-index:1000;
 transition:0.3s;
 }
 
@@ -164,18 +179,27 @@ border-bottom:1px solid #eee;
 padding:10px 0;
 }
 
+.cart-qty{
+display:flex;
+gap:8px;
+align-items:center;
+margin-top:6px;
+}
+
+.cart-qty button{
+width:30px;
+height:30px;
+padding:0;
+}
+
 .remove-btn{
 background:#e74c3c;
-border:none;
-color:white;
-padding:6px 10px;
 margin-top:6px;
-border-radius:6px;
 }
 
 .bottom{
 position:fixed;
-bottom:70px;
+bottom:0;
 left:0;
 width:100%;
 background:white;
@@ -186,13 +210,44 @@ height:65px;
 box-shadow:0 -3px 12px rgba(0,0,0,0.08);
 }
 
-.icon-bottom{font-size:22px}
-
 .bottom div{
 display:flex;
 flex-direction:column;
 align-items:center;
 font-size:12px;
+cursor:pointer;
+}
+
+.icon-bottom{font-size:22px;}
+
+.cool-popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.45);
+display:flex;
+align-items:center;
+justify-content:center;
+opacity:0;
+pointer-events:none;
+transition:.3s;
+z-index:2000;
+}
+
+.cool-popup.show{
+opacity:1;
+pointer-events:auto;
+}
+
+.popup-box{
+background:white;
+padding:25px;
+border-radius:20px;
+width:80%;
+max-width:320px;
+text-align:center;
 }
 
 .detail-popup{
@@ -216,38 +271,11 @@ width:100%;
 border-radius:10px;
 }
 
-/* BAR SHOPEE */
-
-.shopee-bar{
-position:fixed;
-bottom:0;
-left:0;
-width:100%;
-background:white;
-display:flex;
-height:70px;
-z-index:5000;
-border-top:1px solid #ddd;
-}
-
-.shopee-btn{
-flex:1;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-font-size:13px;
-}
-
-.buy-btn{
-flex:2;
-background:#ff5722;
-color:white;
-display:flex;
-align-items:center;
-justify-content:center;
-font-weight:bold;
-font-size:16px;
+.desc{
+font-size:14px;
+color:#555;
+line-height:1.5;
+margin-top:10px;
 }
 
 </style>
@@ -279,12 +307,29 @@ font-size:16px;
 
 <div class="cart-popup" id="cartpopup">
 
+<button onclick="toggleCart()">Tutup</button>
 <h2>Keranjang</h2>
+
 <div id="cartitems"></div>
 
 </div>
 
-<div class="detail-popup" id="detailPopup">
+<div class="bottom">
+<div onclick="menuHome()"><span class="icon-bottom">🏠</span>Beranda</div>
+<div onclick="devAlert()"><span class="icon-bottom">📺</span>Live</div>
+<div onclick="devAlert()"><span class="icon-bottom">🔔</span>Notifikasi</div>
+<div onclick="devAlert()"><span class="icon-bottom">👤</span>Akun</div>
+</div>
+
+<div id="coolPopup" class="cool-popup">
+<div class="popup-box">
+<h2>🚀 Fitur Baru Segera Hadir</h2>
+<p>Kami sedang menyiapkan fitur baru untuk meningkatkan pengalaman belanja kamu.</p>
+<button onclick="closePopup()">Mengerti</button>
+</div>
+</div>
+
+<div id="detailPopup" class="detail-popup">
 
 <img id="detailImg">
 
@@ -294,7 +339,7 @@ font-size:16px;
 
 <h3 id="detailHarga"></h3>
 
-<p id="detailDesc"></p>
+<p id="detailDesc" class="desc"></p>
 
 <div class="qty-control">
 <button onclick="detailMinus()">-</button>
@@ -310,61 +355,17 @@ font-size:16px;
 
 </div>
 
-<div class="bottom">
-
-<div onclick="menuHome()">
-<span class="icon-bottom">🏠</span>
-Beranda
-</div>
-
-<div onclick="devAlert()">
-<span class="icon-bottom">📺</span>
-Live
-</div>
-
-<div onclick="devAlert()">
-<span class="icon-bottom">🔔</span>
-Notifikasi
-</div>
-
-<div onclick="devAlert()">
-<span class="icon-bottom">👤</span>
-Akun
-</div>
-
-</div>
-
-<!-- BAR SHOPEE -->
-
-<div class="shopee-bar">
-
-<div class="shopee-btn" onclick="chatAdmin()">
-💬
-Chat
-</div>
-
-<div class="shopee-btn" onclick="toggleCart()">
-🛒
-Keranjang
-</div>
-
-<div class="buy-btn" onclick="checkoutWA()">
-Beli Sekarang
-</div>
-
-</div>
-
 <script>
 
 const produk=[
-{nama:"Sepatu Nike Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400",sold:"1.2k",desc:"Sepatu sport premium modern."},
-{nama:"Headphone Wireless",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400",sold:"950",desc:"Headphone wireless jernih."},
-{nama:"Jam Tangan Smartwatch",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400",sold:"870",desc:"Smartwatch modern."},
-{nama:"Tas Fashion Wanita",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400",sold:"640",desc:"Tas elegan wanita."},
-{nama:"Kacamata Fashion",harga:90000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400",sold:"520",desc:"Kacamata stylish."},
-{nama:"Parfum Coco Chanel",harga:120000,img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400",sold:"430",desc:"Parfum elegan."},
-{nama:"Smartphone Premium",harga:80000,img:"https://images.unsplash.com/photo-1580910051074-3eb694886505?w=400",sold:"390",desc:"Smartphone modern."},
-{nama:"PC Gaming RGB",harga:70000,img:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400",sold:"210",desc:"PC gaming RGB."}
+{nama:"Sepatu Nike Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400",sold:"1.2k",desc:"Sepatu sport premium dengan desain modern, ringan, dan nyaman digunakan sepanjang hari."},
+{nama:"Headphone Wireless",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400",sold:"950",desc:"Headphone wireless dengan kualitas suara jernih dan bass kuat."},
+{nama:"Jam Tangan Smartwatch",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400",sold:"870",desc:"Smartwatch modern dengan fitur notifikasi dan monitor kesehatan."},
+{nama:"Tas Fashion Wanita",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400",sold:"640",desc:"Tas wanita elegan dengan desain modern."},
+{nama:"Kacamata Fashion",harga:90000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400",sold:"520",desc:"Kacamata fashion stylish dengan perlindungan UV."},
+{nama:"Parfum Coco Chanel",harga:120000,img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400",sold:"430",desc:"Parfum aroma elegan dan tahan lama."},
+{nama:"Smartphone Premium",harga:80000,img:"https://images.unsplash.com/photo-1580910051074-3eb694886505?w=400",sold:"390",desc:"Smartphone modern dengan layar tajam."},
+{nama:"PC Gaming RGB",harga:70000,img:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400",sold:"210",desc:"PC gaming dengan performa tinggi."}
 ]
 
 let cart=JSON.parse(localStorage.getItem("cart"))||[]
@@ -372,147 +373,96 @@ let selectedProduk=null
 
 function rupiah(x){return Number(x).toLocaleString("id-ID")}
 
-function tampilProduk(){
-
+function tampilProduk(list=produk){
 let html=""
-
-produk.forEach((p,i)=>{
-
+list.forEach((p,i)=>{
 html+=`
 <div class="product">
-
 <img src="${p.img}" onclick="showDetail(${i})">
-
 <div class="info">
-
 <b>${p.nama}</b>
-
 <div class="rating">⭐⭐⭐⭐☆</div>
-
 <div class="sold">Terjual ${p.sold}</div>
-
 <div class="free">Gratis Ongkir</div>
-
 <div class="price">Rp${rupiah(p.harga)}</div>
-
 </div>
-
 <div class="qty-control">
-
 <button onclick="minusQty(${i})">-</button>
-
 <input class="qty-input" id="qty${i}" value="0">
-
 <button onclick="plusQty(${i})">+</button>
-
 </div>
-
-</div>
-`
-
+</div>`
 })
-
 document.getElementById("products").innerHTML=html
+syncQty()
 }
 
-function plusQty(i){
-cart.push(produk[i])
-updateCart()
-}
-
-function minusQty(i){
-
-let index=cart.findIndex(c=>c.nama==produk[i].nama)
-
-if(index>-1){
-cart.splice(index,1)
-updateCart()
-}
-
-}
-
-function updateCart(){
-
-localStorage.setItem("cart",JSON.stringify(cart))
-
-document.getElementById("cartcount").innerText=cart.length
-
-renderCart()
-
+function syncQty(){
+produk.forEach((p,i)=>{
+let qty=cart.filter(c=>c.nama==p.nama).length
+let el=document.getElementById("qty"+i)
+if(el) el.value=qty
+})
 }
 
 function renderCart(){
-
-let html=""
-
-cart.forEach(i=>{
-html+=`<div class="cart-item">${i.nama}</div>`
+let data={}
+cart.forEach(item=>{
+if(!data[item.nama]){data[item.nama]={harga:item.harga,qty:0}}
+data[item.nama].qty++
 })
-
+let html=""
+let total=0
+for(let nama in data){
+let item=data[nama]
+let subtotal=item.harga*item.qty
+total+=subtotal
+html+=`
+<div class="cart-item">
+<b>${nama}</b>
+<div class="cart-qty">
+<button onclick="cartMinus('${nama}')">-</button>
+<span>${item.qty}</span>
+<button onclick="cartPlus('${nama}',${item.harga})">+</button>
+</div>
+<div>Subtotal : Rp${rupiah(subtotal)}</div>
+<button class="remove-btn" onclick="removeItem('${nama}')">Hapus</button>
+</div>`
+}
+html+=`<h3>Total : Rp${rupiah(total)}</h3>
+<button onclick="checkoutWA()">Checkout WhatsApp</button>`
 document.getElementById("cartitems").innerHTML=html
+document.getElementById("cartcount").innerText=cart.length
+localStorage.setItem("cart",JSON.stringify(cart))
+}
 
+function plusQty(i){cart.push(produk[i]);renderCart();syncQty()}
+function minusQty(i){
+let index=cart.findIndex(c=>c.nama==produk[i].nama)
+if(index>-1){cart.splice(index,1);renderCart();syncQty()}
+}
+
+function cartPlus(nama,harga){cart.push({nama,harga});renderCart();syncQty()}
+function cartMinus(nama){
+let index=cart.findIndex(c=>c.nama==nama)
+if(index>-1){cart.splice(index,1)}
+renderCart();syncQty()
+}
+
+function removeItem(nama){
+cart=cart.filter(c=>c.nama!=nama)
+renderCart();syncQty()
 }
 
 function toggleCart(){
-
-document.getElementById("cartpopup").classList.toggle("active")
-
-}
-
-function showDetail(i){
-
-selectedProduk=produk[i]
-
-document.getElementById("detailImg").src=selectedProduk.img
-document.getElementById("detailNama").innerText=selectedProduk.nama
-document.getElementById("detailSold").innerText="Terjual "+selectedProduk.sold
-document.getElementById("detailHarga").innerText="Rp"+rupiah(selectedProduk.harga)
-document.getElementById("detailDesc").innerText=selectedProduk.desc
-
-document.getElementById("detailPopup").classList.add("show")
-
-}
-
-function closeDetail(){
-document.getElementById("detailPopup").classList.remove("show")
-}
-
-function detailPlus(){
-document.getElementById("detailQty").value++
-}
-
-function detailMinus(){
-
-let q=document.getElementById("detailQty")
-
-if(q.value>1){q.value--}
-
-}
-
-function addDetailCart(){
-
-let qty=parseInt(document.getElementById("detailQty").value)
-
-for(let i=0;i<qty;i++){
-cart.push(selectedProduk)
-}
-
-updateCart()
-
-closeDetail()
-
+let popup=document.getElementById("cartpopup")
+popup.classList.toggle("active")
 }
 
 function checkoutWA(){
-
 let text="Pesanan:%0A"
-
-cart.forEach(i=>{
-text+=i.nama+"%0A"
-})
-
+cart.forEach(i=>{text+=i.nama+"%0A"})
 window.open("https://wa.me/6281220549530?text="+text)
-
 }
 
 function chatAdmin(){
@@ -520,15 +470,55 @@ window.open("https://wa.me/6281220549530")
 }
 
 function devAlert(){
-alert("Fitur segera hadir")
+document.getElementById("coolPopup").classList.add("show")
+}
+
+function closePopup(){
+document.getElementById("coolPopup").classList.remove("show")
 }
 
 function menuHome(){
+document.getElementById("search").value=""
+tampilProduk()
 window.scrollTo(0,0)
 }
 
+document.getElementById("search").addEventListener("keyup",function(){
+let key=this.value.toLowerCase()
+let hasil=produk.filter(p=>p.nama.toLowerCase().includes(key))
+tampilProduk(hasil)
+})
+
+function showDetail(i){
+selectedProduk=produk[i]
+document.getElementById("detailImg").src=selectedProduk.img
+document.getElementById("detailNama").innerText=selectedProduk.nama
+document.getElementById("detailSold").innerText="Terjual "+selectedProduk.sold
+document.getElementById("detailHarga").innerText="Rp"+rupiah(selectedProduk.harga)
+document.getElementById("detailDesc").innerText=selectedProduk.desc
+document.getElementById("detailQty").value=1
+document.getElementById("detailPopup").classList.add("show")
+}
+
+function closeDetail(){
+document.getElementById("detailPopup").classList.remove("show")
+}
+
+function detailPlus(){document.getElementById("detailQty").value++}
+
+function detailMinus(){
+let q=document.getElementById("detailQty")
+if(q.value>1){q.value--}
+}
+
+function addDetailCart(){
+let qty=parseInt(document.getElementById("detailQty").value)
+for(let i=0;i<qty;i++){cart.push(selectedProduk)}
+renderCart();syncQty();closeDetail()
+}
+
 tampilProduk()
-updateCart()
+renderCart()
 
 </script>
 
