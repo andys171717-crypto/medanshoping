@@ -355,17 +355,30 @@ return Number(x).toLocaleString("id-ID")
 function renderCart(){
 
 let html=""
-let total=0
 
 cart.forEach(item=>{
 html+=`<p>${item.nama} - Rp${rupiah(item.harga)}</p>`
-total+=item.harga
 })
 
 document.getElementById("cartitems").innerHTML=html
 document.getElementById("cartcount").innerText=cart.length
 
 localStorage.setItem("cart",JSON.stringify(cart))
+
+}
+
+function syncQty(){
+
+document.querySelectorAll(".product").forEach(box=>{
+
+let nama=box.querySelector("b").innerText
+let input=box.querySelector(".qty-input")
+
+let jumlah=cart.filter(i=>i.nama==nama).length
+
+input.value=jumlah
+
+})
 
 }
 
@@ -459,6 +472,8 @@ html+=`
 })
 
 document.getElementById("products").innerHTML=html
+
+syncQty()
 
 }
 
