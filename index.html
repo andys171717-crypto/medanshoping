@@ -80,22 +80,43 @@ gap:14px;
 
 .product{
 background:white;
-border-radius:14px;
+border-radius:16px;
 overflow:hidden;
-box-shadow:0 4px 10px rgba(0,0,0,0.08);
+box-shadow:0 6px 14px rgba(0,0,0,0.08);
 transition:0.2s;
 position:relative;
 }
 
 .product:active{
-transform:scale(0.97);
+transform:scale(0.96);
 }
 
 .product img{
 width:100%;
-height:150px;
+height:170px;
 object-fit:cover;
-background:#eee;
+}
+
+.badge{
+position:absolute;
+top:8px;
+left:8px;
+background:#ff3b30;
+color:white;
+font-size:11px;
+padding:3px 6px;
+border-radius:6px;
+}
+
+.wishlist{
+position:absolute;
+top:8px;
+right:8px;
+background:white;
+border-radius:50%;
+padding:6px;
+font-size:14px;
+box-shadow:0 2px 6px rgba(0,0,0,0.2);
 }
 
 .info{
@@ -110,29 +131,31 @@ font-size:14px;
 .sold{
 font-size:12px;
 color:#777;
-margin-bottom:2px;
+}
+
+.free{
+font-size:11px;
+color:#27ae60;
+font-weight:bold;
+margin:4px 0;
 }
 
 .price{
 color:#e74c3c;
-font-size:18px;
+font-size:20px;
 font-weight:bold;
-margin:4px 0;
+margin:6px 0;
 }
 
 button{
 border:none;
 background:#27ae60;
 color:white;
-border-radius:8px;
-padding:9px;
+border-radius:10px;
+padding:10px;
 cursor:pointer;
 width:100%;
 font-size:14px;
-}
-
-button:active{
-transform:scale(0.95);
 }
 
 /* CART */
@@ -157,7 +180,6 @@ right:0;
 .close-cart{
 background:#e74c3c;
 margin-bottom:10px;
-width:100%;
 }
 
 .qty-btn{
@@ -167,8 +189,7 @@ padding:4px 10px;
 
 .hapus-btn{
 background:#e74c3c;
-width:100%;
-margin-top:6px;
+margin-top:5px;
 }
 
 /* BOTTOM */
@@ -228,7 +249,6 @@ border-radius:20px;
 width:80%;
 max-width:320px;
 text-align:center;
-animation:pop 0.3s ease;
 }
 
 .popup-icon{
@@ -246,20 +266,6 @@ margin-bottom:8px;
 font-size:14px;
 color:#555;
 margin-bottom:15px;
-}
-
-.popup-box button{
-background:#27ae60;
-border:none;
-padding:10px 18px;
-color:white;
-border-radius:8px;
-font-size:14px;
-}
-
-@keyframes pop{
-from{transform:scale(0.8);opacity:0}
-to{transform:scale(1);opacity:1}
 }
 
 </style>
@@ -340,17 +346,26 @@ to{transform:scale(1);opacity:1}
 <!-- POPUP -->
 
 <div id="coolPopup" class="cool-popup">
+
 <div class="popup-box">
+
 <div class="popup-icon">🚀</div>
+
 <div class="popup-title">Segera Hadir</div>
+
 <div class="popup-text">
-Fitur ini sedang kami siapkan agar pengalaman belanja di TembungShoping semakin seru.
+Fitur ini sedang dikembangkan agar pengalaman belanja semakin seru.
 </div>
+
 <button onclick="closePopup()">Mengerti</button>
+
 </div>
+
 </div>
 
 <script>
+
+/* DATA PRODUK */
 
 const produk=[
 
@@ -372,6 +387,8 @@ function rupiah(x){
 return Number(x).toLocaleString("id-ID")
 }
 
+/* TAMPILKAN PRODUK */
+
 function tampilProduk(){
 
 let html=""
@@ -380,6 +397,9 @@ produk.forEach(p=>{
 
 html+=`
 <div class="product">
+
+<div class="badge">-30%</div>
+<div class="wishlist">❤️</div>
 
 <img loading="lazy" src="${p.img}">
 
@@ -391,9 +411,13 @@ html+=`
 
 <div class="sold">Terjual ${p.sold}</div>
 
+<div class="free">Gratis Ongkir</div>
+
 <div class="price">Rp${rupiah(p.harga)}</div>
 
-<button onclick="addcart('${p.nama}',${p.harga})">Tambah Keranjang</button>
+<button onclick="addcart('${p.nama}',${p.harga})">
+Tambah Keranjang
+</button>
 
 </div>
 
@@ -405,6 +429,8 @@ html+=`
 document.getElementById("products").innerHTML=html
 
 }
+
+/* CART */
 
 function addcart(nama,harga){
 
@@ -468,6 +494,8 @@ function plusQty(i){cart[i].qty++;updateCart()}
 function minusQty(i){cart[i].qty--;if(cart[i].qty<=0)cart.splice(i,1);updateCart()}
 function hapusItem(i){cart.splice(i,1);updateCart()}
 
+/* NOTIF */
+
 function addNotif(text){
 notif.unshift({text,read:false})
 updateNotif()
@@ -503,6 +531,8 @@ notif[i].read=true
 updateNotif()
 }
 
+/* POPUP MENU */
+
 function toggleCart(){
 document.getElementById("notifpopup").classList.remove("active")
 document.getElementById("cartpopup").classList.toggle("active")
@@ -512,6 +542,8 @@ function toggleNotif(){
 document.getElementById("cartpopup").classList.remove("active")
 document.getElementById("notifpopup").classList.toggle("active")
 }
+
+/* BERANDA */
 
 function menuHome(){
 
@@ -528,6 +560,8 @@ window.scrollTo({top:0,behavior:"smooth"})
 
 }
 
+/* SEARCH */
+
 document.getElementById("search").addEventListener("keyup",function(){
 
 let val=this.value.toLowerCase()
@@ -538,9 +572,13 @@ card.style.display=card.innerText.toLowerCase().includes(val)?"":"none"
 
 })
 
+/* ADMIN */
+
 function chatAdmin(){
 window.open("https://wa.me/6281220549530")
 }
+
+/* POPUP */
 
 function devAlert(){
 document.getElementById("coolPopup").classList.add("show")
@@ -550,9 +588,13 @@ function closePopup(){
 document.getElementById("coolPopup").classList.remove("show")
 }
 
+/* CHECKOUT */
+
 function checkout(){
 alert("Checkout belum tersedia")
 }
+
+/* LOAD */
 
 document.addEventListener("DOMContentLoaded",()=>{
 
