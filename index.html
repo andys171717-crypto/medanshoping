@@ -372,7 +372,7 @@ margin-bottom:15px;
 Produk berkualitas tinggi dengan desain modern dan bahan premium.
 </p>
 
-<button onclick="addcart(detailNama,detailHarga);return false;">
+<button onclick="event.stopPropagation();event.preventDefault();addcart(detailNama,detailHarga)">
 Masukkan Keranjang
 </button>
 
@@ -467,7 +467,7 @@ html+=`
 
 <div class="price">Rp${rupiah(p.harga)}</div>
 
-<button onclick="addcart('${p.nama}',${p.harga});return false;">
+<button onclick="event.stopPropagation();event.preventDefault();addcart('${p.nama}',${p.harga})">
 Tambah Keranjang
 </button>
 
