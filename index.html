@@ -172,8 +172,6 @@ cursor:pointer;
 width:100%;
 }
 
-/* qty control */
-
 .qty-control{
 display:flex;
 justify-content:center;
@@ -198,8 +196,6 @@ border-radius:6px;
 height:32px;
 }
 
-/* cart popup */
-
 .cart-popup{
 position:fixed;
 top:0;
@@ -222,8 +218,6 @@ background:#e74c3c;
 margin-bottom:10px;
 }
 
-/* bottom nav */
-
 .bottom{
 position:fixed;
 bottom:0;
@@ -244,14 +238,11 @@ flex-direction:column;
 align-items:center;
 font-size:12px;
 cursor:pointer;
-position:relative;
 }
 
 .icon-bottom{
 font-size:22px;
 }
-
-/* popup fitur */
 
 .cool-popup{
 position:fixed;
@@ -295,22 +286,6 @@ animation:bounce 1.5s infinite;
 100%{transform:translateY(0)}
 }
 
-.popup-box h2{
-margin:5px 0;
-color:#2c3e50;
-}
-
-.popup-box p{
-font-size:14px;
-color:#555;
-line-height:1.5;
-}
-
-.popup-box button{
-margin-top:15px;
-font-weight:bold;
-}
-
 </style>
 </head>
 
@@ -326,39 +301,15 @@ font-weight:bold;
 <div class="icon" onclick="chatAdmin()">💬</div>
 </div>
 
-
 <div class="menu">
-
-<div onclick="devAlert()">
-<div class="circle"></div>
-Pulsa
+<div onclick="devAlert()"><div class="circle"></div>Pulsa</div>
+<div onclick="devAlert()"><div class="circle"></div>Promo</div>
+<div onclick="devAlert()"><div class="circle"></div>Game</div>
+<div onclick="devAlert()"><div class="circle"></div>Live</div>
+<div onclick="devAlert()"><div class="circle"></div>Lainnya</div>
 </div>
-
-<div onclick="devAlert()">
-<div class="circle"></div>
-Promo
-</div>
-
-<div onclick="devAlert()">
-<div class="circle"></div>
-Game
-</div>
-
-<div onclick="devAlert()">
-<div class="circle"></div>
-Live
-</div>
-
-<div onclick="devAlert()">
-<div class="circle"></div>
-Lainnya
-</div>
-
-</div>
-
 
 <div class="products" id="products"></div>
-
 
 <div class="cart-popup" id="cartpopup">
 <button class="close-cart" onclick="toggleCart()">Tutup</button>
@@ -366,53 +317,21 @@ Lainnya
 <div id="cartitems"></div>
 </div>
 
-
 <div class="bottom">
-
-<div onclick="menuHome()">
-<span class="icon-bottom">🏠</span>
-Beranda
+<div onclick="menuHome()"><span class="icon-bottom">🏠</span>Beranda</div>
+<div onclick="devAlert()"><span class="icon-bottom">📺</span>Live</div>
+<div onclick="devAlert()"><span class="icon-bottom">🔔</span>Notifikasi</div>
+<div onclick="devAlert()"><span class="icon-bottom">👤</span>Akun</div>
 </div>
-
-<div onclick="devAlert()">
-<span class="icon-bottom">📺</span>
-Live
-</div>
-
-<div onclick="devAlert()">
-<span class="icon-bottom">🔔</span>
-Notifikasi
-</div>
-
-<div onclick="devAlert()">
-<span class="icon-bottom">👤</span>
-Akun
-</div>
-
-</div>
-
 
 <div id="coolPopup" class="cool-popup">
-
 <div class="popup-box">
-
 <div class="popup-icon">🚀</div>
-
 <h2>Fitur Segera Hadir</h2>
-
-<p>
-Kami sedang menyiapkan fitur ini untuk memberikan pengalaman
-belanja yang lebih seru dan nyaman di <b>TembungShoping</b>.
-<br><br>
-Nantikan update terbaru kami!
-</p>
-
+<p>Kami sedang menyiapkan fitur ini untuk pengalaman belanja yang lebih baik.</p>
 <button onclick="closePopup()">Mengerti</button>
-
 </div>
-
 </div>
-
 
 <script>
 
@@ -433,11 +352,11 @@ function rupiah(x){
 return Number(x).toLocaleString("id-ID")
 }
 
-function tampilProduk(){
+function tampilProduk(list=produk){
 
 let html=""
 
-produk.forEach(p=>{
+list.forEach(p=>{
 
 html+=`
 
@@ -540,6 +459,18 @@ document.getElementById("coolPopup").classList.remove("show")
 function menuHome(){
 window.scrollTo(0,0)
 }
+
+/* SEARCH PRODUK */
+
+document.getElementById("search").addEventListener("keyup",function(){
+
+let keyword=this.value.toLowerCase()
+
+let hasil=produk.filter(p=>p.nama.toLowerCase().includes(keyword))
+
+tampilProduk(hasil)
+
+})
 
 tampilProduk()
 
