@@ -5,7 +5,6 @@
 <title>TembungShoping</title>
 
 <style>
-
 body{
 margin:0;
 font-family:Arial;
@@ -176,7 +175,6 @@ cursor:pointer;
 background:#eef3ff;
 font-weight:bold;
 }
-
 </style>
 </head>
 
@@ -279,24 +277,26 @@ font-weight:bold;
 
 let produk=[
 
-{nama:"Sepatu Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff"},
-{nama:"Headphone Gaming",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e"},
-{nama:"Jam Tangan",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30"},
-{nama:"Tas Fashion",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e"},
-{nama:"Kacamata Fashion",harga:90000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083"},
-{nama:"Speaker Bluetooth",harga:120000,img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad"},
-{nama:"Power Bank",harga:80000,img:"https://images.unsplash.com/photo-1580910051074-3eb694886505"},
-{nama:"Mouse Gaming",harga:70000,img:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7"}
+{nama:"Sepatu Nike Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff"},
+
+{nama:"Headphone Wireless",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e"},
+
+{nama:"Jam Tangan Smartwatch",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30"},
+
+{nama:"Tas Fashion Wanita",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e"},
+
+{nama:"Kacamata Fashion Bulat",harga:90000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083"},
+
+{nama:"Parfum Coco Chanel",harga:120000,img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad"},
+
+{nama:"Smartphone Premium",harga:80000,img:"https://images.unsplash.com/photo-1580910051074-3eb694886505"},
+
+{nama:"PC Gaming RGB",harga:70000,img:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7"}
 
 ]
 
-/* STORAGE */
-
 let cart = JSON.parse(localStorage.getItem("cart") || "[]")
 let notif = JSON.parse(localStorage.getItem("notif") || "[]")
-
-if(!Array.isArray(cart)) cart=[]
-if(!Array.isArray(notif)) notif=[]
 
 function rupiah(x){
 return Number(x).toLocaleString("id-ID")
@@ -354,9 +354,7 @@ let items=""
 
 cart.forEach((p,i)=>{
 
-if(!p.qty) p.qty=1
-
-totalQty+=Number(p.qty)
+totalQty+=p.qty
 
 let subtotal=p.harga*p.qty
 
@@ -396,7 +394,7 @@ if(items==""){items="Keranjang kosong"}
 document.getElementById("cartitems").innerHTML=items
 document.getElementById("total").innerText="Total: Rp"+rupiah(totalHarga)
 
-document.getElementById("cartcount").innerText=totalQty||0
+document.getElementById("cartcount").innerText=totalQty
 
 localStorage.setItem("cart",JSON.stringify(cart))
 
@@ -460,8 +458,6 @@ document.getElementById("cartpopup").classList.remove("active")
 document.getElementById("notifpopup").classList.toggle("active")
 }
 
-/* CHECKOUT */
-
 function checkout(){
 
 if(cart.length==0){
@@ -486,18 +482,7 @@ window.open("https://wa.me/6281220549530")
 }
 
 function menuHome(){
-
-document.getElementById("cartpopup").classList.remove("active")
-document.getElementById("notifpopup").classList.remove("active")
-
-document.getElementById("search").value=""
-
-let cards=document.querySelectorAll(".product")
-
-cards.forEach(c=>{c.style.display=""})
-
 window.scrollTo({top:0,behavior:"smooth"})
-
 }
 
 function devAlert(){
