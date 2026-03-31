@@ -11,9 +11,10 @@ margin:0;
 font-family:Arial;
 background:#f2f2f2;
 padding-bottom:80px;
+padding-top:70px;
 }
 
-/* HEADER */
+/* HEADER FIXED */
 
 .header{
 background:#2c3e50;
@@ -21,6 +22,11 @@ padding:10px;
 display:flex;
 align-items:center;
 gap:10px;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+z-index:1000;
 }
 
 .search{
@@ -58,6 +64,7 @@ background:white;
 padding:10px;
 text-align:center;
 font-size:14px;
+margin-top:10px;
 }
 
 .circle{
@@ -298,8 +305,6 @@ margin-bottom:15px;
 
 <div class="products" id="products"></div>
 
-<!-- CART -->
-
 <div class="cart-popup" id="cartpopup">
 
 <button class="close-cart" onclick="toggleCart()">Tutup</button>
@@ -314,8 +319,6 @@ margin-bottom:15px;
 
 </div>
 
-<!-- NOTIF -->
-
 <div class="cart-popup" id="notifpopup">
 
 <button class="close-cart" onclick="toggleNotif()">Tutup</button>
@@ -325,8 +328,6 @@ margin-bottom:15px;
 <div id="notifitems"></div>
 
 </div>
-
-<!-- BOTTOM -->
 
 <div class="bottom">
 
@@ -342,8 +343,6 @@ margin-bottom:15px;
 <div onclick="devAlert()">👤<br>Akun</div>
 
 </div>
-
-<!-- POPUP -->
 
 <div id="coolPopup" class="cool-popup">
 
@@ -365,8 +364,6 @@ Fitur ini sedang dikembangkan agar pengalaman belanja semakin seru.
 
 <script>
 
-/* DATA PRODUK */
-
 const produk=[
 
 {nama:"Sepatu Nike Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400",sold:"1.2k"},
@@ -386,8 +383,6 @@ let notif=JSON.parse(localStorage.getItem("notif")||"[]")
 function rupiah(x){
 return Number(x).toLocaleString("id-ID")
 }
-
-/* TAMPILKAN PRODUK */
 
 function tampilProduk(){
 
@@ -429,8 +424,6 @@ Tambah Keranjang
 document.getElementById("products").innerHTML=html
 
 }
-
-/* CART */
 
 function addcart(nama,harga){
 
@@ -494,8 +487,6 @@ function plusQty(i){cart[i].qty++;updateCart()}
 function minusQty(i){cart[i].qty--;if(cart[i].qty<=0)cart.splice(i,1);updateCart()}
 function hapusItem(i){cart.splice(i,1);updateCart()}
 
-/* NOTIF */
-
 function addNotif(text){
 notif.unshift({text,read:false})
 updateNotif()
@@ -531,8 +522,6 @@ notif[i].read=true
 updateNotif()
 }
 
-/* POPUP MENU */
-
 function toggleCart(){
 document.getElementById("notifpopup").classList.remove("active")
 document.getElementById("cartpopup").classList.toggle("active")
@@ -542,8 +531,6 @@ function toggleNotif(){
 document.getElementById("cartpopup").classList.remove("active")
 document.getElementById("notifpopup").classList.toggle("active")
 }
-
-/* BERANDA */
 
 function menuHome(){
 
@@ -560,8 +547,6 @@ window.scrollTo({top:0,behavior:"smooth"})
 
 }
 
-/* SEARCH */
-
 document.getElementById("search").addEventListener("keyup",function(){
 
 let val=this.value.toLowerCase()
@@ -572,13 +557,9 @@ card.style.display=card.innerText.toLowerCase().includes(val)?"":"none"
 
 })
 
-/* ADMIN */
-
 function chatAdmin(){
 window.open("https://wa.me/6281220549530")
 }
-
-/* POPUP */
 
 function devAlert(){
 document.getElementById("coolPopup").classList.add("show")
@@ -588,13 +569,9 @@ function closePopup(){
 document.getElementById("coolPopup").classList.remove("show")
 }
 
-/* CHECKOUT */
-
 function checkout(){
 alert("Checkout belum tersedia")
 }
-
-/* LOAD */
 
 document.addEventListener("DOMContentLoaded",()=>{
 
