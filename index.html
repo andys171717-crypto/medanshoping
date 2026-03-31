@@ -14,8 +14,6 @@ padding-top:75px;
 padding-bottom:80px;
 }
 
-/* HEADER */
-
 .header{
 background:#2c3e50;
 padding:12px;
@@ -27,6 +25,7 @@ top:0;
 left:0;
 width:100%;
 z-index:1000;
+box-sizing:border-box;
 }
 
 .search{
@@ -36,6 +35,7 @@ padding:0 16px;
 border-radius:25px;
 border:none;
 outline:none;
+font-size:14px;
 }
 
 .icon{
@@ -43,32 +43,23 @@ font-size:24px;
 color:white;
 cursor:pointer;
 position:relative;
+width:38px;
+height:38px;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
 .cart-count{
 position:absolute;
-top:-6px;
-right:-8px;
+top:-4px;
+right:-6px;
 background:red;
 color:white;
 font-size:11px;
 padding:2px 6px;
 border-radius:50%;
 }
-
-/* BANNER */
-
-.banner{
-margin:12px;
-border-radius:14px;
-overflow:hidden;
-}
-
-.banner img{
-width:100%;
-}
-
-/* MENU */
 
 .menu{
 display:grid;
@@ -87,8 +78,6 @@ border-radius:50%;
 margin:auto;
 margin-bottom:5px;
 }
-
-/* PRODUK */
 
 .products{
 padding:12px;
@@ -115,9 +104,19 @@ cursor:pointer;
 padding:10px;
 }
 
+.info b{
+font-size:16px;
+display:block;
+margin-bottom:4px;
+}
+
+.rating{color:#ffb400;font-size:14px;}
+.sold{font-size:12px;color:#777;}
+.free{font-size:11px;color:#27ae60;font-weight:bold;margin:4px 0;}
+
 .price{
 color:#e74c3c;
-font-size:18px;
+font-size:20px;
 font-weight:bold;
 margin:6px 0;
 }
@@ -132,8 +131,6 @@ cursor:pointer;
 width:100%;
 }
 
-/* QTY */
-
 .qty-control{
 display:flex;
 justify-content:center;
@@ -146,6 +143,7 @@ padding:10px;
 width:35px;
 height:35px;
 padding:0;
+font-size:18px;
 }
 
 .qty-input{
@@ -154,9 +152,8 @@ text-align:center;
 border:none;
 background:#eee;
 border-radius:6px;
+height:32px;
 }
-
-/* CART */
 
 .cart-popup{
 position:fixed;
@@ -167,8 +164,8 @@ height:100%;
 background:white;
 padding:20px;
 overflow:auto;
-transition:0.3s;
 z-index:1000;
+transition:0.3s;
 }
 
 .cart-popup.active{
@@ -183,10 +180,20 @@ padding:10px 0;
 .cart-qty{
 display:flex;
 gap:8px;
+align-items:center;
 margin-top:6px;
 }
 
-/* BOTTOM */
+.cart-qty button{
+width:30px;
+height:30px;
+padding:0;
+}
+
+.remove-btn{
+background:#e74c3c;
+margin-top:6px;
+}
 
 .bottom{
 position:fixed;
@@ -201,15 +208,51 @@ height:65px;
 box-shadow:0 -3px 12px rgba(0,0,0,0.08);
 }
 
-/* DETAIL PRODUK */
+.bottom div{
+display:flex;
+flex-direction:column;
+align-items:center;
+font-size:12px;
+cursor:pointer;
+}
+
+.icon-bottom{font-size:22px;}
+
+.cool-popup{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.45);
+display:flex;
+align-items:center;
+justify-content:center;
+opacity:0;
+pointer-events:none;
+transition:.3s;
+z-index:2000;
+}
+
+.cool-popup.show{
+opacity:1;
+pointer-events:auto;
+}
+
+.popup-box{
+background:white;
+padding:25px;
+border-radius:20px;
+width:80%;
+max-width:320px;
+text-align:center;
+}
 
 .detail-popup{
 position:fixed;
 bottom:-100%;
 left:0;
 width:100%;
-max-height:85vh;
-overflow:auto;
 background:white;
 border-radius:20px 20px 0 0;
 padding:20px;
@@ -223,8 +266,7 @@ bottom:0;
 
 .detail-popup img{
 width:100%;
-border-radius:14px;
-box-shadow:0 4px 15px rgba(0,0,0,0.15);
+border-radius:10px;
 }
 
 .desc{
@@ -232,37 +274,6 @@ font-size:14px;
 color:#555;
 line-height:1.5;
 margin-top:10px;
-}
-
-/* POPUP FITUR */
-
-.cool-popup{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.4);
-display:flex;
-align-items:center;
-justify-content:center;
-opacity:0;
-pointer-events:none;
-transition:.3s;
-}
-
-.cool-popup.show{
-opacity:1;
-pointer-events:auto;
-}
-
-.popup-box{
-background:white;
-padding:25px;
-border-radius:16px;
-width:80%;
-max-width:320px;
-text-align:center;
 }
 
 </style>
@@ -282,14 +293,6 @@ text-align:center;
 
 </div>
 
-<!-- BANNER -->
-
-<div class="banner">
-<img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=900">
-</div>
-
-<!-- MENU -->
-
 <div class="menu">
 <div onclick="devAlert()"><div class="circle"></div>Pulsa</div>
 <div onclick="devAlert()"><div class="circle"></div>Promo</div>
@@ -300,38 +303,29 @@ text-align:center;
 
 <div class="products" id="products"></div>
 
-<!-- CART -->
-
 <div class="cart-popup" id="cartpopup">
 
 <button onclick="toggleCart()">Tutup</button>
-
 <h2>Keranjang</h2>
 
 <div id="cartitems"></div>
 
 </div>
 
-<!-- BOTTOM -->
-
 <div class="bottom">
-<div onclick="menuHome()">🏠<br>Beranda</div>
-<div onclick="devAlert()">📺<br>Live</div>
-<div onclick="devAlert()">🔔<br>Notif</div>
-<div onclick="devAlert()">👤<br>Akun</div>
+<div onclick="menuHome()"><span class="icon-bottom">🏠</span>Beranda</div>
+<div onclick="devAlert()"><span class="icon-bottom">📺</span>Live</div>
+<div onclick="devAlert()"><span class="icon-bottom">🔔</span>Notifikasi</div>
+<div onclick="devAlert()"><span class="icon-bottom">👤</span>Akun</div>
 </div>
-
-<!-- POPUP FITUR -->
 
 <div id="coolPopup" class="cool-popup">
 <div class="popup-box">
-<h2>🚀 Fitur Segera Hadir</h2>
-<p>Fitur ini sedang dalam pengembangan untuk meningkatkan pengalaman belanja.</p>
+<h2>🚀 Fitur Baru Segera Hadir</h2>
+<p>Kami sedang menyiapkan fitur baru untuk meningkatkan pengalaman belanja kamu.</p>
 <button onclick="closePopup()">Mengerti</button>
 </div>
 </div>
-
-<!-- DETAIL PRODUK -->
 
 <div id="detailPopup" class="detail-popup">
 
@@ -367,56 +361,56 @@ nama:"Sepatu Nike Sport",
 harga:100000,
 img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400",
 sold:"1.2k",
-desc:"Sepatu Nike Sport original dengan desain modern. Cocok untuk olahraga, jogging, maupun aktivitas harian."
+desc:"Sepatu sport premium dengan desain modern, ringan, dan nyaman digunakan sepanjang hari. Cocok untuk olahraga, jalan santai, maupun aktivitas harian."
 },
 {
 nama:"Headphone Wireless",
 harga:200000,
 img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400",
 sold:"950",
-desc:"Headphone wireless dengan suara jernih dan bass kuat. Cocok untuk musik dan gaming."
+desc:"Headphone wireless dengan kualitas suara jernih dan bass kuat. Baterai tahan lama dan nyaman digunakan untuk musik maupun gaming."
 },
 {
 nama:"Jam Tangan Smartwatch",
 harga:150000,
 img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400",
 sold:"870",
-desc:"Smartwatch modern dengan fitur notifikasi dan monitor kesehatan."
+desc:"Smartwatch modern dengan fitur notifikasi, monitor kesehatan, dan desain elegan yang cocok untuk aktivitas harian."
 },
 {
 nama:"Tas Fashion Wanita",
 harga:180000,
 img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400",
 sold:"640",
-desc:"Tas wanita elegan dengan desain modern dan bahan berkualitas."
+desc:"Tas wanita elegan dengan desain modern dan bahan berkualitas. Cocok digunakan untuk kerja, jalan, maupun acara santai."
 },
 {
 nama:"Kacamata Fashion",
 harga:90000,
 img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400",
 sold:"520",
-desc:"Kacamata stylish dengan perlindungan UV."
+desc:"Kacamata fashion stylish dengan perlindungan UV yang melindungi mata dari sinar matahari."
 },
 {
 nama:"Parfum Coco Chanel",
 harga:120000,
 img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400",
 sold:"430",
-desc:"Parfum dengan aroma elegan dan tahan lama."
+desc:"Parfum dengan aroma elegan dan tahan lama. Memberikan kesan mewah dan percaya diri sepanjang hari."
 },
 {
 nama:"Smartphone Premium",
 harga:80000,
 img:"https://images.unsplash.com/photo-1580910051074-3eb694886505?w=400",
 sold:"390",
-desc:"Smartphone modern dengan performa cepat."
+desc:"Smartphone modern dengan desain tipis, layar tajam, dan performa cepat untuk kebutuhan sehari-hari."
 },
 {
 nama:"PC Gaming RGB",
 harga:70000,
 img:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400",
 sold:"210",
-desc:"PC gaming RGB dengan performa tinggi."
+desc:"PC gaming dengan pencahayaan RGB dan performa tinggi untuk pengalaman bermain game yang maksimal."
 }
 ]
 
@@ -439,23 +433,17 @@ html+=`
 <img src="${p.img}" onclick="showDetail(${i})">
 
 <div class="info">
-
 <b>${p.nama}</b>
-
-<div>Terjual ${p.sold}</div>
-
+<div class="rating">⭐⭐⭐⭐☆</div>
+<div class="sold">Terjual ${p.sold}</div>
+<div class="free">Gratis Ongkir</div>
 <div class="price">Rp${rupiah(p.harga)}</div>
-
 </div>
 
 <div class="qty-control">
-
 <button onclick="minusQty(${i})">-</button>
-
 <input class="qty-input" id="qty${i}" value="0">
-
 <button onclick="plusQty(${i})">+</button>
-
 </div>
 
 </div>
@@ -516,15 +504,17 @@ html+=`
 
 <div>Subtotal : Rp${rupiah(subtotal)}</div>
 
-<button onclick="removeItem('${nama}')">Hapus</button>
+<button class="remove-btn" onclick="removeItem('${nama}')">Hapus</button>
 
 </div>
 `
 
 }
 
-html+=`<h3>Total : Rp${rupiah(total)}</h3>
-<button onclick="checkoutWA()">Checkout WhatsApp</button>`
+html+=`
+<h3>Total : Rp${rupiah(total)}</h3>
+<button onclick="checkoutWA()">Checkout WhatsApp</button>
+`
 
 document.getElementById("cartitems").innerHTML=html
 document.getElementById("cartcount").innerText=cart.length
