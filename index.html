@@ -92,6 +92,9 @@ border-radius:16px;
 overflow:hidden;
 box-shadow:0 5px 12px rgba(0,0,0,0.08);
 position:relative;
+}
+
+.product-view{
 cursor:pointer;
 }
 
@@ -420,7 +423,9 @@ let html=""
 produk.forEach(p=>{
 
 html+=`
-<div class="product" onclick="showDetail('${p.nama}',${p.harga},'${p.img}','${p.sold}',event)">
+<div class="product">
+
+<div class="product-view" onclick="showDetail('${p.nama}',${p.harga},'${p.img}','${p.sold}')">
 
 <div class="badge">-30%</div>
 <div class="wishlist">❤️</div>
@@ -439,25 +444,25 @@ html+=`
 
 <div class="price">Rp${rupiah(p.harga)}</div>
 
+</div>
+
+</div>
+
 <button onclick="addcart('${p.nama}',${p.harga})">
 Tambah Keranjang
 </button>
-
-</div>
 
 </div>
 `
 })
 
 document.getElementById("products").innerHTML=html
+
 }
 
-function showDetail(nama,harga,img,sold,event){
-if(event.target.tagName==="BUTTON") return
-
+function showDetail(nama,harga,img,sold){
 detailNama=nama
 detailHarga=harga
-
 document.getElementById("detailImg").src=img
 document.getElementById("detailName").innerText=nama
 document.getElementById("detailPrice").innerText="Rp"+rupiah(harga)
