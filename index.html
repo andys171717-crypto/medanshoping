@@ -1,7 +1,9 @@
 <!DOCTYPE html><html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TembungShoping</title><style>
+<title>TembungShoping</title>
+
+<style>
 
 body{
 margin:0;
@@ -181,6 +183,32 @@ cursor:pointer;
 width:100%;
 }
 
+/* QTY CONTROL */
+
+.qty-control{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:8px;
+padding:10px;
+}
+
+.qty-control button{
+width:35px;
+height:35px;
+padding:0;
+font-size:18px;
+}
+
+.qty-input{
+width:40px;
+text-align:center;
+border:none;
+background:#eee;
+border-radius:6px;
+height:32px;
+}
+
 .cart-popup{
 position:fixed;
 top:0;
@@ -268,71 +296,75 @@ max-width:320px;
 text-align:center;
 }
 
-.product-detail{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:white;
-z-index:3000;
-overflow:auto;
-display:none;
-}
+</style>
+</head>
 
-.product-detail.show{
-display:block;
-}
+<body>
 
-.detail-box{
-padding:20px;
-}
+<div class="header">
+<input class="search" id="search" placeholder="Cari produk di TembungShoping">
 
-.detail-box img{
-width:100%;
-border-radius:10px;
-margin-bottom:15px;
-}
-
-.close-detail{
-background:#2c3e50;
-margin-bottom:15px;
-}
-
-</style></head><body><div class="header"><input class="search" id="search" placeholder="Cari produk di TembungShoping"><div class="icon" onclick="toggleCart()">🛒
+<div class="icon" onclick="toggleCart()">🛒
 <span id="cartcount" class="cart-count">0</span>
-</div><div class="icon" onclick="chatAdmin()">💬</div></div><div class="menu"><div onclick="devAlert()"><div class="circle"></div>Pulsa</div>
+</div>
+
+<div class="icon" onclick="chatAdmin()">💬</div>
+</div>
+
+
+<div class="menu">
+<div onclick="devAlert()"><div class="circle"></div>Pulsa</div>
 <div onclick="devAlert()"><div class="circle"></div>Promo</div>
 <div onclick="devAlert()"><div class="circle"></div>Game</div>
 <div onclick="devAlert()"><div class="circle"></div>Live</div>
-<div onclick="devAlert()"><div class="circle"></div>Lainnya</div></div><div class="products" id="products"></div><div class="cart-popup" id="cartpopup">
+<div onclick="devAlert()"><div class="circle"></div>Lainnya</div>
+</div>
+
+
+<div class="products" id="products"></div>
+
+
+<div class="cart-popup" id="cartpopup">
 <button class="close-cart" onclick="toggleCart()">Tutup</button>
 <h2>Keranjang</h2>
 <div id="cartitems"></div>
-</div><div class="cart-popup" id="notifpopup">
+</div>
+
+
+<div class="cart-popup" id="notifpopup">
 <button class="close-cart" onclick="toggleNotif()">Tutup</button>
 <h2>Notifikasi</h2>
 <div id="notifitems"></div>
-</div><div id="productDetail" class="product-detail"><div class="detail-box"><button class="close-detail" onclick="closeDetail()">← Kembali</button>
+</div>
 
-<img id="detailImg"><h2 id="detailName"></h2><div class="rating">⭐⭐⭐⭐☆</div><div id="detailSold"></div><h2 id="detailPrice"></h2><p>Produk berkualitas tinggi dengan desain modern dan bahan premium.</p><button onclick="addcart(detailNama,detailHarga,this)">Masukkan Keranjang</button>
 
-</div></div><div class="bottom"><div onclick="menuHome()">
+<div class="bottom">
+
+<div onclick="menuHome()">
 <span class="icon-bottom">🏠</span>
 Beranda
-</div><div onclick="devAlert()">
+</div>
+
+<div onclick="devAlert()">
 <span class="icon-bottom">📺</span>
 Live
-</div><div onclick="toggleNotif()">
+</div>
+
+<div onclick="toggleNotif()">
 <span class="icon-bottom">🔔</span>
 Notifikasi
 <span id="notifcount" class="cart-count">0</span>
-</div><div onclick="devAlert()">
+</div>
+
+<div onclick="devAlert()">
 <span class="icon-bottom">👤</span>
 Akun
-</div></div><div id="coolPopup" class="cool-popup"><div class="popup-box"><h2>🚀 Fitur Segera Hadir</h2><p>Fitur ini sedang dikembangkan.</p><button onclick="closePopup()">Mengerti</button>
+</div>
 
-</div></div><script>
+</div>
+
+
+<script>
 
 const produk=[
 {nama:"Sepatu Nike Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400",sold:"1.2k"},
@@ -359,9 +391,10 @@ let html=""
 produk.forEach(p=>{
 
 html+=`
+
 <div class="product">
 
-<div class="product-view" onclick="showDetail('${p.nama}',${p.harga},'${p.img}','${p.sold}')">
+<div class="product-view">
 
 <div class="badge">-30%</div>
 <div class="wishlist">❤️</div>
@@ -384,11 +417,15 @@ html+=`
 
 </div>
 
-<div class="qty-badge">1</div>
+<div class="qty-control">
 
-<button onclick="addcart('${p.nama}',${p.harga},this)">
-Tambah Keranjang
-</button>
+<button onclick="minusQty('${p.nama}',${p.harga},this)">-</button>
+
+<input class="qty-input" value="0" readonly>
+
+<button onclick="plusQty('${p.nama}',${p.harga},this)">+</button>
+
+</div>
 
 </div>
 `
@@ -398,23 +435,38 @@ document.getElementById("products").innerHTML=html
 
 }
 
-function addcart(nama,harga,btn){
+function plusQty(nama,harga,btn){
+
+let box=btn.parentElement
+let input=box.querySelector(".qty-input")
+
+let qty=parseInt(input.value)
+qty++
+input.value=qty
 
 cart.push({nama,harga})
 
 document.getElementById("cartcount").innerText=cart.length
 
-notif.unshift({text:nama+" ditambahkan ke keranjang"})
-updateNotif()
+}
 
-let card = btn.parentElement
-let badge = card.querySelector(".qty-badge")
+function minusQty(nama,harga,btn){
 
-let qty = parseInt(badge.innerText) || 0
-qty++
+let box=btn.parentElement
+let input=box.querySelector(".qty-input")
 
-badge.innerText = qty
-badge.style.display="block"
+let qty=parseInt(input.value)
+
+if(qty>0){
+
+qty--
+input.value=qty
+
+cart.pop()
+
+document.getElementById("cartcount").innerText=cart.length
+
+}
 
 }
 
@@ -426,25 +478,12 @@ function toggleNotif(){
 document.getElementById("notifpopup").classList.toggle("active")
 }
 
-function updateNotif(){
-let html=""
-notif.forEach(n=>{
-html+=`<div class="notif-item">${n.text}</div>`
-})
-document.getElementById("notifitems").innerHTML=html
-document.getElementById("notifcount").innerText=notif.length
-}
-
 function chatAdmin(){
 window.open("https://wa.me/6281220549530")
 }
 
 function devAlert(){
-document.getElementById("coolPopup").classList.add("show")
-}
-
-function closePopup(){
-document.getElementById("coolPopup").classList.remove("show")
+document.getElementById("coolPopup")?.classList.add("show")
 }
 
 function menuHome(){
@@ -462,5 +501,7 @@ card.style.display=card.innerText.toLowerCase().includes(val)?"":"none"
 
 tampilProduk()
 
-</script></body>
+</script>
+
+</body>
 </html>
