@@ -457,10 +457,17 @@ document.getElementById("coolPopup").classList.remove("show")
 }
 
 function menuHome(){
-window.scrollTo(0,0)
-}
 
-/* SEARCH PRODUK */
+document.getElementById("search").value=""
+
+tampilProduk()
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+})
+
+}
 
 document.getElementById("search").addEventListener("keyup",function(){
 
