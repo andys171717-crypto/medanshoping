@@ -1,7 +1,10 @@
-<!DOCTYPE html><html>
+<!DOCTYPE html>
+<html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TembungShoping</title><style>
+<title>TembungShoping</title>
+
+<style>
 
 body{
 margin:0;
@@ -97,13 +100,11 @@ color:orange;
 }
 
 button{
-width:100%;
-padding:8px;
+padding:6px 10px;
 border:none;
 background:#27ae60;
 color:white;
 border-radius:6px;
-margin-top:6px;
 cursor:pointer;
 }
 
@@ -126,6 +127,7 @@ right:0;
 
 .close-cart{
 background:#e74c3c;
+width:100%;
 margin-bottom:10px;
 }
 
@@ -152,59 +154,106 @@ background:#eef3ff;
 font-weight:bold;
 }
 
-.popup-bg{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.5);
-display:none;
-align-items:center;
-justify-content:center;
-z-index:2000;
-}
-
-.popup-box{
-background:white;
-width:80%;
-max-width:300px;
-padding:20px;
-border-radius:12px;
-text-align:center;
-}
-
-.popup-box button{
+.qty-btn{
 background:#34495e;
-margin-top:15px;
+padding:4px 8px;
 }
 
-</style></head><body><div class="header"><input class="search" id="search" placeholder="Cari produk di TembungShoping"><div class="icon" onclick="toggleCart()">
+.hapus-btn{
+background:#e74c3c;
+margin-top:6px;
+width:100%;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+
+<input class="search" id="search" placeholder="Cari produk di TembungShoping">
+
+<div class="icon" onclick="toggleCart()">
 🛒
 <span id="cartcount" class="cart-count">0</span>
-</div><div class="icon" onclick="chatAdmin()">💬</div></div><div class="menu"><div onclick="openPopup()">
+</div>
+
+<div class="icon" onclick="chatAdmin()">💬</div>
+
+</div>
+
+<div class="menu">
+
+<div onclick="openPopup()">
 <div class="circle"></div>Pulsa
-</div><div onclick="openPopup()">
+</div>
+
+<div onclick="openPopup()">
 <div class="circle"></div>Promo
-</div><div onclick="openPopup()">
+</div>
+
+<div onclick="openPopup()">
 <div class="circle"></div>Game
-</div><div onclick="openPopup()">
+</div>
+
+<div onclick="openPopup()">
 <div class="circle"></div>Live
-</div><div onclick="openPopup()">
+</div>
+
+<div onclick="openPopup()">
 <div class="circle"></div>Lainnya
-</div></div><div class="products" id="products"></div><div class="cart-popup" id="cartpopup"><button class="close-cart" onclick="toggleCart()">Tutup</button>
+</div>
 
-<h2>Keranjang</h2><div id="cartitems"></div><h3 id="total"></h3><button onclick="checkout()">Checkout</button>
+</div>
 
-</div><div class="cart-popup" id="notifpopup"><button class="close-cart" onclick="toggleNotif()">Tutup</button>
+<div class="products" id="products"></div>
 
-<h2>Notifikasi</h2><div id="notifitems">Belum ada notifikasi</div></div><div class="bottom"><div onclick="menuHome()">🏠<br>Beranda</div><div onclick="openPopup()">📺<br>Live</div><div class="icon" onclick="toggleNotif()">
+
+<div class="cart-popup" id="cartpopup">
+
+<button class="close-cart" onclick="toggleCart()">Tutup</button>
+
+<h2>Keranjang</h2>
+
+<div id="cartitems"></div>
+
+<h3 id="total"></h3>
+
+<button style="width:100%;margin-top:10px" onclick="checkout()">Checkout</button>
+
+</div>
+
+
+<div class="cart-popup" id="notifpopup">
+
+<button class="close-cart" onclick="toggleNotif()">Tutup</button>
+
+<h2>Notifikasi</h2>
+
+<div id="notifitems">Belum ada notifikasi</div>
+
+</div>
+
+
+<div class="bottom">
+
+<div onclick="menuHome()">🏠<br>Beranda</div>
+
+<div onclick="openPopup()">📺<br>Live</div>
+
+<div class="icon" onclick="toggleNotif()">
 🔔
 <span id="notifcount" class="cart-count">0</span>
 <br>Notif
-</div><div onclick="openPopup()">👤<br>Akun</div></div><div class="popup-bg" id="popup"><div class="popup-box"><h3>🚧 Fitur Belum Tersedia</h3><p>Fitur ini sedang dalam pengembangan dan akan segera hadir di <b>TembungShoping</b>.</p><button onclick="closePopup()">Oke</button>
+</div>
 
-</div></div><script>
+<div onclick="openPopup()">👤<br>Akun</div>
+
+</div>
+
+
+<script>
 
 let produk=[
 
@@ -250,76 +299,25 @@ document.getElementById("products").innerHTML=html
 
 }
 
-function updateNotifCount(){
-let unread = notif.filter(n=>!n.read).length
-document.getElementById("notifcount").innerText = unread
-}
-
-function renderNotif(){
-
-let html=""
-
-if(notif.length==0){
-html="Belum ada notifikasi"
-}else{
-
-notif.forEach((n,i)=>{
-
-if(typeof n==="string"){
-n={text:n,read:false}
-notif[i]=n
-}
-
-html+=`
-<div onclick="readNotif(${i})"
-class="notif-item ${n.read ? "" : "notif-unread"}">
-${n.text}
-</div>
-`
-
-})
-
-}
-
-document.getElementById("notifitems").innerHTML=html
-}
-
-function addNotif(text){
-
-notif.unshift({
-text:text,
-read:false
-})
-
-localStorage.setItem("notif",JSON.stringify(notif))
-
-updateNotifCount()
-renderNotif()
-
-}
-
-function readNotif(i){
-
-notif[i].read=true
-
-localStorage.setItem("notif",JSON.stringify(notif))
-
-updateNotifCount()
-renderNotif()
-
-}
-
 function addcart(nama,harga){
 
-cart.push({nama,harga})
+let exist=cart.find(p=>p.nama===nama)
 
-localStorage.setItem("cart",JSON.stringify(cart))
+if(exist){
+
+exist.qty++
+
+}else{
+
+cart.push({
+nama:nama,
+harga:harga,
+qty:1
+})
+
+}
 
 updateCart()
-
-addNotif("🛒 "+nama+" ditambahkan ke keranjang")
-
-alert("Produk masuk keranjang")
 
 }
 
@@ -330,13 +328,75 @@ document.getElementById("cartcount").innerText=cart.length
 let items=""
 let total=0
 
-cart.forEach(p=>{
-items+=`<div>${p.nama} - Rp${rupiah(p.harga)}</div>`
-total+=p.harga
+cart.forEach((p,i)=>{
+
+let subtotal=p.harga*p.qty
+
+items+=`
+
+<div style="border-bottom:1px solid #eee;padding:10px">
+
+<b>${p.nama}</b>
+
+<div style="display:flex;justify-content:space-between;margin-top:6px">
+
+<div>
+
+<button class="qty-btn" onclick="minusQty(${i})">-</button>
+
+<span style="margin:0 8px">${p.qty}</span>
+
+<button class="qty-btn" onclick="plusQty(${i})">+</button>
+
+</div>
+
+<div>Rp${rupiah(subtotal)}</div>
+
+</div>
+
+<button class="hapus-btn" onclick="hapusItem(${i})">Hapus</button>
+
+</div>
+
+`
+
+total+=subtotal
+
 })
+
+if(items==""){
+
+items="Keranjang kosong"
+
+}
 
 document.getElementById("cartitems").innerHTML=items
 document.getElementById("total").innerText="Total: Rp"+rupiah(total)
+
+}
+
+function plusQty(i){
+cart[i].qty++
+updateCart()
+}
+
+function minusQty(i){
+
+cart[i].qty--
+
+if(cart[i].qty<=0){
+cart.splice(i,1)
+}
+
+updateCart()
+
+}
+
+function hapusItem(i){
+
+cart.splice(i,1)
+
+updateCart()
 
 }
 
@@ -360,25 +420,21 @@ cartpopup.classList.remove("active")
 
 notifpopup.classList.toggle("active")
 
-renderNotif()
-
 }
 
 function checkout(){
 
 if(cart.length==0){
-alert("Keranjang masih kosong")
+alert("Keranjang kosong")
 return
 }
-
-addNotif("📦 Pesanan baru dibuat")
 
 let nomor="6281220549530"
 
 let text="Halo TembungShoping,%0ASaya ingin memesan:%0A%0A"
 
 cart.forEach(p=>{
-text+=p.nama+" - Rp"+rupiah(p.harga)+"%0A"
+text+=p.nama+" x"+p.qty+" - Rp"+rupiah(p.harga*p.qty)+"%0A"
 })
 
 window.open("https://wa.me/"+nomor+"?text="+text)
@@ -391,11 +447,8 @@ window.open("https://wa.me/6281220549530")
 
 function menuHome(){
 
-let cartpopup=document.getElementById("cartpopup")
-let notifpopup=document.getElementById("notifpopup")
-
-cartpopup.classList.remove("active")
-notifpopup.classList.remove("active")
+document.getElementById("cartpopup").classList.remove("active")
+document.getElementById("notifpopup").classList.remove("active")
 
 document.getElementById("search").value=""
 
@@ -407,14 +460,6 @@ c.style.display=""
 
 window.scrollTo({top:0,behavior:"smooth"})
 
-}
-
-function openPopup(){
-document.getElementById("popup").style.display="flex"
-}
-
-function closePopup(){
-document.getElementById("popup").style.display="none"
 }
 
 document.getElementById("search").addEventListener("keyup",function(){
@@ -433,36 +478,9 @@ c.style.display=text.includes(input)?"":"none"
 
 })
 
-let savedCart = localStorage.getItem("cart")
-
-if(savedCart){
-cart = JSON.parse(savedCart)
-updateCart()
-}
-
-let savedNotif = localStorage.getItem("notif")
-
-if(savedNotif){
-
-let data = JSON.parse(savedNotif)
-
-notif = data.map(n=>{
-
-if(typeof n === "string"){
-return {text:n,read:false}
-}
-
-return n
-
-})
-
-localStorage.setItem("notif",JSON.stringify(notif))
-
-updateNotifCount()
-
-}
-
 tampilProduk()
 
-</script></body>
+</script>
+
+</body>
 </html>
