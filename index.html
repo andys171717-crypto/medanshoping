@@ -267,39 +267,6 @@ max-width:320px;
 text-align:center;
 }
 
-/* DETAIL PRODUK */
-
-.product-detail{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:white;
-z-index:3000;
-overflow:auto;
-display:none;
-}
-
-.product-detail.show{
-display:block;
-}
-
-.detail-box{
-padding:20px;
-}
-
-.detail-box img{
-width:100%;
-border-radius:10px;
-margin-bottom:15px;
-}
-
-.close-detail{
-background:#2c3e50;
-margin-bottom:15px;
-}
-
 </style>
 </head>
 
@@ -329,8 +296,6 @@ margin-bottom:15px;
 
 <div class="products" id="products"></div>
 
-<!-- CART -->
-
 <div class="cart-popup" id="cartpopup">
 
 <button class="close-cart" onclick="toggleCart()">Tutup</button>
@@ -341,8 +306,6 @@ margin-bottom:15px;
 
 </div>
 
-<!-- NOTIF -->
-
 <div class="cart-popup" id="notifpopup">
 
 <button class="close-cart" onclick="toggleNotif()">Tutup</button>
@@ -352,36 +315,6 @@ margin-bottom:15px;
 <div id="notifitems"></div>
 
 </div>
-
-<!-- DETAIL PRODUK -->
-
-<div id="productDetail" class="product-detail">
-
-<div class="detail-box">
-
-<button class="close-detail" onclick="closeDetail()">← Kembali</button>
-
-<img id="detailImg">
-
-<h2 id="detailName"></h2>
-
-<div class="rating">⭐⭐⭐⭐☆</div>
-
-<div id="detailSold"></div>
-
-<h2 id="detailPrice"></h2>
-
-<p>Produk berkualitas tinggi dengan desain modern.</p>
-
-<button onclick="addcart(detailNama,detailHarga)">
-Masukkan Keranjang
-</button>
-
-</div>
-
-</div>
-
-<!-- MENU BAWAH -->
 
 <div class="bottom">
 
@@ -437,8 +370,6 @@ const produk=[
 
 let cart=[]
 let notif=[]
-let detailNama=""
-let detailHarga=0
 
 function rupiah(x){
 return Number(x).toLocaleString("id-ID")
@@ -451,7 +382,7 @@ let html=""
 produk.forEach(p=>{
 
 html+=`
-<div class="product" onclick="showDetail('${p.nama}',${p.harga},'${p.img}','${p.sold}')">
+<div class="product">
 
 <div class="badge">-30%</div>
 <div class="wishlist">❤️</div>
@@ -481,20 +412,6 @@ Tambah Keranjang
 })
 
 document.getElementById("products").innerHTML=html
-}
-
-function showDetail(nama,harga,img,sold){
-detailNama=nama
-detailHarga=harga
-document.getElementById("detailImg").src=img
-document.getElementById("detailName").innerText=nama
-document.getElementById("detailPrice").innerText="Rp"+rupiah(harga)
-document.getElementById("detailSold").innerText="Terjual "+sold
-document.getElementById("productDetail").classList.add("show")
-}
-
-function closeDetail(){
-document.getElementById("productDetail").classList.remove("show")
 }
 
 function addcart(nama,harga){
