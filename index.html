@@ -122,6 +122,18 @@ padding:6px;
 font-size:14px;
 }
 
+.qty-badge{
+position:absolute;
+bottom:55px;
+right:10px;
+background:#27ae60;
+color:white;
+font-size:12px;
+padding:4px 8px;
+border-radius:8px;
+display:none;
+}
+
 .info{
 padding:10px;
 }
@@ -303,7 +315,7 @@ margin-bottom:15px;
 <div id="notifitems"></div>
 </div><div id="productDetail" class="product-detail"><div class="detail-box"><button class="close-detail" onclick="closeDetail()">← Kembali</button>
 
-<img id="detailImg"><h2 id="detailName"></h2><div class="rating">⭐⭐⭐⭐☆</div><div id="detailSold"></div><h2 id="detailPrice"></h2><p>Produk berkualitas tinggi dengan desain modern dan bahan premium.</p><button onclick="addcart(detailNama,detailHarga)">Masukkan Keranjang</button>
+<img id="detailImg"><h2 id="detailName"></h2><div class="rating">⭐⭐⭐⭐☆</div><div id="detailSold"></div><h2 id="detailPrice"></h2><p>Produk berkualitas tinggi dengan desain modern dan bahan premium.</p><button onclick="addcart(detailNama,detailHarga,this)">Masukkan Keranjang</button>
 
 </div></div><div class="bottom"><div onclick="menuHome()">
 <span class="icon-bottom">🏠</span>
@@ -335,8 +347,6 @@ const produk=[
 
 let cart=[]
 let notif=[]
-let detailNama=""
-let detailHarga=0
 
 function rupiah(x){
 return Number(x).toLocaleString("id-ID")
@@ -374,7 +384,9 @@ html+=`
 
 </div>
 
-<button onclick="addcart('${p.nama}',${p.harga})">
+<div class="qty-badge">1</div>
+
+<button onclick="addcart('${p.nama}',${p.harga},this)">
 Tambah Keranjang
 </button>
 
@@ -386,25 +398,24 @@ document.getElementById("products").innerHTML=html
 
 }
 
-function showDetail(nama,harga,img,sold){
-detailNama=nama
-detailHarga=harga
-document.getElementById("detailImg").src=img
-document.getElementById("detailName").innerText=nama
-document.getElementById("detailPrice").innerText="Rp"+rupiah(harga)
-document.getElementById("detailSold").innerText="Terjual "+sold
-document.getElementById("productDetail").classList.add("show")
-}
+function addcart(nama,harga,btn){
 
-function closeDetail(){
-document.getElementById("productDetail").classList.remove("show")
-}
-
-function addcart(nama,harga){
 cart.push({nama,harga})
+
 document.getElementById("cartcount").innerText=cart.length
+
 notif.unshift({text:nama+" ditambahkan ke keranjang"})
 updateNotif()
+
+let card = btn.parentElement
+let badge = card.querySelector(".qty-badge")
+
+let qty = parseInt(badge.innerText) || 0
+qty++
+
+badge.innerText = qty
+badge.style.display="block"
+
 }
 
 function toggleCart(){
