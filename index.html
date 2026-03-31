@@ -165,33 +165,6 @@ background:#eef3ff;
 font-weight:bold;
 }
 
-.popup-bg{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.5);
-display:none;
-align-items:center;
-justify-content:center;
-z-index:2000;
-}
-
-.popup-box{
-background:white;
-width:80%;
-max-width:300px;
-padding:20px;
-border-radius:12px;
-text-align:center;
-}
-
-.popup-box button{
-background:#34495e;
-margin-top:15px;
-}
-
 </style>
 </head>
 
@@ -210,34 +183,17 @@ margin-top:15px;
 
 </div>
 
-
 <div class="menu">
 
-<div onclick="openPopup()">
-<div class="circle"></div>Pulsa
-</div>
-
-<div onclick="openPopup()">
-<div class="circle"></div>Promo
-</div>
-
-<div onclick="openPopup()">
-<div class="circle"></div>Game
-</div>
-
-<div onclick="openPopup()">
-<div class="circle"></div>Live
-</div>
-
-<div onclick="openPopup()">
-<div class="circle"></div>Lainnya
-</div>
+<div><div class="circle"></div>Pulsa</div>
+<div><div class="circle"></div>Promo</div>
+<div><div class="circle"></div>Game</div>
+<div><div class="circle"></div>Live</div>
+<div><div class="circle"></div>Lainnya</div>
 
 </div>
-
 
 <div class="products" id="products"></div>
-
 
 <div class="cart-popup" id="cartpopup">
 
@@ -253,23 +209,21 @@ margin-top:15px;
 
 </div>
 
-
 <div class="cart-popup" id="notifpopup">
 
 <button class="close-cart" onclick="toggleNotif()">Tutup</button>
 
 <h2>Notifikasi</h2>
 
-<div id="notifitems">Belum ada notifikasi</div>
+<div id="notifitems"></div>
 
 </div>
-
 
 <div class="bottom">
 
 <div onclick="menuHome()">🏠<br>Beranda</div>
 
-<div onclick="openPopup()">📺<br>Live</div>
+<div>📺<br>Live</div>
 
 <div class="icon" onclick="toggleNotif()">
 🔔
@@ -277,43 +231,21 @@ margin-top:15px;
 <br>Notif
 </div>
 
-<div onclick="openPopup()">👤<br>Akun</div>
+<div>👤<br>Akun</div>
 
 </div>
-
-
-<div class="popup-bg" id="popup">
-
-<div class="popup-box">
-
-<h3>🚧 Fitur Belum Tersedia</h3>
-
-<p>Fitur ini sedang dikembangkan di <b>TembungShoping</b></p>
-
-<button onclick="closePopup()">Oke</button>
-
-</div>
-
-</div>
-
 
 <script>
 
 let produk=[
-
 {nama:"Sepatu Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff"},
 {nama:"Headphone Gaming",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e"},
 {nama:"Jam Tangan",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30"},
-{nama:"Tas Fashion",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e"},
-{nama:"Laptop Gaming",harga:8500000,img:"https://images.unsplash.com/photo-1517336714731-489689fd1ca8"},
-{nama:"Mouse Gaming",harga:120000,img:"https://images.unsplash.com/photo-1527814050087-3793815479db"},
-{nama:"Smartphone Android",harga:2500000,img:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9"},
-{nama:"Speaker Bluetooth",harga:450000,img:"https://images.unsplash.com/photo-1545454675-3531b543be5d"}
-
+{nama:"Tas Fashion",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e"}
 ]
 
-let cart=[]
-let notif=[]
+let cart=JSON.parse(localStorage.getItem("cart"))||[]
+let notif=JSON.parse(localStorage.getItem("notif"))||[]
 
 function rupiah(x){
 return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g,".")
@@ -353,18 +285,21 @@ exist.qty++
 cart.push({nama:nama,harga:harga,qty:1})
 }
 
+addNotif("🛒 "+nama+" ditambahkan ke keranjang")
+
 updateCart()
 
 }
 
 function updateCart(){
 
-document.getElementById("cartcount").innerText=cart.length
-
+let totalQty=0
+let totalHarga=0
 let items=""
-let total=0
 
 cart.forEach((p,i)=>{
+
+totalQty+=p.qty
 
 let subtotal=p.harga*p.qty
 
@@ -393,16 +328,18 @@ items+=`
 <button class="hapus-btn" onclick="hapusItem(${i})">Hapus</button>
 
 </div>
+
 `
 
-total+=subtotal
+totalHarga+=subtotal
 
 })
 
 if(items==""){items="Keranjang kosong"}
 
 document.getElementById("cartitems").innerHTML=items
-document.getElementById("total").innerText="Total: Rp"+rupiah(total)
+document.getElementById("total").innerText="Total: Rp"+rupiah(totalHarga)
+document.getElementById("cartcount").innerText=totalQty
 
 localStorage.setItem("cart",JSON.stringify(cart))
 
@@ -412,14 +349,64 @@ function plusQty(i){cart[i].qty++;updateCart()}
 function minusQty(i){cart[i].qty--;if(cart[i].qty<=0){cart.splice(i,1)}updateCart()}
 function hapusItem(i){cart.splice(i,1);updateCart()}
 
+function addNotif(text){
+
+notif.unshift({
+text:text,
+read:false
+})
+
+updateNotif()
+
+}
+
+function updateNotif(){
+
+let html=""
+let unread=0
+
+notif.forEach((n,i)=>{
+
+if(!n.read) unread++
+
+html+=`
+<div class="notif-item ${n.read?'':'notif-unread'}"
+onclick="readNotif(${i})">
+${n.text}
+</div>
+`
+
+})
+
+if(html=="") html="Belum ada notifikasi"
+
+document.getElementById("notifitems").innerHTML=html
+document.getElementById("notifcount").innerText=unread
+
+localStorage.setItem("notif",JSON.stringify(notif))
+
+}
+
+function readNotif(i){
+
+notif[i].read=true
+
+updateNotif()
+
+}
+
 function toggleCart(){
+
 document.getElementById("notifpopup").classList.remove("active")
 document.getElementById("cartpopup").classList.toggle("active")
+
 }
 
 function toggleNotif(){
+
 document.getElementById("cartpopup").classList.remove("active")
 document.getElementById("notifpopup").classList.toggle("active")
+
 }
 
 function checkout(){
@@ -430,6 +417,7 @@ return
 }
 
 let nomor="6281220549530"
+
 let text="Halo TembungShoping,%0ASaya ingin memesan:%0A%0A"
 
 cart.forEach(p=>{
@@ -459,14 +447,6 @@ window.scrollTo({top:0,behavior:"smooth"})
 
 }
 
-function openPopup(){
-document.getElementById("popup").style.display="flex"
-}
-
-function closePopup(){
-document.getElementById("popup").style.display="none"
-}
-
 document.getElementById("search").addEventListener("keyup",function(){
 
 let input=this.value.toLowerCase()
@@ -480,14 +460,9 @@ c.style.display=text.includes(input)?"":"none"
 
 })
 
-let savedCart=localStorage.getItem("cart")
-
-if(savedCart){
-cart=JSON.parse(savedCart)
-updateCart()
-}
-
 tampilProduk()
+updateCart()
+updateNotif()
 
 </script>
 
