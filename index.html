@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <title>TembungShoping</title>
 
 <link rel="stylesheet"
@@ -14,10 +12,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 
 body{
 margin:0;
-font-family:system-ui;
-background:#f3f4f6;
-padding-top:70px;
-padding-bottom:75px;
+font-family:Arial,Helvetica,sans-serif;
+background:#f5f5f5;
+padding-top:60px;
+padding-bottom:70px;
 }
 
 /* HEADER */
@@ -25,13 +23,12 @@ padding-bottom:75px;
 .header{
 position:fixed;
 top:0;
-left:0;
 width:100%;
-height:60px;
-background:linear-gradient(90deg,#ff6a00,#ff3d00);
+height:56px;
+background:#ff5722;
 display:flex;
 align-items:center;
-padding:0 14px;
+padding:0 10px;
 box-sizing:border-box;
 z-index:999;
 }
@@ -40,50 +37,55 @@ z-index:999;
 
 .search-box{
 flex:1;
-margin-right:12px;
+background:white;
+border-radius:18px;
+display:flex;
+align-items:center;
+padding:0 10px;
+height:34px;
+}
+
+.search-box i{
+color:#999;
+font-size:13px;
 }
 
 .search{
-width:100%;
-height:36px;
+flex:1;
 border:none;
-border-radius:18px;
-padding:0 14px;
 outline:none;
-font-size:14px;
+font-size:13px;
+margin-left:6px;
 }
 
-/* ICON AREA */
+/* HEADER ICON */
 
 .header-icons{
 display:flex;
-align-items:center;
 gap:16px;
+margin-left:10px;
 }
 
 .icon{
 color:white;
 font-size:20px;
 position:relative;
-cursor:pointer;
 }
 
 .badge{
 position:absolute;
-top:-6px;
-right:-8px;
+top:-5px;
+right:-7px;
 background:red;
 color:white;
 font-size:10px;
-padding:2px 6px;
+padding:2px 5px;
 border-radius:50%;
 }
 
 /* BANNER */
 
 .banner{
-margin:12px;
-border-radius:14px;
 overflow:hidden;
 }
 
@@ -97,99 +99,92 @@ object-fit:cover;
 
 .category{
 display:flex;
-overflow-x:auto;
-gap:18px;
+gap:16px;
 padding:12px;
 background:white;
-}
-
-.category::-webkit-scrollbar{
-display:none;
+overflow-x:auto;
 }
 
 .cat{
 text-align:center;
-min-width:70px;
-font-size:12px;
+font-size:11px;
+min-width:65px;
 }
 
 .circle{
-width:48px;
-height:48px;
+width:46px;
+height:46px;
 border-radius:50%;
-background:#eef1f4;
+background:#f0f0f0;
 display:flex;
 align-items:center;
 justify-content:center;
 font-size:20px;
 margin:auto;
-margin-bottom:6px;
+margin-bottom:4px;
 }
 
 /* PRODUCTS */
 
 .products{
-padding:12px;
+padding:10px;
 display:grid;
 grid-template-columns:repeat(2,1fr);
-gap:14px;
+gap:10px;
 }
 
 .product{
 background:white;
-border-radius:14px;
+border-radius:10px;
 overflow:hidden;
-box-shadow:0 4px 10px rgba(0,0,0,0.08);
+box-shadow:0 2px 6px rgba(0,0,0,0.08);
 }
 
 .product img{
 width:100%;
-height:140px;
+height:130px;
 object-fit:cover;
-cursor:pointer;
 }
 
 .info{
-padding:10px;
+padding:8px;
 }
 
 .title{
-font-size:14px;
+font-size:13px;
 font-weight:bold;
-height:34px;
-overflow:hidden;
-}
-
-.price{
-color:#e74c3c;
-font-size:18px;
-font-weight:bold;
-margin-top:3px;
+margin-bottom:2px;
 }
 
 .rating{
-font-size:12px;
-color:#f1c40f;
-margin-top:2px;
+font-size:11px;
+color:#ffc107;
 }
+
+.price{
+font-size:16px;
+font-weight:bold;
+color:#ff5722;
+}
+
+/* ACTION BUTTON */
 
 .actions{
 display:flex;
 gap:6px;
-padding:10px;
+padding:8px;
 }
 
 .btn{
 flex:1;
+height:30px;
 border:none;
-padding:8px;
-border-radius:8px;
+border-radius:6px;
 color:white;
-cursor:pointer;
 font-size:13px;
 }
 
-.like{background:#e74c3c;}
+.like{background:#e53935;}
 .chat{background:#3498db;}
 .cartbtn{background:#27ae60;}
 
@@ -213,7 +208,7 @@ margin-top:10px;
 
 .detail-price{
 font-size:22px;
-color:#e74c3c;
+color:#ff5722;
 font-weight:bold;
 }
 
@@ -226,33 +221,31 @@ padding:12px;
 
 .cart-item{
 background:white;
-padding:12px;
-border-radius:10px;
-margin-bottom:10px;
+padding:10px;
+border-radius:8px;
+margin-bottom:8px;
 display:flex;
 justify-content:space-between;
-align-items:center;
 }
 
 .remove{
 background:red;
 color:white;
 border:none;
-padding:6px 9px;
-border-radius:6px;
+padding:5px 8px;
+border-radius:5px;
 }
 
 /* CHECKOUT */
 
 .checkout-btn{
 width:100%;
-padding:13px;
-background:#ff6a00;
+padding:12px;
+background:#ff5722;
 color:white;
 border:none;
 border-radius:8px;
-margin-top:12px;
-font-size:15px;
+margin-top:10px;
 }
 
 /* BOTTOM NAV */
@@ -261,23 +254,22 @@ font-size:15px;
 position:fixed;
 bottom:0;
 width:100%;
-height:65px;
+height:60px;
 background:white;
 display:flex;
 justify-content:space-around;
 align-items:center;
-box-shadow:0 -3px 10px rgba(0,0,0,0.15);
+box-shadow:0 -2px 8px rgba(0,0,0,0.15);
 font-size:12px;
 }
 
 .bottom i{
-font-size:20px;
+font-size:18px;
 display:block;
-margin-bottom:4px;
+margin-bottom:2px;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -285,15 +277,11 @@ margin-bottom:4px;
 <div class="header">
 
 <div class="search-box">
-<input class="search" id="search"
-placeholder="Cari produk di TembungShoping">
+<i class="fa fa-search"></i>
+<input class="search" id="search" placeholder="Cari produk di TembungShoping">
 </div>
 
 <div class="header-icons">
-
-<div class="icon">
-<i class="fa-solid fa-comment-dots"></i>
-</div>
 
 <div class="icon">
 <i class="fa-solid fa-bell"></i>
@@ -309,7 +297,7 @@ placeholder="Cari produk di TembungShoping">
 </div>
 
 <div class="banner">
-<img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=900">
+<img id="bannerimg">
 </div>
 
 <div class="category">
@@ -319,7 +307,6 @@ placeholder="Cari produk di TembungShoping">
 <div class="cat"><div class="circle">🎮</div>Game</div>
 <div class="cat"><div class="circle">👕</div>Fashion</div>
 <div class="cat"><div class="circle">💄</div>Beauty</div>
-<div class="cat"><div class="circle">📦</div>Lainnya</div>
 
 </div>
 
@@ -382,6 +369,27 @@ Akun
 
 <script>
 
+/* BANNER SLIDER */
+
+let banners=[
+"https://images.unsplash.com/photo-1607082349566-187342175e2f?w=900",
+"https://images.unsplash.com/photo-1607083206968-13611e3d76db?w=900",
+"https://images.unsplash.com/photo-1607082350899-7e105aa886ae?w=900"
+]
+
+let b=0
+
+function slideBanner(){
+b++
+if(b>=banners.length){b=0}
+bannerimg.src=banners[b]
+}
+
+bannerimg.src=banners[0]
+setInterval(slideBanner,3000)
+
+/* DATA PRODUK */
+
 let productData=[
 
 {name:"Sepatu Nike Sport",price:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
@@ -389,18 +397,18 @@ let productData=[
 {name:"Smartwatch",price:150000,img:"https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?w=400"},
 {name:"Tas Fashion Wanita",price:250000,img:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400"}
 
-];
+]
 
-let cart=[];
-let selected=0;
+let cart=[]
+let selected=0
 
 function rupiah(x){
-return "Rp"+x.toLocaleString();
+return "Rp"+x.toLocaleString()
 }
 
 function loadProducts(list=productData){
 
-let html="";
+let html=""
 
 list.forEach((p,i)=>{
 
@@ -422,80 +430,79 @@ html+=`
 
 <div class="actions">
 
-<button class="btn like"><i class="fa-solid fa-heart"></i></button>
+<button class="btn like"><i class="fa fa-heart"></i></button>
 
-<button class="btn chat"><i class="fa-solid fa-comment"></i></button>
+<button class="btn chat"><i class="fa fa-comment"></i></button>
 
 <button class="btn cartbtn" onclick="addCart(${i})">
-<i class="fa-solid fa-cart-shopping"></i>
+<i class="fa fa-cart-shopping"></i>
 </button>
 
 </div>
 
 </div>
 
-`;
+`
 
-});
+})
 
-productList.innerHTML=html;
+productList.innerHTML=html
 
 }
 
-loadProducts();
+loadProducts()
 
 search.addEventListener("input",function(){
 
-let key=this.value.toLowerCase();
+let key=this.value.toLowerCase()
 
 let result=productData.filter(p=>
 p.name.toLowerCase().includes(key)
-);
+)
 
-loadProducts(result);
+loadProducts(result)
 
-});
+})
 
 function openDetail(i){
 
-selected=i;
+selected=i
 
-productList.style.display="none";
-detailPage.style.display="block";
-cartPage.style.display="none";
+productList.style.display="none"
+detailPage.style.display="block"
+cartPage.style.display="none"
 
-let p=productData[i];
+let p=productData[i]
 
-dimg.src=p.img;
-dtitle.innerText=p.name;
-dprice.innerText=rupiah(p.price);
+dimg.src=p.img
+dtitle.innerText=p.name
+dprice.innerText=rupiah(p.price)
 
 }
 
 function addCart(i){
 
-cart.push(productData[i]);
+cart.push(productData[i])
+cartcount.innerText=cart.length
 
-cartcount.innerText=cart.length;
-
-alert("Produk masuk keranjang");
+alert("Produk masuk keranjang")
 
 }
 
 function openCart(){
 
-productList.style.display="none";
-detailPage.style.display="none";
-cartPage.style.display="block";
+productList.style.display="none"
+detailPage.style.display="none"
+cartPage.style.display="block"
 
-renderCart();
+renderCart()
 
 }
 
 function renderCart(){
 
-let html="";
-let total=0;
+let html=""
+let total=0
 
 cart.forEach((c,i)=>{
 
@@ -513,55 +520,49 @@ onclick="removeCart(${i})">Hapus</button>
 
 </div>
 
-`;
+`
 
-total+=c.price;
+total+=c.price
 
-});
+})
 
-cartItems.innerHTML=html;
-
-totalCart.innerText=rupiah(total);
+cartItems.innerHTML=html
+totalCart.innerText=rupiah(total)
 
 }
 
 function removeCart(i){
 
-cart.splice(i,1);
-
-cartcount.innerText=cart.length;
-
-renderCart();
+cart.splice(i,1)
+cartcount.innerText=cart.length
+renderCart()
 
 }
 
 function checkout(){
 
 if(cart.length==0){
-
-alert("Keranjang kosong");
-return;
-
+alert("Keranjang kosong")
+return
 }
 
-alert("Checkout berhasil!");
+alert("Checkout berhasil!")
 
-cart=[];
-cartcount.innerText=0;
+cart=[]
+cartcount.innerText=0
 
-renderCart();
-
-home();
+renderCart()
+home()
 
 }
 
 function home(){
 
-productList.style.display="grid";
-detailPage.style.display="none";
-cartPage.style.display="none";
+productList.style.display="grid"
+detailPage.style.display="none"
+cartPage.style.display="none"
 
-loadProducts();
+loadProducts()
 
 }
 
