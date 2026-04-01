@@ -6,15 +6,16 @@
 
 <title>TembungShoping</title>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
 
 body{
 margin:0;
-font-family:Arial;
-background:#f2f2f2;
-padding-top:60px;
+font-family:system-ui;
+background:#f3f4f6;
+padding-top:55px;
 padding-bottom:60px;
 }
 
@@ -24,20 +25,22 @@ padding-bottom:60px;
 position:fixed;
 top:0;
 width:100%;
+height:55px;
 background:#2c3e50;
 display:flex;
 align-items:center;
-gap:10px;
-padding:10px;
+padding:8px;
+gap:8px;
 box-sizing:border-box;
+z-index:1000;
 }
 
 .search{
 flex:1;
-height:36px;
+height:34px;
 border:none;
 border-radius:20px;
-padding:0 15px;
+padding:0 12px;
 font-size:13px;
 }
 
@@ -45,13 +48,12 @@ font-size:13px;
 color:white;
 font-size:20px;
 position:relative;
-cursor:pointer;
 }
 
 .badge{
 position:absolute;
 top:-5px;
-right:-7px;
+right:-6px;
 background:red;
 color:white;
 font-size:10px;
@@ -62,70 +64,75 @@ border-radius:50%;
 /* PRODUCTS */
 
 .products{
-padding:10px;
+padding:6px;
 display:grid;
 grid-template-columns:repeat(2,1fr);
-gap:10px;
+gap:6px;
 }
 
 .product{
 background:white;
-border-radius:12px;
+border-radius:14px;
 overflow:hidden;
-box-shadow:0 2px 6px rgba(0,0,0,0.08);
+box-shadow:0 3px 8px rgba(0,0,0,0.08);
 }
 
 .product img{
 width:100%;
-height:140px;
+height:115px;
 object-fit:cover;
 display:block;
 }
 
 .info{
-padding:8px;
+padding:6px;
 }
 
 .title{
-font-size:14px;
-height:34px;
+font-size:13px;
+font-weight:600;
+height:30px;
 overflow:hidden;
-font-weight:bold;
-}
-
-.price{
-color:#e74c3c;
-font-weight:bold;
-font-size:16px;
-margin-top:3px;
 }
 
 .free{
+font-size:10px;
 color:#27ae60;
-font-size:11px;
+margin-top:2px;
+}
+
+.price{
+font-size:14px;
+font-weight:bold;
+color:#e74c3c;
 }
 
 /* BUTTON */
 
 .actions{
 display:flex;
-gap:6px;
-padding:8px;
+gap:5px;
+padding:6px;
 }
 
 .btn{
 flex:1;
 border:none;
-padding:8px;
+padding:6px;
 border-radius:8px;
 color:white;
-font-size:13px;
+font-size:12px;
 }
 
-.chat{background:#3498db;}
-.cart{background:#27ae60;}
+.chat{
+background:#3498db;
+}
 
-/* BOTTOM */
+.cart{
+background:#27ae60;
+}
+
+/* BOTTOM NAV */
 
 .bottom{
 position:fixed;
@@ -150,13 +157,13 @@ font-size:12px;
 
 <input id="search" class="search" placeholder="Cari produk">
 
-<div class="icon" onclick="toggleCart()">
+<div class="icon" onclick="addCart()">
 <i class="fa-solid fa-cart-shopping"></i>
 <span id="cartcount" class="badge">0</span>
 </div>
 
 <div class="icon" onclick="chatAdmin()">
-<i class="fa-solid fa-comment-dots"></i>
+<i class="fa-solid fa-comment"></i>
 </div>
 
 </div>
@@ -180,7 +187,7 @@ const produk=[
 
 {nama:"Headphone Wireless",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&q=60"},
 
-{nama:"Smartwatch Digital",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=60"},
+{nama:"Jam Tangan Smartwatch",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=60"},
 
 {nama:"Tas Fashion Wanita",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400&q=60"},
 
@@ -204,7 +211,7 @@ function render(list){
 
 let html="";
 
-list.forEach((p,i)=>{
+list.forEach(p=>{
 
 html+=`
 
@@ -258,19 +265,11 @@ render(hasil);
 
 }
 
-/* CART */
-
 function addCart(){
 
 cart++;
 
 document.getElementById("cartcount").innerText=cart;
-
-}
-
-function toggleCart(){
-
-alert("Produk di keranjang: "+cart);
 
 }
 
