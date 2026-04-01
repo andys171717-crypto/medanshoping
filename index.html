@@ -14,6 +14,8 @@ padding-top:70px;
 padding-bottom:80px;
 }
 
+/* HEADER */
+
 .header{
 background:#2c3e50;
 padding:12px;
@@ -32,10 +34,11 @@ height:40px;
 border:none;
 border-radius:20px;
 padding:0 15px;
+font-size:14px;
 }
 
 .icon{
-font-size:24px;
+font-size:22px;
 color:white;
 cursor:pointer;
 position:relative;
@@ -43,21 +46,24 @@ position:relative;
 
 .cart-count{
 position:absolute;
-top:-5px;
+top:-6px;
 right:-8px;
 background:red;
 color:white;
-font-size:12px;
+font-size:11px;
 padding:2px 6px;
 border-radius:50%;
 }
+
+/* MENU */
 
 .menu{
 display:grid;
 grid-template-columns:repeat(5,1fr);
 background:white;
-padding:10px;
+padding:12px;
 text-align:center;
+font-size:13px;
 }
 
 .circle{
@@ -68,6 +74,8 @@ border-radius:50%;
 margin:auto;
 margin-bottom:5px;
 }
+
+/* PRODUCTS */
 
 .products{
 padding:12px;
@@ -80,7 +88,7 @@ gap:14px;
 background:white;
 border-radius:15px;
 overflow:hidden;
-box-shadow:0 3px 10px rgba(0,0,0,0.1);
+box-shadow:0 2px 8px rgba(0,0,0,0.1);
 }
 
 .product img{
@@ -112,8 +120,10 @@ font-weight:bold;
 color:#e74c3c;
 font-size:18px;
 font-weight:bold;
-margin:5px 0;
+margin-top:5px;
 }
+
+/* BUTTONS */
 
 .actions{
 display:flex;
@@ -141,12 +151,14 @@ padding:8px;
 font-size:18px;
 }
 
+/* QTY */
+
 .qty-control{
 display:flex;
 justify-content:center;
 align-items:center;
 gap:8px;
-padding-bottom:10px;
+padding-bottom:12px;
 }
 
 .qty-control button{
@@ -167,6 +179,8 @@ background:#eee;
 border-radius:6px;
 height:30px;
 }
+
+/* BOTTOM MENU */
 
 .bottom{
 position:fixed;
@@ -195,6 +209,8 @@ font-size:22px;
 
 <body>
 
+<!-- HEADER -->
+
 <div class="header">
 
 <input class="search" placeholder="Cari produk di TembungShoping">
@@ -207,6 +223,8 @@ font-size:22px;
 
 </div>
 
+<!-- MENU -->
+
 <div class="menu">
 <div><div class="circle"></div>Pulsa</div>
 <div><div class="circle"></div>Promo</div>
@@ -215,7 +233,11 @@ font-size:22px;
 <div><div class="circle"></div>Lainnya</div>
 </div>
 
+<!-- PRODUCTS -->
+
 <div class="products" id="products"></div>
+
+<!-- BOTTOM NAV -->
 
 <div class="bottom">
 <div><span class="icon-bottom">🏠</span>Beranda</div>
@@ -226,86 +248,80 @@ font-size:22px;
 
 <script>
 
+/* DATA PRODUK */
+
 const produk = [
-{nama:"Sepatu Nike Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff"},
-{nama:"Headphone Wireless",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e"},
-{nama:"Jam Tangan Smartwatch",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30"},
-{nama:"Tas Fashion Wanita",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e"},
-{nama:"Kacamata Fashion",harga:90000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083"},
-{nama:"Parfum Coco Chanel",harga:120000,img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad"},
-{nama:"Smartphone Premium",harga:80000,img:"https://images.unsplash.com/photo-1580910051074-3eb694886505"},
-{nama:"PC Gaming RGB",harga:70000,img:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7"}
+{nama:"Sepatu Nike Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
+{nama:"Headphone Wireless",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"},
+{nama:"Jam Tangan Smartwatch",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400"},
+{nama:"Tas Fashion Wanita",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400"},
+{nama:"Kacamata Fashion",harga:90000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400"},
+{nama:"Parfum Coco Chanel",harga:120000,img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400"},
+{nama:"Smartphone Premium",harga:80000,img:"https://images.unsplash.com/photo-1580910051074-3eb694886505?w=400"},
+{nama:"PC Gaming RGB",harga:70000,img:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400"}
 ];
 
 let cart = [];
+
+/* FORMAT RUPIAH */
 
 function rupiah(x){
 return x.toLocaleString("id-ID");
 }
 
+/* TAMPIL PRODUK */
+
 function tampilProduk(){
 
 let html="";
 
-produk.forEach((p,i)=>{
+for(let i=0;i<produk.length;i++){
 
-html+=`
+let p = produk[i];
 
+html += `
 <div class="product">
 
-<img src="${p.img}">
+<img src="${p.img}" loading="lazy">
 
 <div class="info">
-
 <b>${p.nama}</b>
-
 <div class="rating">⭐⭐⭐⭐☆</div>
-
 <div class="sold">Terjual 1k</div>
-
 <div class="free">Gratis Ongkir</div>
-
 <div class="price">Rp${rupiah(p.harga)}</div>
-
 </div>
 
 <div class="actions">
-
 <button class="chat-btn" onclick="chatAdmin()">💬</button>
-
 <button class="cart-btn" onclick="plusQty(${i})">🛒</button>
-
 </div>
 
 <div class="qty-control">
-
 <button onclick="minusQty(${i})">-</button>
-
 <input id="qty${i}" class="qty-input" value="0">
-
 <button onclick="plusQty(${i})">+</button>
-
 </div>
 
 </div>
-
 `;
 
-});
+}
 
 document.getElementById("products").innerHTML = html;
 
 }
 
+/* QTY */
+
 function plusQty(i){
 
-let qty = document.getElementById("qty"+i);
-
-let value = parseInt(qty.value);
+let input = document.getElementById("qty"+i);
+let value = parseInt(input.value);
 
 value++;
 
-qty.value = value;
+input.value = value;
 
 cart.push(produk[i]);
 
@@ -315,15 +331,14 @@ updateCart();
 
 function minusQty(i){
 
-let qty = document.getElementById("qty"+i);
-
-let value = parseInt(qty.value);
+let input = document.getElementById("qty"+i);
+let value = parseInt(input.value);
 
 if(value>0){
 
 value--;
 
-qty.value = value;
+input.value = value;
 
 cart.pop();
 
@@ -333,23 +348,31 @@ updateCart();
 
 }
 
+/* UPDATE CART */
+
 function updateCart(){
 
 document.getElementById("cartcount").innerText = cart.length;
 
 }
 
+/* CART */
+
 function openCart(){
 
-alert("Jumlah produk di keranjang: "+cart.length);
+alert("Produk di keranjang : "+cart.length);
 
 }
+
+/* CHAT */
 
 function chatAdmin(){
 
 window.open("https://wa.me/6281220549530","_blank");
 
 }
+
+/* LOAD PRODUK */
 
 tampilProduk();
 
