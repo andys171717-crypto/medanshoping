@@ -1,5 +1,4 @@
-<!DOCTYPE html><html>
-<head>
+<!DOCTYPE html><html><head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TembungShoping</title><link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><style>
@@ -29,8 +28,6 @@ z-index:999;
 box-shadow:0 2px 8px rgba(0,0,0,0.15);
 }
 
-/* SEARCH */
-
 .search-box{
 flex:1;
 height:40px;
@@ -42,20 +39,12 @@ padding:0 12px;
 gap:8px;
 }
 
-.search-box i{
-font-size:14px;
-color:#999;
-display:flex;
-align-items:center;
-}
-
 .search-box input{
 flex:1;
 border:none;
 outline:none;
 font-size:14px;
 background:transparent;
-height:100%;
 }
 
 /* ICON */
@@ -150,11 +139,6 @@ border-radius:16px;
 overflow:hidden;
 box-shadow:0 6px 16px rgba(0,0,0,0.08);
 position:relative;
-transition:0.2s;
-}
-
-.product:active{
-transform:scale(0.98);
 }
 
 .product img{
@@ -196,8 +180,6 @@ font-weight:bold;
 font-size:12px;
 color:#f1c40f;
 }
-
-/* BUTTON */
 
 .actions{
 display:flex;
@@ -260,7 +242,23 @@ justify-content:space-between;
 align-items:center;
 }
 
-/* BOTTOM MENU */
+/* ADMIN PANEL */
+
+.adminpanel{
+display:none;
+padding:16px;
+background:white;
+margin:16px;
+border-radius:12px;
+}
+
+.adminpanel input{
+width:100%;
+padding:8px;
+margin-bottom:8px;
+}
+
+/* BOTTOM */
 
 .bottom{
 position:fixed;
@@ -287,10 +285,6 @@ display:block;
 margin-bottom:4px;
 }
 
-.bottom div:hover{
-color:#2563eb;
-}
-
 </style></head><body><div class="header"><div class="search-box">
 <i class="fa-solid fa-magnifying-glass"></i>
 <input id="search" placeholder="Cari produk di TembungShoping">
@@ -301,8 +295,7 @@ color:#2563eb;
 <span class="badge" id="cartcount">0</span>
 </div><div class="icon">
 <i class="fa-solid fa-comment-dots"></i>
-</div></div>
-</div><div class="banner">
+</div></div></div><div class="banner">
 <img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=900">
 </div><div class="category">
 <div class="cat"><div class="circle">📱</div>Pulsa</div>
@@ -327,8 +320,11 @@ style="width:100%;padding:12px;background:#2563eb;color:white;border:none;border
 Checkout
 </button>
 
-</div><div class="bottom">
-<div onclick="home()">
+</div><!-- ADMIN PANEL --><div class="adminpanel" id="adminPanel"><h3>Admin Panel</h3><input id="pname" placeholder="Nama produk">
+<input id="pprice" placeholder="Harga">
+<input id="pimg" placeholder="Link gambar"><button onclick="addProduct()">Tambah Produk</button>
+
+<h4>Daftar Produk</h4><div id="adminList"></div></div><div class="bottom"><div onclick="home()">
 <i class="fa-solid fa-house"></i>
 Home
 </div><div>
@@ -337,15 +333,16 @@ Promo
 </div><div onclick="openCart()">
 <i class="fa-solid fa-cart-shopping"></i>
 Cart
-</div><div>
+</div><div onclick="toggleAdmin()">
 <i class="fa-solid fa-user"></i>
-Akun
-</div>
-</div><script>
+Admin
+</div></div><script>
 
-/* SCRIPT TETAP */
+/* DATA */
 
-let productData=[
+let saved=localStorage.getItem("products");
+
+let productData=saved?JSON.parse(saved):[
 {name:"Sepatu Nike Sport",price:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
 {name:"Headphone Wireless",price:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"},
 {name:"Smartwatch",price:150000,img:"https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?w=400"},
@@ -359,6 +356,8 @@ let currentList=[...productData];
 function rupiah(x){
 return "Rp"+x.toLocaleString();
 }
+
+/* LOAD PRODUCTS */
 
 function loadProducts(list=productData){
 
@@ -392,13 +391,11 @@ html+=`
 <i class="fa-solid fa-heart"></i>
 </button>
 
-<button class="btn cartbtn"
-onclick="addCart(${i})">
+<button class="btn cartbtn" onclick="addCart(${i})">
 <i class="fa-solid fa-cart-shopping"></i>
 </button>
 
-<button class="btn buy"
-onclick="buyNow(${i})">
+<button class="btn buy" onclick="buyNow(${i})">
 Beli
 </button>
 
@@ -415,6 +412,8 @@ productList.innerHTML=html;
 }
 
 loadProducts();
+
+/* SEARCH */
 
 search.addEventListener("input",function(){
 
@@ -433,6 +432,8 @@ loadProducts(result);
 
 });
 
+/* DETAIL */
+
 function openDetail(i){
 
 selected=i;
@@ -448,6 +449,8 @@ dtitle.innerText=p.name;
 dprice.innerText=rupiah(p.price);
 
 }
+
+/* CART */
 
 function addCart(i){
 
@@ -551,6 +554,80 @@ function home(){
 productList.style.display="grid";
 detailPage.style.display="none";
 cartPage.style.display="none";
+adminPanel.style.display="none";
+
+}
+
+/* ADMIN */
+
+function toggleAdmin(){
+
+if(adminPanel.style.display=="none"){
+
+adminPanel.style.display="block";
+renderAdmin();
+
+}else{
+
+adminPanel.style.display="none";
+
+}
+
+}
+
+function addProduct(){
+
+let p={
+name:pname.value,
+price:Number(pprice.value),
+img:pimg.value
+};
+
+productData.push(p);
+
+localStorage.setItem("products",JSON.stringify(productData));
+
+loadProducts();
+renderAdmin();
+
+pname.value="";
+pprice.value="";
+pimg.value="";
+
+}
+
+function renderAdmin(){
+
+let html="";
+
+productData.forEach((p,i)=>{
+
+html+=`
+
+<div style="margin-bottom:6px">
+
+${p.name} - ${rupiah(p.price)}
+
+<button onclick="deleteProduct(${i})">hapus</button>
+
+</div>
+
+`;
+
+});
+
+adminList.innerHTML=html;
+
+}
+
+function deleteProduct(i){
+
+productData.splice(i,1);
+
+localStorage.setItem("products",JSON.stringify(productData));
+
+loadProducts();
+renderAdmin();
 
 }
 
