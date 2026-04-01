@@ -1,4 +1,7 @@
-<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width, initial-scale=1"><title>TembungShoping</title><link rel="stylesheet"
+<!DOCTYPE html><html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TembungShoping</title><link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><style>
 
 body{
@@ -15,7 +18,7 @@ padding-bottom:75px;
 position:fixed;
 top:0;
 width:100%;
-height:66px;
+height:70px;
 background:#ff5722;
 display:flex;
 align-items:center;
@@ -25,44 +28,51 @@ gap:12px;
 box-shadow:0 3px 10px rgba(0,0,0,0.15);
 }
 
-.search{
+/* SEARCH */
+
+.search-box{
 flex:1;
 height:42px;
-border:none;
+background:white;
 border-radius:25px;
-padding:0 18px;
-font-size:14px;
-outline:none;
 display:flex;
 align-items:center;
-line-height:42px;
-box-sizing:border-box;
+padding:0 12px;
+gap:8px;
 }
 
-.search::placeholder{
-color:#777;
+.search-box i{
+color:#888;
+font-size:14px;
+}
+
+.search-box input{
+border:none;
+outline:none;
+flex:1;
+font-size:14px;
+background:transparent;
 }
 
 /* ICON */
 
 .header-icons{
 display:flex;
-gap:16px;
+align-items:center;
+gap:18px;
 }
 
 .icon{
 color:white;
 font-size:20px;
-width:30px;
-text-align:center;
 position:relative;
 cursor:pointer;
 }
 
 .badge{
 position:absolute;
-top:-5px;
-right:-6px;
+top:-6px;
+right:-8px;
 background:red;
 color:white;
 font-size:10px;
@@ -273,10 +283,10 @@ margin-bottom:4px;
 color:#ff5722;
 }
 
-</style></head><body><div class="header"><input class="search" id="search"
-placeholder="Cari produk di TembungShoping">
-
-<div class="header-icons"><div class="icon">
+</style></head><body><div class="header"><div class="search-box">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input id="search" placeholder="Cari produk di TembungShoping">
+</div><div class="header-icons"><div class="icon">
 <i class="fa-solid fa-comment-dots"></i>
 </div><div class="icon">
 <i class="fa-solid fa-bell"></i>
@@ -315,13 +325,13 @@ Cart
 Akun
 </div></div><script>
 
-let productData=[
+/* SCRIPT TIDAK DIUBAH AGAR SEMUA FITUR TETAP NORMAL */
 
+let productData=[
 {name:"Sepatu Nike Sport",price:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
 {name:"Headphone Wireless",price:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"},
 {name:"Smartwatch",price:150000,img:"https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?w=400"},
 {name:"Tas Fashion Wanita",price:250000,img:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400"}
-
 ];
 
 let cart=[];
@@ -503,10 +513,8 @@ openCart();
 function checkout(){
 
 if(cart.length==0){
-
 alert("Keranjang kosong");
 return;
-
 }
 
 alert("Checkout berhasil!");
