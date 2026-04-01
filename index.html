@@ -39,18 +39,20 @@ height:36px;
 border:none;
 border-radius:20px;
 padding:0 12px;
+outline:none;
 }
 
 .icon{
 color:white;
 font-size:20px;
 position:relative;
+padding:6px;
 }
 
 .badge{
 position:absolute;
-top:-6px;
-right:-8px;
+top:-5px;
+right:-6px;
 background:red;
 color:white;
 font-size:10px;
@@ -196,7 +198,7 @@ color:white;
 
 .like{background:#e74c3c;}
 .chat{background:#3498db;}
-.cart{background:#27ae60;}
+.cartbtn{background:#27ae60;}
 
 /* DETAIL */
 
@@ -224,7 +226,7 @@ font-weight:bold;
 
 /* CART */
 
-.cart{
+.cartpage{
 display:none;
 padding:10px;
 }
@@ -266,8 +268,7 @@ margin-bottom:4px;
 
 <div class="header">
 
-<input class="search" id="search"
-placeholder="Cari produk di TembungShoping">
+<input class="search" placeholder="Cari produk di TembungShoping">
 
 <div class="icon" onclick="openCart()">
 <i class="fa-solid fa-cart-shopping"></i>
@@ -319,11 +320,11 @@ placeholder="Cari produk di TembungShoping">
 
 <!-- PRODUCTS -->
 
-<div class="products" id="products"></div>
+<div class="products" id="productList"></div>
 
 <!-- DETAIL -->
 
-<div class="detail" id="detail">
+<div class="detail" id="detailPage">
 
 <button onclick="home()">⬅ kembali</button>
 
@@ -342,11 +343,11 @@ Tambah Keranjang
 
 <!-- CART -->
 
-<div class="cart" id="cartpage">
+<div class="cartpage" id="cartPage">
 
 <h3>Keranjang</h3>
 
-<div id="cartitems"></div>
+<div id="cartItems"></div>
 
 </div>
 
@@ -378,9 +379,9 @@ Akun
 
 <script>
 
-/* DATA */
+/* DATA PRODUK */
 
-let products=[
+let productData=[
 
 {
 name:"Sepatu Nike Sport",
@@ -411,19 +412,19 @@ img:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400"
 let cart=[];
 let selected=0;
 
-/* RUPIAH */
+/* FORMAT RUPIAH */
 
 function rupiah(x){
 return "Rp"+x.toLocaleString();
 }
 
-/* LOAD */
+/* LOAD PRODUK */
 
 function loadProducts(){
 
 let html="";
 
-products.forEach((p,i)=>{
+productData.forEach((p,i)=>{
 
 html+=`
 
@@ -451,7 +452,7 @@ html+=`
 <i class="fa-solid fa-comment"></i>
 </button>
 
-<button class="btn cart"
+<button class="btn cartbtn"
 onclick="addCart(${i})">
 <i class="fa-solid fa-cart-shopping"></i>
 </button>
@@ -464,7 +465,7 @@ onclick="addCart(${i})">
 
 });
 
-document.getElementById("products").innerHTML=html;
+document.getElementById("productList").innerHTML=html;
 
 }
 
@@ -476,10 +477,11 @@ function openDetail(i){
 
 selected=i;
 
-products.style.display="none";
-detail.style.display="block";
+document.getElementById("productList").style.display="none";
+document.getElementById("detailPage").style.display="block";
+document.getElementById("cartPage").style.display="none";
 
-let p=products[i];
+let p=productData[i];
 
 dimg.src=p.img;
 dtitle.innerText=p.name;
@@ -491,9 +493,9 @@ dprice.innerText=rupiah(p.price);
 
 function addCart(i){
 
-cart.push(products[i]);
+cart.push(productData[i]);
 
-cartcount.innerText=cart.length;
+document.getElementById("cartcount").innerText=cart.length;
 
 alert("Produk masuk keranjang");
 
@@ -501,9 +503,9 @@ alert("Produk masuk keranjang");
 
 function openCart(){
 
-products.style.display="none";
-detail.style.display="none";
-cartpage.style.display="block";
+document.getElementById("productList").style.display="none";
+document.getElementById("detailPage").style.display="none";
+document.getElementById("cartPage").style.display="block";
 
 let html="";
 
@@ -520,7 +522,7 @@ ${c.name}<br>
 
 });
 
-cartitems.innerHTML=html;
+document.getElementById("cartItems").innerHTML=html;
 
 }
 
@@ -528,9 +530,9 @@ cartitems.innerHTML=html;
 
 function home(){
 
-products.style.display="grid";
-detail.style.display="none";
-cartpage.style.display="none";
+document.getElementById("productList").style.display="grid";
+document.getElementById("detailPage").style.display="none";
+document.getElementById("cartPage").style.display="none";
 
 }
 
