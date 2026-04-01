@@ -30,8 +30,8 @@ height:60px;
 background:linear-gradient(90deg,#ff6a00,#ff3d00);
 display:flex;
 align-items:center;
-gap:8px;
 padding:0 10px;
+gap:10px;
 z-index:999;
 }
 
@@ -40,23 +40,22 @@ flex:1;
 height:36px;
 border:none;
 border-radius:20px;
-padding:0 12px;
+padding:0 14px;
 outline:none;
 }
 
-/* ICON */
-
 .icon{
+width:34px;
+text-align:center;
 color:white;
 font-size:20px;
 position:relative;
-padding:6px;
 cursor:pointer;
 }
 
 .badge{
 position:absolute;
-top:-5px;
+top:-6px;
 right:-6px;
 background:red;
 color:white;
@@ -260,8 +259,6 @@ margin-bottom:4px;
 
 <body>
 
-<!-- HEADER -->
-
 <div class="header">
 
 <input class="search" id="search"
@@ -274,13 +271,9 @@ placeholder="Cari produk di TembungShoping">
 
 </div>
 
-<!-- BANNER -->
-
 <div class="banner">
 <img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=900">
 </div>
-
-<!-- CATEGORY -->
 
 <div class="category">
 
@@ -293,11 +286,7 @@ placeholder="Cari produk di TembungShoping">
 
 </div>
 
-<!-- PRODUCTS -->
-
 <div class="products" id="productList"></div>
-
-<!-- DETAIL -->
 
 <div class="detail" id="detailPage">
 
@@ -316,8 +305,6 @@ Tambah Keranjang
 
 </div>
 
-<!-- CART -->
-
 <div class="cartpage" id="cartPage">
 
 <h3>Keranjang</h3>
@@ -331,8 +318,6 @@ Checkout
 </button>
 
 </div>
-
-<!-- BOTTOM NAV -->
 
 <div class="bottom">
 
@@ -360,8 +345,6 @@ Akun
 
 <script>
 
-/* DATA PRODUK */
-
 let productData=[
 
 {name:"Sepatu Nike Sport",price:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
@@ -374,13 +357,9 @@ let productData=[
 let cart=[];
 let selected=0;
 
-/* FORMAT RUPIAH */
-
 function rupiah(x){
 return "Rp"+x.toLocaleString();
 }
-
-/* LOAD PRODUK */
 
 function loadProducts(list=productData){
 
@@ -428,8 +407,6 @@ productList.innerHTML=html;
 
 loadProducts();
 
-/* SEARCH */
-
 search.addEventListener("input",function(){
 
 let key=this.value.toLowerCase();
@@ -441,8 +418,6 @@ p.name.toLowerCase().includes(key)
 loadProducts(result);
 
 });
-
-/* DETAIL */
 
 function openDetail(i){
 
@@ -460,8 +435,6 @@ dprice.innerText=rupiah(p.price);
 
 }
 
-/* CART */
-
 function addCart(i){
 
 cart.push(productData[i]);
@@ -471,8 +444,6 @@ cartcount.innerText=cart.length;
 alert("Produk masuk keranjang");
 
 }
-
-/* OPEN CART */
 
 function openCart(){
 
@@ -517,8 +488,6 @@ totalCart.innerText=rupiah(total);
 
 }
 
-/* HAPUS CART */
-
 function removeCart(i){
 
 cart.splice(i,1);
@@ -528,8 +497,6 @@ cartcount.innerText=cart.length;
 renderCart();
 
 }
-
-/* CHECKOUT */
 
 function checkout(){
 
@@ -551,8 +518,6 @@ renderCart();
 home();
 
 }
-
-/* HOME */
 
 function home(){
 
