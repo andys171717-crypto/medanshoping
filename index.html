@@ -126,6 +126,7 @@ min-width:120px;
 background:#fff;
 border-radius:10px;
 box-shadow:0 3px 8px rgba(0,0,0,0.1);
+cursor:pointer;
 }
 
 .flash-item img{
@@ -157,6 +158,7 @@ border-radius:14px;
 overflow:hidden;
 box-shadow:0 4px 10px rgba(0,0,0,0.08);
 position:relative;
+cursor:pointer;
 }
 
 .product img{
@@ -225,6 +227,31 @@ font-size:14px;
 .chat{background:#3498db;}
 .cart{background:#27ae60;}
 
+/* DETAIL PRODUCT */
+
+.detail{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+height:80%;
+background:white;
+border-radius:20px 20px 0 0;
+box-shadow:0 -4px 20px rgba(0,0,0,0.3);
+display:none;
+overflow:auto;
+}
+
+.detail img{
+width:100%;
+height:220px;
+object-fit:cover;
+}
+
+.detail-info{
+padding:15px;
+}
+
 /* BOTTOM NAV */
 
 .bottom{
@@ -289,36 +316,29 @@ margin-bottom:3px;
 
 </div>
 
-<!-- FLASH SALE -->
-
-<div class="flash">
-
-<div class="flash-title">🔥 Flash Sale</div>
-
-<div class="flash-products">
-
-<div class="flash-item">
-<img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300">
-<div class="flash-price">Rp80.000</div>
-</div>
-
-<div class="flash-item">
-<img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300">
-<div class="flash-price">Rp150.000</div>
-</div>
-
-<div class="flash-item">
-<img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300">
-<div class="flash-price">Rp120.000</div>
-</div>
-
-</div>
-
-</div>
-
 <!-- PRODUCTS -->
 
 <div class="products" id="products"></div>
+
+<!-- DETAIL -->
+
+<div class="detail" id="detail">
+
+<img id="detailimg">
+
+<div class="detail-info">
+
+<h3 id="detailname"></h3>
+
+<div id="detailprice"></div>
+
+<p>Produk berkualitas dengan harga terbaik di TembungShoping.</p>
+
+<button class="btn cart" onclick="addCart()">Tambah Keranjang</button>
+
+</div>
+
+</div>
 
 <!-- BOTTOM -->
 
@@ -337,10 +357,10 @@ let cart=0;
 
 const produk=[
 
-{nama:"Sepatu Nike Sport",harga:100000,disc:"50%",img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
-{nama:"Headphone Wireless",harga:200000,disc:"30%",img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"},
-{nama:"Smartwatch",harga:150000,disc:"20%",img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400"},
-{nama:"Tas Fashion Wanita",harga:180000,disc:"40%",img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400"}
+{nama:"Sepatu Nike Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
+{nama:"Headphone Wireless",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"},
+{nama:"Smartwatch",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400"},
+{nama:"Tas Fashion Wanita",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400"}
 
 ];
 
@@ -356,9 +376,7 @@ produk.forEach(p=>{
 
 html+=`
 
-<div class="product">
-
-<div class="discount">${p.disc}</div>
+<div class="product" onclick="detailProduk('${p.nama}','${p.harga}','${p.img}')">
 
 <img src="${p.img}">
 
@@ -368,23 +386,9 @@ html+=`
 
 <div class="rating">⭐ ⭐ ⭐ ⭐ ☆</div>
 
-<div class="sold">Terjual 120+</div>
+<div class="sold">Terjual 100+</div>
 
 <div class="price">Rp${rupiah(p.harga)}</div>
-
-</div>
-
-<div class="actions">
-
-<button class="btn like"><i class="fa-solid fa-heart"></i></button>
-
-<button class="btn chat" onclick="chatAdmin()">
-<i class="fa-solid fa-comment"></i>
-</button>
-
-<button class="btn cart" onclick="addCart()">
-<i class="fa-solid fa-cart-shopping"></i>
-</button>
 
 </div>
 
@@ -400,22 +404,36 @@ document.getElementById("products").innerHTML=html;
 
 tampilProduk();
 
-/* CART */
+function detailProduk(nama,harga,img){
 
-function addCart(){
-cart++;
-document.getElementById("cartcount").innerText=cart;
+document.getElementById("detail").style.display="block";
+
+document.getElementById("detailimg").src=img;
+
+document.getElementById("detailname").innerText=nama;
+
+document.getElementById("detailprice").innerText="Rp"+rupiah(harga);
+
 }
 
-/* CHAT */
+function addCart(){
+
+cart++;
+
+document.getElementById("cartcount").innerText=cart;
+
+}
 
 function chatAdmin(){
+
 window.open("https://wa.me/");
+
 }
 
 /* SLIDER */
 
 let index=0;
+
 const slides=document.querySelectorAll(".slide");
 
 setInterval(()=>{
