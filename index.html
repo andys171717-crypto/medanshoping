@@ -44,12 +44,18 @@ padding:0 14px;
 font-size:13px;
 }
 
+.header-icons{
+display:flex;
+gap:10px;
+}
+
 .icon{
 color:white;
 font-size:18px;
 width:25px;
 text-align:center;
 position:relative;
+cursor:pointer;
 }
 
 .badge{
@@ -134,8 +140,6 @@ object-fit:cover;
 cursor:pointer;
 }
 
-/* DISCOUNT BADGE */
-
 .discount{
 position:absolute;
 top:8px;
@@ -146,8 +150,6 @@ font-size:11px;
 padding:3px 6px;
 border-radius:4px;
 }
-
-/* INFO */
 
 .info{
 padding:8px;
@@ -170,8 +172,6 @@ font-weight:bold;
 font-size:11px;
 color:#f1c40f;
 }
-
-/* BUTTON */
 
 .actions{
 display:flex;
@@ -265,6 +265,12 @@ margin-bottom:4px;
 <input class="search" id="search"
 placeholder="Cari produk di TembungShoping">
 
+<div class="header-icons">
+
+<div class="icon">
+<i class="fa-solid fa-comment-dots"></i>
+</div>
+
 <div class="icon">
 <i class="fa-solid fa-bell"></i>
 </div>
@@ -276,9 +282,10 @@ placeholder="Cari produk di TembungShoping">
 
 </div>
 
+</div>
+
 <div class="banner">
-<img id="bannerImg"
-src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=900">
+<img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=900">
 </div>
 
 <div class="category">
@@ -351,8 +358,6 @@ Akun
 
 <script>
 
-/* PRODUK */
-
 let productData=[
 
 {name:"Sepatu Nike Sport",price:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
@@ -364,12 +369,15 @@ let productData=[
 
 let cart=[];
 let selected=0;
+let currentList=[...productData];
 
 function rupiah(x){
 return "Rp"+x.toLocaleString();
 }
 
 function loadProducts(list=productData){
+
+currentList=list;
 
 let html="";
 
@@ -423,11 +431,14 @@ productList.innerHTML=html;
 
 loadProducts();
 
-/* SEARCH */
-
 search.addEventListener("input",function(){
 
 let key=this.value.toLowerCase();
+
+if(key===""){
+loadProducts(productData);
+return;
+}
 
 let result=productData.filter(p=>
 p.name.toLowerCase().includes(key)
@@ -437,17 +448,15 @@ loadProducts(result);
 
 });
 
-/* DETAIL */
-
 function openDetail(i){
 
 selected=i;
 
+let p=currentList[i];
+
 productList.style.display="none";
 detailPage.style.display="block";
 cartPage.style.display="none";
-
-let p=productData[i];
 
 dimg.src=p.img;
 dtitle.innerText=p.name;
@@ -455,11 +464,11 @@ dprice.innerText=rupiah(p.price);
 
 }
 
-/* CART */
-
 function addCart(i){
 
-cart.push(productData[i]);
+let p=currentList[i];
+
+cart.push(p);
 
 cartcount.innerText=cart.length;
 
@@ -481,6 +490,14 @@ function renderCart(){
 
 let html="";
 let total=0;
+
+if(cart.length===0){
+
+cartItems.innerHTML="Keranjang kosong";
+totalCart.innerText="Rp0";
+return;
+
+}
 
 cart.forEach((c,i)=>{
 
@@ -521,14 +538,9 @@ renderCart();
 
 }
 
-/* BUY */
-
 function buyNow(i){
 
-alert("Menuju checkout produk");
-
 addCart(i);
-
 openCart();
 
 }
