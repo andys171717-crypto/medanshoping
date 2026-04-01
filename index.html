@@ -14,9 +14,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 body{
 margin:0;
 font-family:system-ui;
-background:#f3f4f6;
-padding-top:55px;
-padding-bottom:60px;
+background:#f2f3f5;
+padding-top:60px;
+padding-bottom:70px;
 }
 
 /* HEADER */
@@ -25,84 +25,118 @@ padding-bottom:60px;
 position:fixed;
 top:0;
 width:100%;
-height:55px;
+height:60px;
 background:#2c3e50;
 display:flex;
 align-items:center;
-padding:8px;
-gap:8px;
+padding:10px;
+gap:10px;
 box-sizing:border-box;
 z-index:1000;
 }
 
 .search{
 flex:1;
-height:34px;
+height:38px;
 border:none;
 border-radius:20px;
-padding:0 12px;
-font-size:13px;
+padding:0 15px;
+font-size:14px;
 }
 
 .icon{
 color:white;
-font-size:20px;
+font-size:22px;
 position:relative;
 }
 
 .badge{
 position:absolute;
-top:-5px;
+top:-6px;
 right:-6px;
 background:red;
 color:white;
-font-size:10px;
-padding:2px 5px;
+font-size:11px;
+padding:2px 6px;
 border-radius:50%;
+}
+
+/* BANNER */
+
+.banner{
+padding:10px;
+}
+
+.banner img{
+width:100%;
+border-radius:12px;
+}
+
+/* MENU */
+
+.menu{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+background:white;
+padding:12px 0;
+text-align:center;
+font-size:12px;
+}
+
+.circle{
+width:45px;
+height:45px;
+background:#e8ecf1;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+margin:auto;
+margin-bottom:5px;
+font-size:20px;
 }
 
 /* PRODUCTS */
 
 .products{
-padding:6px;
+padding:10px;
 display:grid;
 grid-template-columns:repeat(2,1fr);
-gap:6px;
+gap:12px;
 }
 
 .product{
 background:white;
-border-radius:14px;
+border-radius:16px;
 overflow:hidden;
-box-shadow:0 3px 8px rgba(0,0,0,0.08);
+box-shadow:0 3px 10px rgba(0,0,0,0.08);
 }
 
 .product img{
 width:100%;
-height:115px;
+height:170px;
 object-fit:cover;
 display:block;
 }
 
 .info{
-padding:6px;
+padding:10px;
 }
 
 .title{
-font-size:13px;
+font-size:15px;
 font-weight:600;
-height:30px;
+height:36px;
 overflow:hidden;
 }
 
 .free{
-font-size:10px;
+font-size:12px;
 color:#27ae60;
-margin-top:2px;
 }
 
 .price{
-font-size:14px;
+font-size:18px;
 font-weight:bold;
 color:#e74c3c;
 }
@@ -111,17 +145,17 @@ color:#e74c3c;
 
 .actions{
 display:flex;
-gap:5px;
-padding:6px;
+gap:8px;
+padding:10px;
 }
 
 .btn{
 flex:1;
 border:none;
-padding:6px;
-border-radius:8px;
+padding:10px;
+border-radius:10px;
 color:white;
-font-size:12px;
+font-size:14px;
 }
 
 .chat{
@@ -138,7 +172,7 @@ background:#27ae60;
 position:fixed;
 bottom:0;
 width:100%;
-height:55px;
+height:60px;
 background:white;
 display:flex;
 justify-content:space-around;
@@ -155,7 +189,7 @@ font-size:12px;
 
 <div class="header">
 
-<input id="search" class="search" placeholder="Cari produk">
+<input id="search" class="search" placeholder="Cari produk di TembungShoping">
 
 <div class="icon" onclick="addCart()">
 <i class="fa-solid fa-cart-shopping"></i>
@@ -165,6 +199,20 @@ font-size:12px;
 <div class="icon" onclick="chatAdmin()">
 <i class="fa-solid fa-comment"></i>
 </div>
+
+</div>
+
+<div class="banner">
+<img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=900&q=70">
+</div>
+
+<div class="menu">
+
+<div><div class="circle">📱</div>Pulsa</div>
+<div><div class="circle">🔥</div>Promo</div>
+<div><div class="circle">🎮</div>Game</div>
+<div><div class="circle">📺</div>Live</div>
+<div><div class="circle">📦</div>Lainnya</div>
 
 </div>
 
