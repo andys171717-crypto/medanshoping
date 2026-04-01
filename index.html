@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html>
-<head>
-
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TembungShoping</title>
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<style>
+<!DOCTYPE html><html>
+<head><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TembungShoping</title><link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><style>
 
 body{
 margin:0;
@@ -42,11 +35,14 @@ padding:0 12px;
 outline:none;
 }
 
+/* ICON */
+
 .icon{
 color:white;
 font-size:20px;
 position:relative;
 padding:6px;
+cursor:pointer;
 }
 
 .badge{
@@ -123,6 +119,7 @@ min-width:120px;
 background:white;
 border-radius:10px;
 box-shadow:0 2px 6px rgba(0,0,0,0.1);
+cursor:pointer;
 }
 
 .flash-item img{
@@ -152,12 +149,18 @@ background:white;
 border-radius:12px;
 overflow:hidden;
 box-shadow:0 3px 8px rgba(0,0,0,0.08);
+transition:0.2s;
+}
+
+.product:active{
+transform:scale(0.96);
 }
 
 .product img{
 width:100%;
 height:160px;
 object-fit:cover;
+cursor:pointer;
 }
 
 .info{
@@ -194,6 +197,7 @@ border:none;
 padding:8px;
 border-radius:8px;
 color:white;
+cursor:pointer;
 }
 
 .like{background:#e74c3c;}
@@ -236,6 +240,17 @@ background:white;
 padding:10px;
 border-radius:10px;
 margin-bottom:10px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.remove{
+background:red;
+color:white;
+border:none;
+padding:5px 8px;
+border-radius:6px;
 }
 
 /* BOTTOM NAV */
@@ -259,153 +274,56 @@ display:block;
 margin-bottom:4px;
 }
 
-</style>
-</head>
-
-<body>
-
-<!-- HEADER -->
-
-<div class="header">
-
-<input class="search" placeholder="Cari produk di TembungShoping">
+</style></head><body><div class="header"><input class="search" id="search"
+placeholder="Cari produk di TembungShoping">
 
 <div class="icon" onclick="openCart()">
 <i class="fa-solid fa-cart-shopping"></i>
 <span class="badge" id="cartcount">0</span>
-</div>
-
-</div>
-
-<!-- BANNER -->
-
-<div class="banner">
+</div></div><div class="banner">
 <img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=900">
-</div>
-
-<!-- CATEGORY -->
-
-<div class="category">
-
-<div class="cat"><div class="circle">📱</div>Pulsa</div>
+</div><div class="category"><div class="cat"><div class="circle">📱</div>Pulsa</div>
 <div class="cat"><div class="circle">🔥</div>Promo</div>
 <div class="cat"><div class="circle">🎮</div>Game</div>
 <div class="cat"><div class="circle">👕</div>Fashion</div>
 <div class="cat"><div class="circle">💄</div>Beauty</div>
-<div class="cat"><div class="circle">📦</div>Lainnya</div>
+<div class="cat"><div class="circle">📦</div>Lainnya</div></div><div class="flash"><b>🔥 Flash Sale</b>
 
-</div>
-
-<!-- FLASH SALE -->
-
-<div class="flash">
-
-<b>🔥 Flash Sale</b>
-
-<div class="flash-products">
-
-<div class="flash-item">
+<div class="flash-products"><div class="flash-item" onclick="openDetail(0)">
 <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400">
 <div class="flash-price">Rp80.000</div>
-</div>
-
-<div class="flash-item">
+</div><div class="flash-item" onclick="openDetail(1)">
 <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400">
 <div class="flash-price">Rp150.000</div>
-</div>
+</div></div></div><div class="products" id="productList"></div><div class="detail" id="detailPage"><button onclick="home()">⬅ kembali</button>
 
-</div>
-
-</div>
-
-<!-- PRODUCTS -->
-
-<div class="products" id="productList"></div>
-
-<!-- DETAIL -->
-
-<div class="detail" id="detailPage">
-
-<button onclick="home()">⬅ kembali</button>
-
-<img id="dimg">
-
-<div class="detail-title" id="dtitle"></div>
-
-<div class="detail-price" id="dprice"></div>
-
-<button onclick="addCart(selected)"
+<img id="dimg"><div class="detail-title" id="dtitle"></div><div class="detail-price" id="dprice"></div><button onclick="addCart(selected)"
 style="width:100%;padding:12px;background:#27ae60;color:white;border:none;border-radius:10px">
 Tambah Keranjang
 </button>
 
-</div>
-
-<!-- CART -->
-
-<div class="cartpage" id="cartPage">
-
-<h3>Keranjang</h3>
-
-<div id="cartItems"></div>
-
-</div>
-
-<!-- BOTTOM -->
-
-<div class="bottom">
-
-<div onclick="home()">
+</div><div class="cartpage" id="cartPage"><h3>Keranjang</h3><div id="cartItems"></div></div><div class="bottom"><div onclick="home()">
 <i class="fa-solid fa-house"></i>
 Home
-</div>
-
-<div>
+</div><div>
 <i class="fa-solid fa-fire"></i>
 Promo
-</div>
-
-<div onclick="openCart()">
+</div><div onclick="openCart()">
 <i class="fa-solid fa-cart-shopping"></i>
 Cart
-</div>
-
-<div>
+</div><div>
 <i class="fa-solid fa-user"></i>
 Akun
-</div>
-
-</div>
-
-<script>
+</div></div><script>
 
 /* DATA PRODUK */
 
 let productData=[
 
-{
-name:"Sepatu Nike Sport",
-price:100000,
-img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"
-},
-
-{
-name:"Headphone Wireless",
-price:200000,
-img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"
-},
-
-{
-name:"Smartwatch",
-price:150000,
-img:"https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?w=400"
-},
-
-{
-name:"Tas Fashion Wanita",
-price:250000,
-img:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400"
-}
+{name:"Sepatu Nike Sport",price:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
+{name:"Headphone Wireless",price:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"},
+{name:"Smartwatch",price:150000,img:"https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?w=400"},
+{name:"Tas Fashion Wanita",price:250000,img:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400"}
 
 ];
 
@@ -420,11 +338,11 @@ return "Rp"+x.toLocaleString();
 
 /* LOAD PRODUK */
 
-function loadProducts(){
+function loadProducts(list=productData){
 
 let html="";
 
-productData.forEach((p,i)=>{
+list.forEach((p,i)=>{
 
 html+=`
 
@@ -444,16 +362,11 @@ html+=`
 
 <div class="actions">
 
-<button class="btn like">
-<i class="fa-solid fa-heart"></i>
-</button>
+<button class="btn like"><i class="fa-solid fa-heart"></i></button>
 
-<button class="btn chat">
-<i class="fa-solid fa-comment"></i>
-</button>
+<button class="btn chat"><i class="fa-solid fa-comment"></i></button>
 
-<button class="btn cartbtn"
-onclick="addCart(${i})">
+<button class="btn cartbtn" onclick="addCart(${i})">
 <i class="fa-solid fa-cart-shopping"></i>
 </button>
 
@@ -471,15 +384,29 @@ document.getElementById("productList").innerHTML=html;
 
 loadProducts();
 
+/* SEARCH */
+
+document.getElementById("search").addEventListener("input",function(){
+
+let key=this.value.toLowerCase();
+
+let result=productData.filter(p=>
+p.name.toLowerCase().includes(key)
+);
+
+loadProducts(result);
+
+});
+
 /* DETAIL */
 
 function openDetail(i){
 
 selected=i;
 
-document.getElementById("productList").style.display="none";
-document.getElementById("detailPage").style.display="block";
-document.getElementById("cartPage").style.display="none";
+productList.style.display="none";
+detailPage.style.display="block";
+cartPage.style.display="none";
 
 let p=productData[i];
 
@@ -495,34 +422,61 @@ function addCart(i){
 
 cart.push(productData[i]);
 
-document.getElementById("cartcount").innerText=cart.length;
+cartcount.innerText=cart.length;
 
 alert("Produk masuk keranjang");
 
 }
 
+/* OPEN CART */
+
 function openCart(){
 
-document.getElementById("productList").style.display="none";
-document.getElementById("detailPage").style.display="none";
-document.getElementById("cartPage").style.display="block";
+productList.style.display="none";
+detailPage.style.display="none";
+cartPage.style.display="block";
+
+renderCart();
+
+}
+
+function renderCart(){
 
 let html="";
 
-cart.forEach(c=>{
+cart.forEach((c,i)=>{
 
 html+=`
 
 <div class="cart-item">
+
+<div>
 ${c.name}<br>
 <b>${rupiah(c.price)}</b>
+</div>
+
+<button class="remove"
+onclick="removeCart(${i})">Hapus</button>
+
 </div>
 
 `;
 
 });
 
-document.getElementById("cartItems").innerHTML=html;
+cartItems.innerHTML=html;
+
+}
+
+/* HAPUS CART */
+
+function removeCart(i){
+
+cart.splice(i,1);
+
+cartcount.innerText=cart.length;
+
+renderCart();
 
 }
 
@@ -530,13 +484,11 @@ document.getElementById("cartItems").innerHTML=html;
 
 function home(){
 
-document.getElementById("productList").style.display="grid";
-document.getElementById("detailPage").style.display="none";
-document.getElementById("cartPage").style.display="none";
+productList.style.display="grid";
+detailPage.style.display="none";
+cartPage.style.display="none";
 
 }
 
-</script>
-
-</body>
+</script></body>
 </html>
