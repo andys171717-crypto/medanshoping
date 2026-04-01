@@ -2,15 +2,19 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>TembungShoping</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 <style>
 
 body{
 margin:0;
 font-family:Arial;
-background:#f2f2f2;
-padding-top:60px;
+background:#f4f5f7;
+padding-top:65px;
 padding-bottom:70px;
 }
 
@@ -19,20 +23,19 @@ padding-bottom:70px;
 .header{
 position:fixed;
 top:0;
-left:0;
 width:100%;
 background:#2c3e50;
 display:flex;
 align-items:center;
-padding:8px;
+gap:10px;
+padding:10px;
 box-sizing:border-box;
 z-index:1000;
-gap:8px;
 }
 
 .search{
 flex:1;
-height:36px;
+height:38px;
 border:none;
 border-radius:20px;
 padding:0 15px;
@@ -40,17 +43,16 @@ font-size:13px;
 }
 
 .icon{
-font-size:22px;
 color:white;
-cursor:pointer;
+font-size:22px;
 position:relative;
-padding:5px;
+cursor:pointer;
 }
 
 .cart-count{
 position:absolute;
-top:-4px;
-right:-6px;
+top:-6px;
+right:-8px;
 background:red;
 color:white;
 font-size:10px;
@@ -64,7 +66,7 @@ border-radius:50%;
 display:grid;
 grid-template-columns:repeat(5,1fr);
 background:white;
-padding:12px 0;
+padding:14px 0;
 text-align:center;
 font-size:12px;
 }
@@ -84,16 +86,21 @@ margin-bottom:6px;
 padding:12px;
 display:grid;
 grid-template-columns:repeat(2,1fr);
-gap:12px;
+gap:14px;
 }
 
 .product{
 background:white;
-border-radius:14px;
+border-radius:16px;
 overflow:hidden;
-box-shadow:0 2px 8px rgba(0,0,0,0.08);
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
 display:flex;
 flex-direction:column;
+transition:0.2s;
+}
+
+.product:hover{
+transform:translateY(-3px);
 }
 
 .product img{
@@ -104,12 +111,13 @@ object-fit:cover;
 
 .info{
 padding:10px;
+flex:1;
 display:flex;
 flex-direction:column;
-flex:1;
 }
 
 .title{
+font-weight:bold;
 font-size:15px;
 height:36px;
 overflow:hidden;
@@ -127,15 +135,15 @@ color:#777;
 
 .free{
 font-size:11px;
-color:#27ae60;
+color:#2ecc71;
 font-weight:bold;
 }
 
 .price{
 color:#e74c3c;
-font-size:17px;
+font-size:18px;
 font-weight:bold;
-margin-top:4px;
+margin-top:5px;
 }
 
 /* BUTTON */
@@ -152,9 +160,14 @@ flex:1;
 background:#3498db;
 color:white;
 border:none;
-border-radius:8px;
-padding:7px;
-font-size:17px;
+border-radius:10px;
+padding:9px;
+font-size:13px;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:6px;
+font-weight:bold;
 }
 
 .cart-btn{
@@ -162,9 +175,14 @@ flex:1;
 background:#27ae60;
 color:white;
 border:none;
-border-radius:8px;
-padding:7px;
-font-size:17px;
+border-radius:10px;
+padding:9px;
+font-size:13px;
+display:flex;
+align-items:center;
+justify-content:center;
+gap:6px;
+font-weight:bold;
 }
 
 /* QTY */
@@ -229,34 +247,42 @@ font-size:20px;
 
 <input class="search" placeholder="Cari produk di TembungShoping">
 
-<div class="icon" onclick="openCart()">🛒
+<div class="icon" onclick="openCart()">
+<i class="fa-solid fa-cart-shopping"></i>
 <span id="cartcount" class="cart-count">0</span>
 </div>
 
-<div class="icon" onclick="chatAdmin()">💬</div>
+<div class="icon" onclick="chatAdmin()">
+<i class="fa-solid fa-comment-dots"></i>
+</div>
 
 </div>
 
 <div class="menu">
+
 <div><div class="circle"></div>Pulsa</div>
 <div><div class="circle"></div>Promo</div>
 <div><div class="circle"></div>Game</div>
 <div><div class="circle"></div>Live</div>
 <div><div class="circle"></div>Lainnya</div>
+
 </div>
 
 <div class="products" id="products"></div>
 
 <div class="bottom">
+
 <div><span class="icon-bottom">🏠</span>Beranda</div>
 <div><span class="icon-bottom">📺</span>Live</div>
 <div><span class="icon-bottom">🔔</span>Notifikasi</div>
 <div><span class="icon-bottom">👤</span>Akun</div>
+
 </div>
 
 <script>
 
 const produk=[
+
 {nama:"Sepatu Nike Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
 {nama:"Headphone Wireless",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"},
 {nama:"Jam Tangan Smartwatch",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400"},
@@ -265,6 +291,7 @@ const produk=[
 {nama:"Parfum Coco Chanel",harga:120000,img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400"},
 {nama:"Smartphone Premium",harga:80000,img:"https://images.unsplash.com/photo-1580910051074-3eb694886505?w=400"},
 {nama:"PC Gaming RGB",harga:70000,img:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400"}
+
 ];
 
 let cart=[];
@@ -289,7 +316,7 @@ html+=`
 
 <div class="info">
 
-<div class="title"><b>${p.nama}</b></div>
+<div class="title">${p.nama}</div>
 
 <div class="rating">⭐⭐⭐⭐☆</div>
 
@@ -302,14 +329,25 @@ html+=`
 </div>
 
 <div class="actions">
-<button class="chat-btn" onclick="chatAdmin()">💬</button>
-<button class="cart-btn" onclick="addCart(${i})">🛒</button>
+
+<button class="chat-btn" onclick="chatAdmin()">
+<i class="fa-solid fa-comment"></i> Chat
+</button>
+
+<button class="cart-btn" onclick="addCart(${i})">
+<i class="fa-solid fa-cart-shopping"></i> Keranjang
+</button>
+
 </div>
 
 <div class="qty">
+
 <button onclick="minus(${i})">-</button>
+
 <input id="qty${i}" value="0">
+
 <button onclick="plus(${i})">+</button>
+
 </div>
 
 </div>
