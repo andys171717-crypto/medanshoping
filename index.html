@@ -3,7 +3,6 @@
 <head>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <title>TembungShoping</title>
 
 <link rel="stylesheet"
@@ -16,7 +15,7 @@ margin:0;
 font-family:system-ui;
 background:#f2f3f5;
 padding-top:60px;
-padding-bottom:70px;
+padding-bottom:80px;
 }
 
 /* HEADER */
@@ -31,7 +30,6 @@ display:flex;
 align-items:center;
 padding:10px;
 gap:10px;
-box-sizing:border-box;
 z-index:1000;
 }
 
@@ -61,15 +59,38 @@ padding:2px 6px;
 border-radius:50%;
 }
 
-/* BANNER */
+/* SLIDER */
 
-.banner{
-padding:10px;
+.slider{
+width:100%;
+height:150px;
+overflow:hidden;
+position:relative;
 }
 
-.banner img{
+.slides{
+display:flex;
+width:300%;
+animation:slide 10s infinite;
+}
+
+.slides img{
 width:100%;
-border-radius:12px;
+height:150px;
+object-fit:cover;
+}
+
+@keyframes slide{
+
+0%{transform:translateX(0)}
+33%{transform:translateX(0)}
+
+40%{transform:translateX(-100%)}
+66%{transform:translateX(-100%)}
+
+73%{transform:translateX(-200%)}
+100%{transform:translateX(-200%)}
+
 }
 
 /* MENU */
@@ -109,14 +130,18 @@ gap:12px;
 background:white;
 border-radius:16px;
 overflow:hidden;
-box-shadow:0 3px 10px rgba(0,0,0,0.08);
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+transition:0.2s;
+}
+
+.product:hover{
+transform:scale(1.02);
 }
 
 .product img{
 width:100%;
 height:170px;
 object-fit:cover;
-display:block;
 }
 
 .info{
@@ -158,13 +183,8 @@ color:white;
 font-size:14px;
 }
 
-.chat{
-background:#3498db;
-}
-
-.cart{
-background:#27ae60;
-}
+.chat{background:#3498db;}
+.cart{background:#27ae60;}
 
 /* BOTTOM NAV */
 
@@ -172,13 +192,23 @@ background:#27ae60;
 position:fixed;
 bottom:0;
 width:100%;
-height:60px;
+height:75px;
 background:white;
 display:flex;
 justify-content:space-around;
 align-items:center;
-box-shadow:0 -2px 10px rgba(0,0,0,0.1);
-font-size:12px;
+box-shadow:0 -3px 15px rgba(0,0,0,0.1);
+font-size:13px;
+}
+
+.bottom div{
+text-align:center;
+}
+
+.bottom i{
+font-size:22px;
+display:block;
+margin-bottom:4px;
 }
 
 </style>
@@ -202,9 +232,21 @@ font-size:12px;
 
 </div>
 
-<div class="banner">
-<img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=900&q=70">
+<!-- SLIDER -->
+
+<div class="slider">
+
+<div class="slides">
+
+<img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=900">
+<img src="https://images.unsplash.com/photo-1607083206968-13611e3d76db?w=900">
+<img src="https://images.unsplash.com/photo-1607083206325-caf1edba7a0f?w=900">
+
 </div>
+
+</div>
+
+<!-- MENU -->
 
 <div class="menu">
 
@@ -216,14 +258,18 @@ font-size:12px;
 
 </div>
 
+<!-- PRODUCTS -->
+
 <div id="products" class="products"></div>
+
+<!-- BOTTOM NAV -->
 
 <div class="bottom">
 
-<div>🏠<br>Home</div>
-<div>🔥<br>Promo</div>
-<div>🔔<br>Notif</div>
-<div>👤<br>Akun</div>
+<div><i class="fa-solid fa-house"></i>Home</div>
+<div><i class="fa-solid fa-fire"></i>Promo</div>
+<div><i class="fa-solid fa-bell"></i>Notif</div>
+<div><i class="fa-solid fa-user"></i>Akun</div>
 
 </div>
 
@@ -231,21 +277,17 @@ font-size:12px;
 
 const produk=[
 
-{nama:"Sepatu Nike Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=60"},
+{nama:"Sepatu Nike Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
 
-{nama:"Headphone Wireless",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&q=60"},
+{nama:"Headphone Wireless",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"},
 
-{nama:"Jam Tangan Smartwatch",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=60"},
+{nama:"Jam Tangan Smartwatch",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400"},
 
-{nama:"Tas Fashion Wanita",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400&q=60"},
+{nama:"Tas Fashion Wanita",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400"},
 
-{nama:"Kacamata Fashion",harga:90000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400&q=60"},
+{nama:"Kacamata Fashion",harga:90000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400"},
 
-{nama:"Parfum Premium",harga:120000,img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400&q=60"},
-
-{nama:"Smartphone Android",harga:80000,img:"https://images.unsplash.com/photo-1580910051074-3eb694886505?w=400&q=60"},
-
-{nama:"PC Gaming RGB",harga:70000,img:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400&q=60"}
+{nama:"Parfum Premium",harga:120000,img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400"}
 
 ];
 
@@ -255,11 +297,11 @@ function rupiah(x){
 return x.toLocaleString("id-ID");
 }
 
-function render(list){
+function render(){
 
 let html="";
 
-list.forEach(p=>{
+produk.forEach(p=>{
 
 html+=`
 
@@ -270,9 +312,7 @@ html+=`
 <div class="info">
 
 <div class="title">${p.nama}</div>
-
 <div class="free">Gratis Ongkir</div>
-
 <div class="price">Rp${rupiah(p.harga)}</div>
 
 </div>
@@ -299,19 +339,7 @@ document.getElementById("products").innerHTML=html;
 
 }
 
-render(produk);
-
-/* SEARCH */
-
-document.getElementById("search").oninput=function(){
-
-let v=this.value.toLowerCase();
-
-let hasil=produk.filter(p=>p.nama.toLowerCase().includes(v));
-
-render(hasil);
-
-}
+render();
 
 function addCart(){
 
@@ -323,7 +351,7 @@ document.getElementById("cartcount").innerText=cart;
 
 function chatAdmin(){
 
-window.open("https://wa.me/6281220549530","_blank");
+window.open("https://wa.me/6281220549530");
 
 }
 
