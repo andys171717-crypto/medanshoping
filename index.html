@@ -29,8 +29,8 @@ display:flex;
 align-items:center;
 gap:10px;
 padding:10px;
-box-sizing:border-box;
 z-index:1000;
+box-sizing:border-box;
 }
 
 .search{
@@ -39,7 +39,6 @@ height:38px;
 border:none;
 border-radius:20px;
 padding:0 15px;
-font-size:13px;
 }
 
 .icon{
@@ -49,7 +48,7 @@ position:relative;
 cursor:pointer;
 }
 
-.cart-count{
+.badge{
 position:absolute;
 top:-6px;
 right:-8px;
@@ -58,6 +57,20 @@ color:white;
 font-size:10px;
 padding:2px 6px;
 border-radius:50%;
+}
+
+/* SLIDER */
+
+.slider{
+margin-top:5px;
+width:100%;
+overflow:hidden;
+}
+
+.slide{
+width:100%;
+height:140px;
+object-fit:cover;
 }
 
 /* MENU */
@@ -96,11 +109,6 @@ overflow:hidden;
 box-shadow:0 4px 12px rgba(0,0,0,0.08);
 display:flex;
 flex-direction:column;
-transition:0.2s;
-}
-
-.product:hover{
-transform:translateY(-3px);
 }
 
 .product img{
@@ -128,22 +136,16 @@ color:#ffb400;
 font-size:13px;
 }
 
-.sold{
-font-size:11px;
-color:#777;
-}
-
-.free{
-font-size:11px;
-color:#2ecc71;
-font-weight:bold;
-}
-
 .price{
 color:#e74c3c;
 font-size:18px;
 font-weight:bold;
-margin-top:5px;
+}
+
+.free{
+color:#2ecc71;
+font-size:11px;
+font-weight:bold;
 }
 
 /* BUTTON */
@@ -155,14 +157,13 @@ padding:10px;
 margin-top:auto;
 }
 
-.chat-btn{
+.btn{
 flex:1;
-background:#3498db;
-color:white;
 border:none;
 border-radius:10px;
 padding:9px;
 font-size:13px;
+color:white;
 display:flex;
 align-items:center;
 justify-content:center;
@@ -170,20 +171,8 @@ gap:6px;
 font-weight:bold;
 }
 
-.cart-btn{
-flex:1;
-background:#27ae60;
-color:white;
-border:none;
-border-radius:10px;
-padding:9px;
-font-size:13px;
-display:flex;
-align-items:center;
-justify-content:center;
-gap:6px;
-font-weight:bold;
-}
+.chat{background:#3498db;}
+.cart{background:#27ae60;}
 
 /* QTY */
 
@@ -202,7 +191,6 @@ border:none;
 background:#27ae60;
 color:white;
 border-radius:8px;
-font-size:18px;
 }
 
 .qty input{
@@ -211,7 +199,26 @@ text-align:center;
 border:none;
 background:#eee;
 border-radius:6px;
-height:28px;
+}
+
+/* POPUP CART */
+
+.cart-popup{
+position:fixed;
+bottom:70px;
+right:10px;
+background:white;
+width:250px;
+border-radius:10px;
+box-shadow:0 5px 20px rgba(0,0,0,0.2);
+padding:10px;
+display:none;
+}
+
+.cart-item{
+font-size:12px;
+border-bottom:1px solid #eee;
+padding:5px 0;
 }
 
 /* BOTTOM NAV */
@@ -234,10 +241,6 @@ align-items:center;
 font-size:11px;
 }
 
-.icon-bottom{
-font-size:20px;
-}
-
 </style>
 </head>
 
@@ -245,11 +248,11 @@ font-size:20px;
 
 <div class="header">
 
-<input class="search" placeholder="Cari produk di TembungShoping">
+<input id="search" class="search" placeholder="Cari produk">
 
-<div class="icon" onclick="openCart()">
+<div class="icon" onclick="toggleCart()">
 <i class="fa-solid fa-cart-shopping"></i>
-<span id="cartcount" class="cart-count">0</span>
+<span id="cartcount" class="badge">0</span>
 </div>
 
 <div class="icon" onclick="chatAdmin()">
@@ -258,39 +261,39 @@ font-size:20px;
 
 </div>
 
-<div class="menu">
+<div class="slider">
+<img class="slide" src="https://images.unsplash.com/photo-1607082349566-187342175e2f">
+</div>
 
+<div class="menu">
 <div><div class="circle"></div>Pulsa</div>
 <div><div class="circle"></div>Promo</div>
 <div><div class="circle"></div>Game</div>
 <div><div class="circle"></div>Live</div>
 <div><div class="circle"></div>Lainnya</div>
-
 </div>
 
-<div class="products" id="products"></div>
+<div id="products" class="products"></div>
+
+<div id="cartPopup" class="cart-popup"></div>
 
 <div class="bottom">
-
-<div><span class="icon-bottom">🏠</span>Beranda</div>
-<div><span class="icon-bottom">📺</span>Live</div>
-<div><span class="icon-bottom">🔔</span>Notifikasi</div>
-<div><span class="icon-bottom">👤</span>Akun</div>
-
+<div>🏠<br>Beranda</div>
+<div>📺<br>Live</div>
+<div>🔔<br>Notifikasi</div>
+<div>👤<br>Akun</div>
 </div>
 
 <script>
 
 const produk=[
 
-{nama:"Sepatu Nike Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
-{nama:"Headphone Wireless",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"},
-{nama:"Jam Tangan Smartwatch",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400"},
-{nama:"Tas Fashion Wanita",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400"},
-{nama:"Kacamata Fashion",harga:90000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400"},
-{nama:"Parfum Coco Chanel",harga:120000,img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400"},
-{nama:"Smartphone Premium",harga:80000,img:"https://images.unsplash.com/photo-1580910051074-3eb694886505?w=400"},
-{nama:"PC Gaming RGB",harga:70000,img:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400"}
+{nama:"Sepatu Nike Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff"},
+{nama:"Headphone Wireless",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e"},
+{nama:"Jam Tangan Smartwatch",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30"},
+{nama:"Tas Fashion Wanita",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e"},
+{nama:"Kacamata Fashion",harga:90000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083"},
+{nama:"Parfum Coco Chanel",harga:120000,img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad"}
 
 ];
 
@@ -300,13 +303,11 @@ function rupiah(x){
 return x.toLocaleString("id-ID");
 }
 
-function renderProduk(){
+function render(list){
 
 let html="";
 
-for(let i=0;i<produk.length;i++){
-
-let p=produk[i];
+list.forEach((p,i)=>{
 
 html+=`
 
@@ -320,8 +321,6 @@ html+=`
 
 <div class="rating">⭐⭐⭐⭐☆</div>
 
-<div class="sold">Terjual 1k</div>
-
 <div class="free">Gratis Ongkir</div>
 
 <div class="price">Rp${rupiah(p.harga)}</div>
@@ -330,23 +329,21 @@ html+=`
 
 <div class="actions">
 
-<button class="chat-btn" onclick="chatAdmin()">
-<i class="fa-solid fa-comment"></i> Chat
+<button class="btn chat" onclick="chatAdmin()">
+<i class="fa-solid fa-comment"></i>
 </button>
 
-<button class="cart-btn" onclick="addCart(${i})">
-<i class="fa-solid fa-cart-shopping"></i> Keranjang
+<button class="btn cart" onclick="addCart('${p.nama}')">
+<i class="fa-solid fa-cart-shopping"></i>
 </button>
 
 </div>
 
 <div class="qty">
 
-<button onclick="minus(${i})">-</button>
-
-<input id="qty${i}" value="0">
-
-<button onclick="plus(${i})">+</button>
+<button>-</button>
+<input value="0">
+<button>+</button>
 
 </div>
 
@@ -354,51 +351,31 @@ html+=`
 
 `;
 
-}
+});
 
 document.getElementById("products").innerHTML=html;
 
 }
 
-function plus(i){
+render(produk);
 
-let q=document.getElementById("qty"+i);
+/* SEARCH */
 
-let v=parseInt(q.value);
+document.getElementById("search").oninput=function(){
 
-v++;
+let v=this.value.toLowerCase();
 
-q.value=v;
+let hasil=produk.filter(p=>p.nama.toLowerCase().includes(v));
 
-cart.push(produk[i]);
-
-updateCart();
+render(hasil);
 
 }
 
-function minus(i){
+/* CART */
 
-let q=document.getElementById("qty"+i);
+function addCart(nama){
 
-let v=parseInt(q.value);
-
-if(v>0){
-
-v--;
-
-q.value=v;
-
-cart.pop();
-
-updateCart();
-
-}
-
-}
-
-function addCart(i){
-
-cart.push(produk[i]);
+cart.push(nama);
 
 updateCart();
 
@@ -408,11 +385,23 @@ function updateCart(){
 
 document.getElementById("cartcount").innerText=cart.length;
 
+let html="";
+
+cart.forEach(i=>{
+
+html+=`<div class="cart-item">${i}</div>`;
+
+});
+
+document.getElementById("cartPopup").innerHTML=html;
+
 }
 
-function openCart(){
+function toggleCart(){
 
-alert("Jumlah produk di keranjang: "+cart.length);
+let p=document.getElementById("cartPopup");
+
+p.style.display=p.style.display=="block"?"none":"block";
 
 }
 
@@ -421,8 +410,6 @@ function chatAdmin(){
 window.open("https://wa.me/6281220549530","_blank");
 
 }
-
-renderProduk();
 
 </script>
 
