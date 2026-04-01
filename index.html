@@ -1,8 +1,12 @@
 <!DOCTYPE html><html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>JuandyMall</title><link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><style>
+<title>JuandyMall</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
 
 body{
 margin:0;
@@ -298,66 +302,129 @@ display:block;
 margin-bottom:4px;
 }
 
-</style></head><body><div class="header"><div class="search-box">
+</style></head>
+
+<body>
+
+<div class="header">
+
+<div class="search-box">
 <i class="fa-solid fa-magnifying-glass"></i>
 <input id="search" placeholder="Cari produk di JuandyMall">
-</div><div class="header-icons"><div class="icon">
+</div>
+
+<div class="header-icons">
+
+<div class="icon">
 <i class="fa-solid fa-bell"></i>
-</div><div class="icon" onclick="openCart()">
+</div>
+
+<div class="icon" onclick="openCart()">
 <i class="fa-solid fa-cart-shopping"></i>
 <span class="badge" id="cartcount">0</span>
-</div><div class="icon">
+</div>
+
+<div class="icon">
 <i class="fa-solid fa-comment-dots"></i>
-</div></div>
-</div><div class="banner">
+</div>
+
+</div>
+</div>
+
+<div class="banner">
 <img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=900">
-</div><div class="category">
+</div>
+
+<div class="category">
 <div class="cat"><div class="circle">📱</div>Pulsa</div>
 <div class="cat"><div class="circle">🔥</div>Promo</div>
 <div class="cat"><div class="circle">🎮</div>Game</div>
 <div class="cat"><div class="circle">👕</div>Fashion</div>
 <div class="cat"><div class="circle">💄</div>Beauty</div>
-</div><div class="products" id="productList"></div><div class="detail" id="detailPage">
+</div>
+
+<div class="products" id="productList"></div>
+
+<div class="detail" id="detailPage">
+
 <button onclick="home()">⬅ kembali</button>
+
 <img id="dimg">
+
 <div class="detail-title" id="dtitle"></div>
 <div class="detail-price" id="dprice"></div>
 <div class="detail-stock" id="dstok"></div>
-<div id="ddesc" style="margin:10px 0;color:#555"></div><button onclick="addCartDetail()"
+
+<div id="ddesc" style="margin:10px 0;color:#555"></div>
+
+<button onclick="addCartDetail()"
 style="width:100%;padding:12px;background:#27ae60;color:white;border:none;border-radius:8px">
 Tambah Keranjang
 </button>
 
-</div><div class="cartpage" id="cartPage">
+</div>
+
+<div class="cartpage" id="cartPage">
+
 <h3>Keranjang</h3>
+
 <div id="cartItems"></div>
-<h3>Total: <span id="totalCart">Rp0</span></h3><button onclick="checkout()"
+
+<h3>Total: <span id="totalCart">Rp0</span></h3>
+
+<button onclick="checkout()"
 style="width:100%;padding:12px;background:#2563eb;color:white;border:none;border-radius:8px">
 Checkout
 </button>
 
-</div><div class="adminpanel" id="adminPanel"><h3>Admin Panel</h3><input id="pname" placeholder="Nama produk">
+</div>
+
+<div class="adminpanel" id="adminPanel">
+
+<h3>Admin Panel</h3>
+
+<input id="pname" placeholder="Nama produk">
 <input id="pprice" placeholder="Harga">
 <input id="pstock" placeholder="Stok produk">
+<input id="pcategory" placeholder="Kategori produk">
 <textarea id="pdesc" placeholder="Deskripsi produk"></textarea>
-<input type="file" id="pimg"><button onclick="addProduct()">Tambah Produk</button>
+<input type="file" id="pimg">
+
+<button onclick="addProduct()">Tambah / Update Produk</button>
 
 <h4>Daftar Produk</h4>
-<div id="adminList"></div></div><div class="bottom"><div onclick="home()">
+
+<div id="adminList"></div>
+
+</div>
+
+<div class="bottom">
+
+<div onclick="home()">
 <i class="fa-solid fa-house"></i>
 Home
-</div><div>
+</div>
+
+<div>
 <i class="fa-solid fa-fire"></i>
 Promo
-</div><div onclick="openCart()">
+</div>
+
+<div onclick="openCart()">
 <i class="fa-solid fa-cart-shopping"></i>
 Cart
-</div><div onclick="toggleAdmin()">
+</div>
+
+<div onclick="toggleAdmin()">
 <i class="fa-solid fa-user"></i>
 Admin
-</div></div><script>
+</div>
 
-/* ===== SCRIPT ASLI + STABIL ===== */
+</div>
+
+<script>
+
+/* SCRIPT ASLI + FITUR EDIT PRODUK */
 
 const productList=document.getElementById("productList")
 const search=document.getElementById("search")
@@ -365,27 +432,32 @@ const cartcount=document.getElementById("cartcount")
 const detailPage=document.getElementById("detailPage")
 const cartPage=document.getElementById("cartPage")
 const adminPanel=document.getElementById("adminPanel")
+
 const dimg=document.getElementById("dimg")
 const dtitle=document.getElementById("dtitle")
 const dprice=document.getElementById("dprice")
 const ddesc=document.getElementById("ddesc")
 const dstok=document.getElementById("dstok")
+
 const cartItems=document.getElementById("cartItems")
 const totalCart=document.getElementById("totalCart")
+
 const adminList=document.getElementById("adminList")
+
 const pname=document.getElementById("pname")
 const pprice=document.getElementById("pprice")
 const pstock=document.getElementById("pstock")
+const pcategory=document.getElementById("pcategory")
 const pdesc=document.getElementById("pdesc")
 const pimg=document.getElementById("pimg")
 
-/* DATA */
+let editIndex=-1
 
 let saved=localStorage.getItem("products")
 
 let productData=saved?JSON.parse(saved):[
-{name:"Sepatu Nike Sport",price:100000,stock:10,desc:"Sepatu olahraga nyaman",img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
-{name:"Headphone Wireless",price:200000,stock:5,desc:"Headphone bluetooth",img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"}
+{name:"Sepatu Nike Sport",price:100000,stock:10,category:"Fashion",desc:"Sepatu olahraga nyaman",img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
+{name:"Headphone Wireless",price:200000,stock:5,category:"Elektronik",desc:"Headphone bluetooth",img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"}
 ]
 
 let savedCart=localStorage.getItem("cart")
@@ -423,6 +495,7 @@ html+=`
 <div class="info">
 
 <div class="title">${p.name}</div>
+<div style="font-size:11px;color:#888">${p.category||""}</div>
 
 <div class="rating">⭐ ⭐ ⭐ ⭐ ☆</div>
 
@@ -640,6 +713,7 @@ function addProduct(){
 let name=pname.value.trim()
 let price=pprice.value.trim()
 let stock=pstock.value.trim()
+let category=pcategory.value.trim()
 let desc=pdesc.value.trim()
 let file=pimg.files[0]
 
@@ -652,6 +726,8 @@ if(isNaN(price)||isNaN(stock)){
 alert("Harga dan stok harus angka")
 return
 }
+
+if(editIndex==-1){
 
 if(!file){
 alert("Pilih gambar")
@@ -666,6 +742,7 @@ productData.push({
 name:name,
 price:Number(price),
 stock:Number(stock),
+category:category,
 desc:desc,
 img:e.target.result
 })
@@ -679,9 +756,46 @@ renderAdmin()
 
 reader.readAsDataURL(file)
 
+}else{
+
+productData[editIndex].name=name
+productData[editIndex].price=Number(price)
+productData[editIndex].stock=Number(stock)
+productData[editIndex].category=category
+productData[editIndex].desc=desc
+
+if(file){
+
+let reader=new FileReader()
+
+reader.onload=function(e){
+
+productData[editIndex].img=e.target.result
+
+localStorage.setItem("products",JSON.stringify(productData))
+loadProducts()
+renderAdmin()
+
+}
+
+reader.readAsDataURL(file)
+
+}else{
+
+localStorage.setItem("products",JSON.stringify(productData))
+loadProducts()
+renderAdmin()
+
+}
+
+editIndex=-1
+
+}
+
 pname.value=""
 pprice.value=""
 pstock.value=""
+pcategory.value=""
 pdesc.value=""
 pimg.value=""
 
@@ -699,6 +813,7 @@ html+=`
 
 ${p.name} - ${rupiah(p.price)} (stok ${p.stock})
 
+<button onclick="startEdit(${i})">edit</button>
 <button onclick="deleteProduct(${i})">hapus</button>
 
 </div>
@@ -708,6 +823,20 @@ ${p.name} - ${rupiah(p.price)} (stok ${p.stock})
 })
 
 adminList.innerHTML=html
+
+}
+
+function startEdit(i){
+
+let p=productData[i]
+
+pname.value=p.name
+pprice.value=p.price
+pstock.value=p.stock
+pcategory.value=p.category||""
+pdesc.value=p.desc
+
+editIndex=i
 
 }
 
@@ -722,5 +851,7 @@ renderAdmin()
 
 }
 
-</script></body>
+</script>
+
+</body>
 </html>
