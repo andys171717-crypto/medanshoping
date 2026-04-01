@@ -30,7 +30,7 @@ display:flex;
 align-items:center;
 padding:10px;
 gap:10px;
-z-index:1000;
+z-index:999;
 }
 
 .search{
@@ -39,7 +39,6 @@ height:38px;
 border:none;
 border-radius:20px;
 padding:0 15px;
-font-size:14px;
 }
 
 .icon{
@@ -59,16 +58,15 @@ padding:2px 6px;
 border-radius:50%;
 }
 
-/* SLIDER */
+/* BANNER */
 
-.slider{
+.banner{
 margin:10px;
-height:130px;
 border-radius:12px;
 overflow:hidden;
 }
 
-.slider img{
+.banner img{
 width:100%;
 height:130px;
 object-fit:cover;
@@ -112,12 +110,24 @@ background:white;
 border-radius:16px;
 overflow:hidden;
 box-shadow:0 4px 10px rgba(0,0,0,0.08);
+position:relative;
 }
 
 .product img{
 width:100%;
-height:170px;
+height:160px;
 object-fit:cover;
+}
+
+.discount{
+position:absolute;
+top:8px;
+left:8px;
+background:#e74c3c;
+color:white;
+font-size:11px;
+padding:3px 6px;
+border-radius:6px;
 }
 
 .info{
@@ -125,10 +135,15 @@ padding:10px;
 }
 
 .title{
-font-size:15px;
+font-size:14px;
 font-weight:600;
-height:36px;
+height:34px;
 overflow:hidden;
+}
+
+.rating{
+color:#f1c40f;
+font-size:12px;
 }
 
 .free{
@@ -137,12 +152,12 @@ color:#27ae60;
 }
 
 .price{
-font-size:18px;
+font-size:17px;
 font-weight:bold;
 color:#e74c3c;
 }
 
-/* ACTION */
+/* BUTTONS */
 
 .actions{
 display:flex;
@@ -159,11 +174,26 @@ color:white;
 font-size:14px;
 }
 
+.like{background:#e74c3c;}
 .chat{background:#3498db;}
 .cart{background:#27ae60;}
-.like{background:#e74c3c;}
 
-/* BOTTOM NAV */
+/* CART POPUP */
+
+.cartbox{
+position:fixed;
+right:10px;
+top:70px;
+background:white;
+width:250px;
+border-radius:10px;
+box-shadow:0 5px 20px rgba(0,0,0,0.2);
+display:none;
+padding:10px;
+z-index:999;
+}
+
+/* BOTTOM */
 
 .bottom{
 position:fixed;
@@ -194,7 +224,7 @@ margin-bottom:4px;
 
 <input id="search" class="search" placeholder="Cari produk">
 
-<div class="icon">
+<div class="icon" onclick="toggleCart()">
 <i class="fa-solid fa-cart-shopping"></i>
 <span id="cartcount" class="badge">0</span>
 </div>
@@ -205,7 +235,12 @@ margin-bottom:4px;
 
 </div>
 
-<div class="slider">
+<div class="cartbox" id="cartbox">
+<b>Keranjang</b>
+<div id="cartitems"></div>
+</div>
+
+<div class="banner">
 <img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=900">
 </div>
 
@@ -219,7 +254,7 @@ margin-bottom:4px;
 
 </div>
 
-<div id="products" class="products"></div>
+<div class="products" id="products"></div>
 
 <div class="bottom">
 
@@ -233,16 +268,15 @@ margin-bottom:4px;
 <script>
 
 let cart=0;
-let page=1;
 
 const produk=[
 
-{nama:"Sepatu Nike Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
-{nama:"Headphone Wireless",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"},
-{nama:"Jam Tangan Smartwatch",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400"},
-{nama:"Tas Fashion Wanita",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400"},
-{nama:"Kacamata Fashion",harga:90000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400"},
-{nama:"Parfum Premium",harga:120000,img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400"}
+{nama:"Sepatu Nike Sport",harga:100000,disc:"50%",img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
+{nama:"Headphone Wireless",harga:200000,disc:"30%",img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"},
+{nama:"Smartwatch",harga:150000,disc:"20%",img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400"},
+{nama:"Tas Fashion Wanita",harga:180000,disc:"40%",img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400"},
+{nama:"Kacamata Fashion",harga:90000,disc:"25%",img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400"},
+{nama:"Parfum Premium",harga:120000,disc:"35%",img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400"}
 
 ];
 
@@ -250,7 +284,7 @@ function rupiah(x){
 return x.toLocaleString("id-ID");
 }
 
-function loadProduk(){
+function tampilProduk(){
 
 let html="";
 
@@ -260,12 +294,20 @@ html+=`
 
 <div class="product">
 
+<div class="discount">${p.disc}</div>
+
 <img src="${p.img}" loading="lazy">
 
 <div class="info">
 
 <div class="title">${p.nama}</div>
+
+<div class="rating">
+⭐ ⭐ ⭐ ⭐ ☆
+</div>
+
 <div class="free">Gratis Ongkir</div>
+
 <div class="price">Rp${rupiah(p.harga)}</div>
 
 </div>
@@ -280,7 +322,7 @@ html+=`
 <i class="fa-solid fa-comment"></i>
 </button>
 
-<button class="btn cart" onclick="addCart()">
+<button class="btn cart" onclick="addCart('${p.nama}')">
 <i class="fa-solid fa-cart-shopping"></i>
 </button>
 
@@ -292,21 +334,36 @@ html+=`
 
 });
 
-document.getElementById("products").innerHTML+=html;
+document.getElementById("products").innerHTML=html;
 
 }
 
-loadProduk();
+tampilProduk();
 
-/* INFINITE SCROLL */
+function addCart(nama){
 
-window.onscroll=function(){
+cart++;
 
-if(window.innerHeight + window.scrollY >= document.body.offsetHeight-200){
+document.getElementById("cartcount").innerText=cart;
 
-loadProduk();
+let item=document.createElement("div");
+item.innerText=nama;
+
+document.getElementById("cartitems").appendChild(item);
 
 }
+
+function toggleCart(){
+
+let box=document.getElementById("cartbox");
+
+box.style.display = box.style.display=="block" ? "none":"block";
+
+}
+
+function chatAdmin(){
+
+window.open("https://wa.me/6281220549530");
 
 }
 
@@ -318,11 +375,11 @@ let v=this.value.toLowerCase();
 
 let hasil=produk.filter(p=>p.nama.toLowerCase().includes(v));
 
-document.getElementById("products").innerHTML="";
+let html="";
 
 hasil.forEach(p=>{
 
-document.getElementById("products").innerHTML+=`
+html+=`
 
 <div class="product">
 
@@ -331,7 +388,6 @@ document.getElementById("products").innerHTML+=`
 <div class="info">
 
 <div class="title">${p.nama}</div>
-<div class="free">Gratis Ongkir</div>
 <div class="price">Rp${rupiah(p.harga)}</div>
 
 </div>
@@ -342,22 +398,7 @@ document.getElementById("products").innerHTML+=`
 
 });
 
-}
-
-/* CART */
-
-function addCart(){
-
-cart++;
-document.getElementById("cartcount").innerText=cart;
-
-}
-
-/* CHAT */
-
-function chatAdmin(){
-
-window.open("https://wa.me/6281220549530");
+document.getElementById("products").innerHTML=html;
 
 }
 
