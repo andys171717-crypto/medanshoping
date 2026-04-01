@@ -16,8 +16,8 @@ body{
 margin:0;
 font-family:system-ui;
 background:#f5f5f5;
-padding-top:65px;
-padding-bottom:75px;
+padding-top:60px;
+padding-bottom:70px;
 }
 
 /* HEADER */
@@ -25,57 +25,37 @@ padding-bottom:75px;
 .header{
 position:fixed;
 top:0;
-left:0;
 width:100%;
-height:58px;
-background:linear-gradient(90deg,#ff6a00,#ff3d00);
+height:55px;
+background:#ff5722;
 display:flex;
 align-items:center;
-gap:10px;
-padding:0 12px;
-box-sizing:border-box;
+padding:0 10px;
 z-index:999;
-}
-
-/* SEARCH */
-
-.search-box{
-flex:1;
+gap:8px;
 }
 
 .search{
-width:100%;
-height:36px;
+flex:1;
+height:34px;
 border:none;
 border-radius:20px;
 padding:0 14px;
-outline:none;
 font-size:13px;
 }
-
-/* ICON AREA */
-
-.header-icons{
-display:flex;
-align-items:center;
-gap:16px;
-}
-
-/* ICON */
 
 .icon{
 color:white;
 font-size:18px;
-width:28px;
+width:25px;
 text-align:center;
 position:relative;
-cursor:pointer;
 }
 
 .badge{
 position:absolute;
-top:-6px;
-right:-6px;
+top:-5px;
+right:-5px;
 background:red;
 color:white;
 font-size:10px;
@@ -86,14 +66,14 @@ border-radius:50%;
 /* BANNER */
 
 .banner{
-margin:12px;
-border-radius:14px;
+margin:10px;
+border-radius:12px;
 overflow:hidden;
 }
 
 .banner img{
 width:100%;
-height:160px;
+height:150px;
 object-fit:cover;
 }
 
@@ -102,8 +82,8 @@ object-fit:cover;
 .category{
 display:flex;
 overflow-x:auto;
-gap:16px;
-padding:14px;
+gap:14px;
+padding:12px;
 background:white;
 }
 
@@ -115,12 +95,11 @@ display:none;
 text-align:center;
 min-width:65px;
 font-size:12px;
-color:#444;
 }
 
 .circle{
-width:48px;
-height:48px;
+width:44px;
+height:44px;
 border-radius:50%;
 background:#eef1f4;
 display:flex;
@@ -128,80 +107,91 @@ align-items:center;
 justify-content:center;
 font-size:20px;
 margin:auto;
-margin-bottom:6px;
+margin-bottom:5px;
 }
 
 /* PRODUCTS */
 
 .products{
-padding:12px;
+padding:10px;
 display:grid;
 grid-template-columns:repeat(2,1fr);
-gap:14px;
+gap:10px;
 }
 
 .product{
 background:white;
-border-radius:14px;
+border-radius:12px;
 overflow:hidden;
-box-shadow:0 3px 8px rgba(0,0,0,0.08);
-transition:0.2s;
-}
-
-.product:hover{
-transform:scale(1.02);
+box-shadow:0 2px 6px rgba(0,0,0,0.08);
+position:relative;
 }
 
 .product img{
 width:100%;
-height:160px;
+height:140px;
 object-fit:cover;
 cursor:pointer;
 }
 
+/* DISCOUNT BADGE */
+
+.discount{
+position:absolute;
+top:8px;
+left:8px;
+background:red;
+color:white;
+font-size:11px;
+padding:3px 6px;
+border-radius:4px;
+}
+
+/* INFO */
+
 .info{
-padding:10px;
+padding:8px;
 }
 
 .title{
-font-size:14px;
+font-size:13px;
 font-weight:600;
-height:34px;
+height:30px;
 overflow:hidden;
 }
 
 .price{
-color:#e74c3c;
-font-size:18px;
+color:#ff5722;
+font-size:16px;
 font-weight:bold;
-margin-top:3px;
 }
 
 .rating{
-font-size:12px;
+font-size:11px;
 color:#f1c40f;
-margin-top:2px;
 }
+
+/* BUTTON */
 
 .actions{
 display:flex;
-gap:6px;
-padding:10px;
+gap:5px;
+padding:8px;
 }
 
 .btn{
 flex:1;
 border:none;
-padding:9px;
-border-radius:8px;
+padding:7px;
+border-radius:6px;
 color:white;
+font-size:13px;
 cursor:pointer;
-font-size:14px;
 }
 
 .like{background:#e74c3c;}
-.chat{background:#3498db;}
 .cartbtn{background:#27ae60;}
+.buy{background:#ff9800;}
 
 /* DETAIL */
 
@@ -223,7 +213,7 @@ margin-top:10px;
 
 .detail-price{
 font-size:22px;
-color:#e74c3c;
+color:#ff5722;
 font-weight:bold;
 }
 
@@ -236,53 +226,26 @@ padding:12px;
 
 .cart-item{
 background:white;
-padding:12px;
-border-radius:10px;
-margin-bottom:10px;
+padding:10px;
+border-radius:8px;
+margin-bottom:8px;
 display:flex;
 justify-content:space-between;
-align-items:center;
 }
 
-.remove{
-background:red;
-color:white;
-border:none;
-padding:6px 9px;
-border-radius:6px;
-}
-
-/* CHECKOUT */
-
-.checkout-btn{
-width:100%;
-padding:13px;
-background:#ff6a00;
-color:white;
-border:none;
-border-radius:8px;
-margin-top:12px;
-font-size:15px;
-}
-
-/* BOTTOM NAV */
+/* BOTTOM */
 
 .bottom{
 position:fixed;
 bottom:0;
 width:100%;
-height:65px;
+height:60px;
 background:white;
 display:flex;
 justify-content:space-around;
 align-items:center;
-box-shadow:0 -3px 10px rgba(0,0,0,0.12);
-font-size:12px;
-}
-
-.bottom div{
-text-align:center;
-color:#333;
+box-shadow:0 -2px 8px rgba(0,0,0,0.1);
+font-size:11px;
 }
 
 .bottom i{
@@ -299,16 +262,8 @@ margin-bottom:4px;
 
 <div class="header">
 
-<div class="search-box">
 <input class="search" id="search"
 placeholder="Cari produk di TembungShoping">
-</div>
-
-<div class="header-icons">
-
-<div class="icon">
-<i class="fa-solid fa-comment-dots"></i>
-</div>
 
 <div class="icon">
 <i class="fa-solid fa-bell"></i>
@@ -321,10 +276,9 @@ placeholder="Cari produk di TembungShoping">
 
 </div>
 
-</div>
-
 <div class="banner">
-<img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=900">
+<img id="bannerImg"
+src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=900">
 </div>
 
 <div class="category">
@@ -334,7 +288,6 @@ placeholder="Cari produk di TembungShoping">
 <div class="cat"><div class="circle">🎮</div>Game</div>
 <div class="cat"><div class="circle">👕</div>Fashion</div>
 <div class="cat"><div class="circle">💄</div>Beauty</div>
-<div class="cat"><div class="circle">📦</div>Lainnya</div>
 
 </div>
 
@@ -351,7 +304,7 @@ placeholder="Cari produk di TembungShoping">
 <div class="detail-price" id="dprice"></div>
 
 <button onclick="addCart(selected)"
-style="width:100%;padding:12px;background:#27ae60;color:white;border:none;border-radius:10px">
+style="width:100%;padding:12px;background:#27ae60;color:white;border:none;border-radius:8px">
 Tambah Keranjang
 </button>
 
@@ -365,7 +318,8 @@ Tambah Keranjang
 
 <h3>Total: <span id="totalCart">Rp0</span></h3>
 
-<button class="checkout-btn" onclick="checkout()">
+<button onclick="checkout()"
+style="width:100%;padding:12px;background:#ff5722;color:white;border:none;border-radius:8px">
 Checkout
 </button>
 
@@ -397,7 +351,7 @@ Akun
 
 <script>
 
-/* DATA PRODUK */
+/* PRODUK */
 
 let productData=[
 
@@ -425,6 +379,8 @@ html+=`
 
 <div class="product">
 
+<div class="discount">-20%</div>
+
 <img src="${p.img}" onclick="openDetail(${i})">
 
 <div class="info">
@@ -439,12 +395,18 @@ html+=`
 
 <div class="actions">
 
-<button class="btn like"><i class="fa-solid fa-heart"></i></button>
+<button class="btn like">
+<i class="fa-solid fa-heart"></i>
+</button>
 
-<button class="btn chat"><i class="fa-solid fa-comment"></i></button>
-
-<button class="btn cartbtn" onclick="addCart(${i})">
+<button class="btn cartbtn"
+onclick="addCart(${i})">
 <i class="fa-solid fa-cart-shopping"></i>
+</button>
+
+<button class="btn buy"
+onclick="buyNow(${i})">
+Beli
 </button>
 
 </div>
@@ -461,6 +423,8 @@ productList.innerHTML=html;
 
 loadProducts();
 
+/* SEARCH */
+
 search.addEventListener("input",function(){
 
 let key=this.value.toLowerCase();
@@ -472,6 +436,8 @@ p.name.toLowerCase().includes(key)
 loadProducts(result);
 
 });
+
+/* DETAIL */
 
 function openDetail(i){
 
@@ -488,6 +454,8 @@ dtitle.innerText=p.name;
 dprice.innerText=rupiah(p.price);
 
 }
+
+/* CART */
 
 function addCart(i){
 
@@ -525,8 +493,9 @@ ${c.name}<br>
 <b>${rupiah(c.price)}</b>
 </div>
 
-<button class="remove"
-onclick="removeCart(${i})">Hapus</button>
+<button onclick="removeCart(${i})">
+Hapus
+</button>
 
 </div>
 
@@ -549,6 +518,18 @@ cart.splice(i,1);
 cartcount.innerText=cart.length;
 
 renderCart();
+
+}
+
+/* BUY */
+
+function buyNow(i){
+
+alert("Menuju checkout produk");
+
+addCart(i);
+
+openCart();
 
 }
 
@@ -577,8 +558,6 @@ function home(){
 productList.style.display="grid";
 detailPage.style.display="none";
 cartPage.style.display="none";
-
-loadProducts();
 
 }
 
