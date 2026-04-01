@@ -1,4 +1,6 @@
-<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width, initial-scale=1">
+<!DOCTYPE html><html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TembungShoping</title><link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><style>
 
@@ -175,6 +177,11 @@ font-size:18px;
 font-weight:bold;
 }
 
+.stock{
+font-size:12px;
+color:#777;
+}
+
 .rating{
 font-size:12px;
 color:#f1c40f;
@@ -222,6 +229,12 @@ margin-top:10px;
 font-size:24px;
 color:#2563eb;
 font-weight:bold;
+}
+
+.detail-stock{
+font-size:14px;
+color:#555;
+margin-top:6px;
 }
 
 /* CART */
@@ -285,17 +298,21 @@ display:block;
 margin-bottom:4px;
 }
 
-</style></head><body><div class="header"><div class="search-box">
+</style></head><body><div class="header">
+<div class="search-box">
 <i class="fa-solid fa-magnifying-glass"></i>
 <input id="search" placeholder="Cari produk di TembungShoping">
-</div><div class="header-icons"><div class="icon">
+</div><div class="header-icons">
+<div class="icon">
 <i class="fa-solid fa-bell"></i>
 </div><div class="icon" onclick="openCart()">
 <i class="fa-solid fa-cart-shopping"></i>
 <span class="badge" id="cartcount">0</span>
 </div><div class="icon">
 <i class="fa-solid fa-comment-dots"></i>
-</div></div></div><div class="banner">
+</div>
+</div>
+</div><div class="banner">
 <img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=900">
 </div><div class="category">
 <div class="cat"><div class="circle">📱</div>Pulsa</div>
@@ -305,10 +322,9 @@ margin-bottom:4px;
 <div class="cat"><div class="circle">💄</div>Beauty</div>
 </div><div class="products" id="productList"></div><div class="detail" id="detailPage">
 <button onclick="home()">⬅ kembali</button>
-<img id="dimg">
-<div class="detail-title" id="dtitle"></div>
+<img id="dimg"><div class="detail-title" id="dtitle"></div>
 <div class="detail-price" id="dprice"></div>
-<div id="ddesc" style="margin:10px 0;color:#555"></div><button onclick="addCart(selected)"
+<div class="detail-stock" id="dstok"></div><div id="ddesc" style="margin:10px 0;color:#555"></div><button onclick="addCart(selected)"
 style="width:100%;padding:12px;background:#27ae60;color:white;border:none;border-radius:8px">
 Tambah Keranjang
 </button>
@@ -319,7 +335,8 @@ Checkout
 </button>
 
 </div><div class="adminpanel" id="adminPanel"><h3>Admin Panel</h3><input id="pname" placeholder="Nama produk">
-<input id="pprice" placeholder="Harga"><textarea id="pdesc" placeholder="Deskripsi produk"></textarea><input type="file" id="pimg"><button onclick="addProduct()">Tambah Produk</button>
+<input id="pprice" placeholder="Harga">
+<input id="pstock" placeholder="Stok produk"><textarea id="pdesc" placeholder="Deskripsi produk"></textarea><input type="file" id="pimg"><button onclick="addProduct()">Tambah Produk</button>
 
 <h4>Daftar Produk</h4><div id="adminList"></div></div><div class="bottom"><div onclick="home()">
 <i class="fa-solid fa-house"></i>
@@ -340,9 +357,13 @@ Admin
 let saved=localStorage.getItem("products");
 
 let productData=saved?JSON.parse(saved):[
-{name:"Sepatu Nike Sport",price:100000,desc:"Sepatu olahraga nyaman",img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
-{name:"Headphone Wireless",price:200000,desc:"Headphone bluetooth",img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"}
+{name:"Sepatu Nike Sport",price:100000,stock:10,desc:"Sepatu olahraga nyaman",img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
+{name:"Headphone Wireless",price:200000,stock:5,desc:"Headphone bluetooth",img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"}
 ];
+
+productData.forEach(p=>{
+if(p.stock===undefined){p.stock=0}
+})
 
 let cart=[];
 let selected=0;
@@ -377,6 +398,8 @@ html+=`
 <div class="rating">⭐ ⭐ ⭐ ⭐ ☆</div>
 
 <div class="price">${rupiah(p.price)}</div>
+
+<div class="stock">Stok: ${p.stock}</div>
 
 </div>
 
@@ -438,6 +461,7 @@ dimg.src=p.img;
 dtitle.innerText=p.name;
 dprice.innerText=rupiah(p.price);
 ddesc.innerText=p.desc||"";
+dstok.innerText="Stok: "+p.stock;
 
 }
 
@@ -504,7 +528,19 @@ renderCart();
 
 function buyNow(i){
 
+let p=currentList[i];
+
+if(p.stock<=0){
+alert("Stok habis");
+return;
+}
+
+p.stock--;
+
+localStorage.setItem("products",JSON.stringify(productData));
+
 addCart(i);
+loadProducts();
 openCart();
 
 }
@@ -568,7 +604,21 @@ renderAdmin();
 
 function addProduct(){
 
+let name=pname.value.trim();
+let price=pprice.value.trim();
+let stock=pstock.value.trim();
+let desc=pdesc.value.trim();
 let file=pimg.files[0];
+
+if(name==""||price==""||stock==""){
+alert("Isi semua data produk");
+return;
+}
+
+if(isNaN(price)||isNaN(stock)){
+alert("Harga dan stok harus angka");
+return;
+}
 
 if(!file){
 alert("Pilih gambar");
@@ -581,9 +631,10 @@ reader.onload=function(e){
 
 productData.push({
 
-name:pname.value,
-price:Number(pprice.value),
-desc:pdesc.value,
+name:name,
+price:Number(price),
+stock:Number(stock),
+desc:desc,
 img:e.target.result
 
 });
@@ -599,6 +650,7 @@ reader.readAsDataURL(file);
 
 pname.value="";
 pprice.value="";
+pstock.value="";
 pdesc.value="";
 pimg.value="";
 
@@ -614,7 +666,7 @@ html+=`
 
 <div style="margin-bottom:6px">
 
-${p.name} - ${rupiah(p.price)}
+${p.name} - ${rupiah(p.price)} (stok ${p.stock})
 
 <button onclick="deleteProduct(${i})">hapus</button>
 
