@@ -13,7 +13,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 body{
 margin:0;
 font-family:system-ui;
-background:#f5f5f5;
+background:#f3f4f6;
 padding-top:65px;
 padding-bottom:80px;
 }
@@ -23,7 +23,6 @@ padding-bottom:80px;
 .header{
 position:fixed;
 top:0;
-left:0;
 width:100%;
 height:60px;
 background:linear-gradient(90deg,#ff6a00,#ff3d00);
@@ -40,7 +39,6 @@ height:36px;
 border:none;
 border-radius:20px;
 padding:0 12px;
-font-size:14px;
 }
 
 .icon{
@@ -60,6 +58,84 @@ padding:2px 6px;
 border-radius:50%;
 }
 
+/* BANNER */
+
+.banner{
+margin:10px;
+border-radius:12px;
+overflow:hidden;
+}
+
+.banner img{
+width:100%;
+height:140px;
+object-fit:cover;
+}
+
+/* CATEGORY */
+
+.category{
+display:flex;
+overflow-x:auto;
+gap:14px;
+padding:10px;
+background:white;
+}
+
+.cat{
+text-align:center;
+min-width:65px;
+font-size:12px;
+}
+
+.circle{
+width:45px;
+height:45px;
+border-radius:50%;
+background:#eef1f4;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:20px;
+margin:auto;
+margin-bottom:4px;
+}
+
+/* FLASH */
+
+.flash{
+background:white;
+margin:10px;
+padding:10px;
+border-radius:10px;
+}
+
+.flash-products{
+display:flex;
+gap:10px;
+overflow-x:auto;
+}
+
+.flash-item{
+min-width:120px;
+background:white;
+border-radius:10px;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+}
+
+.flash-item img{
+width:100%;
+height:100px;
+object-fit:cover;
+border-radius:10px 10px 0 0;
+}
+
+.flash-price{
+padding:6px;
+color:#e74c3c;
+font-weight:bold;
+}
+
 /* PRODUCTS */
 
 .products{
@@ -73,7 +149,7 @@ gap:12px;
 background:white;
 border-radius:12px;
 overflow:hidden;
-box-shadow:0 3px 10px rgba(0,0,0,0.08);
+box-shadow:0 3px 8px rgba(0,0,0,0.08);
 }
 
 .product img{
@@ -93,20 +169,15 @@ height:34px;
 overflow:hidden;
 }
 
+.price{
+color:#e74c3c;
+font-size:18px;
+font-weight:bold;
+}
+
 .rating{
 font-size:12px;
 color:#f1c40f;
-}
-
-.sold{
-font-size:11px;
-color:#777;
-}
-
-.price{
-font-size:18px;
-color:#e74c3c;
-font-weight:bold;
 }
 
 .actions{
@@ -121,7 +192,6 @@ border:none;
 padding:8px;
 border-radius:8px;
 color:white;
-font-size:14px;
 }
 
 .like{background:#e74c3c;}
@@ -154,7 +224,7 @@ font-weight:bold;
 
 /* CART */
 
-.cart-page{
+.cart{
 display:none;
 padding:10px;
 }
@@ -164,19 +234,6 @@ background:white;
 padding:10px;
 border-radius:10px;
 margin-bottom:10px;
-}
-
-/* CHECKOUT */
-
-.checkout{
-margin-top:10px;
-width:100%;
-padding:12px;
-background:#ff3d00;
-color:white;
-border:none;
-border-radius:10px;
-font-size:16px;
 }
 
 /* BOTTOM NAV */
@@ -201,7 +258,6 @@ margin-bottom:4px;
 }
 
 </style>
-
 </head>
 
 <body>
@@ -220,7 +276,48 @@ placeholder="Cari produk di TembungShoping">
 
 </div>
 
-<!-- HOME -->
+<!-- BANNER -->
+
+<div class="banner">
+<img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=900">
+</div>
+
+<!-- CATEGORY -->
+
+<div class="category">
+
+<div class="cat"><div class="circle">📱</div>Pulsa</div>
+<div class="cat"><div class="circle">🔥</div>Promo</div>
+<div class="cat"><div class="circle">🎮</div>Game</div>
+<div class="cat"><div class="circle">👕</div>Fashion</div>
+<div class="cat"><div class="circle">💄</div>Beauty</div>
+<div class="cat"><div class="circle">📦</div>Lainnya</div>
+
+</div>
+
+<!-- FLASH SALE -->
+
+<div class="flash">
+
+<b>🔥 Flash Sale</b>
+
+<div class="flash-products">
+
+<div class="flash-item">
+<img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400">
+<div class="flash-price">Rp80.000</div>
+</div>
+
+<div class="flash-item">
+<img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400">
+<div class="flash-price">Rp150.000</div>
+</div>
+
+</div>
+
+</div>
+
+<!-- PRODUCTS -->
 
 <div class="products" id="products"></div>
 
@@ -236,9 +333,8 @@ placeholder="Cari produk di TembungShoping">
 
 <div class="detail-price" id="dprice"></div>
 
-<p>Produk original kualitas terbaik.</p>
-
-<button class="checkout" onclick="addCart(selected)">
+<button onclick="addCart(selected)"
+style="width:100%;padding:12px;background:#27ae60;color:white;border:none;border-radius:10px">
 Tambah Keranjang
 </button>
 
@@ -246,19 +342,15 @@ Tambah Keranjang
 
 <!-- CART -->
 
-<div class="cart-page" id="cartpage">
+<div class="cart" id="cartpage">
 
-<h3>Keranjang Belanja</h3>
+<h3>Keranjang</h3>
 
 <div id="cartitems"></div>
 
-<button class="checkout">
-Checkout Sekarang
-</button>
-
 </div>
 
-<!-- BOTTOM NAV -->
+<!-- BOTTOM -->
 
 <div class="bottom">
 
@@ -286,7 +378,7 @@ Akun
 
 <script>
 
-/* DATA PRODUK */
+/* DATA */
 
 let products=[
 
@@ -312,18 +404,6 @@ img:"https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?w=400"
 name:"Tas Fashion Wanita",
 price:250000,
 img:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400"
-},
-
-{
-name:"Kacamata Fashion",
-price:80000,
-img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400"
-},
-
-{
-name:"Sepatu Sneakers",
-price:120000,
-img:"https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=400"
 }
 
 ];
@@ -331,19 +411,19 @@ img:"https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=400"
 let cart=[];
 let selected=0;
 
-/* FORMAT RUPIAH */
+/* RUPIAH */
 
 function rupiah(x){
 return "Rp"+x.toLocaleString();
 }
 
-/* LOAD PRODUK */
+/* LOAD */
 
-function loadProducts(list){
+function loadProducts(){
 
 let html="";
 
-list.forEach((p,i)=>{
+products.forEach((p,i)=>{
 
 html+=`
 
@@ -356,8 +436,6 @@ html+=`
 <div class="title">${p.name}</div>
 
 <div class="rating">⭐ ⭐ ⭐ ⭐ ☆</div>
-
-<div class="sold">Terjual 100+</div>
 
 <div class="price">${rupiah(p.price)}</div>
 
@@ -373,7 +451,8 @@ html+=`
 <i class="fa-solid fa-comment"></i>
 </button>
 
-<button class="btn cart" onclick="addCart(${i})">
+<button class="btn cart"
+onclick="addCart(${i})">
 <i class="fa-solid fa-cart-shopping"></i>
 </button>
 
@@ -385,11 +464,11 @@ html+=`
 
 });
 
-products.innerHTML=html;
+document.getElementById("products").innerHTML=html;
 
 }
 
-loadProducts(products);
+loadProducts();
 
 /* DETAIL */
 
@@ -400,18 +479,12 @@ selected=i;
 products.style.display="none";
 detail.style.display="block";
 
-let p=productsData()[i];
+let p=products[i];
 
 dimg.src=p.img;
 dtitle.innerText=p.name;
 dprice.innerText=rupiah(p.price);
 
-}
-
-/* DATA FIX */
-
-function productsData(){
-return products;
 }
 
 /* CART */
@@ -426,8 +499,6 @@ alert("Produk masuk keranjang");
 
 }
 
-/* CART PAGE */
-
 function openCart(){
 
 products.style.display="none";
@@ -441,10 +512,8 @@ cart.forEach(c=>{
 html+=`
 
 <div class="cart-item">
-
 ${c.name}<br>
 <b>${rupiah(c.price)}</b>
-
 </div>
 
 `;
@@ -462,20 +531,6 @@ function home(){
 products.style.display="grid";
 detail.style.display="none";
 cartpage.style.display="none";
-
-}
-
-/* SEARCH */
-
-search.oninput=function(){
-
-let key=this.value.toLowerCase();
-
-let result=products.filter(p=>
-p.name.toLowerCase().includes(key)
-);
-
-loadProducts(result);
 
 }
 
