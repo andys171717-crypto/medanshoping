@@ -13,7 +13,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 body{
 margin:0;
 font-family:system-ui;
-background:#f2f3f5;
+background:#f3f4f6;
 padding-top:60px;
 padding-bottom:80px;
 }
@@ -62,35 +62,16 @@ border-radius:50%;
 /* SLIDER */
 
 .slider{
-width:100%;
-height:150px;
+margin:10px;
+height:130px;
+border-radius:12px;
 overflow:hidden;
-position:relative;
 }
 
-.slides{
-display:flex;
-width:300%;
-animation:slide 10s infinite;
-}
-
-.slides img{
+.slider img{
 width:100%;
-height:150px;
+height:130px;
 object-fit:cover;
-}
-
-@keyframes slide{
-
-0%{transform:translateX(0)}
-33%{transform:translateX(0)}
-
-40%{transform:translateX(-100%)}
-66%{transform:translateX(-100%)}
-
-73%{transform:translateX(-200%)}
-100%{transform:translateX(-200%)}
-
 }
 
 /* MENU */
@@ -130,12 +111,7 @@ gap:12px;
 background:white;
 border-radius:16px;
 overflow:hidden;
-box-shadow:0 4px 12px rgba(0,0,0,0.08);
-transition:0.2s;
-}
-
-.product:hover{
-transform:scale(1.02);
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
 }
 
 .product img{
@@ -166,11 +142,11 @@ font-weight:bold;
 color:#e74c3c;
 }
 
-/* BUTTON */
+/* ACTION */
 
 .actions{
 display:flex;
-gap:8px;
+gap:6px;
 padding:10px;
 }
 
@@ -185,6 +161,7 @@ font-size:14px;
 
 .chat{background:#3498db;}
 .cart{background:#27ae60;}
+.like{background:#e74c3c;}
 
 /* BOTTOM NAV */
 
@@ -201,10 +178,6 @@ box-shadow:0 -3px 15px rgba(0,0,0,0.1);
 font-size:13px;
 }
 
-.bottom div{
-text-align:center;
-}
-
 .bottom i{
 font-size:22px;
 display:block;
@@ -219,9 +192,9 @@ margin-bottom:4px;
 
 <div class="header">
 
-<input id="search" class="search" placeholder="Cari produk di TembungShoping">
+<input id="search" class="search" placeholder="Cari produk">
 
-<div class="icon" onclick="addCart()">
+<div class="icon">
 <i class="fa-solid fa-cart-shopping"></i>
 <span id="cartcount" class="badge">0</span>
 </div>
@@ -232,21 +205,9 @@ margin-bottom:4px;
 
 </div>
 
-<!-- SLIDER -->
-
 <div class="slider">
-
-<div class="slides">
-
 <img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=900">
-<img src="https://images.unsplash.com/photo-1607083206968-13611e3d76db?w=900">
-<img src="https://images.unsplash.com/photo-1607083206325-caf1edba7a0f?w=900">
-
 </div>
-
-</div>
-
-<!-- MENU -->
 
 <div class="menu">
 
@@ -258,11 +219,7 @@ margin-bottom:4px;
 
 </div>
 
-<!-- PRODUCTS -->
-
 <div id="products" class="products"></div>
-
-<!-- BOTTOM NAV -->
 
 <div class="bottom">
 
@@ -275,29 +232,25 @@ margin-bottom:4px;
 
 <script>
 
+let cart=0;
+let page=1;
+
 const produk=[
 
 {nama:"Sepatu Nike Sport",harga:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
-
 {nama:"Headphone Wireless",harga:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"},
-
 {nama:"Jam Tangan Smartwatch",harga:150000,img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400"},
-
 {nama:"Tas Fashion Wanita",harga:180000,img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400"},
-
 {nama:"Kacamata Fashion",harga:90000,img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400"},
-
 {nama:"Parfum Premium",harga:120000,img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400"}
 
 ];
-
-let cart=0;
 
 function rupiah(x){
 return x.toLocaleString("id-ID");
 }
 
-function render(){
+function loadProduk(){
 
 let html="";
 
@@ -319,6 +272,10 @@ html+=`
 
 <div class="actions">
 
+<button class="btn like">
+<i class="fa-solid fa-heart"></i>
+</button>
+
 <button class="btn chat" onclick="chatAdmin()">
 <i class="fa-solid fa-comment"></i>
 </button>
@@ -335,19 +292,68 @@ html+=`
 
 });
 
-document.getElementById("products").innerHTML=html;
+document.getElementById("products").innerHTML+=html;
 
 }
 
-render();
+loadProduk();
+
+/* INFINITE SCROLL */
+
+window.onscroll=function(){
+
+if(window.innerHeight + window.scrollY >= document.body.offsetHeight-200){
+
+loadProduk();
+
+}
+
+}
+
+/* SEARCH */
+
+document.getElementById("search").oninput=function(){
+
+let v=this.value.toLowerCase();
+
+let hasil=produk.filter(p=>p.nama.toLowerCase().includes(v));
+
+document.getElementById("products").innerHTML="";
+
+hasil.forEach(p=>{
+
+document.getElementById("products").innerHTML+=`
+
+<div class="product">
+
+<img src="${p.img}">
+
+<div class="info">
+
+<div class="title">${p.nama}</div>
+<div class="free">Gratis Ongkir</div>
+<div class="price">Rp${rupiah(p.harga)}</div>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+/* CART */
 
 function addCart(){
 
 cart++;
-
 document.getElementById("cartcount").innerText=cart;
 
 }
+
+/* CHAT */
 
 function chatAdmin(){
 
