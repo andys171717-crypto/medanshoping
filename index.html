@@ -308,8 +308,6 @@ margin-bottom:4px;
 
 <body>
 
-<!-- HEADER -->
-
 <div class="header">
 
 <div class="search-box">
@@ -333,32 +331,21 @@ margin-bottom:4px;
 </div>
 
 </div>
-
 </div>
-
-<!-- BANNER -->
 
 <div class="banner">
 <img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=900">
 </div>
 
-<!-- CATEGORY -->
-
 <div class="category">
-
 <div class="cat"><div class="circle">📱</div>Pulsa</div>
 <div class="cat"><div class="circle">🔥</div>Promo</div>
 <div class="cat"><div class="circle">🎮</div>Game</div>
 <div class="cat"><div class="circle">👕</div>Fashion</div>
 <div class="cat"><div class="circle">💄</div>Beauty</div>
-
 </div>
 
-<!-- PRODUCTS -->
-
 <div class="products" id="productList"></div>
-
-<!-- DETAIL -->
 
 <div class="detail" id="detailPage">
 
@@ -367,19 +354,19 @@ margin-bottom:4px;
 <img id="dimg">
 
 <div class="detail-title" id="dtitle"></div>
+
 <div class="detail-price" id="dprice"></div>
+
 <div class="detail-stock" id="dstok"></div>
 
 <div id="ddesc" style="margin:10px 0;color:#555"></div>
 
-<button onclick="addCart(selected)"
+<button onclick="addCartDetail()"
 style="width:100%;padding:12px;background:#27ae60;color:white;border:none;border-radius:8px">
 Tambah Keranjang
 </button>
 
 </div>
-
-<!-- CART -->
 
 <div class="cartpage" id="cartPage">
 
@@ -395,8 +382,6 @@ Checkout
 </button>
 
 </div>
-
-<!-- ADMIN -->
 
 <div class="adminpanel" id="adminPanel">
 
@@ -417,8 +402,6 @@ Checkout
 <div id="adminList"></div>
 
 </div>
-
-<!-- BOTTOM -->
 
 <div class="bottom">
 
@@ -446,24 +429,27 @@ Admin
 
 <script>
 
-/* FIX BUG ELEMENT */
+/* FIX DOM */
 
 const productList=document.getElementById("productList")
 const search=document.getElementById("search")
 const cartcount=document.getElementById("cartcount")
-
 const detailPage=document.getElementById("detailPage")
 const cartPage=document.getElementById("cartPage")
 const adminPanel=document.getElementById("adminPanel")
-
 const dimg=document.getElementById("dimg")
 const dtitle=document.getElementById("dtitle")
 const dprice=document.getElementById("dprice")
 const ddesc=document.getElementById("ddesc")
 const dstok=document.getElementById("dstok")
-
 const cartItems=document.getElementById("cartItems")
 const totalCart=document.getElementById("totalCart")
+const adminList=document.getElementById("adminList")
+const pname=document.getElementById("pname")
+const pprice=document.getElementById("pprice")
+const pstock=document.getElementById("pstock")
+const pdesc=document.getElementById("pdesc")
+const pimg=document.getElementById("pimg")
 
 /* DATA */
 
@@ -475,14 +461,14 @@ let productData=saved?JSON.parse(saved):[
 ]
 
 let cart=[]
-let selected=0
+let selectedProduct=null
 let currentList=[...productData]
 
 function rupiah(x){
 return "Rp"+x.toLocaleString()
 }
 
-/* LOAD */
+/* LOAD PRODUCTS */
 
 function loadProducts(list=productData){
 
@@ -554,7 +540,262 @@ loadProducts(result)
 
 })
 
-</script>
+/* DETAIL */
 
+function openDetail(i){
+
+let p=currentList[i]
+
+selectedProduct=p
+
+productList.style.display="none"
+detailPage.style.display="block"
+cartPage.style.display="none"
+
+dimg.src=p.img
+dtitle.innerText=p.name
+dprice.innerText=rupiah(p.price)
+ddesc.innerText=p.desc||""
+dstok.innerText="Stok: "+p.stock
+
+}
+
+/* CART */
+
+function addCart(i){
+
+cart.push(currentList[i])
+
+cartcount.innerText=cart.length
+
+}
+
+function addCartDetail(){
+
+if(!selectedProduct) return
+
+cart.push(selectedProduct)
+
+cartcount.innerText=cart.length
+
+}
+
+function openCart(){
+
+productList.style.display="none"
+detailPage.style.display="none"
+cartPage.style.display="block"
+
+renderCart()
+
+}
+
+function renderCart(){
+
+let html=""
+let total=0
+
+cart.forEach((c,i)=>{
+
+html+=`
+
+<div class="cart-item">
+
+<div>
+${c.name}<br>
+<b>${rupiah(c.price)}</b>
+</div>
+
+<button onclick="removeCart(${i})">Hapus</button>
+
+</div>
+
+`
+
+total+=c.price
+
+})
+
+cartItems.innerHTML=html||"Keranjang kosong"
+totalCart.innerText=rupiah(total)
+
+}
+
+function removeCart(i){
+
+cart.splice(i,1)
+
+cartcount.innerText=cart.length
+
+renderCart()
+
+}
+
+function buyNow(i){
+
+let p=currentList[i]
+
+if(p.stock<=0){
+alert("Stok habis")
+return
+}
+
+p.stock--
+
+localStorage.setItem("products",JSON.stringify(productData))
+
+addCart(i)
+loadProducts()
+openCart()
+
+}
+
+function checkout(){
+
+alert("Checkout berhasil!")
+
+cart=[]
+cartcount.innerText=0
+
+renderCart()
+
+home()
+
+}
+
+function home(){
+
+productList.style.display="grid"
+detailPage.style.display="none"
+cartPage.style.display="none"
+adminPanel.style.display="none"
+
+}
+
+/* ADMIN LOGIN */
+
+let isAdmin=false
+
+function toggleAdmin(){
+
+if(!isAdmin){
+
+let u=prompt("Username admin")
+let p=prompt("Password")
+
+if(u==="admin" && p==="123456"){
+
+isAdmin=true
+adminPanel.style.display="block"
+renderAdmin()
+
+}else{
+
+alert("Login gagal")
+}
+
+return
+
+}
+
+adminPanel.style.display=
+adminPanel.style.display=="none"?"block":"none"
+
+renderAdmin()
+
+}
+
+/* ADD PRODUCT */
+
+function addProduct(){
+
+let name=pname.value.trim()
+let price=pprice.value.trim()
+let stock=pstock.value.trim()
+let desc=pdesc.value.trim()
+let file=pimg.files[0]
+
+if(name==""||price==""||stock==""){
+alert("Isi semua data produk")
+return
+}
+
+if(isNaN(price)||isNaN(stock)){
+alert("Harga dan stok harus angka")
+return
+}
+
+if(!file){
+alert("Pilih gambar")
+return
+}
+
+let reader=new FileReader()
+
+reader.onload=function(e){
+
+productData.push({
+
+name:name,
+price:Number(price),
+stock:Number(stock),
+desc:desc,
+img:e.target.result
+
+})
+
+localStorage.setItem("products",JSON.stringify(productData))
+
+loadProducts()
+renderAdmin()
+
+}
+
+reader.readAsDataURL(file)
+
+pname.value=""
+pprice.value=""
+pstock.value=""
+pdesc.value=""
+pimg.value=""
+
+}
+
+function renderAdmin(){
+
+let html=""
+
+productData.forEach((p,i)=>{
+
+html+=`
+
+<div style="margin-bottom:6px">
+
+${p.name} - ${rupiah(p.price)} (stok ${p.stock})
+
+<button onclick="deleteProduct(${i})">hapus</button>
+
+</div>
+
+`
+
+})
+
+adminList.innerHTML=html
+
+}
+
+function deleteProduct(i){
+
+productData.splice(i,1)
+
+localStorage.setItem("products",JSON.stringify(productData))
+
+loadProducts()
+renderAdmin()
+
+}
+
+</script>
 </body>
 </html>
