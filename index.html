@@ -1,8 +1,13 @@
-<!DOCTYPE html><html>
+<!DOCTYPE html>
+<html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TembungShoping</title><link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><style>
+<title>TembungShoping</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
 
 body{
 margin:0;
@@ -46,10 +51,6 @@ border:none;
 outline:none;
 font-size:14px;
 background:transparent;
-height:100%;
-line-height:40px;
-padding:0;
-margin:0;
 }
 
 /* ICON */
@@ -302,4 +303,258 @@ display:block;
 margin-bottom:4px;
 }
 
-</style></head><body>
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<div class="header">
+
+<div class="search-box">
+<i class="fa-solid fa-magnifying-glass"></i>
+<input id="search" placeholder="Cari produk di TembungShoping">
+</div>
+
+<div class="header-icons">
+
+<div class="icon">
+<i class="fa-solid fa-bell"></i>
+</div>
+
+<div class="icon" onclick="openCart()">
+<i class="fa-solid fa-cart-shopping"></i>
+<span class="badge" id="cartcount">0</span>
+</div>
+
+<div class="icon">
+<i class="fa-solid fa-comment-dots"></i>
+</div>
+
+</div>
+
+</div>
+
+<!-- BANNER -->
+
+<div class="banner">
+<img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=900">
+</div>
+
+<!-- CATEGORY -->
+
+<div class="category">
+
+<div class="cat"><div class="circle">📱</div>Pulsa</div>
+<div class="cat"><div class="circle">🔥</div>Promo</div>
+<div class="cat"><div class="circle">🎮</div>Game</div>
+<div class="cat"><div class="circle">👕</div>Fashion</div>
+<div class="cat"><div class="circle">💄</div>Beauty</div>
+
+</div>
+
+<!-- PRODUCTS -->
+
+<div class="products" id="productList"></div>
+
+<!-- DETAIL -->
+
+<div class="detail" id="detailPage">
+
+<button onclick="home()">⬅ kembali</button>
+
+<img id="dimg">
+
+<div class="detail-title" id="dtitle"></div>
+<div class="detail-price" id="dprice"></div>
+<div class="detail-stock" id="dstok"></div>
+
+<div id="ddesc" style="margin:10px 0;color:#555"></div>
+
+<button onclick="addCart(selected)"
+style="width:100%;padding:12px;background:#27ae60;color:white;border:none;border-radius:8px">
+Tambah Keranjang
+</button>
+
+</div>
+
+<!-- CART -->
+
+<div class="cartpage" id="cartPage">
+
+<h3>Keranjang</h3>
+
+<div id="cartItems"></div>
+
+<h3>Total: <span id="totalCart">Rp0</span></h3>
+
+<button onclick="checkout()"
+style="width:100%;padding:12px;background:#2563eb;color:white;border:none;border-radius:8px">
+Checkout
+</button>
+
+</div>
+
+<!-- ADMIN -->
+
+<div class="adminpanel" id="adminPanel">
+
+<h3>Admin Panel</h3>
+
+<input id="pname" placeholder="Nama produk">
+<input id="pprice" placeholder="Harga">
+<input id="pstock" placeholder="Stok produk">
+
+<textarea id="pdesc" placeholder="Deskripsi produk"></textarea>
+
+<input type="file" id="pimg">
+
+<button onclick="addProduct()">Tambah Produk</button>
+
+<h4>Daftar Produk</h4>
+
+<div id="adminList"></div>
+
+</div>
+
+<!-- BOTTOM -->
+
+<div class="bottom">
+
+<div onclick="home()">
+<i class="fa-solid fa-house"></i>
+Home
+</div>
+
+<div>
+<i class="fa-solid fa-fire"></i>
+Promo
+</div>
+
+<div onclick="openCart()">
+<i class="fa-solid fa-cart-shopping"></i>
+Cart
+</div>
+
+<div onclick="toggleAdmin()">
+<i class="fa-solid fa-user"></i>
+Admin
+</div>
+
+</div>
+
+<script>
+
+/* FIX BUG ELEMENT */
+
+const productList=document.getElementById("productList")
+const search=document.getElementById("search")
+const cartcount=document.getElementById("cartcount")
+
+const detailPage=document.getElementById("detailPage")
+const cartPage=document.getElementById("cartPage")
+const adminPanel=document.getElementById("adminPanel")
+
+const dimg=document.getElementById("dimg")
+const dtitle=document.getElementById("dtitle")
+const dprice=document.getElementById("dprice")
+const ddesc=document.getElementById("ddesc")
+const dstok=document.getElementById("dstok")
+
+const cartItems=document.getElementById("cartItems")
+const totalCart=document.getElementById("totalCart")
+
+/* DATA */
+
+let saved=localStorage.getItem("products")
+
+let productData=saved?JSON.parse(saved):[
+{name:"Sepatu Nike Sport",price:100000,stock:10,desc:"Sepatu olahraga nyaman",img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
+{name:"Headphone Wireless",price:200000,stock:5,desc:"Headphone bluetooth",img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"}
+]
+
+let cart=[]
+let selected=0
+let currentList=[...productData]
+
+function rupiah(x){
+return "Rp"+x.toLocaleString()
+}
+
+/* LOAD */
+
+function loadProducts(list=productData){
+
+currentList=list
+
+let html=""
+
+list.forEach((p,i)=>{
+
+html+=`
+
+<div class="product">
+
+<div class="discount">-20%</div>
+
+<img src="${p.img}" onclick="openDetail(${i})">
+
+<div class="info">
+
+<div class="title">${p.name}</div>
+
+<div class="rating">⭐ ⭐ ⭐ ⭐ ☆</div>
+
+<div class="price">${rupiah(p.price)}</div>
+
+<div class="stock">Stok: ${p.stock}</div>
+
+</div>
+
+<div class="actions">
+
+<button class="btn like">
+<i class="fa-solid fa-heart"></i>
+</button>
+
+<button class="btn cartbtn" onclick="addCart(${i})">
+<i class="fa-solid fa-cart-shopping"></i>
+</button>
+
+<button class="btn buy" onclick="buyNow(${i})">
+Beli
+</button>
+
+</div>
+
+</div>
+
+`
+
+})
+
+productList.innerHTML=html
+
+}
+
+loadProducts()
+
+/* SEARCH */
+
+search.addEventListener("input",function(){
+
+let key=this.value.toLowerCase()
+
+let result=productData.filter(p=>
+p.name.toLowerCase().includes(key)
+)
+
+loadProducts(result)
+
+})
+
+</script>
+
+</body>
+</html>
