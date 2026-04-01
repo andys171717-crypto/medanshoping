@@ -1,7 +1,16 @@
-<!DOCTYPE html><html>
-<head><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TembungShoping</title><link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><style>
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>TembungShoping</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
 
 body{
 margin:0;
@@ -99,42 +108,6 @@ margin:auto;
 margin-bottom:4px;
 }
 
-/* FLASH */
-
-.flash{
-background:white;
-margin:10px;
-padding:10px;
-border-radius:10px;
-}
-
-.flash-products{
-display:flex;
-gap:10px;
-overflow-x:auto;
-}
-
-.flash-item{
-min-width:120px;
-background:white;
-border-radius:10px;
-box-shadow:0 2px 6px rgba(0,0,0,0.1);
-cursor:pointer;
-}
-
-.flash-item img{
-width:100%;
-height:100px;
-object-fit:cover;
-border-radius:10px 10px 0 0;
-}
-
-.flash-price{
-padding:6px;
-color:#e74c3c;
-font-weight:bold;
-}
-
 /* PRODUCTS */
 
 .products{
@@ -149,11 +122,6 @@ background:white;
 border-radius:12px;
 overflow:hidden;
 box-shadow:0 3px 8px rgba(0,0,0,0.08);
-transition:0.2s;
-}
-
-.product:active{
-transform:scale(0.96);
 }
 
 .product img{
@@ -253,6 +221,18 @@ padding:5px 8px;
 border-radius:6px;
 }
 
+/* CHECKOUT */
+
+.checkout-btn{
+width:100%;
+padding:12px;
+background:#ff6a00;
+color:white;
+border:none;
+border-radius:8px;
+margin-top:10px;
+}
+
 /* BOTTOM NAV */
 
 .bottom{
@@ -274,47 +254,111 @@ display:block;
 margin-bottom:4px;
 }
 
-</style></head><body><div class="header"><input class="search" id="search"
+</style>
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+
+<div class="header">
+
+<input class="search" id="search"
 placeholder="Cari produk di TembungShoping">
 
 <div class="icon" onclick="openCart()">
 <i class="fa-solid fa-cart-shopping"></i>
 <span class="badge" id="cartcount">0</span>
-</div></div><div class="banner">
+</div>
+
+</div>
+
+<!-- BANNER -->
+
+<div class="banner">
 <img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=900">
-</div><div class="category"><div class="cat"><div class="circle">📱</div>Pulsa</div>
+</div>
+
+<!-- CATEGORY -->
+
+<div class="category">
+
+<div class="cat"><div class="circle">📱</div>Pulsa</div>
 <div class="cat"><div class="circle">🔥</div>Promo</div>
 <div class="cat"><div class="circle">🎮</div>Game</div>
 <div class="cat"><div class="circle">👕</div>Fashion</div>
 <div class="cat"><div class="circle">💄</div>Beauty</div>
-<div class="cat"><div class="circle">📦</div>Lainnya</div></div><div class="flash"><b>🔥 Flash Sale</b>
+<div class="cat"><div class="circle">📦</div>Lainnya</div>
 
-<div class="flash-products"><div class="flash-item" onclick="openDetail(0)">
-<img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400">
-<div class="flash-price">Rp80.000</div>
-</div><div class="flash-item" onclick="openDetail(1)">
-<img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400">
-<div class="flash-price">Rp150.000</div>
-</div></div></div><div class="products" id="productList"></div><div class="detail" id="detailPage"><button onclick="home()">⬅ kembali</button>
+</div>
 
-<img id="dimg"><div class="detail-title" id="dtitle"></div><div class="detail-price" id="dprice"></div><button onclick="addCart(selected)"
+<!-- PRODUCTS -->
+
+<div class="products" id="productList"></div>
+
+<!-- DETAIL -->
+
+<div class="detail" id="detailPage">
+
+<button onclick="home()">⬅ kembali</button>
+
+<img id="dimg">
+
+<div class="detail-title" id="dtitle"></div>
+
+<div class="detail-price" id="dprice"></div>
+
+<button onclick="addCart(selected)"
 style="width:100%;padding:12px;background:#27ae60;color:white;border:none;border-radius:10px">
 Tambah Keranjang
 </button>
 
-</div><div class="cartpage" id="cartPage"><h3>Keranjang</h3><div id="cartItems"></div></div><div class="bottom"><div onclick="home()">
+</div>
+
+<!-- CART -->
+
+<div class="cartpage" id="cartPage">
+
+<h3>Keranjang</h3>
+
+<div id="cartItems"></div>
+
+<h3>Total: <span id="totalCart">Rp0</span></h3>
+
+<button class="checkout-btn" onclick="checkout()">
+Checkout
+</button>
+
+</div>
+
+<!-- BOTTOM NAV -->
+
+<div class="bottom">
+
+<div onclick="home()">
 <i class="fa-solid fa-house"></i>
 Home
-</div><div>
+</div>
+
+<div>
 <i class="fa-solid fa-fire"></i>
 Promo
-</div><div onclick="openCart()">
+</div>
+
+<div onclick="openCart()">
 <i class="fa-solid fa-cart-shopping"></i>
 Cart
-</div><div>
+</div>
+
+<div>
 <i class="fa-solid fa-user"></i>
 Akun
-</div></div><script>
+</div>
+
+</div>
+
+<script>
 
 /* DATA PRODUK */
 
@@ -378,7 +422,7 @@ html+=`
 
 });
 
-document.getElementById("productList").innerHTML=html;
+productList.innerHTML=html;
 
 }
 
@@ -386,7 +430,7 @@ loadProducts();
 
 /* SEARCH */
 
-document.getElementById("search").addEventListener("input",function(){
+search.addEventListener("input",function(){
 
 let key=this.value.toLowerCase();
 
@@ -443,6 +487,7 @@ renderCart();
 function renderCart(){
 
 let html="";
+let total=0;
 
 cart.forEach((c,i)=>{
 
@@ -462,9 +507,13 @@ onclick="removeCart(${i})">Hapus</button>
 
 `;
 
+total+=c.price;
+
 });
 
 cartItems.innerHTML=html;
+
+totalCart.innerText=rupiah(total);
 
 }
 
@@ -480,6 +529,29 @@ renderCart();
 
 }
 
+/* CHECKOUT */
+
+function checkout(){
+
+if(cart.length==0){
+
+alert("Keranjang kosong");
+
+return;
+
+}
+
+alert("Checkout berhasil!");
+
+cart=[];
+cartcount.innerText=0;
+
+renderCart();
+
+home();
+
+}
+
 /* HOME */
 
 function home(){
@@ -488,7 +560,11 @@ productList.style.display="grid";
 detailPage.style.display="none";
 cartPage.style.display="none";
 
+loadProducts();
+
 }
 
-</script></body>
+</script>
+
+</body>
 </html>
