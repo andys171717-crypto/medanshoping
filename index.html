@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TembungShoping</title>
-
-<style>
+<title>TembungShoping</title><style>
 
 body{
 margin:0;
@@ -121,38 +118,29 @@ font-weight:bold;
 margin:6px 0;
 }
 
-button{
+.product-actions{
+display:flex;
+gap:6px;
+padding:10px;
+}
+
+.product-actions button{
+flex:1;
 border:none;
+border-radius:8px;
+padding:8px;
+font-size:13px;
+cursor:pointer;
+}
+
+.chat-btn{
+background:#3498db;
+color:white;
+}
+
+.cart-btn{
 background:#27ae60;
 color:white;
-border-radius:10px;
-padding:10px;
-cursor:pointer;
-width:100%;
-}
-
-.qty-control{
-display:flex;
-justify-content:center;
-align-items:center;
-gap:8px;
-padding:10px;
-}
-
-.qty-control button{
-width:35px;
-height:35px;
-padding:0;
-font-size:18px;
-}
-
-.qty-input{
-width:40px;
-text-align:center;
-border:none;
-background:#eee;
-border-radius:6px;
-height:32px;
 }
 
 .cart-popup{
@@ -276,84 +264,28 @@ line-height:1.5;
 margin-top:10px;
 }
 
-</style>
-</head>
-
-<body>
-
-<div class="header">
-
-<input class="search" id="search" placeholder="Cari produk di TembungShoping">
-
-<div class="icon" onclick="toggleCart()">🛒
+</style></head><body><div class="header"><input class="search" id="search" placeholder="Cari produk di TembungShoping"><div class="icon" onclick="toggleCart()">🛒
 <span id="cartcount" class="cart-count">0</span>
-</div>
-
-<div class="icon" onclick="chatAdmin()">💬</div>
-
-</div>
-
-<div class="menu">
+</div><div class="icon" onclick="chatAdmin()">💬</div></div><div class="menu">
 <div onclick="devAlert()"><div class="circle"></div>Pulsa</div>
 <div onclick="devAlert()"><div class="circle"></div>Promo</div>
 <div onclick="devAlert()"><div class="circle"></div>Game</div>
 <div onclick="devAlert()"><div class="circle"></div>Live</div>
 <div onclick="devAlert()"><div class="circle"></div>Lainnya</div>
-</div>
+</div><div class="products" id="products"></div><div class="cart-popup" id="cartpopup"><button onclick="toggleCart()">Tutup</button>
 
-<div class="products" id="products"></div>
-
-<div class="cart-popup" id="cartpopup">
-
-<button onclick="toggleCart()">Tutup</button>
-<h2>Keranjang</h2>
-
-<div id="cartitems"></div>
-
-</div>
-
-<div class="bottom">
+<h2>Keranjang</h2><div id="cartitems"></div></div><div class="bottom">
 <div onclick="menuHome()"><span class="icon-bottom">🏠</span>Beranda</div>
 <div onclick="devAlert()"><span class="icon-bottom">📺</span>Live</div>
 <div onclick="devAlert()"><span class="icon-bottom">🔔</span>Notifikasi</div>
 <div onclick="devAlert()"><span class="icon-bottom">👤</span>Akun</div>
-</div>
-
-<div id="coolPopup" class="cool-popup">
+</div><div id="coolPopup" class="cool-popup">
 <div class="popup-box">
 <h2>🚀 Fitur Baru Segera Hadir</h2>
 <p>Kami sedang menyiapkan fitur baru untuk meningkatkan pengalaman belanja kamu.</p>
 <button onclick="closePopup()">Mengerti</button>
 </div>
-</div>
-
-<div id="detailPopup" class="detail-popup">
-
-<img id="detailImg">
-
-<h2 id="detailNama"></h2>
-
-<p id="detailSold"></p>
-
-<h3 id="detailHarga"></h3>
-
-<p id="detailDesc" class="desc"></p>
-
-<div class="qty-control">
-<button onclick="detailMinus()">-</button>
-<input id="detailQty" class="qty-input" value="1">
-<button onclick="detailPlus()">+</button>
-</div>
-
-<button onclick="addDetailCart()">Tambah ke Keranjang</button>
-
-<br><br>
-
-<button onclick="closeDetail()">Tutup</button>
-
-</div>
-
-<script>
+</div><div id="detailPopup" class="detail-popup"><img id="detailImg"><h2 id="detailNama"></h2><p id="detailSold"></p><h3 id="detailHarga"></h3><p id="detailDesc" class="desc"></p></div><script>
 
 const produk=[
 {
@@ -361,61 +293,18 @@ nama:"Sepatu Nike Sport",
 harga:100000,
 img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400",
 sold:"1.2k",
-desc:"Sepatu sport premium dengan desain modern, ringan, dan nyaman digunakan sepanjang hari. Cocok untuk olahraga, jalan santai, maupun aktivitas harian."
+desc:"Sepatu sport premium dengan desain modern."
 },
 {
 nama:"Headphone Wireless",
 harga:200000,
 img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400",
 sold:"950",
-desc:"Headphone wireless dengan kualitas suara jernih dan bass kuat. Baterai tahan lama dan nyaman digunakan untuk musik maupun gaming."
-},
-{
-nama:"Jam Tangan Smartwatch",
-harga:150000,
-img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400",
-sold:"870",
-desc:"Smartwatch modern dengan fitur notifikasi, monitor kesehatan, dan desain elegan yang cocok untuk aktivitas harian."
-},
-{
-nama:"Tas Fashion Wanita",
-harga:180000,
-img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400",
-sold:"640",
-desc:"Tas wanita elegan dengan desain modern dan bahan berkualitas. Cocok digunakan untuk kerja, jalan, maupun acara santai."
-},
-{
-nama:"Kacamata Fashion",
-harga:90000,
-img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400",
-sold:"520",
-desc:"Kacamata fashion stylish dengan perlindungan UV yang melindungi mata dari sinar matahari."
-},
-{
-nama:"Parfum Coco Chanel",
-harga:120000,
-img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400",
-sold:"430",
-desc:"Parfum dengan aroma elegan dan tahan lama. Memberikan kesan mewah dan percaya diri sepanjang hari."
-},
-{
-nama:"Smartphone Premium",
-harga:80000,
-img:"https://images.unsplash.com/photo-1580910051074-3eb694886505?w=400",
-sold:"390",
-desc:"Smartphone modern dengan desain tipis, layar tajam, dan performa cepat untuk kebutuhan sehari-hari."
-},
-{
-nama:"PC Gaming RGB",
-harga:70000,
-img:"https://images.unsplash.com/photo-1587202372775-e229f172b9d7?w=400",
-sold:"210",
-desc:"PC gaming dengan pencahayaan RGB dan performa tinggi untuk pengalaman bermain game yang maksimal."
+desc:"Headphone wireless dengan kualitas suara jernih."
 }
 ]
 
 let cart=JSON.parse(localStorage.getItem("cart"))||[]
-let selectedProduk=null
 
 function rupiah(x){
 return Number(x).toLocaleString("id-ID")
@@ -440,10 +329,12 @@ html+=`
 <div class="price">Rp${rupiah(p.harga)}</div>
 </div>
 
-<div class="qty-control">
-<button onclick="minusQty(${i})">-</button>
-<input class="qty-input" id="qty${i}" value="0">
-<button onclick="plusQty(${i})">+</button>
+<div class="product-actions">
+
+<button class="chat-btn" onclick="chatAdmin()">Chat</button>
+
+<button class="cart-btn" onclick="plusQty(${i})">Keranjang</button>
+
 </div>
 
 </div>
@@ -451,73 +342,33 @@ html+=`
 })
 
 document.getElementById("products").innerHTML=html
-syncQty()
-
-}
-
-function syncQty(){
-
-produk.forEach((p,i)=>{
-
-let qty=cart.filter(c=>c.nama==p.nama).length
-let el=document.getElementById("qty"+i)
-
-if(el) el.value=qty
-
-})
 
 }
 
 function renderCart(){
 
-let data={}
-cart.forEach(item=>{
-if(!data[item.nama]){
-data[item.nama]={harga:item.harga,qty:0}
-}
-data[item.nama].qty++
-})
-
 let html=""
 let total=0
 
-for(let nama in data){
+cart.forEach((i,index)=>{
 
-let item=data[nama]
-let subtotal=item.harga*item.qty
-total+=subtotal
+total+=i.harga
 
 html+=`
 <div class="cart-item">
-
-<b>${nama}</b>
-
-<div class="cart-qty">
-
-<button onclick="cartMinus('${nama}')">-</button>
-
-<span>${item.qty}</span>
-
-<button onclick="cartPlus('${nama}',${item.harga})">+</button>
-
-</div>
-
-<div>Subtotal : Rp${rupiah(subtotal)}</div>
-
-<button class="remove-btn" onclick="removeItem('${nama}')">Hapus</button>
-
+<b>${i.nama}</b>
+<div>Rp${rupiah(i.harga)}</div>
+<button class="remove-btn" onclick="removeItem(${index})">Hapus</button>
 </div>
 `
 
-}
+})
 
-html+=`
-<h3>Total : Rp${rupiah(total)}</h3>
-<button onclick="checkoutWA()">Checkout WhatsApp</button>
-`
+html+=`<h3>Total : Rp${rupiah(total)}</h3>`
 
 document.getElementById("cartitems").innerHTML=html
 document.getElementById("cartcount").innerText=cart.length
+
 localStorage.setItem("cart",JSON.stringify(cart))
 
 }
@@ -525,73 +376,15 @@ localStorage.setItem("cart",JSON.stringify(cart))
 function plusQty(i){
 cart.push(produk[i])
 renderCart()
-syncQty()
 }
 
-function minusQty(i){
-
-let index=cart.findIndex(c=>c.nama==produk[i].nama)
-
-if(index>-1){
-cart.splice(index,1)
+function removeItem(i){
+cart.splice(i,1)
 renderCart()
-syncQty()
-}
-
-}
-
-function cartPlus(nama,harga){
-cart.push({nama,harga})
-renderCart()
-syncQty()
-}
-
-function cartMinus(nama){
-
-let index=cart.findIndex(c=>c.nama==nama)
-
-if(index>-1){
-cart.splice(index,1)
-}
-
-renderCart()
-syncQty()
-
-}
-
-function removeItem(nama){
-
-cart=cart.filter(c=>c.nama!=nama)
-
-renderCart()
-syncQty()
-
 }
 
 function toggleCart(){
-
-let popup=document.getElementById("cartpopup")
-
-popup.classList.toggle("active")
-
-if(popup.classList.contains("active")){
-localStorage.setItem("cartOpen","1")
-}else{
-localStorage.setItem("cartOpen","0")
-}
-
-}
-
-function checkoutWA(){
-
-let text="Pesanan:%0A"
-
-cart.forEach(i=>{
-text+=i.nama+"%0A"
-})
-
-window.open("https://wa.me/6281220549530?text="+text)
-
+document.getElementById("cartpopup").classList.toggle("active")
 }
 
 function chatAdmin(){
@@ -622,60 +415,20 @@ tampilProduk(hasil)
 
 function showDetail(i){
 
-selectedProduk=produk[i]
+let p=produk[i]
 
-document.getElementById("detailImg").src=selectedProduk.img
-document.getElementById("detailNama").innerText=selectedProduk.nama
-document.getElementById("detailSold").innerText="Terjual "+selectedProduk.sold
-document.getElementById("detailHarga").innerText="Rp"+rupiah(selectedProduk.harga)
-document.getElementById("detailDesc").innerText=selectedProduk.desc
-
-document.getElementById("detailQty").value=1
+document.getElementById("detailImg").src=p.img
+document.getElementById("detailNama").innerText=p.nama
+document.getElementById("detailSold").innerText="Terjual "+p.sold
+document.getElementById("detailHarga").innerText="Rp"+rupiah(p.harga)
+document.getElementById("detailDesc").innerText=p.desc
 
 document.getElementById("detailPopup").classList.add("show")
-
-}
-
-function closeDetail(){
-document.getElementById("detailPopup").classList.remove("show")
-}
-
-function detailPlus(){
-document.getElementById("detailQty").value++
-}
-
-function detailMinus(){
-
-let q=document.getElementById("detailQty")
-
-if(q.value>1){
-q.value--
-}
-
-}
-
-function addDetailCart(){
-
-let qty=parseInt(document.getElementById("detailQty").value)
-
-for(let i=0;i<qty;i++){
-cart.push(selectedProduk)
-}
-
-renderCart()
-syncQty()
-closeDetail()
 
 }
 
 tampilProduk()
 renderCart()
 
-if(localStorage.getItem("cartOpen")=="1"){
-document.getElementById("cartpopup").classList.add("active")
-}
-
-</script>
-
-</body>
+</script></body>
 </html>
