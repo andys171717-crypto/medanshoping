@@ -30,19 +30,12 @@ z-index:1000;
 gap:8px;
 }
 
-.search-box{
+.search{
 flex:1;
-background:white;
-border-radius:20px;
-display:flex;
-align-items:center;
-padding:6px 12px;
-}
-
-.search-box input{
+height:36px;
 border:none;
-outline:none;
-flex:1;
+border-radius:20px;
+padding:0 15px;
 font-size:13px;
 }
 
@@ -99,6 +92,8 @@ background:white;
 border-radius:14px;
 overflow:hidden;
 box-shadow:0 2px 8px rgba(0,0,0,0.08);
+display:flex;
+flex-direction:column;
 }
 
 .product img{
@@ -109,6 +104,15 @@ object-fit:cover;
 
 .info{
 padding:10px;
+display:flex;
+flex-direction:column;
+flex:1;
+}
+
+.title{
+font-size:15px;
+height:36px;
+overflow:hidden;
 }
 
 .rating{
@@ -131,7 +135,7 @@ font-weight:bold;
 color:#e74c3c;
 font-size:17px;
 font-weight:bold;
-margin-top:5px;
+margin-top:4px;
 }
 
 /* BUTTON */
@@ -140,6 +144,7 @@ margin-top:5px;
 display:flex;
 gap:8px;
 padding:10px;
+margin-top:auto;
 }
 
 .chat-btn{
@@ -164,7 +169,7 @@ font-size:17px;
 
 /* QTY */
 
-.qty-control{
+.qty{
 display:flex;
 justify-content:center;
 align-items:center;
@@ -172,7 +177,7 @@ gap:8px;
 padding-bottom:12px;
 }
 
-.qty-control button{
+.qty button{
 width:32px;
 height:32px;
 border:none;
@@ -182,7 +187,7 @@ border-radius:8px;
 font-size:18px;
 }
 
-.qty-input{
+.qty input{
 width:38px;
 text-align:center;
 border:none;
@@ -220,13 +225,9 @@ font-size:20px;
 
 <body>
 
-<!-- HEADER -->
-
 <div class="header">
 
-<div class="search-box">
-<input placeholder="Cari produk di TembungShoping">
-</div>
+<input class="search" placeholder="Cari produk di TembungShoping">
 
 <div class="icon" onclick="openCart()">🛒
 <span id="cartcount" class="cart-count">0</span>
@@ -236,8 +237,6 @@ font-size:20px;
 
 </div>
 
-<!-- MENU -->
-
 <div class="menu">
 <div><div class="circle"></div>Pulsa</div>
 <div><div class="circle"></div>Promo</div>
@@ -246,11 +245,7 @@ font-size:20px;
 <div><div class="circle"></div>Lainnya</div>
 </div>
 
-<!-- PRODUCTS -->
-
 <div class="products" id="products"></div>
-
-<!-- BOTTOM NAV -->
 
 <div class="bottom">
 <div><span class="icon-bottom">🏠</span>Beranda</div>
@@ -278,7 +273,7 @@ function rupiah(x){
 return x.toLocaleString("id-ID");
 }
 
-function tampilProduk(){
+function renderProduk(){
 
 let html="";
 
@@ -294,7 +289,7 @@ html+=`
 
 <div class="info">
 
-<b>${p.nama}</b>
+<div class="title"><b>${p.nama}</b></div>
 
 <div class="rating">⭐⭐⭐⭐☆</div>
 
@@ -308,13 +303,13 @@ html+=`
 
 <div class="actions">
 <button class="chat-btn" onclick="chatAdmin()">💬</button>
-<button class="cart-btn" onclick="plusQty(${i})">🛒</button>
+<button class="cart-btn" onclick="addCart(${i})">🛒</button>
 </div>
 
-<div class="qty-control">
-<button onclick="minusQty(${i})">-</button>
-<input id="qty${i}" class="qty-input" value="0">
-<button onclick="plusQty(${i})">+</button>
+<div class="qty">
+<button onclick="minus(${i})">-</button>
+<input id="qty${i}" value="0">
+<button onclick="plus(${i})">+</button>
 </div>
 
 </div>
@@ -327,13 +322,15 @@ document.getElementById("products").innerHTML=html;
 
 }
 
-function plusQty(i){
+function plus(i){
 
-let qty=document.getElementById("qty"+i);
-let val=parseInt(qty.value);
+let q=document.getElementById("qty"+i);
 
-val++;
-qty.value=val;
+let v=parseInt(q.value);
+
+v++;
+
+q.value=v;
 
 cart.push(produk[i]);
 
@@ -341,21 +338,31 @@ updateCart();
 
 }
 
-function minusQty(i){
+function minus(i){
 
-let qty=document.getElementById("qty"+i);
-let val=parseInt(qty.value);
+let q=document.getElementById("qty"+i);
 
-if(val>0){
+let v=parseInt(q.value);
 
-val--;
-qty.value=val;
+if(v>0){
+
+v--;
+
+q.value=v;
 
 cart.pop();
 
 updateCart();
 
 }
+
+}
+
+function addCart(i){
+
+cart.push(produk[i]);
+
+updateCart();
 
 }
 
@@ -377,7 +384,7 @@ window.open("https://wa.me/6281220549530","_blank");
 
 }
 
-tampilProduk();
+renderProduk();
 
 </script>
 
