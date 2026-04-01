@@ -1,5 +1,4 @@
-<!DOCTYPE html><html><head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>TembungShoping</title><link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><style>
 
@@ -252,7 +251,8 @@ margin:16px;
 border-radius:12px;
 }
 
-.adminpanel input{
+.adminpanel input,
+.adminpanel textarea{
 width:100%;
 padding:8px;
 margin-bottom:8px;
@@ -307,22 +307,19 @@ margin-bottom:4px;
 <button onclick="home()">⬅ kembali</button>
 <img id="dimg">
 <div class="detail-title" id="dtitle"></div>
-<div class="detail-price" id="dprice"></div><button onclick="addCart(selected)"
+<div class="detail-price" id="dprice"></div>
+<div id="ddesc" style="margin:10px 0;color:#555"></div><button onclick="addCart(selected)"
 style="width:100%;padding:12px;background:#27ae60;color:white;border:none;border-radius:8px">
 Tambah Keranjang
 </button>
 
-</div><div class="cartpage" id="cartPage">
-<h3>Keranjang</h3>
-<div id="cartItems"></div>
-<h3>Total: <span id="totalCart">Rp0</span></h3><button onclick="checkout()"
+</div><div class="cartpage" id="cartPage"><h3>Keranjang</h3><div id="cartItems"></div><h3>Total: <span id="totalCart">Rp0</span></h3><button onclick="checkout()"
 style="width:100%;padding:12px;background:#2563eb;color:white;border:none;border-radius:8px">
 Checkout
 </button>
 
-</div><!-- ADMIN PANEL --><div class="adminpanel" id="adminPanel"><h3>Admin Panel</h3><input id="pname" placeholder="Nama produk">
-<input id="pprice" placeholder="Harga">
-<input id="pimg" placeholder="Link gambar"><button onclick="addProduct()">Tambah Produk</button>
+</div><div class="adminpanel" id="adminPanel"><h3>Admin Panel</h3><input id="pname" placeholder="Nama produk">
+<input id="pprice" placeholder="Harga"><textarea id="pdesc" placeholder="Deskripsi produk"></textarea><input type="file" id="pimg"><button onclick="addProduct()">Tambah Produk</button>
 
 <h4>Daftar Produk</h4><div id="adminList"></div></div><div class="bottom"><div onclick="home()">
 <i class="fa-solid fa-house"></i>
@@ -343,10 +340,8 @@ Admin
 let saved=localStorage.getItem("products");
 
 let productData=saved?JSON.parse(saved):[
-{name:"Sepatu Nike Sport",price:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
-{name:"Headphone Wireless",price:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"},
-{name:"Smartwatch",price:150000,img:"https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?w=400"},
-{name:"Tas Fashion Wanita",price:250000,img:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400"}
+{name:"Sepatu Nike Sport",price:100000,desc:"Sepatu olahraga nyaman",img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
+{name:"Headphone Wireless",price:200000,desc:"Headphone bluetooth",img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"}
 ];
 
 let cart=[];
@@ -419,11 +414,6 @@ search.addEventListener("input",function(){
 
 let key=this.value.toLowerCase();
 
-if(key===""){
-loadProducts(productData);
-return;
-}
-
 let result=productData.filter(p=>
 p.name.toLowerCase().includes(key)
 );
@@ -447,6 +437,7 @@ cartPage.style.display="none";
 dimg.src=p.img;
 dtitle.innerText=p.name;
 dprice.innerText=rupiah(p.price);
+ddesc.innerText=p.desc||"";
 
 }
 
@@ -454,9 +445,7 @@ dprice.innerText=rupiah(p.price);
 
 function addCart(i){
 
-let p=currentList[i];
-
-cart.push(p);
+cart.push(currentList[i]);
 
 cartcount.innerText=cart.length;
 
@@ -477,14 +466,6 @@ function renderCart(){
 let html="";
 let total=0;
 
-if(cart.length===0){
-
-cartItems.innerHTML="Keranjang kosong";
-totalCart.innerText="Rp0";
-return;
-
-}
-
 cart.forEach((c,i)=>{
 
 html+=`
@@ -496,9 +477,7 @@ ${c.name}<br>
 <b>${rupiah(c.price)}</b>
 </div>
 
-<button onclick="removeCart(${i})">
-Hapus
-</button>
+<button onclick="removeCart(${i})">Hapus</button>
 
 </div>
 
@@ -508,8 +487,7 @@ total+=c.price;
 
 });
 
-cartItems.innerHTML=html;
-
+cartItems.innerHTML=html||"Keranjang kosong";
 totalCart.innerText=rupiah(total);
 
 }
@@ -533,11 +511,6 @@ openCart();
 
 function checkout(){
 
-if(cart.length==0){
-alert("Keranjang kosong");
-return;
-}
-
 alert("Checkout berhasil!");
 
 cart=[];
@@ -558,40 +531,75 @@ adminPanel.style.display="none";
 
 }
 
-/* ADMIN */
+/* ADMIN LOGIN */
+
+let isAdmin=false;
 
 function toggleAdmin(){
 
-if(adminPanel.style.display=="none"){
+if(!isAdmin){
 
+let u=prompt("Username admin");
+let p=prompt("Password");
+
+if(u==="admin" && p==="123456"){
+
+isAdmin=true;
 adminPanel.style.display="block";
 renderAdmin();
 
 }else{
 
-adminPanel.style.display="none";
+alert("Login gagal");
+}
+
+return;
 
 }
 
+adminPanel.style.display=
+adminPanel.style.display=="none"?"block":"none";
+
+renderAdmin();
+
 }
+
+/* ADD PRODUCT */
 
 function addProduct(){
 
-let p={
+let file=pimg.files[0];
+
+if(!file){
+alert("Pilih gambar");
+return;
+}
+
+let reader=new FileReader();
+
+reader.onload=function(e){
+
+productData.push({
+
 name:pname.value,
 price:Number(pprice.value),
-img:pimg.value
-};
+desc:pdesc.value,
+img:e.target.result
 
-productData.push(p);
+});
 
 localStorage.setItem("products",JSON.stringify(productData));
 
 loadProducts();
 renderAdmin();
 
+}
+
+reader.readAsDataURL(file);
+
 pname.value="";
 pprice.value="";
+pdesc.value="";
 pimg.value="";
 
 }
