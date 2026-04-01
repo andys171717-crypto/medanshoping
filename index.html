@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html><html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>TembungShoping</title>
-
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-<style>
+<title>TembungShoping</title><link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><style>
 
 body{
 margin:0;
@@ -25,7 +20,7 @@ top:0;
 left:0;
 right:0;
 height:60px;
-background:#ff5722;
+background:linear-gradient(90deg,#2563eb,#1e3a8a);
 display:flex;
 align-items:center;
 padding:0 12px;
@@ -61,11 +56,6 @@ outline:none;
 font-size:14px;
 background:transparent;
 height:100%;
-padding:0;
-margin:0;
-display:flex;
-align-items:center;
-line-height:normal;
 }
 
 /* ICON */
@@ -197,7 +187,7 @@ overflow:hidden;
 }
 
 .price{
-color:#ff5722;
+color:#2563eb;
 font-size:18px;
 font-weight:bold;
 }
@@ -227,7 +217,7 @@ cursor:pointer;
 
 .like{background:#e74c3c;}
 .cartbtn{background:#27ae60;}
-.buy{background:#ff9800;}
+.buy{background:#2563eb;}
 
 /* DETAIL */
 
@@ -249,7 +239,7 @@ margin-top:10px;
 
 .detail-price{
 font-size:24px;
-color:#ff5722;
+color:#2563eb;
 font-weight:bold;
 }
 
@@ -298,115 +288,62 @@ margin-bottom:4px;
 }
 
 .bottom div:hover{
-color:#ff5722;
+color:#2563eb;
 }
 
-</style>
-</head>
-
-<body>
-
-<div class="header">
-
-<div class="search-box">
+</style></head><body><div class="header"><div class="search-box">
 <i class="fa-solid fa-magnifying-glass"></i>
 <input id="search" placeholder="Cari produk di TembungShoping">
-</div>
-
-<div class="header-icons">
-
-<div class="icon">
-<i class="fa-solid fa-comment-dots"></i>
-</div>
-
-<div class="icon">
+</div><div class="header-icons"><div class="icon">
 <i class="fa-solid fa-bell"></i>
-</div>
-
-<div class="icon" onclick="openCart()">
+</div><div class="icon" onclick="openCart()">
 <i class="fa-solid fa-cart-shopping"></i>
 <span class="badge" id="cartcount">0</span>
-</div>
-
-</div>
-</div>
-
-<div class="banner">
+</div><div class="icon">
+<i class="fa-solid fa-comment-dots"></i>
+</div></div>
+</div><div class="banner">
 <img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=900">
-</div>
-
-<div class="category">
+</div><div class="category">
 <div class="cat"><div class="circle">📱</div>Pulsa</div>
 <div class="cat"><div class="circle">🔥</div>Promo</div>
 <div class="cat"><div class="circle">🎮</div>Game</div>
 <div class="cat"><div class="circle">👕</div>Fashion</div>
 <div class="cat"><div class="circle">💄</div>Beauty</div>
-</div>
-
-<div class="products" id="productList"></div>
-
-<!-- DETAIL -->
-<div class="detail" id="detailPage">
-
+</div><div class="products" id="productList"></div><div class="detail" id="detailPage">
 <button onclick="home()">⬅ kembali</button>
-
 <img id="dimg">
-
 <div class="detail-title" id="dtitle"></div>
-
-<div class="detail-price" id="dprice"></div>
-
-<button onclick="addCart(selected)"
+<div class="detail-price" id="dprice"></div><button onclick="addCart(selected)"
 style="width:100%;padding:12px;background:#27ae60;color:white;border:none;border-radius:8px">
 Tambah Keranjang
 </button>
 
-</div>
-
-<!-- CART -->
-<div class="cartpage" id="cartPage">
-
+</div><div class="cartpage" id="cartPage">
 <h3>Keranjang</h3>
-
 <div id="cartItems"></div>
-
-<h3>Total: <span id="totalCart">Rp0</span></h3>
-
-<button onclick="checkout()"
-style="width:100%;padding:12px;background:#ff5722;color:white;border:none;border-radius:8px">
+<h3>Total: <span id="totalCart">Rp0</span></h3><button onclick="checkout()"
+style="width:100%;padding:12px;background:#2563eb;color:white;border:none;border-radius:8px">
 Checkout
 </button>
 
-</div>
-
-<!-- BOTTOM -->
-<div class="bottom">
-
+</div><div class="bottom">
 <div onclick="home()">
 <i class="fa-solid fa-house"></i>
 Home
-</div>
-
-<div>
+</div><div>
 <i class="fa-solid fa-fire"></i>
 Promo
-</div>
-
-<div onclick="openCart()">
+</div><div onclick="openCart()">
 <i class="fa-solid fa-cart-shopping"></i>
 Cart
-</div>
-
-<div>
+</div><div>
 <i class="fa-solid fa-user"></i>
 Akun
 </div>
+</div><script>
 
-</div>
-
-<script>
-
-/* SCRIPT SAMA */
+/* SCRIPT TETAP */
 
 let productData=[
 {name:"Sepatu Nike Sport",price:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
@@ -617,7 +554,5 @@ cartPage.style.display="none";
 
 }
 
-</script>
-
-</body>
+</script></body>
 </html>
