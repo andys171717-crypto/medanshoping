@@ -8,7 +8,7 @@ body{
 margin:0;
 font-family:system-ui;
 background:#f5f5f5;
-padding-top:75px;
+padding-top:70px;
 padding-bottom:75px;
 }
 
@@ -17,24 +17,25 @@ padding-bottom:75px;
 .header{
 position:fixed;
 top:0;
-width:100%;
-height:70px;
+left:0;
+right:0;
+height:60px;
 background:#ff5722;
 display:flex;
 align-items:center;
-padding:0 14px;
+padding:0 12px;
+gap:10px;
 z-index:999;
-gap:12px;
-box-shadow:0 3px 10px rgba(0,0,0,0.15);
+box-shadow:0 2px 8px rgba(0,0,0,0.15);
 }
 
 /* SEARCH */
 
 .search-box{
 flex:1;
-height:42px;
+height:36px;
 background:white;
-border-radius:25px;
+border-radius:20px;
 display:flex;
 align-items:center;
 padding:0 12px;
@@ -42,15 +43,16 @@ gap:8px;
 }
 
 .search-box i{
-color:#888;
 font-size:14px;
+color:#999;
 }
 
 .search-box input{
+flex:1;
 border:none;
 outline:none;
-flex:1;
 font-size:14px;
+height:100%;
 background:transparent;
 }
 
@@ -59,25 +61,29 @@ background:transparent;
 .header-icons{
 display:flex;
 align-items:center;
-gap:18px;
+gap:14px;
 }
 
 .icon{
 color:white;
 font-size:20px;
+width:26px;
+display:flex;
+align-items:center;
+justify-content:center;
 position:relative;
 cursor:pointer;
 }
 
 .badge{
 position:absolute;
-top:-6px;
-right:-8px;
+top:-4px;
+right:-6px;
 background:red;
 color:white;
 font-size:10px;
-padding:2px 6px;
-border-radius:50%;
+padding:2px 5px;
+border-radius:10px;
 }
 
 /* BANNER */
@@ -325,13 +331,15 @@ Cart
 Akun
 </div></div><script>
 
-/* SCRIPT TIDAK DIUBAH AGAR SEMUA FITUR TETAP NORMAL */
+/* SCRIPT SAMA AGAR SEMUA FITUR TETAP NORMAL */
 
 let productData=[
+
 {name:"Sepatu Nike Sport",price:100000,img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
 {name:"Headphone Wireless",price:200000,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"},
 {name:"Smartwatch",price:150000,img:"https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?w=400"},
 {name:"Tas Fashion Wanita",price:250000,img:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400"}
+
 ];
 
 let cart=[];
