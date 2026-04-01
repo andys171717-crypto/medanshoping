@@ -13,9 +13,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
 body{
 margin:0;
 font-family:system-ui;
-background:#f3f4f6;
-padding-top:60px;
-padding-bottom:80px;
+background:#f5f5f5;
+padding-top:70px;
+padding-bottom:85px;
 }
 
 /* HEADER */
@@ -24,13 +24,14 @@ padding-bottom:80px;
 position:fixed;
 top:0;
 width:100%;
-height:60px;
+height:65px;
 background:#2c3e50;
 display:flex;
 align-items:center;
-padding:10px;
 gap:10px;
-z-index:999;
+padding:0 12px;
+z-index:1000;
+box-shadow:0 2px 10px rgba(0,0,0,0.2);
 }
 
 .search{
@@ -39,6 +40,7 @@ height:38px;
 border:none;
 border-radius:20px;
 padding:0 15px;
+font-size:14px;
 }
 
 .icon{
@@ -58,17 +60,20 @@ padding:2px 6px;
 border-radius:50%;
 }
 
-/* BANNER */
+/* SLIDER */
 
-.banner{
+.slider{
 margin:10px;
+height:150px;
 border-radius:12px;
 overflow:hidden;
+position:relative;
 }
 
-.banner img{
+.slide{
+position:absolute;
 width:100%;
-height:130px;
+height:150px;
 object-fit:cover;
 }
 
@@ -86,14 +91,55 @@ font-size:12px;
 .circle{
 width:45px;
 height:45px;
-background:#e8ecf1;
+background:#eef1f4;
 border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
 margin:auto;
-margin-bottom:5px;
+margin-bottom:6px;
 font-size:20px;
+}
+
+/* FLASH SALE */
+
+.flash{
+background:white;
+margin:10px;
+border-radius:12px;
+padding:10px;
+}
+
+.flash-title{
+font-weight:bold;
+margin-bottom:8px;
+}
+
+.flash-products{
+display:flex;
+overflow-x:auto;
+gap:10px;
+}
+
+.flash-item{
+min-width:120px;
+background:#fff;
+border-radius:10px;
+box-shadow:0 3px 8px rgba(0,0,0,0.1);
+}
+
+.flash-item img{
+width:100%;
+height:100px;
+object-fit:cover;
+border-radius:10px 10px 0 0;
+}
+
+.flash-price{
+padding:6px;
+font-size:14px;
+color:#e74c3c;
+font-weight:bold;
 }
 
 /* PRODUCTS */
@@ -107,7 +153,7 @@ gap:12px;
 
 .product{
 background:white;
-border-radius:16px;
+border-radius:14px;
 overflow:hidden;
 box-shadow:0 4px 10px rgba(0,0,0,0.08);
 position:relative;
@@ -146,18 +192,19 @@ color:#f1c40f;
 font-size:12px;
 }
 
-.free{
-font-size:12px;
-color:#27ae60;
+.sold{
+font-size:11px;
+color:#777;
 }
 
 .price{
 font-size:17px;
 font-weight:bold;
 color:#e74c3c;
+margin-top:3px;
 }
 
-/* BUTTONS */
+/* ACTION */
 
 .actions{
 display:flex;
@@ -168,8 +215,8 @@ padding:10px;
 .btn{
 flex:1;
 border:none;
-padding:10px;
-border-radius:10px;
+padding:9px;
+border-radius:9px;
 color:white;
 font-size:14px;
 }
@@ -178,22 +225,7 @@ font-size:14px;
 .chat{background:#3498db;}
 .cart{background:#27ae60;}
 
-/* CART POPUP */
-
-.cartbox{
-position:fixed;
-right:10px;
-top:70px;
-background:white;
-width:250px;
-border-radius:10px;
-box-shadow:0 5px 20px rgba(0,0,0,0.2);
-display:none;
-padding:10px;
-z-index:999;
-}
-
-/* BOTTOM */
+/* BOTTOM NAV */
 
 .bottom{
 position:fixed;
@@ -204,14 +236,14 @@ background:white;
 display:flex;
 justify-content:space-around;
 align-items:center;
-box-shadow:0 -3px 15px rgba(0,0,0,0.1);
+box-shadow:0 -3px 12px rgba(0,0,0,0.15);
 font-size:13px;
 }
 
 .bottom i{
 font-size:22px;
 display:block;
-margin-bottom:4px;
+margin-bottom:3px;
 }
 
 </style>
@@ -222,11 +254,11 @@ margin-bottom:4px;
 
 <div class="header">
 
-<input id="search" class="search" placeholder="Cari produk">
+<input id="search" class="search" placeholder="Cari produk di TembungShoping">
 
-<div class="icon" onclick="toggleCart()">
+<div class="icon">
 <i class="fa-solid fa-cart-shopping"></i>
-<span id="cartcount" class="badge">0</span>
+<span class="badge" id="cartcount">0</span>
 </div>
 
 <div class="icon" onclick="chatAdmin()">
@@ -235,14 +267,17 @@ margin-bottom:4px;
 
 </div>
 
-<div class="cartbox" id="cartbox">
-<b>Keranjang</b>
-<div id="cartitems"></div>
+<!-- SLIDER -->
+
+<div class="slider">
+
+<img class="slide" src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=900">
+<img class="slide" src="https://images.unsplash.com/photo-1607083206968-13611e3d76db?w=900">
+<img class="slide" src="https://images.unsplash.com/photo-1607082350899-7e105aa886ae?w=900">
+
 </div>
 
-<div class="banner">
-<img src="https://images.unsplash.com/photo-1607082349566-187342175e2f?w=900">
-</div>
+<!-- MENU -->
 
 <div class="menu">
 
@@ -254,7 +289,38 @@ margin-bottom:4px;
 
 </div>
 
+<!-- FLASH SALE -->
+
+<div class="flash">
+
+<div class="flash-title">🔥 Flash Sale</div>
+
+<div class="flash-products">
+
+<div class="flash-item">
+<img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300">
+<div class="flash-price">Rp80.000</div>
+</div>
+
+<div class="flash-item">
+<img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300">
+<div class="flash-price">Rp150.000</div>
+</div>
+
+<div class="flash-item">
+<img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300">
+<div class="flash-price">Rp120.000</div>
+</div>
+
+</div>
+
+</div>
+
+<!-- PRODUCTS -->
+
 <div class="products" id="products"></div>
+
+<!-- BOTTOM -->
 
 <div class="bottom">
 
@@ -274,9 +340,7 @@ const produk=[
 {nama:"Sepatu Nike Sport",harga:100000,disc:"50%",img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"},
 {nama:"Headphone Wireless",harga:200000,disc:"30%",img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"},
 {nama:"Smartwatch",harga:150000,disc:"20%",img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400"},
-{nama:"Tas Fashion Wanita",harga:180000,disc:"40%",img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400"},
-{nama:"Kacamata Fashion",harga:90000,disc:"25%",img:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400"},
-{nama:"Parfum Premium",harga:120000,disc:"35%",img:"https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=400"}
+{nama:"Tas Fashion Wanita",harga:180000,disc:"40%",img:"https://images.unsplash.com/photo-1591561954557-26941169b49e?w=400"}
 
 ];
 
@@ -296,17 +360,15 @@ html+=`
 
 <div class="discount">${p.disc}</div>
 
-<img src="${p.img}" loading="lazy">
+<img src="${p.img}">
 
 <div class="info">
 
 <div class="title">${p.nama}</div>
 
-<div class="rating">
-⭐ ⭐ ⭐ ⭐ ☆
-</div>
+<div class="rating">⭐ ⭐ ⭐ ⭐ ☆</div>
 
-<div class="free">Gratis Ongkir</div>
+<div class="sold">Terjual 120+</div>
 
 <div class="price">Rp${rupiah(p.harga)}</div>
 
@@ -314,15 +376,13 @@ html+=`
 
 <div class="actions">
 
-<button class="btn like">
-<i class="fa-solid fa-heart"></i>
-</button>
+<button class="btn like"><i class="fa-solid fa-heart"></i></button>
 
 <button class="btn chat" onclick="chatAdmin()">
 <i class="fa-solid fa-comment"></i>
 </button>
 
-<button class="btn cart" onclick="addCart('${p.nama}')">
+<button class="btn cart" onclick="addCart()">
 <i class="fa-solid fa-cart-shopping"></i>
 </button>
 
@@ -340,70 +400,37 @@ document.getElementById("products").innerHTML=html;
 
 tampilProduk();
 
-function addCart(nama){
+/* CART */
 
+function addCart(){
 cart++;
-
 document.getElementById("cartcount").innerText=cart;
-
-let item=document.createElement("div");
-item.innerText=nama;
-
-document.getElementById("cartitems").appendChild(item);
-
 }
 
-function toggleCart(){
-
-let box=document.getElementById("cartbox");
-
-box.style.display = box.style.display=="block" ? "none":"block";
-
-}
+/* CHAT */
 
 function chatAdmin(){
-
-window.open("https://wa.me/6281220549530");
-
+window.open("https://wa.me/");
 }
 
-/* SEARCH */
+/* SLIDER */
 
-document.getElementById("search").oninput=function(){
+let index=0;
+const slides=document.querySelectorAll(".slide");
 
-let v=this.value.toLowerCase();
+setInterval(()=>{
 
-let hasil=produk.filter(p=>p.nama.toLowerCase().includes(v));
+slides.forEach(s=>s.style.display="none");
 
-let html="";
+slides[index].style.display="block";
 
-hasil.forEach(p=>{
+index++;
 
-html+=`
+if(index>=slides.length) index=0;
 
-<div class="product">
-
-<img src="${p.img}">
-
-<div class="info">
-
-<div class="title">${p.nama}</div>
-<div class="price">Rp${rupiah(p.harga)}</div>
-
-</div>
-
-</div>
-
-`;
-
-});
-
-document.getElementById("products").innerHTML=html;
-
-}
+},3000);
 
 </script>
 
 </body>
-
 </html>
